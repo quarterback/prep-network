@@ -110,6 +110,12 @@ class Gen:
                                "Cascade Divide", "South Coast"])
             add_city(city, area, rng.randint(2, 3), rng.random() < 0.4, 5)
 
+        # Plainfield (owner request): three schools, fixed names
+        self.used_places.add("plainfield")
+        for nm in ("Netherwood", "East Plainfield", "West Plainfield"):
+            slots.append(dict(city="Plainfield", area="Timber Valley",
+                              weight=4.5 + rng.random() * 2, private=False, name=nm))
+
         # surname / civic-word schools sprinkled in metros
         pools = list(N.SURNAMES_SCHOOL + N.CIVIC_WORDS)
         rng.shuffle(pools)
