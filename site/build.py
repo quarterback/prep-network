@@ -26,9 +26,9 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from ingest.adapters import hytek_pdf  # noqa: E402
+from app import records_io  # noqa: E402
 
-SPECIMEN = ROOT / "ingest/fixtures/specimens/hytek-meetmanager8-track.pdf"
+RECORDS = ROOT / "records"
 BRAND = "FIELDHOUSE"  # working title
 SEASON = "Track & Field · Spring 2026"
 
@@ -414,8 +414,12 @@ def render_school(reg: Registry, rec) -> str:
     chips = "".join(class_chip(d) for d in sorted(rec["divisions"]))
 
     # roster
+    # Sort key must be total: last name alone leaves siblings tied, and the
+    # tie then falls to set-iteration order, which varies run to run — the
+    # Heinrichs swapped rows on every rebuild until this carried a full key.
     roster = sorted(
-        (reg.athletes[k] for k in rec["athletes"]), key=lambda a: a["name"].split()[-1]
+        (reg.athletes[k] for k in rec["athletes"]),
+        key=lambda a: (a["name"].split()[-1], a["name"], a["school"]),
     )
     roster_rows = "".join(
         f"<div class='fh-row' style='--grid-cols:minmax(160px,1.4fr) 44px 1fr 44px'>"
@@ -721,7 +725,13 @@ def inline_preview(front: str) -> str:
 
 
 def build() -> None:
-    meets = hytek_pdf.parse(str(SPECIMEN))
+    contests = records_io.load_contests(RECORDS)
+    from app.shapes import Meet as _Meet
+    meets = [c for c in contests if isinstance(c, _Meet)]
+    skipped = len(contests) - len(meets)
+    if skipped:
+        # duals render in a later pass; say so loudly rather than dropping them
+        print(f"NOTE: {skipped} non-meet contest record(s) not yet rendered")
     reg = Registry(meets)
 
     pages: dict[str, str] = {"/": render_front(reg)}

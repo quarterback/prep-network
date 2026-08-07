@@ -359,3 +359,32 @@ sufficient, and was used to produce §2.3 above.
 - Live-PDS demo schools need a handle and app password, same setup as the existing
   standard.site workflow. Not needed until the local record store works.
 - Project naming is unsettled; `prep-network` is a placeholder.
+
+---
+
+## 7. Addendum (same day): the headless architecture
+
+The full decision record is `docs/PLAN-headless-architecture.md`. The short form:
+
+**Git is the headless backend.** Records became a managed layer —
+`records/contests/<season>/*.json`, in shapes that double as the draft
+`org.prepnet.*` lexicons — and the build renders from records, never from source
+files. Writers converge on that directory as PRs: shape-native entry forms for the
+untooled sports (tennis first — most sports have no Hy-Tek equivalent, which is why
+the third-party management tools exist at all), file upload → adapter → PR for the
+sports that have tools, and direct commit. A PR is the moderation queue, a merge is a
+publish, a revert is a correction, `git log` is the audit trail. A GitHub Action
+rebuilds on any records change. Phase B swaps the record store to per-school
+AT Protocol repos by changing only the loader — the framing is portability against
+vendor lock-in (including lock-in to this tool itself), not "data ownership": the
+data is public.
+
+Two implementation findings worth keeping:
+
+- **The records layer was proven lossless mechanically**: parse → JSON → shapes →
+  render produced zero differing pages against parse → render, across all 2,231.
+- **Set iteration made sibling athletes swap roster rows on every rebuild.** The
+  roster sort keyed on last name only; ties (the Heinrichs) fell to Python set
+  order, which changes per process. In this domain the failure mode is never a
+  crash — it's two sisters trading places on a page that still looks right. Sort
+  keys over derived-from-set data must be total.

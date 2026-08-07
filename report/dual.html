@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report a dual — Fieldhouse</title>
+<link rel="stylesheet" href="/style.css">
+<script>try{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>
+  .rf { max-width: 720px; }
+  .rf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .rf label { display: block; font-size: var(--fs-caption); font-weight: 600;
+    color: var(--text-secondary); margin: 14px 0 4px; }
+  .rf input, .rf select { width: 100%; box-sizing: border-box; height: 34px;
+    border: 1px solid var(--border-default); border-radius: 6px; padding: 0 10px;
+    font-family: var(--font-text); font-size: var(--fs-body);
+    background: var(--surface-card); color: var(--text-primary); }
+  .rf-line { display: grid; grid-template-columns: 56px 1fr 1fr 96px; gap: 8px;
+    align-items: end; padding: 8px 0; border-bottom: var(--hairline); }
+  .rf-line .kind { font-family: var(--font-display); font-weight: 800; font-size: 15px;
+    padding-bottom: 7px; }
+  .rf-line label { margin: 0 0 4px; }
+  .rf-actions { display: flex; gap: 10px; align-items: center; margin-top: 20px; }
+  .rf-submit { height: 36px; padding: 0 18px; border: none; border-radius: 6px;
+    background: var(--brand); color: var(--paper); font-family: var(--font-text);
+    font-size: var(--fs-body); font-weight: 700; cursor: pointer; }
+  .rf-submit:hover { background: var(--brand-strong); }
+  .rf-status { font-size: var(--fs-small); color: var(--text-secondary); }
+  .rf-status a { font-weight: 700; }
+  @media (max-width: 560px) { .rf-grid, .rf-line { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="fh-mast"><div class="wrap">
+  <a class="fh-wordmark" href="/">FIELDHOUSE</a>
+  <nav class="fh-mast-nav"><a href="/">Scores</a><span class="fh-season">Report a dual</span></nav>
+</div></header>
+<main class="wrap rf">
+
+<div class="fh-idhdr">
+  <div></div>
+  <div><div class="name">Report a dual</div>
+  <div class="meta">Tennis · girls &amp; boys</div></div>
+  <div class="side"></div>
+</div>
+
+<form id="dual-form">
+  <div class="rf-grid">
+    <div><label for="f-date">Date</label><input id="f-date" type="date" required></div>
+    <div><label for="f-gender">Team</label>
+      <select id="f-gender"><option>Girls</option><option>Boys</option></select></div>
+    <div><label for="f-home">Home school</label><input id="f-home" required></div>
+    <div><label for="f-away">Visiting school</label><input id="f-away" required></div>
+  </div>
+
+  <div id="lines"></div>
+
+  <div class="rf-actions">
+    <button class="rf-submit" type="submit">Submit for review</button>
+    <span class="rf-status" id="status"></span>
+  </div>
+</form>
+
+</main>
+<footer class="fh-foot"><div class="wrap">
+  <span>Fieldhouse — working title</span>
+  <span>Submissions open a review request; results publish on approval</span>
+</div></footer>
+
+<script>
+(function () {
+  var KINDS = ["S1","S2","S3","S4","D1","D2","D3"];
+  var wrap = document.getElementById("lines");
+  KINDS.forEach(function (k, i) {
+    var row = document.createElement("div");
+    row.className = "rf-line";
+    row.innerHTML =
+      "<span class='kind'>" + k + "</span>" +
+      "<div><label>Home player" + (k[0] === "D" ? "s" : "") + "</label><input data-f='home'></div>" +
+      "<div><label>Visiting player" + (k[0] === "D" ? "s" : "") + "</label><input data-f='away'></div>" +
+      "<div><label>Score (winner first)</label><input data-f='score' placeholder='6-4, 6-2'></div>";
+    row.dataset.kind = k;
+    wrap.appendChild(row);
+  });
+
+  document.getElementById("dual-form").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var home = document.getElementById("f-home").value.trim();
+    var away = document.getElementById("f-away").value.trim();
+    var lines = [];
+    document.querySelectorAll(".rf-line").forEach(function (row, i) {
+      var get = function (f) { return row.querySelector("[data-f=" + f + "]").value.trim(); };
+      if (!get("home") && !get("away")) return;
+      lines.push({
+        slot: i + 1,
+        kind: row.dataset.kind[0] === "S" ? "singles" : "doubles",
+        home: get("home").split("/").map(function (n) { return { name: n.trim(), school: home, year: null }; }),
+        away: get("away").split("/").map(function (n) { return { name: n.trim(), school: away, year: null }; }),
+        winner: null,
+        score: get("score") || null,
+        teamPoint: 1.0
+      });
+    });
+    var record = {
+      "$type": "org.prepnet.temp.contest.dual",
+      sequence: 0,
+      name: home + " vs " + away,
+      date: document.getElementById("f-date").value,
+      venue: null,
+      sport: "tennis",
+      season: (document.getElementById("f-date").value || "").slice(0, 4) || null,
+      home: home, away: away,
+      homePoints: null, awayPoints: null, clinchedAt: null,
+      lines: lines,
+      gender: document.getElementById("f-gender").value
+    };
+    var status = document.getElementById("status");
+    status.textContent = "Submitting…";
+    fetch("/api/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(record)
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        status.innerHTML = res.ok
+          ? "Submitted — <a href='" + res.j.pr + "'>review request opened</a>"
+          : "Did not submit: " + (res.j.error || "unknown error");
+      })
+      .catch(function () { status.textContent = "Did not submit — network error."; });
+  });
+})();
+</script>
+</body>
+</html>
