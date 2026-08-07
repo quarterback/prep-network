@@ -24,37 +24,48 @@
   font-display: swap; src: url('fonts/PPNeueMontreal-Book.woff2') format('woff2'); }
 
 :root {
-  /* ---- palette slots (placeholder — owner scheme swaps this block) ---- */
-  --ink: oklch(0.24 0.013 255);
-  --paper: oklch(1 0 0);
-  --brand: oklch(0.45 0.09 162);
-  --brand-strong: oklch(0.38 0.075 162);
-  --brand-tint: oklch(0.972 0.02 162);
+  /* ---- palette slots (owner scheme 2026-08) ----
+     linen #ffede1 · ivory #f9fbf2 · light-cyan #d7f9ff ·
+     baby-blue-ice #afcbff · prussian-blue #0e1c36.
+     Derived tones stay on the palette's three hues (24 / 189 / 219). */
+  --linen: #ffede1;
+  --ivory: #f9fbf2;
+  --cyan: #d7f9ff;
+  --ice: #afcbff;
+  --prussian: #0e1c36;
 
-  /* neutrals — cool gray ramp */
-  --gray-50: oklch(0.985 0.002 255);  --gray-100: oklch(0.97 0.003 255);
-  --gray-150: oklch(0.955 0.004 255); --gray-200: oklch(0.928 0.005 255);
-  --gray-300: oklch(0.882 0.006 255); --gray-400: oklch(0.735 0.008 255);
-  --gray-500: oklch(0.62 0.01 255);   --gray-600: oklch(0.515 0.011 255);
-  --gray-900: oklch(0.245 0.013 255);
+  --ink: var(--prussian);
+  --paper: var(--ivory);
+  --brand: var(--prussian);
+  --brand-strong: hsl(219, 62%, 38%);          /* link blue, 219 hue */
+  --brand-tint: var(--cyan);
 
-  /* classification chips */
-  --cat-4a: oklch(0.55 0.165 260);
-  --cat-3a: oklch(0.56 0.165 300);
-  --cat-2a: oklch(0.555 0.12 162);
-  --cat-1a: oklch(0.52 0.02 255);
+  /* neutrals — prussian at falling strength */
+  --gray-150: hsl(219, 24%, 92%);
+  --gray-200: hsla(219, 59%, 13%, 0.13);
+  --gray-300: hsla(219, 59%, 13%, 0.22);
+  --gray-400: hsl(219, 16%, 64%);
+  --gray-500: hsl(219, 18%, 50%);
+  --gray-600: hsl(219, 24%, 36%);
 
-  --rank-gold: oklch(0.70 0.135 78);
+  /* classification chips — tones of the palette hues */
+  --cat-4a: var(--prussian);
+  --cat-3a: hsl(219, 58%, 44%);
+  --cat-2a: hsl(189, 62%, 32%);
+  --cat-1a: hsl(24, 42%, 42%);
+
+  --rank-gold: hsl(24, 70%, 44%);
 
   /* ---- semantic aliases — components read these only ---- */
   --surface-page: var(--paper);
   --surface-card: var(--paper);
-  --surface-subtle: var(--gray-50);
-  --surface-th: var(--gray-100);
-  --surface-zebra: var(--gray-50);
-  --surface-hover: var(--brand-tint);
+  --surface-subtle: hsl(73, 40%, 96%);
+  --surface-th: var(--linen);
+  --surface-zebra: hsla(189, 100%, 92%, 0.32);
+  --surface-hover: var(--cyan);
+  --surface-mast: var(--linen);
 
-  --text-primary: var(--gray-900);
+  --text-primary: var(--ink);
   --text-secondary: var(--gray-600);
   --text-muted: var(--gray-500);
   --text-faint: var(--gray-400);
@@ -94,7 +105,7 @@ a:hover { text-decoration: underline; }
 
 /* ── masthead — the 2px rules are the throwback cue ─────────────────────── */
 
-.fh-mast { border-top: var(--rule); border-bottom: var(--rule); }
+.fh-mast { background: var(--surface-mast); border-top: var(--rule); border-bottom: var(--rule); }
 .fh-mast .wrap {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 10px 24px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px;
@@ -301,7 +312,7 @@ a.fh-row:hover { text-decoration: none; }
   margin-top: 18px;
 }
 
-footer.fh-foot { border-top: var(--rule); margin-top: 40px; }
+footer.fh-foot { background: var(--surface-mast); border-top: var(--rule); margin-top: 40px; }
 footer.fh-foot .wrap {
   display: flex; gap: 8px 26px; flex-wrap: wrap; padding-top: 14px; padding-bottom: 30px;
   font-size: var(--fs-caption); color: var(--text-muted);

@@ -32,9 +32,11 @@ SPECIMEN = ROOT / "ingest/fixtures/specimens/hytek-meetmanager8-track.pdf"
 BRAND = "FIELDHOUSE"  # working title
 SEASON = "Track & Field · Spring 2026"
 
+# Crest tones stay on the palette's three hues (24 / 189 / 219) so 71
+# hash-assigned monograms don't drag off-palette color onto every table.
 CREST_COLORS = [
-    "#1d4ed8", "#0f766e", "#b45309", "#9d174d", "#4d7c0f", "#6d28d9",
-    "#0e7490", "#b91c1c", "#3f6212", "#7c2d12", "#1e40af", "#86198f",
+    "#0e1c36", "#27447c", "#3a5fa8", "#14506b", "#1b6f8c", "#0e6377",
+    "#8a4d2b", "#6b3d1f", "#a05a2e", "#2c3e66", "#40699e", "#575047",
 ]
 
 CLASS_LABEL = {"9": "Fr", "10": "So", "11": "Jr", "12": "Sr"}
