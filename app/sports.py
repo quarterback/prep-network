@@ -1,0 +1,118 @@
+"""
+The JHSAA sports catalog: ~35 sanctioned activities over three shapes.
+
+Two ideas carry this file:
+
+1. Every activity is a configuration over GAME / DUAL / MEET — nothing downstream
+   knows what sport it is looking at beyond this catalog.
+2. **`classification` is not `championship_group`.** A school carries one base
+   class (6A–1A, by enrollment); each sport maps those classes onto its own
+   championship divisions, consolidating where participation doesn't support six
+   brackets. Tennis runs 6A/5A/4A/3A-1A; swimming runs 6A-5A/4A-1A; skiing and
+   fencing run open divisions. `champ_group()` is the single authority.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from app.shapes import MarkType, Shape
+
+CLASSES = ["6A", "5A", "4A", "3A", "2A", "1A"]
+
+
+@dataclass(frozen=True)
+class Sport:
+    key: str                 # slug: "girls-tennis"
+    name: str                # "Girls Tennis"
+    season: str              # "fall" | "winter" | "spring"
+    gender: str              # "Boys" | "Girls" | "Coed"
+    shape: Shape
+    mark_type: MarkType | None   # MEET sports only
+    groups: tuple[tuple[str, ...], ...]  # championship divisions, as class tuples
+    reach: str               # participation: "broad" | "metro" | "mountain" | "aquatic"
+    lower_is_better: bool = False        # MEET team scoring direction (XC/golf/ski)
+
+    def champ_group(self, classification: str) -> str:
+        for grp in self.groups:
+            if classification in grp:
+                if len(grp) == 1:
+                    return grp[0]
+                if len(grp) == len(CLASSES):
+                    return "Open"
+                return f"{grp[0]}-{grp[-1]}"   # consolidated span: "3A-1A"
+        return "Open"
+
+
+def _g(*specs: str) -> tuple[tuple[str, ...], ...]:
+    """'6A 5A 4A 3A-1A' -> ((6A,),(5A,),(4A,),(3A,2A,1A))."""
+    out = []
+    for token in specs:
+        for part in token.split():
+            if "-" in part and part not in CLASSES:
+                a, b = part.split("-")
+                i, j = CLASSES.index(a), CLASSES.index(b)
+                out.append(tuple(CLASSES[i : j + 1]))
+            else:
+                out.append((part,))
+    return tuple(out)
+
+
+ALL_SIX = _g("6A 5A 4A 3A 2A 1A")
+OPEN = (tuple(CLASSES),)   # one open division
+
+S = Shape
+M = MarkType
+
+CATALOG: list[Sport] = [
+    # ---- fall ----
+    Sport("football", "Football", "fall", "Boys", S.GAME, None, ALL_SIX, "broad"),
+    Sport("girls-flag-football", "Girls Flag Football", "fall", "Girls", S.GAME, None, _g("6A 5A 4A-1A"), "metro"),
+    Sport("boys-soccer", "Boys Soccer", "fall", "Boys", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("girls-soccer", "Girls Soccer", "fall", "Girls", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("field-hockey", "Field Hockey", "fall", "Girls", S.GAME, None, _g("6A-5A 4A-1A"), "metro"),
+    Sport("girls-volleyball", "Girls Volleyball", "fall", "Girls", S.GAME, None, ALL_SIX, "broad"),
+    Sport("boys-cross-country", "Boys Cross Country", "fall", "Boys", S.MEET, M.TIME, ALL_SIX, "broad", lower_is_better=True),
+    Sport("girls-cross-country", "Girls Cross Country", "fall", "Girls", S.MEET, M.TIME, ALL_SIX, "broad", lower_is_better=True),
+    Sport("girls-tennis", "Girls Tennis", "fall", "Girls", S.DUAL, None, _g("6A 5A 4A 3A-1A"), "broad"),
+    Sport("boys-golf", "Boys Golf", "fall", "Boys", S.MEET, M.STROKES, _g("6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
+    Sport("mountain-biking", "Mountain Biking", "fall", "Coed", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
+    Sport("boys-water-polo", "Boys Water Polo", "fall", "Boys", S.GAME, None, OPEN, "aquatic"),
+    Sport("girls-water-polo", "Girls Water Polo", "fall", "Girls", S.GAME, None, OPEN, "aquatic"),
+    # ---- winter ----
+    Sport("boys-basketball", "Boys Basketball", "winter", "Boys", S.GAME, None, ALL_SIX, "broad"),
+    Sport("girls-basketball", "Girls Basketball", "winter", "Girls", S.GAME, None, ALL_SIX, "broad"),
+    Sport("boys-wrestling", "Boys Wrestling", "winter", "Boys", S.DUAL, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("girls-wrestling", "Girls Wrestling", "winter", "Girls", S.DUAL, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("boys-swimming", "Boys Swimming & Diving", "winter", "Boys", S.MEET, M.TIME, _g("6A-5A 4A-1A"), "aquatic"),
+    Sport("girls-swimming", "Girls Swimming & Diving", "winter", "Girls", S.MEET, M.TIME, _g("6A-5A 4A-1A"), "aquatic"),
+    Sport("boys-ice-hockey", "Boys Ice Hockey", "winter", "Boys", S.GAME, None, OPEN, "mountain"),
+    Sport("girls-ice-hockey", "Girls Ice Hockey", "winter", "Girls", S.GAME, None, OPEN, "mountain"),
+    Sport("boys-alpine-skiing", "Boys Alpine Skiing", "winter", "Boys", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
+    Sport("girls-alpine-skiing", "Girls Alpine Skiing", "winter", "Girls", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
+    Sport("boys-nordic-skiing", "Boys Nordic Skiing", "winter", "Boys", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
+    Sport("girls-nordic-skiing", "Girls Nordic Skiing", "winter", "Girls", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
+    Sport("boys-bowling", "Boys Bowling", "winter", "Boys", S.MEET, M.PINFALL, _g("6A-4A 3A-1A"), "broad"),
+    Sport("girls-bowling", "Girls Bowling", "winter", "Girls", S.MEET, M.PINFALL, _g("6A-4A 3A-1A"), "broad"),
+    Sport("boys-fencing", "Boys Fencing", "winter", "Boys", S.DUAL, None, OPEN, "metro"),
+    Sport("girls-fencing", "Girls Fencing", "winter", "Girls", S.DUAL, None, OPEN, "metro"),
+    Sport("gymnastics", "Gymnastics", "winter", "Girls", S.MEET, M.POINTS, _g("6A-5A 4A-1A"), "metro"),
+    Sport("competitive-spirit", "Competitive Spirit", "winter", "Coed", S.MEET, M.POINTS, _g("6A 5A 4A-1A"), "broad"),
+    Sport("winter-track", "Winter Track", "winter", "Coed", S.MEET, M.TIME, OPEN, "metro"),
+    # ---- spring ----
+    Sport("baseball", "Baseball", "spring", "Boys", S.GAME, None, ALL_SIX, "broad"),
+    Sport("softball", "Softball", "spring", "Girls", S.GAME, None, ALL_SIX, "broad"),
+    Sport("boys-lacrosse", "Boys Lacrosse", "spring", "Boys", S.GAME, None, _g("6A 5A-4A 3A-1A"), "metro"),
+    Sport("girls-lacrosse", "Girls Lacrosse", "spring", "Girls", S.GAME, None, _g("6A 5A-4A 3A-1A"), "metro"),
+    Sport("boys-tennis", "Boys Tennis", "spring", "Boys", S.DUAL, None, _g("6A 5A 4A 3A-1A"), "broad"),
+    Sport("boys-volleyball", "Boys Volleyball", "spring", "Boys", S.GAME, None, _g("6A 5A-1A"), "metro"),
+    Sport("girls-golf", "Girls Golf", "spring", "Girls", S.MEET, M.STROKES, _g("6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
+    Sport("boys-track", "Boys Track & Field", "spring", "Boys", S.MEET, M.TIME, ALL_SIX, "broad"),
+    Sport("girls-track", "Girls Track & Field", "spring", "Girls", S.MEET, M.TIME, ALL_SIX, "broad"),
+]
+
+BY_KEY: dict[str, Sport] = {s.key: s for s in CATALOG}
+
+
+def champ_group(sport_key: str, classification: str) -> str:
+    return BY_KEY[sport_key].champ_group(classification)

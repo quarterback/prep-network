@@ -1,36 +1,14 @@
-# Rebuild the site whenever the records layer changes.
-#
-# Records are the managed layer (entry forms, uploads, hand edits all land
-# there as PRs); a merge to records/** is a publish. The generated tree is
-# committed back so any static host serves the repo as-is.
-name: build
-
+# CI: the generated tree is no longer committed (Vercel builds from records).
+name: ci
 on:
   push:
-    branches: [claude/hs-sports-results-platform-k19ews, main]
-    paths:
-      - "records/**"
-      - "site/**"
-      - "app/**"
-      - "ingest/**"
-
-permissions:
-  contents: write
-
+    paths: ["records/**", "site/**", "app/**", "ingest/**", "generators/**", "tests/**"]
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+        with: { python-version: "3.12" }
       - run: python3 -m pip install pytest && python3 -m pytest -q
       - run: python3 site/build.py
-      - name: commit generated tree
-        run: |
-          git config user.name "fieldhouse-build"
-          git config user.email "build@users.noreply.github.com"
-          git add -A index.html meets schools conferences athletes style.css fonts
-          git diff --cached --quiet || git commit -m "build: regenerate site from records"
-          git push

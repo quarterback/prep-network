@@ -219,6 +219,8 @@ def load_contests(records_dir: pathlib.Path) -> list[Meet]:
             out.append(_meet_from(d))
         elif d["$type"] == DUAL_TYPE:
             out.append(_dual_from(d))
+        elif d["$type"] == GAME_TYPE:
+            out.append(_game_from(d))
         else:
             raise ValueError(f"unknown record type {d['$type']!r}")
     return out
@@ -293,3 +295,95 @@ def _dual_from(dd: dict):
             )
         )
     return dual
+
+
+# ------------------------------------------------------------------- games
+
+GAME_TYPE = "org.prepnet.temp.contest.game"
+
+
+def game_to_dict(g, sequence: int = 0) -> dict:
+    from app.shapes import Game
+
+    assert isinstance(g, Game)
+    return {
+        "$type": GAME_TYPE,
+        "sequence": sequence,
+        "name": g.name,
+        "date": g.date,
+        "venue": g.venue,
+        "sport": g.sport,
+        "season": g.season,
+        "home": g.home,
+        "away": g.away,
+        "homeScore": g.home_score,
+        "awayScore": g.away_score,
+        "status": g.status,
+        "periods": [{"label": p.label, "home": p.home, "away": p.away} for p in g.periods],
+        "provenance": (
+            {
+                "sourceUri": g.provenance.source_uri,
+                "adapter": g.provenance.adapter,
+                "extractedAt": g.provenance.extracted_at,
+                "confidence": g.provenance.confidence,
+                "reviewState": g.provenance.review_state.value,
+            }
+            if g.provenance
+            else None
+        ),
+    }
+
+
+def _game_from(d: dict):
+    from app.shapes import Game, Period
+
+    g = Game(
+        name=d["name"], date=d.get("date"), venue=d.get("venue"),
+        sport=d.get("sport"), season=d.get("season"),
+        home=d["home"], away=d["away"],
+        home_score=d.get("homeScore"), away_score=d.get("awayScore"),
+        status=d.get("status", "final"),
+    )
+    for pd in d.get("periods", []):
+        g.periods.append(Period(label=pd["label"], home=pd["home"], away=pd["away"]))
+    return g
+
+
+def contest_to_dict(c, sequence: int = 0) -> dict:
+    from app.shapes import Dual, Game, Meet
+
+    if isinstance(c, Meet):
+        return meet_to_dict(c, sequence)
+    if isinstance(c, Dual):
+        return dual_to_dict(c, sequence)
+    if isinstance(c, Game):
+        return game_to_dict(c, sequence)
+    raise TypeError(type(c))
+
+
+def write_contest(path: pathlib.Path, contest, sequence: int = 0) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(contest_to_dict(contest, sequence), separators=(",", ":")) + "\n")
+
+
+# -------------------------------------------------------------------- orgs
+
+
+def write_orgs(records_dir: pathlib.Path, schools: list[dict], conferences: list[dict]) -> None:
+    d = records_dir / "orgs"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "schools.json").write_text(json.dumps(
+        {"$type": "org.prepnet.temp.org.schools", "schools": schools}, indent=1) + "\n")
+    (d / "conferences.json").write_text(json.dumps(
+        {"$type": "org.prepnet.temp.org.conferences", "conferences": conferences}, indent=1) + "\n")
+
+
+def load_orgs(records_dir: pathlib.Path) -> tuple[list[dict], list[dict]]:
+    d = records_dir / "orgs"
+    schools: list[dict] = []
+    conferences: list[dict] = []
+    if (d / "schools.json").exists():
+        schools = json.loads((d / "schools.json").read_text())["schools"]
+    if (d / "conferences.json").exists():
+        conferences = json.loads((d / "conferences.json").read_text())["conferences"]
+    return schools, conferences

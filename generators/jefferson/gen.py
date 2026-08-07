@@ -1,0 +1,601 @@
+"""
+Jefferson (JHSAA): a full fictional 2026-27 season as records.
+
+    python3 -m generators.jefferson.gen
+
+Pipeline per the owner's spec: regions -> towns -> schools -> classifications ->
+conferences -> offered sports -> teams -> schedules -> completed/upcoming
+contests -> postseason. Deterministic from SEED; two runs are byte-identical.
+
+Demo "today" is mid-January: fall complete with championships, winter
+mid-season (the dense rail), spring scheduled.
+"""
+
+from __future__ import annotations
+
+import datetime as dt
+import pathlib
+import random
+import re
+import shutil
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(ROOT))
+
+from app import records_io  # noqa: E402
+from app.shapes import (  # noqa: E402
+    Competitor, Dual, Entry, Event, Game, Line, Meet, Period, TeamScore, parse_mark,
+)
+from app.sports import BY_KEY, CATALOG, CLASSES, Sport  # noqa: E402
+from generators.jefferson import names as N  # noqa: E402
+
+SEED = 5
+SEASON = "2026-27"
+TODAY = dt.date(2027, 1, 16)
+RECORDS = ROOT / "records"
+
+CLASS_TARGETS = {"6A": 38, "5A": 42, "4A": 44, "3A": 38, "2A": 36, "1A": 58}
+ENROLL = {"6A": (1800, 3200), "5A": (1200, 1799), "4A": (700, 1199),
+          "3A": (400, 699), "2A": (220, 399), "1A": (60, 219)}
+OFFER_RANGE = {"6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
+               "3A": (11, 15), "2A": (8, 12), "1A": (6, 10)}
+POOL = {"6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
+
+AREAS = [
+    ("Ashbury Metro", "metro"), ("Harborline", "coast"), ("South Coast", "coast"),
+    ("Halbrook Basin", "metro"), ("Cascade Divide", "mountain"),
+    ("Juniper Highlands", "desert"), ("Sage Plains", "desert"),
+    ("Timber Valley", "valley"), ("Gold Valley", "valley"), ("North Range", "remote"),
+]
+OUT_OF_STATE = ["Boise Vista (ID)", "Silver Sage (NV)", "Bidwell Grove (CA)",
+                "Owyhee Bench (ID)", "Pyramid Peak (NV)"]
+
+
+def slugify(t: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-") or "x"
+
+
+class Gen:
+    def __init__(self):
+        self.rng = random.Random(SEED)
+        self.used_places: set[str] = set(N.BLOCKLIST)
+        self.used_schools: set[str] = set()
+        self.contests: list = []
+        self.rosters: dict = {}
+        self.pools: dict = {}
+
+    # ---------------------------------------------------------- geography
+    def town_name(self) -> str:
+        while True:
+            n = f"{self.rng.choice(N.STEMS)} {self.rng.choice(N.ENDINGS)}"
+            if n.lower() not in self.used_places:
+                self.used_places.add(n.lower())
+                return n
+
+    def build_schools(self) -> list[dict]:
+        rng = self.rng
+        slots: list[dict] = []  # {city, area, weight, private, name_hint}
+
+        def add_city(city, area, publics, privates, weight):
+            self.used_places.add(city.lower())
+            dirs = [d for d in N.DIRECTIONS]
+            rng.shuffle(dirs)
+            for i in range(publics):
+                if i == 0 and publics <= 2:
+                    nm = city
+                else:
+                    nm = f"{city} {dirs[i % len(dirs)]}"
+                slots.append(dict(city=city, area=area, weight=weight + rng.random(),
+                                  private=False, name=nm))
+            rel = list(N.SAINTS + N.PROTESTANT)
+            rng.shuffle(rel)
+            for i in range(privates):
+                base = rel[i % len(rel)]
+                suffix = rng.choice(["", " Academy", " Prep", ""])
+                slots.append(dict(city=city, area=area, weight=weight - 1 + rng.random() * 2,
+                                  private=True, name=f"{base}{suffix}"))
+
+        # metros and anchors
+        add_city("Ashbury", "Ashbury Metro", 12, 5, 10)
+        for _ in range(9):   # Ashbury suburbs
+            t = self.town_name()
+            add_city(t, "Ashbury Metro", rng.randint(1, 3), 0, 7)
+        add_city("Port Meridian", "Harborline", 6, 2, 8)
+        add_city("Halbrook", "Halbrook Basin", 5, 2, 8)
+        for _ in range(3):
+            add_city(self.town_name(), "Halbrook Basin", rng.randint(1, 2), 0, 6)
+        for city, _pop in N.ANCHORS["secondary"]:
+            area = rng.choice(["Timber Valley", "Gold Valley", "Juniper Highlands",
+                               "Cascade Divide", "South Coast"])
+            add_city(city, area, rng.randint(2, 3), rng.random() < 0.4, 5)
+
+        # surname / civic-word schools sprinkled in metros
+        pools = list(N.SURNAMES_SCHOOL + N.CIVIC_WORDS)
+        rng.shuffle(pools)
+        for i in range(10):
+            slots.append(dict(city="Ashbury" if i % 2 else "Port Meridian",
+                              area="Ashbury Metro" if i % 2 else "Harborline",
+                              weight=6 + rng.random() * 3, private=False, name=pools[i]))
+
+        # the rural map: single-school towns until quota
+        target = sum(CLASS_TARGETS.values())
+        area_pool = ["Timber Valley"] * 4 + ["Gold Valley"] * 3 + ["Sage Plains"] * 3 + \
+                    ["Juniper Highlands"] * 3 + ["Cascade Divide"] * 2 + \
+                    ["South Coast"] * 2 + ["Harborline"] * 2 + ["North Range"] * 4
+        while len(slots) < target:
+            t = self.town_name()
+            area = rng.choice(area_pool)
+            nm = t if rng.random() < 0.8 else f"{t} Union"
+            slots.append(dict(city=t, area=area, weight=rng.random() * 3,
+                              private=rng.random() < 0.05, name=nm))
+        slots = slots[:target]
+
+        # unique names
+        for s in slots:
+            base, n = s["name"], 2
+            while s["name"].lower() in self.used_schools:
+                s["name"] = f"{base} {['Union','Heights','Valley'][n % 3]}"
+                n += 1
+            self.used_schools.add(s["name"].lower())
+
+        # classification by weight order, quota slices
+        slots.sort(key=lambda s: -s["weight"])
+        schools, i = [], 0
+        for cls in CLASSES:
+            for _ in range(CLASS_TARGETS[cls]):
+                s = slots[i]; i += 1
+                lo, hi = ENROLL[cls]
+                schools.append(dict(
+                    name=s["name"], city=s["city"], area=s["area"], private=s["private"],
+                    classification=cls, enrollment=rng.randint(lo, hi),
+                    mascot=rng.choice(N.MASCOTS), quality=rng.gauss(0, 1),
+                ))
+        return schools
+
+    def build_conferences(self, schools) -> list[dict]:
+        rng = self.rng
+        confs = []
+        flavors = ["League", "Conference", "League", "Athletic Conference"]
+        for area, _kind in AREAS:
+            members = sorted((s for s in schools if s["area"] == area),
+                             key=lambda s: -s["enrollment"])
+            if not members:
+                continue
+            n_conf = max(1, round(len(members) / 8))
+            chunks = [members[i::n_conf] for i in range(n_conf)]
+            for chunk in chunks:
+                while True:
+                    nm = f"{rng.choice(N.STEMS)} {rng.choice(flavors)}"
+                    if nm.lower() not in self.used_places:
+                        self.used_places.add(nm.lower()); break
+                slug = slugify(nm)
+                for s in chunk:
+                    s["conference"] = nm
+                confs.append(dict(name=nm, slug=slug, area=area,
+                                  members=[s["name"] for s in chunk]))
+        return confs
+
+    def build_offerings(self, schools):
+        rng = self.rng
+        core = ["girls-volleyball", "boys-basketball", "girls-basketball",
+                "boys-cross-country", "girls-cross-country", "boys-track", "girls-track"]
+        for s in schools:
+            lo, hi = OFFER_RANGE[s["classification"]]
+            target = rng.randint(lo, hi)
+            offered = list(core)
+            if not s["private"] or rng.random() < 0.5:
+                offered.append("football")
+            rest = [sp for sp in CATALOG if sp.key not in offered]
+            rng.shuffle(rest)
+            for sp in rest:
+                if len(offered) >= target:
+                    break
+                p = {"broad": 0.75, "metro": 0.12, "mountain": 0.08, "aquatic": 0.10}[sp.reach]
+                if sp.reach == "metro" and (s["area"].endswith("Metro") or s["area"] == "Harborline" or s["private"]):
+                    p = 0.55
+                if sp.reach == "mountain" and s["area"] in ("Cascade Divide", "North Range"):
+                    p = 0.65
+                if sp.reach == "aquatic" and (s["area"].endswith("Metro") or "Coast" in s["area"] or s["area"] == "Harborline"):
+                    p = 0.40
+                if s["classification"] in ("1A", "2A") and sp.reach != "broad":
+                    p *= 0.4
+                if rng.random() < p:
+                    offered.append(sp.key)
+            s["sports"] = sorted(offered[:hi])
+
+    # ------------------------------------------------------------ people
+    def pool(self, school):
+        if school not in self.pools:
+            rng = self.rng
+            n = POOL[self.by_name[school]["classification"]]
+            self.pools[school] = [
+                (f"{rng.choice(N.FIRST_NAMES)} {rng.choice(N.LAST_NAMES)}",
+                 str(rng.randint(9, 12)))
+                for _ in range(n)
+            ]
+        return self.pools[school]
+
+    def roster(self, school, sport_key, size):
+        key = (school, sport_key)
+        if key not in self.rosters:
+            pool = self.pool(school)
+            self.rosters[key] = self.rng.sample(pool, min(size, len(pool)))
+        return self.rosters[key]
+
+    # --------------------------------------------------------- schedules
+    def weeks(self, start: dt.date, n: int, step=7):
+        return [start + dt.timedelta(days=step * i) for i in range(n)]
+
+    def strength(self, school, sport_key):
+        key = (school, sport_key)
+        if key not in self._str:
+            self._str[key] = self.by_name[school]["quality"] * 0.6 + self.rng.gauss(0, 0.8)
+        return self._str[key]
+
+    def game_score(self, sport_key, ds):
+        rng = self.rng
+        if sport_key == "football":
+            h = max(0, int(24 + 5 * ds + rng.gauss(0, 9)))
+            a = max(0, int(24 - 5 * ds + rng.gauss(0, 9)))
+            if h == a: h += 3
+            return h, a, None
+        if "soccer" in sport_key:
+            h = max(0, int(rng.gauss(1.6 + ds * 0.8, 1.1)))
+            a = max(0, int(rng.gauss(1.6 - ds * 0.8, 1.1)))
+            return h, a, None  # ties stand
+        if "volleyball" in sport_key:
+            hw = 0; aw = 0; periods = []
+            while hw < 3 and aw < 3:
+                if rng.random() < 0.5 + ds * 0.18:
+                    hw += 1; periods.append(Period(f"Set {hw+aw}", 25, rng.randint(12, 23)))
+                else:
+                    aw += 1; periods.append(Period(f"Set {hw+aw}", rng.randint(12, 23), 25))
+            return hw, aw, periods
+        if "basketball" in sport_key:
+            h = int(54 + 7 * ds + rng.gauss(0, 9)); a = int(54 - 7 * ds + rng.gauss(0, 9))
+            if h == a: h += 2
+            return max(20, h), max(20, a), None
+        if "hockey" in sport_key:
+            h = max(0, int(rng.gauss(2.8 + ds, 1.4))); a = max(0, int(rng.gauss(2.8 - ds, 1.4)))
+            if h == a and rng.random() < 0.6:
+                (h, a) = (h + 1, a) if rng.random() < 0.5 + ds * 0.2 else (h, a + 1)
+            return h, a, None
+        if "water-polo" in sport_key:
+            return max(1, int(9 + 3 * ds + rng.gauss(0, 3))), max(1, int(9 - 3 * ds + rng.gauss(0, 3))), None
+        # flag football, lacrosse, baseball, softball, boys volleyball
+        h = max(0, int(15 + 5 * ds + rng.gauss(0, 7))); a = max(0, int(15 - 5 * ds + rng.gauss(0, 7)))
+        if h == a: h += 1
+        return h, a, None
+
+    def make_game(self, sport: Sport, home, away, date, played, round_name=None):
+        rng = self.rng
+        name = f"{away} at {home}" if not round_name else f"{away} at {home} — {round_name}"
+        g = Game(name=name, date=date.isoformat(), sport=sport.key, season=SEASON,
+                 home=home, away=away, venue=None)
+        if played:
+            r = rng.random()
+            if r < 0.012:
+                g.status = "cancelled"
+            elif r < 0.022:
+                g.status = "postponed"
+            else:
+                ds = self.strength(home, sport.key) - (
+                    self.strength(away, sport.key) if away in self.by_name else rng.gauss(0.3, 0.8)) + 0.25
+                h, a, periods = self.game_score(sport.key, ds)
+                g.home_score, g.away_score = h, a
+                if periods:
+                    g.periods = periods
+                g.status = "final"
+        else:
+            g.status = "scheduled"
+        self.contests.append(g)
+        return g
+
+    def make_dual(self, sport: Sport, home, away, date, played, round_name=None):
+        rng = self.rng
+        name = f"{away} at {home}" if not round_name else f"{away} at {home} — {round_name}"
+        d = Dual(name=name, date=date.isoformat(), sport=sport.key, season=SEASON,
+                 home=home, away=away)
+        if played and rng.random() < 0.985:
+            if "tennis" in sport.key:
+                slots = [("singles", 4), ("doubles", 3)]
+            elif "wrestling" in sport.key:
+                slots = [("106", 1), ("120", 1), ("132", 1), ("145", 1),
+                         ("160", 1), ("182", 1), ("220", 1), ("285", 1)]
+            else:  # fencing
+                slots = [("foil", 3), ("épée", 3), ("sabre", 3)]
+            hr = self.roster(home, sport.key, 12)
+            ar = self.roster(away, sport.key, 12) if away in self.by_name else []
+            hp = ap = 0.0
+            slot_i = 0
+            hi = ai = 0
+            for kind, count in slots:
+                for _ in range(count):
+                    slot_i += 1
+                    n_players = 2 if kind == "doubles" else 1
+                    hp_players = [Competitor(hr[(hi + k) % len(hr)][0], home, hr[(hi + k) % len(hr)][1]) for k in range(n_players)]
+                    hi += n_players
+                    if ar:
+                        ap_players = [Competitor(ar[(ai + k) % len(ar)][0], away, ar[(ai + k) % len(ar)][1]) for k in range(n_players)]
+                        ai += n_players
+                    else:
+                        ap_players = []
+                    home_wins = rng.random() < 0.5 + (self.strength(home, sport.key) -
+                                (self.strength(away, sport.key) if away in self.by_name else 0)) * 0.15
+                    if "tennis" in sport.key:
+                        score = f"6-{rng.randint(0,4)}, {rng.choice(['6-'+str(rng.randint(0,4)), '7-5', '7-6'])}"
+                        pt = 1.0
+                    elif "wrestling" in sport.key:
+                        kindres = rng.choice(["Fall", "Dec", "Maj"])
+                        score = {"Fall": f"Fall {rng.randint(0,5)}:{rng.randint(10,59)}",
+                                 "Dec": f"Dec {rng.randint(4,12)}-{rng.randint(0,3)}",
+                                 "Maj": f"Maj {rng.randint(10,18)}-{rng.randint(0,5)}"}[kindres]
+                        pt = {"Fall": 6.0, "Dec": 3.0, "Maj": 4.0}[kindres]
+                    else:
+                        score = f"5-{rng.randint(0,4)}"
+                        pt = 1.0
+                    if home_wins:
+                        hp += pt
+                    else:
+                        ap += pt
+                    d.lines.append(Line(slot=slot_i, kind=kind, home=hp_players,
+                                        away=ap_players, winner="home" if home_wins else "away",
+                                        score=score, team_point=pt))
+            d.home_points, d.away_points = hp, ap
+        self.contests.append(d)
+        return d
+
+    def round_robin(self, teams):
+        """Circle method; returns rounds of (home, away)."""
+        t = list(teams)
+        if len(t) % 2:
+            t.append(None)
+        rounds = []
+        for r in range(len(t) - 1):
+            pairs = []
+            for i in range(len(t) // 2):
+                a, b = t[i], t[len(t) - 1 - i]
+                if a is not None and b is not None:
+                    pairs.append((a, b) if (r + i) % 2 == 0 else (b, a))
+            rounds.append(pairs)
+            t.insert(1, t.pop())
+        return rounds
+
+    def team_sport_season(self, sport: Sport, dates: list[dt.date], playoffs_start=None):
+        rng = self.rng
+        sponsors = [s["name"] for s in self.schools if sport.key in s["sports"]]
+        if len(sponsors) < 4:
+            return
+        by_conf: dict[str, list] = {}
+        for nm in sponsors:
+            by_conf.setdefault(self.by_name[nm]["conference"], []).append(nm)
+        results: dict[str, list] = {}
+        for conf, members in sorted(by_conf.items()):
+            if len(members) < 2:
+                continue
+            rounds = self.round_robin(members)[: len(dates) - 1]
+            for ri, pairs in enumerate(rounds):
+                date = dates[ri + 1]
+                for home, away in pairs:
+                    played = date <= TODAY
+                    if sport.shape.value == "dual":
+                        self.make_dual(sport, home, away, date, played)
+                    else:
+                        self.make_game(sport, home, away, date, played)
+        # non-conference / interstate openers
+        if sport.key in ("football", "boys-basketball", "girls-basketball"):
+            metros = [n for n in sponsors if self.by_name[n]["area"] in ("Ashbury Metro", "Halbrook Basin")]
+            for nm in metros[:4]:
+                self.make_game(sport, nm, rng.choice(OUT_OF_STATE), dates[0], dates[0] <= TODAY)
+        # fall postseason brackets
+        if playoffs_start and sport.shape.value in ("game", "dual"):
+            self.brackets(sport, sponsors, playoffs_start)
+
+    def standings_for(self, sport_key, members):
+        w = {m: 0 for m in members}
+        for c in self.contests:
+            if getattr(c, "sport", None) != sport_key:
+                continue
+            if isinstance(c, Game) and c.status == "final" and c.winner in w:
+                w[c.winner] += 1
+            elif isinstance(c, Dual) and c.home_points is not None:
+                winner = c.home if c.home_points >= c.away_points else c.away
+                if winner in w:
+                    w[winner] += 1
+        return sorted(members, key=lambda m: (-w[m], m))
+
+    def brackets(self, sport: Sport, sponsors, start: dt.date):
+        by_group: dict[str, list] = {}
+        for nm in sponsors:
+            by_group.setdefault(sport.champ_group(self.by_name[nm]["classification"]), []).append(nm)
+        for group, members in sorted(by_group.items()):
+            if len(members) < 4:
+                continue
+            field = self.standings_for(sport.key, members)[: 8 if len(members) >= 10 else 4]
+            rounds = [f"JHSAA {group} Quarterfinal", f"JHSAA {group} Semifinal",
+                      f"JHSAA {group} Championship"]
+            if len(field) == 4:
+                rounds = rounds[1:]
+            date = start
+            while len(field) > 1:
+                nxt = []
+                rname = rounds[0] if rounds else "Playoff"
+                for i in range(len(field) // 2):
+                    home, away = field[i], field[len(field) - 1 - i]
+                    g = self.make_game(sport, home, away, date, date <= TODAY, rname) \
+                        if sport.shape.value == "game" else \
+                        self.make_dual(sport, home, away, date, date <= TODAY, rname)
+                    if isinstance(g, Game) and g.status == "final":
+                        nxt.append(g.winner or home)
+                    elif isinstance(g, Dual) and g.home_points is not None:
+                        nxt.append(g.home if g.home_points >= g.away_points else g.away)
+                    else:
+                        nxt.append(home)
+                field = nxt
+                rounds = rounds[1:]
+                date = date + dt.timedelta(days=7)
+
+    # -------------------------------------------------------------- meets
+    MEET_EVENTS = {
+        "cross-country": [("5,000 Meter Run", 5, (930, 1380))],
+        "boys-golf": [("18 Holes", 4, (68, 108))],
+        "girls-golf": [("18 Holes", 4, (68, 108))],
+        "mountain-biking": [("Varsity Race", 4, (3600, 5400))],
+        "swimming": [("200 Medley Relay", 0, (105, 135)), ("200 Freestyle", 2, (105, 150)),
+                     ("50 Freestyle", 2, (22, 32)), ("100 Butterfly", 2, (55, 75)),
+                     ("100 Freestyle", 2, (48, 68)), ("500 Freestyle", 2, (290, 400))],
+        "alpine-skiing": [("Giant Slalom", 4, (58, 80))],
+        "nordic-skiing": [("5K Classic", 4, (840, 1200))],
+        "bowling": [("3-Game Series", 5, (420, 720))],
+        "gymnastics": [("All-Around", 4, (30.0, 38.5))],
+        "competitive-spirit": [("Game Day Routine", 0, (62.0, 94.0))],
+        "winter-track": [("60 Meter Dash", 3, (7.0, 8.6)), ("400 Meter Dash", 3, (50, 68)),
+                         ("1600 Meter Run", 3, (260, 340))],
+    }
+
+    def meet_family(self, key):
+        for fam in self.MEET_EVENTS:
+            if fam in key:
+                return self.MEET_EVENTS[fam]
+        return self.MEET_EVENTS["cross-country"]
+
+    def fmt_time(self, secs: float, decimals=1) -> str:
+        if secs < 60:
+            return f"{secs:.2f}"
+        m, s = divmod(secs, 60)
+        return f"{int(m)}:{s:04.1f}" if decimals else f"{int(m)}:{int(s):02d}"
+
+    def make_meet(self, sport: Sport, name, host, date, participants, played):
+        rng = self.rng
+        meet = Meet(name=name, date=date.isoformat(), sport=sport.key, season=SEASON,
+                    venue=host, host=host)
+        if played:
+            incomplete = rng.random() < 0.02
+            for num, (evname, per_school, rng_range) in enumerate(self.meet_family(sport.key), 1):
+                ev = Event(number=num, name=evname, gender=sport.gender,
+                           division=None, round="Finals", mark_type=sport.mark_type)
+                lo, hi = rng_range
+                rows = []
+                for school in participants:
+                    st = self.strength(school, sport.key)
+                    n = per_school or 1
+                    roster = self.roster(school, sport.key, 10) if per_school else []
+                    for k in range(n):
+                        base = (lo + hi) / 2 - st * (hi - lo) * 0.08 + rng.gauss(0, (hi - lo) * 0.07)
+                        val = min(hi, max(lo, base))
+                        if sport.lower_is_better is False and sport.mark_type.value in ("points", "pinfall"):
+                            val = (lo + hi) - val + lo  # high is good
+                        comp = []
+                        if roster:
+                            p = roster[k % len(roster)]
+                            comp = [Competitor(p[0], school, p[1])]
+                        if sport.mark_type.value == "time":
+                            raw = self.fmt_time(val)
+                        elif sport.mark_type.value in ("strokes", "pinfall"):
+                            raw = str(int(val))
+                        else:
+                            raw = f"{val:.2f}"
+                        rows.append((val, school, comp, raw))
+                better_low = sport.lower_is_better or sport.mark_type.value in ("time", "strokes")
+                rows.sort(key=lambda r: r[0] if better_low else -r[0])
+                for place, (val, school, comp, raw) in enumerate(rows, 1):
+                    mark = parse_mark(raw, sport.mark_type)
+                    if incomplete and rng.random() < 0.15:
+                        mark = None
+                    ev.entries.append(Entry(place=place, school=school, mark=mark,
+                                            competitors=comp))
+                meet.events.append(ev)
+            # derived team scores: sum of places of a school's best entries (low good)
+            totals: dict[str, float] = {}
+            for ev in meet.events:
+                for e in ev.entries:
+                    totals[e.school] = totals.get(e.school, 0) + (e.place or 0)
+            ranked = sorted(totals.items(), key=lambda kv: kv[1])
+            for rank, (school, pts) in enumerate(ranked, 1):
+                meet.team_scores.append(TeamScore(school=school, points=pts, rank=rank,
+                                                  gender=sport.gender, division=None))
+        self.contests.append(meet)
+
+    def meet_sport_season(self, sport: Sport, invite_dates, champ_date=None):
+        rng = self.rng
+        sponsors = [s["name"] for s in self.schools if sport.key in s["sports"]]
+        if len(sponsors) < 4:
+            return
+        by_area: dict[str, list] = {}
+        for nm in sponsors:
+            by_area.setdefault(self.by_name[nm]["area"], []).append(nm)
+        for area, members in sorted(by_area.items()):
+            if len(members) < 3:
+                continue
+            for i, date in enumerate(invite_dates):
+                host = members[i % len(members)]
+                field = members[: min(len(members), rng.randint(5, 12))]
+                self.make_meet(sport, f"{self.by_name[host]['city']} Invitational",
+                               host, date, sorted(field), date <= TODAY)
+        if champ_date:
+            by_group: dict[str, list] = {}
+            for nm in sponsors:
+                by_group.setdefault(sport.champ_group(self.by_name[nm]["classification"]), []).append(nm)
+            for group, members in sorted(by_group.items()):
+                if len(members) < 4:
+                    continue
+                field = sorted(members, key=lambda m: -self.strength(m, sport.key))[:16]
+                self.make_meet(sport, f"JHSAA {group} {sport.name} Championships",
+                               "Ashbury", champ_date, sorted(field), champ_date <= TODAY)
+
+    # ---------------------------------------------------------------- run
+    def run(self):
+        self._str = {}
+        self.schools = self.build_schools()
+        self.by_name = {s["name"]: s for s in self.schools}
+        self.confs = self.build_conferences(self.schools)
+        self.build_offerings(self.schools)
+
+        fall_fri = self.weeks(dt.date(2026, 8, 28), 10)
+        fall_playoffs = dt.date(2026, 11, 6)
+        winter = self.weeks(dt.date(2026, 12, 1), 13)
+        spring = self.weeks(dt.date(2027, 3, 19), 10)
+        fall_invites = [dt.date(2026, 9, 5) + dt.timedelta(days=14 * i) for i in range(4)]
+        winter_invites = [dt.date(2026, 12, 5) + dt.timedelta(days=14 * i) for i in range(6)]
+        spring_invites = [dt.date(2027, 3, 27) + dt.timedelta(days=14 * i) for i in range(4)]
+
+        for sport in CATALOG:
+            dates = {"fall": fall_fri, "winter": winter, "spring": spring}[sport.season]
+            invites = {"fall": fall_invites, "winter": winter_invites,
+                       "spring": spring_invites}[sport.season]
+            if sport.shape.value in ("game", "dual"):
+                self.team_sport_season(
+                    sport, dates,
+                    playoffs_start=fall_playoffs if sport.season == "fall" else None)
+            else:
+                self.meet_sport_season(
+                    sport, invites,
+                    champ_date=dt.date(2026, 10, 31) if sport.season == "fall" else None)
+
+        # emit
+        shutil.rmtree(RECORDS / "contests", ignore_errors=True)
+        shutil.rmtree(RECORDS / "orgs", ignore_errors=True)
+        self.contests.sort(key=lambda c: (c.date or "", c.name))
+        for i, c in enumerate(self.contests):
+            path = RECORDS / "contests" / SEASON / c.sport / f"{i:05d}-{slugify(c.name)[:60]}.json"
+            records_io.write_contest(path, c, sequence=i)
+        records_io.write_orgs(
+            RECORDS,
+            [dict(name=s["name"], city=s["city"], area=s["area"], mascot=s["mascot"],
+                  classification=s["classification"], conference=s["conference"],
+                  enrollment=s["enrollment"], private=s["private"], sports=s["sports"])
+             for s in self.schools],
+            self.confs,
+        )
+        games = sum(1 for c in self.contests if isinstance(c, Game))
+        duals = sum(1 for c in self.contests if isinstance(c, Dual))
+        meets = sum(1 for c in self.contests if isinstance(c, Meet))
+        played = sum(1 for c in self.contests if (c.date or "") <= TODAY.isoformat())
+        print(f"{len(self.schools)} schools · {len(self.confs)} conferences · "
+              f"{games} games · {duals} duals · {meets} meets · "
+              f"{played:,} on/before {TODAY} · {len(self.contests):,} contests")
+
+
+if __name__ == "__main__":
+    Gen().run()

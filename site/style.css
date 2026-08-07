@@ -379,3 +379,48 @@ footer.fh-foot .wrap {
 footer.fh-foot a { color: var(--text-secondary); font-weight: 600; }
 
 main.wrap { padding-bottom: 10px; }
+
+/* ── persistent score rail ─────────────────────────────────────────────── */
+
+.fh-rail { border-bottom: var(--hairline); background: var(--surface-subtle); }
+.fh-railtrack {
+  display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin; max-width: var(--container); margin: 0 auto;
+}
+.fh-railcell {
+  flex: 0 0 172px; padding: 8px 12px 7px; border-right: var(--hairline);
+  color: inherit; display: flex; flex-direction: column; gap: 2px;
+}
+.fh-railcell:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-railcell .rh {
+  display: flex; justify-content: space-between;
+  font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 600; white-space: nowrap;
+}
+.fh-railcell .rr { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.fh-railcell .rr .nm {
+  flex: 1; font-size: 12.5px; font-weight: 600; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; min-width: 0;
+}
+.fh-railcell .rr .nm.sub { font-weight: 400; color: var(--text-muted); }
+.fh-railcell .rr b { font-variant-numeric: tabular-nums; font-size: 12.5px; }
+.fh-railcell .rs { font-size: 10px; color: var(--text-faint); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; }
+.fh-railcell.more { justify-content: center; }
+.fh-crest.xs { width: 16px; height: 16px; font-size: 6.5px; border-radius: 4px; }
+
+/* ── contest score header (game/dual pages) ────────────────────────────── */
+
+.fh-score {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  gap: 18px; padding: 26px 0 20px; border-bottom: var(--hairline); margin-bottom: 8px;
+}
+.fh-score .side { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.fh-score .tn { font-weight: 600; font-size: 15px; }
+.fh-score .tn a { color: inherit; }
+.fh-score .mid { text-align: center; }
+.fh-score .big {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(34px, 7vw, 56px); line-height: 1; letter-spacing: -0.01em;
+}
+.fh-score .st { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 6px; }
