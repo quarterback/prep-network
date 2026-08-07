@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tessie Nelson — Cody — Fieldhouse</title>
 <link rel="stylesheet" href="/style.css">
+<script>try{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 <header class="fh-mast"><div class="wrap">
@@ -14,13 +15,15 @@
     <a href="/#schools">Schools</a>
     <a href="/#conferences">Conferences</a>
     <span class="fh-season">Track & Field · Spring 2026</span>
+    <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
+    <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
   </nav>
 </div></header>
 <main class="wrap">
 <div class='fh-toolbar'><span class='fh-crumb'><a href='/'>Fieldhouse</a> › <a href='/schools/cody/'>Cody</a> › Tessie Nelson</span><a class='fh-pill' href='/schools/cody/'>← Cody</a></div>
 
 <div class="fh-idhdr">
-  <span class="fh-crest lg" style="background:#27447c">CO</span>
+  <span class="fh-crest lg c1">CO</span>
   <div><div class="name">Tessie Nelson</div>
   <div class="meta"><a href='/schools/cody/'>Cody</a> · Jr · <a href='/conferences/3a-west/'>3A West</a></div></div>
   <div class="side"><span class='fh-badge c3A'>3A</span></div>
@@ -28,6 +31,25 @@
 <div class="fh-section"><h2>2026 season</h2><div class='fh-tablescroll'><div class='fh-table' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><div class='fh-thead'><span class='fh-th'>Meet</span><span class='fh-th'>Event</span><span class='fh-th'>Pl</span><span class='fh-th'>Mark</span><span class='fh-th num'>Pts</span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/3a-west-regional/'>3A West Regional</a></span><span class='fh-plain fh-dim'>100 Meter Hurdles 3A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>7</span><span class='fh-mark'>16.93</span><span class='fh-num'></span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/3a-west-regional/'>3A West Regional</a></span><span class='fh-plain fh-dim'>100 Meter Hurdles 3A</span><span class='fh-rank'>7</span><span class='fh-mark'>17.20</span><span class='fh-num'>2</span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/3a-west-regional/'>3A West Regional</a></span><span class='fh-plain fh-dim'>300 Meter Hurdles 3A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>9</span><span class='fh-mark'>51.66</span><span class='fh-num'></span></div></div></div></div>
 
 </main>
+<script>
+(function () {
+  var chips = document.querySelectorAll(".fh-swatch");
+  function apply(name) {
+    if (name === "varsity") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", name);
+    chips.forEach(function (c) {
+      c.setAttribute("aria-pressed", c.getAttribute("data-theme-choice") === name ? "true" : "false");
+    });
+    try { localStorage.setItem("fh-theme", name === "varsity" ? "" : name); } catch (e) {}
+  }
+  chips.forEach(function (c) {
+    c.addEventListener("click", function () { apply(c.getAttribute("data-theme-choice")); });
+  });
+  var t = null;
+  try { t = localStorage.getItem("fh-theme"); } catch (e) {}
+  if (t) apply(t);
+})();
+</script>
 <footer class="fh-foot"><div class="wrap">
   <span>Fieldhouse — working title</span>
   <span>Source: hytek-meetmanager8-track.pdf · hytek_pdf</span>

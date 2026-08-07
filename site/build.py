@@ -32,12 +32,9 @@ SPECIMEN = ROOT / "ingest/fixtures/specimens/hytek-meetmanager8-track.pdf"
 BRAND = "FIELDHOUSE"  # working title
 SEASON = "Track & Field · Spring 2026"
 
-# Crest tones stay on the palette's three hues (24 / 189 / 219) so 71
-# hash-assigned monograms don't drag off-palette color onto every table.
-CREST_COLORS = [
-    "#0e1c36", "#27447c", "#3a5fa8", "#14506b", "#1b6f8c", "#0e6377",
-    "#8a4d2b", "#6b3d1f", "#a05a2e", "#2c3e66", "#40699e", "#575047",
-]
+# Crests carry a class, not an inline color, so monograms recolor with the
+# scheme (the crest tone set lives in style.css per scheme).
+CREST_CLASSES = 12
 
 CLASS_LABEL = {"9": "Fr", "10": "So", "11": "Jr", "12": "Sr"}
 
@@ -79,9 +76,9 @@ def monogram(name: str) -> str:
     return words[0][:2].upper() if words else "??"
 
 
-def crest_color(name: str) -> str:
+def crest_class(name: str) -> str:
     h = int(hashlib.md5(short_school(name).encode()).hexdigest(), 16)
-    return CREST_COLORS[h % len(CREST_COLORS)]
+    return f"c{h % CREST_CLASSES}"
 
 
 def short_meet(name: str) -> str:
@@ -243,6 +240,7 @@ def shell(title: str, body: str, crumb: str = "", back: str = "") -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <link rel="stylesheet" href="/style.css">
+<script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
 <header class="fh-mast"><div class="wrap">
@@ -252,12 +250,33 @@ def shell(title: str, body: str, crumb: str = "", back: str = "") -> str:
     <a href="/#schools">Schools</a>
     <a href="/#conferences">Conferences</a>
     <span class="fh-season">{SEASON}</span>
+    <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
+    <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
   </nav>
 </div></header>
 <main class="wrap">
 {toolbar}
 {body}
 </main>
+<script>
+(function () {{
+  var chips = document.querySelectorAll(".fh-swatch");
+  function apply(name) {{
+    if (name === "varsity") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", name);
+    chips.forEach(function (c) {{
+      c.setAttribute("aria-pressed", c.getAttribute("data-theme-choice") === name ? "true" : "false");
+    }});
+    try {{ localStorage.setItem("fh-theme", name === "varsity" ? "" : name); }} catch (e) {{}}
+  }}
+  chips.forEach(function (c) {{
+    c.addEventListener("click", function () {{ apply(c.getAttribute("data-theme-choice")); }});
+  }});
+  var t = null;
+  try {{ t = localStorage.getItem("fh-theme"); }} catch (e) {{}}
+  if (t) apply(t);
+}})();
+</script>
 <footer class="fh-foot"><div class="wrap">
   <span>{BRAND.title()} — working title</span>
   <span>Source: hytek-meetmanager8-track.pdf · hytek_pdf</span>
@@ -448,7 +467,7 @@ def render_school(reg: Registry, rec) -> str:
 
     body = f"""
 <div class="fh-idhdr">
-  <span class="fh-crest lg" style="background:{crest_color(name)}">{esc(monogram(name))}</span>
+  <span class="fh-crest lg {crest_class(name)}">{esc(monogram(name))}</span>
   <div><div class="name">{esc(short_school(name))}</div>
   <div class="meta">{esc(name)}{conf_html}</div></div>
   <div class="side">{chips}</div>
@@ -466,7 +485,7 @@ def render_conference(reg: Registry, slug: str, conf) -> str:
     member_rows = "".join(
         f"<a class='fh-row' href='{reg.school_url(s)}' "
         f"style='--grid-cols:28px minmax(160px,1fr) 60px 60px'>"
-        f"<span class='fh-crest sm' style='background:{crest_color(s)}'>{esc(monogram(s))}</span>"
+        f"<span class='fh-crest sm {crest_class(s)}'>{esc(monogram(s))}</span>"
         f"<span class='fh-name'>{esc(short_school(s))}</span>"
         f"<span>{''.join(class_chip(d) for d in sorted(reg.schools[s]['divisions']))}</span>"
         f"<span class='fh-num tnum'>{len(reg.schools[s]['athletes'])}</span></a>"
@@ -530,7 +549,7 @@ def render_athlete(reg: Registry, a) -> str:
     yr_html = f" · {esc(yr)}" if yr else ""
     body = f"""
 <div class="fh-idhdr">
-  <span class="fh-crest lg" style="background:{crest_color(school)}">{esc(monogram(school))}</span>
+  <span class="fh-crest lg {crest_class(school)}">{esc(monogram(school))}</span>
   <div><div class="name">{esc(name)}</div>
   <div class="meta"><a href='{reg.school_url(school)}'>{esc(short_school(school))}</a>{yr_html}{conf_html}</div></div>
   <div class="side">{''.join(class_chip(d) for d in sorted(reg.schools[school]['divisions']))}</div>
@@ -608,7 +627,7 @@ def render_front(reg: Registry) -> str:
     dir_rows = "".join(
         f"<a class='fh-row' href='/schools/{rec['slug']}/' "
         "style='--grid-cols:28px minmax(150px,1fr) 64px minmax(90px,110px) 60px'>"
-        f"<span class='fh-crest sm' style='background:{crest_color(s)}'>{esc(monogram(s))}</span>"
+        f"<span class='fh-crest sm {crest_class(s)}'>{esc(monogram(s))}</span>"
         f"<span class='fh-name'>{esc(short_school(s))}</span>"
         f"<span>{''.join(class_chip(d) for d in sorted(rec['divisions']))}</span>"
         f"<span class='fh-plain fh-dim'>{esc(reg.conferences[reg.school_conf[s]]['name']) if s in reg.school_conf else ''}</span>"

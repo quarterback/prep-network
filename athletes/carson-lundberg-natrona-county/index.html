@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Carson Lundberg — Natrona County — Fieldhouse</title>
 <link rel="stylesheet" href="/style.css">
+<script>try{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
 <body>
 <header class="fh-mast"><div class="wrap">
@@ -14,13 +15,15 @@
     <a href="/#schools">Schools</a>
     <a href="/#conferences">Conferences</a>
     <span class="fh-season">Track & Field · Spring 2026</span>
+    <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
+    <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
   </nav>
 </div></header>
 <main class="wrap">
 <div class='fh-toolbar'><span class='fh-crumb'><a href='/'>Fieldhouse</a> › <a href='/schools/natrona-county/'>Natrona County</a> › Carson Lundberg</span><a class='fh-pill' href='/schools/natrona-county/'>← Natrona County</a></div>
 
 <div class="fh-idhdr">
-  <span class="fh-crest lg" style="background:#1b6f8c">NC</span>
+  <span class="fh-crest lg c4">NC</span>
   <div><div class="name">Carson Lundberg</div>
   <div class="meta"><a href='/schools/natrona-county/'>Natrona County</a> · Sr · <a href='/conferences/4a-west/'>4A West</a></div></div>
   <div class="side"><span class='fh-badge c4A'>4A</span></div>
@@ -28,6 +31,25 @@
 <div class="fh-section"><h2>2026 season</h2><div class='fh-tablescroll'><div class='fh-table' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><div class='fh-thead'><span class='fh-th'>Meet</span><span class='fh-th'>Event</span><span class='fh-th'>Pl</span><span class='fh-th'>Mark</span><span class='fh-th num'>Pts</span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/4a-west-regional/'>4A West Regional</a></span><span class='fh-plain fh-dim'>100 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>2</span><span class='fh-mark'>10.99</span><span class='fh-num'></span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/4a-west-regional/'>4A West Regional</a></span><span class='fh-plain fh-dim'>100 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>8</span><span class='fh-mark'>12.62</span><span class='fh-num'>1</span></div><div class='fh-row first' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/4a-west-regional/'>4A West Regional</a></span><span class='fh-plain fh-dim'>200 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>1</span><span class='fh-mark'>21.87</span><span class='fh-num'></span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/4a-west-regional/'>4A West Regional</a></span><span class='fh-plain fh-dim'>200 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>8</span><span class='fh-mark'>23.60</span><span class='fh-num'>1</span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/state-championships/'>State Championships</a></span><span class='fh-plain fh-dim'>100 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>4</span><span class='fh-mark'>10.93</span><span class='fh-num'></span></div><div class='fh-row first' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/state-championships/'>State Championships</a></span><span class='fh-plain fh-dim'>100 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>1</span><span class='fh-mark'>10.56</span><span class='fh-num'>10</span></div><div class='fh-row first' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/state-championships/'>State Championships</a></span><span class='fh-plain fh-dim'>200 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>1</span><span class='fh-mark'>21.13</span><span class='fh-num'></span></div><div class='fh-row' style='--grid-cols:minmax(120px,1fr) minmax(140px,1.2fr) 34px 88px 44px'><span class='fh-plain'><a href='/meets/state-championships/'>State Championships</a></span><span class='fh-plain fh-dim'>200 Meter Dash 4A <span class='fh-tag'>Prelims</span></span><span class='fh-rank'>8</span><span class='fh-mark'>32.81</span><span class='fh-num'>1</span></div></div></div></div>
 
 </main>
+<script>
+(function () {
+  var chips = document.querySelectorAll(".fh-swatch");
+  function apply(name) {
+    if (name === "varsity") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", name);
+    chips.forEach(function (c) {
+      c.setAttribute("aria-pressed", c.getAttribute("data-theme-choice") === name ? "true" : "false");
+    });
+    try { localStorage.setItem("fh-theme", name === "varsity" ? "" : name); } catch (e) {}
+  }
+  chips.forEach(function (c) {
+    c.addEventListener("click", function () { apply(c.getAttribute("data-theme-choice")); });
+  });
+  var t = null;
+  try { t = localStorage.getItem("fh-theme"); } catch (e) {}
+  if (t) apply(t);
+})();
+</script>
 <footer class="fh-foot"><div class="wrap">
   <span>Fieldhouse — working title</span>
   <span>Source: hytek-meetmanager8-track.pdf · hytek_pdf</span>

@@ -87,6 +87,49 @@
 
   --radius: 8px; --radius-pill: 999px;
   --container: 1180px; --gutter: 20px;
+
+  /* crest tones — hash-assigned per school, themed with the scheme */
+  --crest-0: #0e1c36; --crest-1: #27447c; --crest-2: #3a5fa8;
+  --crest-3: #14506b; --crest-4: #1b6f8c; --crest-5: #0e6377;
+  --crest-6: #8a4d2b; --crest-7: #6b3d1f; --crest-8: #a05a2e;
+  --crest-9: #2c3e66; --crest-10: #40699e; --crest-11: #575047;
+}
+
+/* ── scheme: bloom — ash-grey / petal-frost / soft-blossom / plum /
+   bright-lavender. No dark value in the palette, so ink and link are deep
+   tones of the lavender hue (276), same derivation rule as varsity's. ── */
+[data-theme="bloom"] {
+  --linen: #cfd4c5;            /* ash-grey takes the band slot */
+  --ivory: #eecfd4;            /* petal-frost takes the ground slot */
+  --cyan: #efb9cb;             /* soft-blossom takes the highlight slot */
+  --ice: #e6adec;              /* plum takes the accent-detail slot */
+  --prussian: hsl(276, 32%, 16%);
+
+  --brand-strong: hsl(276, 52%, 38%);
+
+  --gray-150: hsl(294, 20%, 88%);
+  --gray-200: hsla(276, 32%, 16%, 0.14);
+  --gray-300: hsla(276, 32%, 16%, 0.24);
+  --gray-400: hsl(288, 12%, 62%);
+  --gray-500: hsl(288, 14%, 46%);
+  --gray-600: hsl(282, 20%, 33%);
+
+  --cat-4a: hsl(276, 40%, 30%);
+  --cat-3a: hsl(294, 45%, 42%);
+  --cat-2a: hsl(340, 48%, 44%);
+  --cat-1a: hsl(80, 18%, 38%);
+
+  --rank-gold: hsl(340, 55%, 42%);
+
+  --surface-subtle: hsl(350, 40%, 92%);
+  --surface-zebra: hsla(294, 62%, 80%, 0.18);
+
+  --crest-0: hsl(276, 40%, 28%); --crest-1: hsl(276, 34%, 40%);
+  --crest-2: hsl(294, 40%, 36%); --crest-3: hsl(294, 32%, 46%);
+  --crest-4: hsl(340, 42%, 40%); --crest-5: hsl(340, 34%, 50%);
+  --crest-6: hsl(80, 20%, 34%);  --crest-7: hsl(80, 16%, 44%);
+  --crest-8: hsl(320, 36%, 38%); --crest-9: hsl(260, 30%, 42%);
+  --crest-10: hsl(300, 26%, 30%); --crest-11: hsl(350, 30%, 44%);
 }
 
 * { box-sizing: border-box; }
@@ -167,6 +210,22 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 }
 .fh-crest.sm { width: 24px; height: 24px; font-size: 9px; }
 .fh-crest.lg { width: 48px; height: 48px; font-size: 15px; }
+.fh-crest.c0 { background: var(--crest-0); }  .fh-crest.c1 { background: var(--crest-1); }
+.fh-crest.c2 { background: var(--crest-2); }  .fh-crest.c3 { background: var(--crest-3); }
+.fh-crest.c4 { background: var(--crest-4); }  .fh-crest.c5 { background: var(--crest-5); }
+.fh-crest.c6 { background: var(--crest-6); }  .fh-crest.c7 { background: var(--crest-7); }
+.fh-crest.c8 { background: var(--crest-8); }  .fh-crest.c9 { background: var(--crest-9); }
+.fh-crest.c10 { background: var(--crest-10); } .fh-crest.c11 { background: var(--crest-11); }
+
+/* scheme picker — each chip shows its own scheme in literal colors, so a
+   chip keeps advertising its palette whichever scheme is applied */
+.fh-swatch {
+  width: 20px; height: 20px; padding: 0; border: 2px solid var(--ink);
+  border-radius: 4px; cursor: pointer; align-self: center;
+}
+.fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0e1c36 0 34%, #ffede1 0 67%, #d7f9ff 0); }
+.fh-swatch[data-theme-choice="bloom"] { background: linear-gradient(135deg, #c287e8 0 34%, #eecfd4 0 67%, #cfd4c5 0); }
+.fh-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* chips */
 .fh-badge {
