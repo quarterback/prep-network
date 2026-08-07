@@ -359,3 +359,66 @@ sufficient, and was used to produce §2.3 above.
 - Live-PDS demo schools need a handle and app password, same setup as the existing
   standard.site workflow. Not needed until the local record store works.
 - Project naming is unsettled; `prep-network` is a placeholder.
+
+---
+
+## 7. Addendum (same day): the headless architecture
+
+The full decision record is `docs/PLAN-headless-architecture.md`. The short form:
+
+**Git is the headless backend.** Records became a managed layer —
+`records/contests/<season>/*.json`, in shapes that double as the draft
+`org.prepnet.*` lexicons — and the build renders from records, never from source
+files. Writers converge on that directory as PRs: shape-native entry forms for the
+untooled sports (tennis first — most sports have no Hy-Tek equivalent, which is why
+the third-party management tools exist at all), file upload → adapter → PR for the
+sports that have tools, and direct commit. A PR is the moderation queue, a merge is a
+publish, a revert is a correction, `git log` is the audit trail. A GitHub Action
+rebuilds on any records change. Phase B swaps the record store to per-school
+AT Protocol repos by changing only the loader — the framing is portability against
+vendor lock-in (including lock-in to this tool itself), not "data ownership": the
+data is public.
+
+Two implementation findings worth keeping:
+
+- **The records layer was proven lossless mechanically**: parse → JSON → shapes →
+  render produced zero differing pages against parse → render, across all 2,231.
+- **Set iteration made sibling athletes swap roster rows on every rebuild.** The
+  roster sort keyed on last name only; ties (the Heinrichs) fell to Python set
+  order, which changes per process. In this domain the failure mode is never a
+  crash — it's two sisters trading places on a page that still looks right. Sort
+  keys over derived-from-set data must be total.
+
+---
+
+## 8. Addendum: Jefferson (JHSAA) — the fictional state
+
+Wyoming's data retired from the demo site (the specimen stays as the parser
+fixture); Jefferson replaced it per the owner's full spec, recorded in
+`docs/PLAN-jefferson-state.md`. The purpose is unchanged from §1 — one model,
+one renderer, a laddered state → conference → school system — now made visible
+across an entire calendar: 256 schools in six deliberately uneven classes, 32
+geography-based mixed-class conferences, 41 sanctioned activities over the
+three shapes, a full 2026-27 season (5,912 contests) generated deterministically
+around a mid-January demo date so fall is complete with championships, winter
+is mid-season, and spring is scheduled.
+
+Design decisions worth keeping:
+
+- **`classification` ≠ `championship_group`.** A school carries one base class;
+  each sport maps classes onto its own championship divisions (tennis
+  6A/5A/4A/3A-1A, swimming 6A-5A/4A-1A, open divisions for skiing, hockey,
+  fencing). One function (`app/sports.py: champ_group`) is the authority.
+- **Names by grammar, not invention**: real-county geography, fictional
+  everything — directional publics, surname schools, denominational religious
+  schools (Catholic, Baptist, Episcopal, Methodist, Lutheran), colors, places,
+  things; collision checks against a real-place blocklist.
+- **Complications on purpose**: soccer/hockey ties, cancellations,
+  postponements, interstate opponents (rendered unlinked), incomplete meet
+  results — the failure modes real data has.
+- **The rail is the proof surface**: every page carries a persistent
+  score strip drawn from a sport-diverse window (15 sports live in the demo
+  week); every cell clicks through to a locally rendered result, which is the
+  original bar — see results on any device without a third-party site.
+- **Deploy became build-from-records**: at 10,804 pages the committed-tree
+  pattern retired; Vercel runs `site/build.py` against `records/` (27MB JSON).
