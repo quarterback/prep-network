@@ -29,6 +29,8 @@ from app.sports import BY_KEY, CATALOG  # noqa: E402
 import importlib.util as _ilu  # noqa: E402
 _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
 news = _ilu.module_from_spec(_spec); _spec.loader.exec_module(news)
+_ispec = _ilu.spec_from_file_location("fh_icons", ROOT / "site/icons.py")
+icons = _ilu.module_from_spec(_ispec); _ispec.loader.exec_module(icons)
 
 RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
@@ -246,7 +248,29 @@ def build_rail(reg: Registry) -> str:
             "<span class='rr'><span class='nm'>All of this week →</span></span></a></div></div>")
 
 
-RAIL = ""  # populated in build()
+RAIL = ""        # populated in build()
+SPORT_MENU = ""  # nav dropdowns, populated in build()
+RES_MENU = ""
+
+
+def build_menus(reg):
+    """Nav dropdowns: sports by season, resources by audience."""
+    global SPORT_MENU, RES_MENU
+    cols = []
+    for season in ("fall", "winter", "spring"):
+        links = "".join(
+            f"<a href='/sports/{sp.key}/'>{icons.icon(sp.key, 'fh-ic sm')}{esc(sp.name)}</a>"
+            for sp in sorted(CATALOG, key=lambda s: s.name)
+            if sp.season == season and reg.by_sport.get(sp.key))
+        cols.append(f"<div><h4>{season.title()}</h4>{links}</div>")
+    SPORT_MENU = f"<div class='fh-dropcols'>{''.join(cols)}</div>"
+    rcols = []
+    for title, links in news.RESOURCES:
+        items = "".join(
+            (f"<a href='{href}'>{esc(label)}</a>" if href else f"<span>{esc(label)}</span>")
+            for label, href in links)
+        rcols.append(f"<div><h4>{esc(title)}</h4>{items}</div>")
+    RES_MENU = f"<div class='fh-dropcols'>{''.join(rcols)}</div>"
 
 
 def shell(title, body, crumb="", back=""):
@@ -269,11 +293,14 @@ def shell(title, body, crumb="", back=""):
   <a class="fh-wordmark" href="/">{BRAND}</a>
   <nav class="fh-mast-nav">
     <a href="/scoreboard/">Scores</a>
-    <a href="/#sports">Sports</a>
-    <a href="/schools/">Schools</a>
-    <a href="/conferences/">Conferences</a>
+    <div class="fh-menu"><button type="button">Sports ▾</button><div class="fh-drop">{SPORT_MENU}</div></div>
+    <div class="fh-menu"><button type="button">Schools ▾</button><div class="fh-drop cols">
+      <a href="/schools/">All member schools</a><a href="/conferences/">Conferences</a>
+      <a href="/schools/#6A">6A</a><a href="/schools/#5A">5A</a><a href="/schools/#4A">4A</a>
+      <a href="/schools/#3A">3A</a><a href="/schools/#2A">2A</a><a href="/schools/#1A">1A</a></div></div>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
+    <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
     <span class="fh-season">{ASSOC} · {SEASON_LABEL}</span>
     <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
     <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
@@ -699,47 +726,72 @@ def render_championships(reg):
 
 
 def render_schools_index(reg):
-    dir_rows = "".join(
-        f"<a class='fh-row' href='/schools/{s['slug']}/' "
-        "style='--grid-cols:24px minmax(170px,1.2fr) 52px minmax(110px,1fr) minmax(120px,1fr) 44px'>"
-        f"{reg.crest(s['name'],'xs')}<span class='fh-name'>{esc(s['name'])}</span>"
-        f"<span>{class_chip(s['classification'])}</span>"
-        f"<span class='fh-plain fh-dim'>{esc(s['city'])}</span>"
-        f"<span class='fh-plain fh-dim'>{esc(s['conference'])}</span>"
-        f"<span class='fh-num tnum'>{len(s.get('sports', []))}</span></a>"
-        for s in sorted(reg.schools.values(), key=lambda s: s["name"]))
+    """Grouped by classification, then conference — never one flat list.
+
+    256 rows of undifferentiated text is unreadable. Classification is how an
+    association organizes itself and how a family narrows to their school.
+    """
+    by_class = defaultdict(lambda: defaultdict(list))
+    for sch in reg.schools.values():
+        by_class[sch["classification"]][sch["conference"]].append(sch)
+
+    blocks = []
+    for cls in ("6A", "5A", "4A", "3A", "2A", "1A"):
+        confs = by_class.get(cls)
+        if not confs:
+            continue
+        groups = []
+        for conf in sorted(confs):
+            members = sorted(confs[conf], key=lambda s: s["name"])
+            links = "".join(
+                f"<a class='fh-schoollink' href='/schools/{m['slug']}/'>"
+                f"{esc(m['name'])}<span class='ct'>{esc(m['city'])}</span></a>"
+                for m in members)
+            cslug = reg.conf_slug.get(conf, "")
+            groups.append(
+                f"<div class='fh-confgroup'>"
+                f"<h4><a href='/conferences/{cslug}/'>{esc(conf)}</a></h4>"
+                f"<div class='fh-schoollinks'>{links}</div></div>")
+        blocks.append(
+            f"<details class='fh-classblock' id='{cls}' open>"
+            f"<summary><span class='cl'>{class_chip(cls)}</span>"
+            f"<span class='ttl'>Class {esc(cls)}</span></summary>"
+            f"<div class='fh-confgrid'>{''.join(groups)}</div></details>")
+
+    jump = "".join(f"<a href='#{c}'>{class_chip(c)}</a>" for c in ("6A","5A","4A","3A","2A","1A"))
     body = f"""
 <div class="fh-idhdr">
-  <div></div>
-  <div><div class="name">Member schools</div>
-  <div class="meta"><span class="tnum">{len(reg.schools)}</span> schools · six classifications · <a href='/conferences/'>{len(reg.confs)} conferences</a></div></div>
+  <div></div><div><div class="name">Member schools</div>
+  <div class="meta">By classification and conference · <a href='/conferences/'>browse by conference</a></div></div>
   <div class="side"></div>
 </div>
-<div class="fh-tablescroll"><div class="fh-table" style="--grid-cols:24px minmax(170px,1.2fr) 52px minmax(110px,1fr) minmax(120px,1fr) 44px">
-<div class="fh-thead"><span class="fh-th"></span><span class="fh-th">School</span><span class="fh-th">Class</span>
-<span class="fh-th">City</span><span class="fh-th">Conference</span><span class="fh-th num">Sports</span></div>
-{dir_rows}</div></div>
+<nav class="fh-jump">{jump}</nav>
+{''.join(blocks)}
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › Schools"
     return shell(f"Schools — {BRAND.title()}", body, crumb)
 
 
 def render_confs_index(reg):
-    conf_rows = "".join(
-        f"<a class='fh-row' href='/conferences/{slug}/' style='--grid-cols:minmax(170px,1.2fr) minmax(110px,1fr) 52px'>"
-        f"<span class='fh-name'>{esc(c['name'])}</span><span class='fh-plain fh-dim'>{esc(c['area'])}</span>"
-        f"<span class='fh-num tnum'>{len(c['members'])}</span></a>"
-        for slug, c in sorted(reg.confs.items(), key=lambda kv: kv[1]["name"]))
+    by_area = defaultdict(list)
+    for slug, c in reg.confs.items():
+        by_area[c["area"]].append((slug, c))
+    blocks = []
+    for area in sorted(by_area):
+        rows = "".join(
+            f"<a class='fh-conflink' href='/conferences/{slug}/'>"
+            f"<span class='nm'>{esc(c['name'])}</span>"
+            f"<span class='ct'>{esc(', '.join(sorted({reg.schools[m]['classification'] for m in c['members'] if m in reg.schools}, key=lambda x: '654321'.find(x[0]))))}</span></a>"
+            for slug, c in sorted(by_area[area], key=lambda kv: kv[1]["name"]))
+        blocks.append(f"<div class='fh-confgroup'><h4>{esc(area)}</h4>"
+                      f"<div class='fh-schoollinks'>{rows}</div></div>")
     body = f"""
 <div class="fh-idhdr">
-  <div></div>
-  <div><div class="name">Conferences</div>
-  <div class="meta"><span class="tnum">{len(reg.confs)}</span> leagues · geography-based, mixed classification · <a href='/schools/'>{len(reg.schools)} schools</a></div></div>
+  <div></div><div><div class="name">Conferences</div>
+  <div class="meta">By region · leagues are geographic and mix classifications · <a href='/schools/'>browse by class</a></div></div>
   <div class="side"></div>
 </div>
-<div class="fh-tablescroll"><div class="fh-table" style="--grid-cols:minmax(170px,1.2fr) minmax(110px,1fr) 52px">
-<div class="fh-thead"><span class="fh-th">Conference</span><span class="fh-th">Area</span><span class="fh-th num">Schools</span></div>
-{conf_rows}</div></div>
+<div class="fh-confgrid">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › Conferences"
     return shell(f"Conferences — {BRAND.title()}", body, crumb)
@@ -761,19 +813,27 @@ def render_story(reg, st):
 
 
 def render_news_index(reg):
-    items = "".join(
-        f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
-        f"<span class='kk'>{esc(st['kicker'])} · {esc(nice_date(st['date']))}</span>"
-        f"<span class='hd'>{esc(st['head'])}</span>"
-        f"<span class='dk'>{esc(st['dek'])}</span></a>"
-        for st in news.STORIES)
+    """Two lanes: activity/results coverage and association administration."""
+    def lane(kind, title, blurb):
+        items = "".join(
+            f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
+            f"<span class='kk'>{esc(st['kicker'])} · {esc(nice_date(st['date']))}</span>"
+            f"<span class='hd'>{esc(st['head'])}</span>"
+            f"<span class='dk'>{esc(st['dek'])}</span></a>"
+            for st in news.STORIES if st.get("kind") == kind)
+        return (f"<section><div class='fh-group' style='margin-top:0'><h3>{esc(title)}</h3></div>"
+                f"<p class='fh-lede'>{esc(blurb)}</p><div class='fh-storylist'>{items}</div></section>")
+
     body = f"""
 <div class="fh-idhdr">
   <div></div><div><div class="name">News &amp; notices</div>
-  <div class="meta">Championship information, rule changes, officiating and eligibility</div></div>
+  <div class="meta">Competition coverage and association announcements</div></div>
   <div class="side"></div>
 </div>
-<div class="fh-storylist">{items}</div>
+<div class="fh-newslanes">
+{lane('activity', 'Activities & competition', 'Championships, schedules and student-athletes.')}
+{lane('association', 'Association business', 'Eligibility, officiating, participation and board decisions.')}
+</div>
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › News"
     return shell(f"News — {BRAND.title()}", body, crumb)
@@ -784,20 +844,29 @@ def render_front(reg):
     t = dt.date.fromisoformat(TODAY)
     lo = (t - dt.timedelta(days=6)).isoformat()
 
-    # ── LEAD STORY + the news column (editorial, not cards)
-    lead, rest = news.STORIES[0], news.STORIES[1:5]
+    activity = [x for x in news.STORIES if x.get("kind") == "activity"]
+    assoc = [x for x in news.STORIES if x.get("kind") == "association"]
+
+    lead = activity[0]
     lead_html = (
         f"<a class='fh-hero' href='/news/{lead['slug']}/'>"
         f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
         f"<span class='hd'>{esc(lead['head'])}</span>"
         f"<span class='dk'>{esc(lead['dek'])}</span></a>")
-    rest_html = "".join(
+    more_activity = "".join(
         f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
         f"<span class='kk'>{esc(st['kicker'])}</span>"
         f"<span class='hd'>{esc(st['head'])}</span></a>"
-        for st in rest)
+        for st in activity[1:])
 
-    # ── FIND YOUR SCHOOL — client-side filter over every member school
+    # association notices — administrative, kept in its own lane
+    notices = "".join(
+        f"<a class='fh-notice' href='/news/{st['slug']}/'>"
+        f"<span class='kk'>{esc(st['kicker'])}</span>"
+        f"<span class='hd'>{esc(st['head'])}</span></a>"
+        for st in assoc)
+
+    # find your school
     opts = "".join(
         f"<a class='fh-schoolhit' href='/schools/{s['slug']}/' "
         f"data-n='{esc((s['name'] + ' ' + s['city'] + ' ' + s['conference']).lower())}'>"
@@ -810,15 +879,16 @@ def render_front(reg):
   <input id="school-q" type="search" placeholder="School, town or conference" autocomplete="off"
          aria-label="Search member schools">
   <div class="fh-schoolhits" id="school-hits">{opts}</div>
-  <p class="fh-more"><a href="/schools/">Browse all member schools</a> · <a href="/conferences/">Conferences</a></p>
+  <p class="fh-more"><a href="/schools/">Browse by classification</a> · <a href="/conferences/">By conference</a></p>
 </section>"""
 
-    # ── WINTER, by name (the season that is actually happening)
+    # winter sports as icons + name
     winter = sorted((sp for sp in CATALOG if sp.season == "winter" and reg.by_sport.get(sp.key)),
                     key=lambda sp: sp.name)
-    winter_links = "".join(f"<a href='/sports/{sp.key}/'>{esc(sp.name)}</a>" for sp in winter)
+    tiles = "".join(
+        f"<a class='fh-sporttile' href='/sports/{sp.key}/'>{icons.icon(sp.key)}"
+        f"<span>{esc(sp.name)}</span></a>" for sp in winter)
 
-    # ── selected results: recognizable schools, one row per contest
     def result_rows(keys, n=5):
         out = []
         for key in keys:
@@ -850,8 +920,6 @@ def render_front(reg):
     hoops = result_rows(["boys-basketball", "girls-basketball"], 4)[:8]
     other = result_rows(["boys-wrestling", "girls-swimming", "boys-ice-hockey",
                          "girls-alpine-skiing", "boys-bowling", "girls-fencing"], 2)[:8]
-
-    # ── championships
     champs = sorted(champ_finals(reg), key=lambda t: (t[0].name, t[1]))[:8]
     champ_rows = "".join(
         f"<a class='fh-resultrow' href='{reg.url(c)}'>"
@@ -859,31 +927,26 @@ def render_front(reg):
         f"<span class='l'>{esc(grp)} {esc(sp.name)}</span></a>"
         for sp, grp, c in champs)
 
-    # ── resources
-    res_cols = "".join(
-        f"<div><h3>{esc(title)}</h3><ul>" + "".join(
-            (f"<li><a href='{href}'>{esc(label)}</a></li>" if href
-             else f"<li><span>{esc(label)}</span></li>")
-            for label, href in links) + "</ul></div>"
-        for title, links in news.RESOURCES)
-
     body = f"""
 <div class="fh-top">
   <div class="fh-newscol">
     {lead_html}
-    <div class="fh-storylist">{rest_html}</div>
-    <p class="fh-more"><a href="/news/">All news &amp; notices →</a></p>
+    <div class="fh-storylist">{more_activity}</div>
+    <p class="fh-more"><a href="/news/">All news →</a></p>
   </div>
   <aside class="fh-side">
     {finder}
+    <section class="fh-notices">
+      <h2>From the association</h2>
+      {notices}
+      <p class="fh-more"><a href="/news/">Notices &amp; announcements →</a></p>
+    </section>
   </aside>
 </div>
 
 <section class="fh-band">
   <h2>Winter sports</h2>
-  <nav class="fh-sportlinks">{winter_links}</nav>
-  <p class="fh-more"><a href="/championships/">Fall championship results</a> ·
-  <a href="/#spring">Spring season</a> · <a href="/scoreboard/">Full scoreboard</a></p>
+  <nav class="fh-sportgrid">{tiles}</nav>
 </section>
 
 <div class="fh-cols3">
@@ -895,11 +958,6 @@ def render_front(reg):
   <section><h2>Fall champions</h2><div class="fh-results">{champ_rows}</div>
   <p class="fh-more"><a href="/championships/">All championships →</a></p></section>
 </div>
-
-<section class="fh-band" id="spring">
-  <h2>Resources</h2>
-  <div class="fh-reslinks">{res_cols}</div>
-</section>
 
 <script>
 (function () {{
@@ -958,6 +1016,7 @@ def build():
     global RAIL
     reg = Registry()
     RAIL = build_rail(reg)
+    build_menus(reg)
 
     pages = {"/": render_front(reg), "/scoreboard/": render_scoreboard(reg),
              "/schools/": render_schools_index(reg), "/conferences/": render_confs_index(reg),
