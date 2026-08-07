@@ -674,3 +674,23 @@ main.wrap { padding-bottom: 10px; }
 .fh-newslanes { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
 @media (max-width: 780px) { .fh-newslanes { grid-template-columns: 1fr; } }
 .fh-lede { font-size: var(--fs-small); color: var(--text-muted); margin: 0 0 10px; }
+
+/* ── sport hub sub-navigation ──────────────────────────────────────────── */
+
+.fh-subnav {
+  display: flex; gap: 0; flex-wrap: wrap; margin: 0 0 20px;
+  border-bottom: var(--rule);
+}
+.fh-subnav a {
+  padding: 9px 16px 8px; font-size: var(--fs-small); font-weight: 700;
+  color: var(--text-secondary); border-bottom: 3px solid transparent; margin-bottom: -2px;
+}
+.fh-subnav a:hover { color: var(--text-link); text-decoration: none; }
+.fh-subnav a.on { color: var(--ink); border-bottom-color: var(--ink); }
+.fh-idhdr.sport { border-bottom: none; margin-bottom: 10px; padding-bottom: 8px; }
+.fh-sportmark {
+  display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: var(--radius);
+  background: var(--surface-th); color: var(--ink);
+}
+.fh-ic.lg { width: 28px; height: 28px; }

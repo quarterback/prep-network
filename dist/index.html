@@ -682,6 +682,26 @@ main.wrap { padding-bottom: 10px; }
 @media (max-width: 780px) { .fh-newslanes { grid-template-columns: 1fr; } }
 .fh-lede { font-size: var(--fs-small); color: var(--text-muted); margin: 0 0 10px; }
 
+/* ── sport hub sub-navigation ──────────────────────────────────────────── */
+
+.fh-subnav {
+  display: flex; gap: 0; flex-wrap: wrap; margin: 0 0 20px;
+  border-bottom: var(--rule);
+}
+.fh-subnav a {
+  padding: 9px 16px 8px; font-size: var(--fs-small); font-weight: 700;
+  color: var(--text-secondary); border-bottom: 3px solid transparent; margin-bottom: -2px;
+}
+.fh-subnav a:hover { color: var(--text-link); text-decoration: none; }
+.fh-subnav a.on { color: var(--ink); border-bottom-color: var(--ink); }
+.fh-idhdr.sport { border-bottom: none; margin-bottom: 10px; padding-bottom: 8px; }
+.fh-sportmark {
+  display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px; border-radius: var(--radius);
+  background: var(--surface-th); color: var(--ink);
+}
+.fh-ic.lg { width: 28px; height: 28px; }
+
 </style>
 <script>try{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
@@ -741,8 +761,8 @@ main.wrap { padding-bottom: 10px; }
   <a href="/sports/girls-basketball/">Girls standings</a></p></section>
   <section><h2>Around the state</h2><div class="fh-results"><a class='fh-resultrow' href='/duals/2027-01-12-sacred-heart-prep-at-kessler-3/'><span class='w'>Sacred Heart Prep <b>37</b></span><span class='l'>Kessler <b>0</b></span></a><a class='fh-resultrow' href='/duals/2027-01-12-hawk-fork-at-our-lady-of-the-pines-academy/'><span class='w'>Our Lady of the Pines Academy <b>21</b></span><span class='l'>Hawk Fork <b>16</b></span></a><a class='fh-resultrow' href='/meets/2027-01-16-port-meridian-invitational-2/'><span class='w'>Port Meridian Invitational</span><span class='l'>won by Port Meridian West</span></a><a class='fh-resultrow' href='/meets/2027-01-16-clear-prairie-invitational/'><span class='w'>Clear Prairie Invitational</span><span class='l'>won by Manzanita Harbor</span></a><a class='fh-resultrow' href='/meets/2027-01-16-summervale-invitational/'><span class='w'>Summervale Invitational</span><span class='l'>won by Silver Landing</span></a><a class='fh-resultrow' href='/meets/2027-01-16-raven-meadows-invitational/'><span class='w'>Raven Meadows Invitational</span><span class='l'>won by Eagle Flat Northwest</span></a><a class='fh-resultrow' href='/meets/2027-01-16-wolf-glen-invitational/'><span class='w'>Wolf Glen Invitational</span><span class='l'>won by Fox Landing</span></a><a class='fh-resultrow' href='/meets/2027-01-16-tamarack-junction-invitational/'><span class='w'>Tamarack Junction Invitational</span><span class='l'>won by Silver Junction Central</span></a></div>
   <p class="fh-more"><a href="/scoreboard/">This week's scoreboard →</a></p></section>
-  <section><h2>Fall champions</h2><div class="fh-results"><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-1a-boys-cross-country-championships/'><span class='w'>South Creek Union</span><span class='l'>1A Boys Cross Country</span></a><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-2a-boys-cross-country-championships/'><span class='w'>South Falls</span><span class='l'>2A Boys Cross Country</span></a><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-3a-boys-cross-country-championships/'><span class='w'>Bitter Bluff Union</span><span class='l'>3A Boys Cross Country</span></a><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-4a-boys-cross-country-championships/'><span class='w'>Summit Hollow</span><span class='l'>4A Boys Cross Country</span></a><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-5a-boys-cross-country-championships/'><span class='w'>Gold Creek</span><span class='l'>5A Boys Cross Country</span></a><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-6a-boys-cross-country-championships/'><span class='w'>St. Norbert</span><span class='l'>6A Boys Cross Country</span></a><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-3a-1a-boys-golf-championships/'><span class='w'>Silver Valley</span><span class='l'>3A-1A Boys Golf</span></a><a class='fh-resultrow' href='/meets/2026-10-31-jhsaa-4a-boys-golf-championships/'><span class='w'>Summit Hollow</span><span class='l'>4A Boys Golf</span></a></div>
-  <p class="fh-more"><a href="/championships/">All championships →</a></p></section>
+  <section><h2>Coming up</h2><div class="fh-results"><a class='fh-resultrow' href='/games/2027-01-19-alder-creek-at-winslow/'><span class='w'>Alder Creek</span><span class='l'>at Winslow · Tue Jan 19</span></a><a class='fh-resultrow' href='/games/2027-01-19-alder-creek-at-winslow-2/'><span class='w'>Alder Creek</span><span class='l'>at Winslow · Tue Jan 19</span></a><a class='fh-resultrow' href='/games/2027-01-19-alder-hollow-at-eagle-pass-union/'><span class='w'>Alder Hollow</span><span class='l'>at Eagle Pass Union · Tue Jan 19</span></a><a class='fh-resultrow' href='/games/2027-01-19-alder-hollow-at-eagle-pass-union-2/'><span class='w'>Alder Hollow</span><span class='l'>at Eagle Pass Union · Tue Jan 19</span></a><a class='fh-resultrow' href='/games/2027-01-19-alder-point-at-cedar-bay-union/'><span class='w'>Alder Point</span><span class='l'>at Cedar Bay Union · Tue Jan 19</span></a><a class='fh-resultrow' href='/games/2027-01-19-alder-point-at-cedar-bay-union-2/'><span class='w'>Alder Point</span><span class='l'>at Cedar Bay Union · Tue Jan 19</span></a><a class='fh-resultrow' href='/games/2027-01-19-antler-ridge-at-raven-meadows/'><span class='w'>Antler Ridge</span><span class='l'>at Raven Meadows · Tue Jan 19</span></a><a class='fh-resultrow' href='/games/2027-01-19-antler-ridge-at-raven-meadows-2/'><span class='w'>Antler Ridge</span><span class='l'>at Raven Meadows · Tue Jan 19</span></a></div>
+  <p class="fh-more"><a href="/scoreboard/">Full schedule →</a></p></section>
 </div>
 
 <script>
