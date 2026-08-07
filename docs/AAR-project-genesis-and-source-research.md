@@ -27,6 +27,12 @@ upward from school to conference to state, and outward to anyone building on the
 
 Two properties make this unusual:
 
+- **It needs no buy-in.** Nearly every AT Protocol project today is a hobby project
+  addressed to people who already know what the protocol is. This is the opposite: the
+  people it serves — coaches, parents, a local sports desk — will never need to know it
+  exists. It can be built first and transported to an association afterward, because
+  nothing about adoption depends on them understanding, or even encountering, the
+  substrate.
 - **The data is public record by nature.** Scores, marks, and rosters are already
   published. The usual privacy objection to federating a dataset does not apply, which
   makes this an unusually clean fit for AT Protocol.
@@ -94,13 +100,44 @@ It is kept as a *format specimen*, not as a data source — see §4.
 
 #### The parsing detail that shapes the adapter
 
-PDF kerning splits strings across text-showing operators. `Salway, Taelynn` is emitted
-as `Salwa` + `y, Taelynn`, with both fragments anchored at the same x-position. Columns
-must therefore be recovered by **x-position clustering with fragment joining at a shared
-anchor** — never by whitespace splitting. A naïve `split()` corrupts roughly every name
-containing a kerning pair, silently and plausibly.
+PDF kerning splits a cell across several text-showing operators — and those fragments
+carry **no position of their own**, because `Tj`/`TJ` advance the text cursor implicitly.
+An extractor records them all at the last explicit anchor. `Salway, Taelynn` arrives as
+`Salwa` + `y, Taelynn`, both at x=48.
 
-### 2.4 Where the results actually live
+Sorting by x then reorders them into `y, TaelynnSalwa`. The correct fix turned out to be
+simpler and more exact than expected: fragments sharing an anchor must be concatenated in
+**emission order**, which needs no font metrics at all — just a monotonic sequence number
+per fragment, sorting on `(x, seq)` and never on `x` alone.
+
+This matters beyond tidiness. It corrupts roughly every name containing a kerning pair,
+and it does so *plausibly* — the output is still a name-shaped string, so nothing looks
+broken.
+
+### 2.4 A published "results PDF" is often a bundle, not a contest
+
+Discovered while writing the adapter, and the single most consequential finding for
+anyone building this: the 237-page specimen is **not one meet**. It is seven —
+1A-2A East and West, 3A East and West, 4A East and West, and the State Championships —
+concatenated into one file, each with its own venue, dates, and event numbering that
+restarts at 1.
+
+Parsed as a single meet, it produces output that passes casual inspection and is
+entirely wrong: every classification's 100m stacks into "Event 1", three athletes tie
+for first, and the team scores are meaningless. Meets are delimited only by the running
+page header.
+
+Two related traps in the same file: **event numbers repeat across rounds** (the same
+number is printed for the prelims and again for the final, distinguished only by the
+column labels `Prelims H#` versus `Finals Points`), and **relays print the school where
+the athlete name goes**, with the four athletes on the following line. Requiring a school
+column — as every other result row has — silently drops all 73 relay events while the
+meet still looks complete.
+
+The general lesson: in this domain the failure mode is never a crash. It is plausible,
+complete-looking, wrong data.
+
+### 2.5 Where the results actually live
 
 Since the association publishes nothing, coverage falls to local media. `wyopreps.com`
 (Townsquare radio) publishes the same results **two different ways on one site**:
@@ -112,7 +149,29 @@ Since the association publishes nothing, coverage falls to local media. `wyoprep
 
 Both are real inputs the system must absorb. Neither is machine-readable today.
 
-### 2.5 The aggregators block automated access
+### 2.6 The ingestion pathways, across associations
+
+There are 50-plus state associations — more, since the CIF operates ten sections and Iowa
+runs separate boys' and girls' unions. Anchoring on any one of them is a mistake; what
+matters is the *range* of pathways, and it is small enough to enumerate:
+
+| Pathway | Example | Shape of the problem |
+| --- | --- | --- |
+| Vendor software → PDF | WHSAA track archive | Structure existed and was discarded at print. Specimen captured; adapter working. |
+| Association → aggregator | CHSAA → MaxPreps | Association has a decent site, but stats live in a silo that blocks automated access. |
+| Association's own database | IHSA | The good case. Structured, but bespoke per association. |
+| Local media | WyoPreps | Prose articles *and* HTML tables on the same site. |
+| Sport-specific vendor silos | Hy-Tek, MileSplit, athletic.net, TrackWrestling, GolfGenius | Per-sport, per-vendor, mutually incompatible. |
+| Coach direct entry | oregontennis.org | The only path needing no extraction at all. |
+
+Sport breadth matters as much as pathway breadth, and small states understate it. CHSAA
+sanctions roughly **30 activities** — including skiing, ice hockey, esports, unified
+bowling, gymnastics, spirit, music, and speech/debate. That is the finding that widened
+the data model: an association sanctions *activities*, not just sports, and a model
+assuming every result reduces to a measured number silently excludes a third of the
+calendar. See §5.
+
+### 2.7 The aggregators block automated access
 
 `athletic.net` returns **HTTP 403** to automated fetches. `osaa.org` likewise returned
 **403**.
