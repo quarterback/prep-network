@@ -25,7 +25,11 @@ sys.path.insert(0, str(ROOT))
 from ingest.adapters import hytek_pdf  # noqa: E402
 
 SPECIMEN = ROOT / "ingest/fixtures/specimens/hytek-meetmanager8-track.pdf"
-OUT = ROOT / "dist/index.html"
+# Root, so a zero-config static deploy (Netlify/Vercel/Pages) serves it as-is —
+# the same layout every other site in this account uses. dist/ keeps a copy for
+# the published artifact, untracked.
+OUT = ROOT / "index.html"
+OUT_DIST = ROOT / "dist/index.html"
 
 BRAND = "FIELDHOUSE"  # working title — swap here when the real name lands
 
@@ -190,6 +194,111 @@ def short_tab(name: str) -> str:
     return name
 
 
+# ------------------------------------------------------- conference + school
+#
+# POC scope note: the specimen carries no league structure, so the conference
+# tier borrows the 1A-2A East regional grouping as a stand-in league and the
+# school tier picks one member with good data. The point being demonstrated is
+# the scoping itself — three surfaces, one set of records — not the taxonomy.
+
+SCHOOL_PICK = "Southeast High School"
+
+
+def _member_entries(meet, members: set[str]):
+    for ev in meet.events:
+        for e in ev.entries:
+            if clean(e.school) in members:
+                yield ev, e
+
+
+def render_conference(meets) -> str:
+    east = meets[0]  # WHSAA 1A-2A East Regional
+    members = {clean(s) for s in east.schools}
+    state = next(m for m in meets if "State" in m.name)
+
+    chips = "".join(f"<span class='tier'>{esc(s)}</span>" for s in sorted(members))
+
+    rows = []
+    for ev, e in _member_entries(state, members):
+        if e.place is None or e.place > 8:
+            continue
+        who = (
+            esc(e.school)
+            if e.is_relay
+            else (esc(display_name(e.competitors[0].name)) if e.competitors else "—")
+        )
+        mark = esc(e.mark.raw) if e.mark and e.mark.raw else ""
+        rows.append(
+            f"<tr{' class=r1' if e.place == 1 else ''}><td class='n'>{e.place}</td>"
+            f"<td>{who}</td><td>{esc(e.school)}</td>"
+            f"<td>{esc(ev.gender or '')} {esc(ev.name)} {esc(ev.division or '')}</td>"
+            f"<td class='mark'>{mark}</td></tr>"
+        )
+
+    return f"""
+  <div class="meet-meta"><span><b>1A-2A East</b> · stand-in league for the POC</span>
+  <span>{len(members)} member schools</span></div>
+  <div class="members">{chips}</div>
+  <h3 class="group-head">League table · from the regional</h3>
+  {render_team_ranks(east)}
+  <h3 class="group-head">Members at the state meet · top eight only</h3>
+  <div class="tablewrap"><table class="results">
+  <thead><tr><th>Pl</th><th>Athlete</th><th>School</th><th>Event</th><th>Mark</th></tr></thead>
+  <tbody>{''.join(rows)}</tbody></table></div>"""
+
+
+def render_school(meets) -> str:
+    target = SCHOOL_PICK
+
+    roster: dict[str, str | None] = {}
+    blocks = []
+    for meet in meets:
+        rows = []
+        for ev, e in _member_entries(meet, {target}):
+            if e.is_relay:
+                who = "Relay — " + ", ".join(display_name(c.name) for c in e.competitors)
+            else:
+                who = display_name(e.competitors[0].name) if e.competitors else "—"
+            for c in e.competitors:
+                nm = display_name(c.name)
+                roster.setdefault(nm, c.year)
+                if c.year:
+                    roster[nm] = c.year
+            mark = esc(e.mark.raw) if e.mark and e.mark.raw else ""
+            round_chip = (
+                "<span class='ev-round'>Prelims</span>"
+                if ev.round == "Preliminaries"
+                else ""
+            )
+            pts = f"{e.points:g}" if e.points is not None else ""
+            rows.append(
+                f"<tr{' class=r1' if e.place == 1 else ''}><td class='n'>{e.place or ''}</td>"
+                f"<td>{esc(who)}</td>"
+                f"<td>{esc(ev.gender or '')} {esc(ev.name)} {esc(ev.division or '')}{round_chip}</td>"
+                f"<td class='mark'>{mark}</td><td class='pts'>{pts}</td></tr>"
+            )
+        if rows:
+            blocks.append(
+                f"<h3 class='group-head'>{esc(short_tab(meet.name))}</h3>"
+                "<div class='tablewrap'><table class='results'>"
+                "<thead><tr><th>Pl</th><th>Athlete</th><th>Event</th>"
+                "<th>Mark</th><th>Pts</th></tr></thead>"
+                f"<tbody>{''.join(rows)}</tbody></table></div>"
+            )
+
+    roster_chips = "".join(
+        f"<span class='tier'>{esc(n)}{' · ' + esc(y) if y else ''}</span>"
+        for n, y in sorted(roster.items())
+    )
+    return f"""
+  <div class="meet-meta"><span><b>{esc(target)}</b> · Cyclones · 1A</span>
+  <span>member, 1A-2A East</span>
+  <span>every result below is the same record set, scoped to one program</span></div>
+  <h3 class="group-head">Roster · derived from results, no entry needed</h3>
+  <div class="members">{roster_chips}</div>
+  {''.join(blocks)}"""
+
+
 # ---------------------------------------------------------------------- page
 
 
@@ -222,10 +331,10 @@ def build() -> None:
 
 <header class="masthead"><div class="wrap">
   <a class="wordmark" href="#">{BRAND}<span class="tld">.</span></a>
-  <nav class="tiers" aria-label="Tenant tiers">
-    <span class="tier tier--live">State site — live</span>
-    <span class="tier">Conference — same records</span>
-    <span class="tier">School — same records</span>
+  <nav class="tiers" role="tablist" aria-label="Tenant tiers">
+    <button class="tier view-tab" role="tab" aria-selected="true" aria-controls="view-state">State association</button>
+    <button class="tier view-tab" role="tab" aria-selected="false" aria-controls="view-conf">Conference — 1A-2A East</button>
+    <button class="tier view-tab" role="tab" aria-selected="false" aria-controls="view-school">School — Southeast</button>
   </nav>
 </div></header>
 
@@ -258,12 +367,30 @@ def build() -> None:
 
 <main class="wrap">
 
+<div id="view-state" role="tabpanel">
 <section class="section" id="season">
   <div class="section-head"><h2>The postseason</h2>
-  <span class="label">one file · seven meets</span></div>
+  <span class="label">state tier · one file · seven meets</span></div>
   <div class="meet-tabs" role="tablist" aria-label="Meets">{''.join(tabs)}</div>
   {''.join(panels)}
 </section>
+</div>
+
+<div id="view-conf" role="tabpanel" hidden>
+<section class="section">
+  <div class="section-head"><h2>1A-2A East</h2>
+  <span class="label">conference tier · same records, league scope</span></div>
+  {render_conference(meets)}
+</section>
+</div>
+
+<div id="view-school" role="tabpanel" hidden>
+<section class="section">
+  <div class="section-head"><h2>Southeast</h2>
+  <span class="label">school tier · same records, one program</span></div>
+  {render_school(meets)}
+</section>
+</div>
 
 <section class="section">
   <div class="section-head"><h2>How it got here</h2>
@@ -313,20 +440,25 @@ def build() -> None:
 
 <script>
 (function () {{
-  var tabs = document.querySelectorAll(".meet-tab");
-  tabs.forEach(function (tab) {{
-    tab.addEventListener("click", function () {{
-      tabs.forEach(function (t) {{
-        t.setAttribute("aria-selected", t === tab ? "true" : "false");
-        document.getElementById(t.getAttribute("aria-controls")).hidden = t !== tab;
+  function wire(selector) {{
+    var tabs = document.querySelectorAll(selector);
+    tabs.forEach(function (tab) {{
+      tab.addEventListener("click", function () {{
+        tabs.forEach(function (t) {{
+          t.setAttribute("aria-selected", t === tab ? "true" : "false");
+          document.getElementById(t.getAttribute("aria-controls")).hidden = t !== tab;
+        }});
       }});
     }});
-  }});
+  }}
+  wire(".meet-tab");
+  wire(".view-tab");
 }})();
 </script>
 """
-    OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(page)
+    OUT_DIST.parent.mkdir(exist_ok=True)
+    OUT_DIST.write_text(page)
     print(f"wrote {OUT} ({OUT.stat().st_size / 1e6:.2f} MB)")
     print(f"  {len(meets)} meets · {total:,} results · {relays} relays · {len(schools)} schools")
 
