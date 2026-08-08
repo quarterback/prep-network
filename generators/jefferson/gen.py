@@ -226,6 +226,17 @@ class Gen:
             slots.append(dict(city=city, area="South Coast",
                               weight=rng.random() * 3, private=False, name=city))
 
+        # Named private schools + the Christian schools dotted statewide.
+        # Cities are already on the map, so their areas come from the slots
+        # built above; tier sets the weight band (metro privates run bigger).
+        city_area = {s["city"]: s["area"] for s in slots}
+        tier_weight = {"metro": lambda: 5.5 + rng.random() * 3,
+                       "secondary": lambda: 3.0 + rng.random() * 2,
+                       "town": lambda: 0.8 + rng.random() * 2}
+        for nm, city, tier in list(N.PRIVATE_NAMED) + list(N.CHRISTIAN_SCHOOLS):
+            slots.append(dict(city=city, area=city_area[city],
+                              weight=tier_weight[tier](), private=True, name=nm))
+
         # the rural map: single-school towns until quota. Mostly the town's own
         # name; some consolidated districts (county/union/regional), a few
         # named for the landscape.

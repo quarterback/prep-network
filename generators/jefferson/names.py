@@ -87,6 +87,8 @@ NAMED_CITIES = [
     ("Hetfield", 17_340, "North Range", None),
     ("New Leiden", 35_738, "Cascade Divide", None),
     ("Annie Springs", 24_420, "Cascade Divide", None),
+    ("Latgaway", 28_411, "Sage Plains", None),
+    ("Netherwood", 31_754, "Timber Valley", None),
 ]
 
 # ---- counties ---------------------------------------------------------------
@@ -125,7 +127,51 @@ COUNTY_PINS = {
     "Santa Laura": "San Marcos", "Hetfield": "Windrow", "New Leiden": "Tamarack",
     "Annie Springs": "Cinder", "San Aurelio": "San Marcos",
     "Puerto Alma": "San Marcos", "Mesa Dorada": "Ostrander",
+    "Latgaway": "Stagewater", "Netherwood": "Antler",
 }
+
+# ---- named private schools (owner list, 2027-08) ---------------------------
+# Placed city by city, most in the metros — where private schools actually
+# cluster. Secular independents and the Catholic/religious tradition together;
+# tier sets the classification weight band (metro privates run bigger).
+PRIVATE_NAMED = [
+    # (name, city, tier)  tier: "metro" | "secondary" | "town"
+    ("Romero-Finniski", "Ashbury", "metro"),
+    ("Condotti Vanguard Academy", "Ashbury", "metro"),
+    ("Metropolitan Country Day School", "Ashbury", "metro"),
+    ("Chaminade", "Ashbury", "metro"),
+    ("Sisters of Mercy", "Ashbury", "metro"),
+    ("St. Norbert Abbey", "Ashbury", "metro"),
+    ("Fletcher-Garrison Hall", "Port Meridian", "metro"),
+    ("Saint Francis", "Port Meridian", "metro"),
+    ("Abbey Prep", "Port Meridian", "metro"),
+    ("Wheeler Academy", "Halbrook", "metro"),
+    ("Delbarton", "Halbrook", "metro"),
+    ("Pinecrest School", "Averill", "secondary"),
+    ("Calderwood School", "Cedarport", "secondary"),
+    ("Evans Western Institute", "Redfork", "secondary"),
+    ("Calasanz Prep", "Plainfield", "secondary"),
+    ("Ryken", "Newark River", "secondary"),
+    ("Jefferson Methodist School", "Leidesdorff", "secondary"),
+]
+
+# ---- Christian schools dotted around the state ------------------------------
+# Directional/geographic names, the way these schools actually name
+# themselves. One is just Baptist HS — some schools never needed more.
+CHRISTIAN_SCHOOLS = [
+    ("Northside Christian", "Halbrook", "metro"),
+    ("Westside Christian", "Port Meridian", "metro"),
+    ("Southridge Christian", "Ashbury", "metro"),
+    ("Eastmont Christian", "Cedarport", "secondary"),
+    ("Western Slope Christian", "Redfork", "secondary"),
+    ("High Desert Christian", "Doyle Junction", "secondary"),
+    ("Central Christian", "Summervale", "secondary"),
+    ("Coastal Christian", "Santa Laura", "town"),
+    ("North Valley Christian", "Netherwood", "town"),
+    ("Valley Christian", "New Leiden", "town"),
+    ("Southern Jefferson Christian", "Latgaway", "town"),
+    ("Baptist HS", "Hetfield", "town"),
+]
 
 # Santa Laura anchors a Spanish-derived naming layer on the southern coast;
 # these settle around it as single-school towns.

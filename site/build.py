@@ -1705,7 +1705,11 @@ def build():
         else:
             pages[u] = render_game(reg, c)
     for sp in CATALOG:
-        if reg.by_sport.get(sp.key):
+        # A hub exists for every activity somebody sponsors, even with no
+        # contests yet — school pages link to it, and an empty season is a
+        # state a real association site has to show anyway.
+        if reg.by_sport.get(sp.key) or any(sp.key in s.get("sports", ())
+                                           for s in reg.schools.values()):
             pages[f"/sports/{sp.key}/"] = render_sport(reg, sp)
             pages[f"/sports/{sp.key}/standings/"] = render_sport_standings(reg, sp)
             if sp.shape.value != "meet":
