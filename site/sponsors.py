@@ -13,26 +13,28 @@ economy, not national brands. Names are invented from Jefferson's own
 geography (`names.STEMS` supplies the same stems the towns draw from) so the
 rail reads as one state's business community.
 
-`style` picks the type treatment. Six of them, so eight logos don't look like
-eight settings of the same font. None uses PP Valve — the display italic is the
-site's own identity, and a sponsor wearing it directly above the footer
-wordmark reads as a house brand:
+`style` picks the typeface — eight sponsors, eight faces, all drawn from the
+owner's own library across the other repos. None uses PP Valve: the display
+italic is the site's identity, and a sponsor wearing it directly above the
+footer wordmark reads as a house brand.
 
-    anchor  Montreal 800 mixed case, largest — the lead sponsor
-    heavy   Montreal 800 uppercase, tight
-    wide    Montreal 500 uppercase, wide tracking
-    mark    Montreal 600 mixed case behind a geometric glyph
-    rule    Montreal 800 mixed case over a hairline
-    light   Montreal 400 mixed case, quiet
+    slant       Object Sans Heavy Slanted — sports-medicine energy
+    poster      Formula Extended Bold caps — the mutual insurer
+    mono        Azeret Mono caps, tracked — the rural utility
+    soft        Fuji Bold behind a circle — the credit union
+    serif       Author Bold Italic on a rule — the dairy
+    collegiate  Author Semibold behind a diamond — the college
+    neutral     Switzer Semibold — the clinic
+    tall        Pangram Compressed Extrabold caps — the outfitter
 """
 
 SPONSORS = [
-    dict(name="Cascade Divide Orthopedics", style="anchor"),
-    dict(name="Timber Valley Credit Union", style="mark"),
-    dict(name="Growers Mutual", style="heavy"),
-    dict(name="Cloverbank Dairy", style="rule"),
-    dict(name="Harborline Electric Co-op", style="wide"),
-    dict(name="Sagebrush Orthodontics", style="light"),
-    dict(name="Granite Basin College", style="mark"),
-    dict(name="Meridian Outfitters", style="heavy"),
+    dict(name="Cascade Divide Orthopedics", style="slant"),
+    dict(name="Timber Valley Credit Union", style="soft"),
+    dict(name="Growers Mutual", style="poster"),
+    dict(name="Cloverbank Dairy", style="serif"),
+    dict(name="Harborline Electric Co-op", style="mono"),
+    dict(name="Sagebrush Orthodontics", style="neutral"),
+    dict(name="Granite Basin College", style="collegiate"),
+    dict(name="Meridian Outfitters", style="tall"),
 ]

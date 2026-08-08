@@ -10,8 +10,8 @@ wants mixed case or a different mark in the masthead shouldn't have to fight an
 `.upper()` somewhere in the renderer.
 """
 
-NAME = "Fieldhouse"
-WORDMARK = "FIELDHOUSE"
+NAME = "VarsityApex"
+WORDMARK = "VarsityApex"
 ASSOC = "JHSAA"
 
 TITLE = f"{NAME}: the official site of the {ASSOC}"

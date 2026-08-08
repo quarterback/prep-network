@@ -1399,6 +1399,26 @@ def render_confs_index(reg):
     return shell(page_title(f"Conferences"), body, crumb)
 
 
+NEWS_IMG = ROOT / "site/img/news"
+try:
+    import json as _json
+    NEWS_CREDITS = _json.load(open(NEWS_IMG / "credits.json"))
+except Exception:
+    NEWS_CREDITS = {}
+
+
+def story_img(st, cls=""):
+    """The story's photograph, when one exists on disk. Every credit renders —
+    the licenses require it, and a real newsroom would print it anyway."""
+    if not (NEWS_IMG / f"{st['slug']}.jpg").exists():
+        return ""
+    c = NEWS_CREDITS.get(st["slug"], {})
+    credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
+    cap = f"<figcaption>Photo: {esc(credit)}</figcaption>" if credit else ""
+    return (f"<figure class='fh-figure {cls}'>"
+            f"<img src='/img/news/{st['slug']}.jpg' alt='' loading='lazy'>{cap}</figure>")
+
+
 def render_story(reg, st):
     paras = "".join(f"<p>{esc(b)}</p>" for b in st["body"])
     body = f"""
@@ -1406,6 +1426,7 @@ def render_story(reg, st):
   <div class="kk">{esc(st['kicker'])} · {esc(nice_date(st['date']))}</div>
   <h1>{esc(st['head'])}</h1>
   <p class="dek">{esc(st['dek'])}</p>
+  {story_img(st)}
   {paras}
 </article>
 <p class="fh-more"><a href="/news/">More from the association →</a></p>
@@ -1417,8 +1438,12 @@ def render_story(reg, st):
 def render_news_index(reg):
     """Two lanes: activity/results coverage and association administration."""
     def lane(kind, title, blurb):
+        def thumb(st):
+            if not (NEWS_IMG / f"{st['slug']}.jpg").exists():
+                return ""
+            return f"<span class='th'><img src='/img/news/{st['slug']}.jpg' alt='' loading='lazy'></span>"
         items = "".join(
-            f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
+            f"<a class='fh-storyrow{' pic' if thumb(st) else ''}' href='/news/{st['slug']}/'>{thumb(st)}"
             f"<span class='kk'>{esc(st['kicker'])} · {esc(nice_date(st['date']))}</span>"
             f"<span class='hd'>{esc(st['head'])}</span>"
             f"<span class='dk'>{esc(st['dek'])}</span></a>"
@@ -1479,8 +1504,11 @@ def render_front(reg):
     lead, second = stories[0], stories[1:3]
     briefs = stories[3:9]
 
+    lead_img = ""
+    if (NEWS_IMG / f"{lead['slug']}.jpg").exists():
+        lead_img = f"<span class='ph'><img src='/img/news/{lead['slug']}.jpg' alt=''></span>"
     lead_html = (
-        f"<a class='fh-hero' href='/news/{lead['slug']}/'>"
+        f"<a class='fh-hero' href='/news/{lead['slug']}/'>{lead_img}"
         f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
         f"<span class='hd'>{esc(lead['head'])}</span>"
         f"<span class='dk'>{esc(lead['dek'])}</span></a>")
@@ -1695,6 +1723,8 @@ def build():
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
     write_favicon(OUT)
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
+    if NEWS_IMG.exists():
+        shutil.copytree(NEWS_IMG, OUT / "img/news", ignore=shutil.ignore_patterns("credits.json"))
     shutil.copytree(ROOT / "report", OUT / "report")
     for f in (OUT / "report").glob("*.html"):
         f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)

@@ -22,6 +22,28 @@
   font-display: swap; src: url('fonts/PPNeueMontreal-Medium.woff2') format('woff2'); }
 @font-face { font-family: 'PP Neue Montreal'; font-weight: 400; font-style: normal;
   font-display: swap; src: url('fonts/PPNeueMontreal-Book.woff2') format('woff2'); }
+@font-face { font-family: 'PP Valve Stencil'; font-weight: 800; font-style: italic;
+  font-display: swap; src: url('fonts/PPValve-StencilExtraboldItalic.woff2') format('woff2'); }
+@font-face { font-family: 'PP Object Sans'; font-weight: 900; font-style: normal;
+  font-display: swap; src: url('fonts/PPObjectSans-Heavy.woff2') format('woff2'); }
+@font-face { font-family: 'PP Object Sans'; font-weight: 900; font-style: italic;
+  font-display: swap; src: url('fonts/PPObjectSans-HeavySlanted.woff2') format('woff2'); }
+@font-face { font-family: 'PP Formula Extended'; font-weight: 700; font-style: normal;
+  font-display: swap; src: url('fonts/PPFormula-ExtendedBold.woff') format('woff'); }
+@font-face { font-family: 'PP Pangram Compressed'; font-weight: 800; font-style: normal;
+  font-display: swap; src: url('fonts/PPPangramSans-CompressedExtrabold.woff') format('woff'); }
+@font-face { font-family: 'PP Fuji'; font-weight: 700; font-style: normal;
+  font-display: swap; src: url('fonts/PPFuji-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Author'; font-weight: 400; font-style: normal;
+  font-display: swap; src: url('fonts/author-regular.woff') format('woff'); }
+@font-face { font-family: 'Author'; font-weight: 600; font-style: normal;
+  font-display: swap; src: url('fonts/author-semibold.woff') format('woff'); }
+@font-face { font-family: 'Author'; font-weight: 700; font-style: italic;
+  font-display: swap; src: url('fonts/author-bold-italic.woff') format('woff'); }
+@font-face { font-family: 'Switzer'; font-weight: 600; font-style: normal;
+  font-display: swap; src: url('fonts/switzer-semibold.woff2') format('woff2'); }
+@font-face { font-family: 'Azeret Mono'; font-weight: 100 900; font-style: normal;
+  font-display: swap; src: url('fonts/azeret-mono-variable.woff2') format('woff2'); }
 
 :root {
   /* ---- palette slots (owner scheme 2026-08) ----
@@ -80,8 +102,14 @@
 
   /* ---- type roles ---- */
   --font-wordmark: 'PP Valve', 'Arial Black', sans-serif;
+  --font-stencil: 'PP Valve Stencil', 'PP Valve', 'Arial Black', sans-serif;
   --font-display: 'PP Neue Montreal', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-text: 'PP Neue Montreal', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: 'Author', Georgia, 'Times New Roman', serif;
+  --font-label: 'PP Object Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-condensed: 'PP Pangram Compressed', 'Arial Narrow', sans-serif;
+  --font-poster: 'PP Formula Extended', 'Arial Black', sans-serif;
+  --font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --fs-display: 30px; --fs-title: 18px; --fs-body: 14px; --fs-small: 13px;
   --fs-caption: 12px; --fs-micro: 11px;
@@ -553,25 +581,33 @@ footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 }
 .fh-logo:hover { color: var(--text-secondary); }
 
-.lm-anchor { font-family: var(--font-display); font-weight: 800; font-size: 19px;
-  letter-spacing: -0.025em; }
-.lm-heavy { font-family: var(--font-display); font-weight: 800; font-size: 15px;
-  text-transform: uppercase; letter-spacing: -0.02em; }
-.lm-wide  { font-family: var(--font-display); font-weight: 500; font-size: 12px;
-  text-transform: uppercase; letter-spacing: 0.22em; }
-.lm-mark  { font-family: var(--font-display); font-weight: 600; font-size: 15px;
+.lm-slant   { font-family: var(--font-label); font-weight: 900; font-style: italic;
+  font-size: 17px; letter-spacing: -0.01em; }
+.lm-poster  { font-family: var(--font-poster); font-weight: 700; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.02em; }
+.lm-mono    { font-family: var(--font-mono); font-weight: 500; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.14em; }
+.lm-soft    { font-family: var(--font-fuji, 'PP Fuji'); font-weight: 700; font-size: 16px;
   display: inline-flex; align-items: center; gap: 7px; }
-.lm-mark::before {
+.lm-soft::before {
+  content: ""; width: 11px; height: 11px; flex: none;
+  border: 2px solid currentColor; border-radius: 50%;
+}
+.lm-serif   { font-family: var(--font-serif); font-weight: 700; font-style: italic;
+  font-size: 17px; border-bottom: 2px solid currentColor; padding-bottom: 2px; }
+.lm-collegiate { font-family: var(--font-serif); font-weight: 600; font-size: 16px;
+  display: inline-flex; align-items: center; gap: 7px; }
+.lm-collegiate::before {
   content: ""; width: 11px; height: 11px; flex: none;
   border: 2px solid currentColor; border-radius: 2px; transform: rotate(45deg);
 }
-.lm-rule  { font-family: var(--font-display); font-weight: 800; font-size: 16px;
-  letter-spacing: -0.015em; border-bottom: 2px solid currentColor; padding-bottom: 3px; }
-.lm-light { font-family: var(--font-display); font-weight: 400; font-size: 15px;
+.lm-neutral { font-family: 'Switzer', sans-serif; font-weight: 600; font-size: 15px;
   letter-spacing: 0.01em; }
+.lm-tall    { font-family: var(--font-condensed); font-weight: 800; font-size: 18px;
+  text-transform: uppercase; letter-spacing: 0.03em; }
 
 .fh-footmark {
-  font-family: var(--font-wordmark); font-weight: 800; font-style: italic;
+  font-family: var(--font-stencil); font-weight: 800; font-style: italic;
   font-size: 34px; letter-spacing: -0.015em; color: var(--text-muted);
   padding-top: 22px;
 }
@@ -667,6 +703,18 @@ main.wrap { padding-bottom: 10px; }
 @media (max-width: 860px) { .fh-top { grid-template-columns: 1fr; } }
 
 .fh-hero { display: block; color: inherit; padding-bottom: 18px; border-bottom: var(--rule); }
+.fh-hero .ph { display: block; margin-bottom: 14px; }
+.fh-hero .ph img { display: block; width: 100%; height: auto; aspect-ratio: 16/9;
+  object-fit: cover; }
+
+/* article photography — captioned and credited, as a newsroom prints it */
+.fh-figure { margin: 18px 0 6px; }
+.fh-figure img { display: block; width: 100%; height: auto; }
+.fh-figure figcaption { font-size: var(--fs-caption); color: var(--text-muted);
+  padding-top: 6px; border-bottom: var(--hairline); padding-bottom: 8px; }
+
+.fh-storyrow.pic { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; }
+.fh-storyrow .th img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
 .fh-hero:hover { text-decoration: none; }
 .fh-hero .kk, .fh-storyrow .kk, .fh-article .kk {
   display: block; font-size: var(--fs-caption); font-weight: 700;
@@ -679,6 +727,7 @@ main.wrap { padding-bottom: 10px; }
   text-wrap: balance;
 }
 .fh-hero:hover .hd { color: var(--brand-strong); }
+.fh-hero .dk { font-family: var(--font-serif); }
 .fh-hero .dk {
   display: block; margin-top: 10px; font-size: 16px; line-height: 1.5;
   color: var(--text-secondary); max-width: 60ch; text-wrap: pretty;
@@ -694,8 +743,8 @@ main.wrap { padding-bottom: 10px; }
 }
 .fh-storyrow:hover .hd { color: var(--brand-strong); }
 .fh-storyrow .dk {
-  display: block; margin-top: 5px; font-size: var(--fs-small);
-  color: var(--text-secondary); max-width: 66ch;
+  display: block; margin-top: 5px; font-family: var(--font-serif);
+  font-size: var(--fs-small); color: var(--text-secondary); max-width: 66ch;
 }
 .fh-more { margin: 12px 0 0; font-size: var(--fs-small); font-weight: 600; }
 
@@ -742,20 +791,22 @@ main.wrap { padding-bottom: 10px; }
 .fh-scorerow .m { position: absolute; inset: 0; }
 .fh-scorerow .who { display: block; font-size: var(--fs-body); line-height: 1.35; }
 .fh-scorerow .who a { color: inherit; font-weight: 600; position: relative; z-index: 1; }
-.fh-scorerow .who b { color: var(--text-primary); font-weight: 700; }
+.fh-scorerow .who b { font-family: var(--font-mono); font-weight: 640;
+  font-size: 0.94em; color: var(--text-primary); }
 .fh-scorerow .when { display: block; font-size: var(--fs-caption); color: var(--text-muted); margin-top: 2px; }
 
 /* overview composition — sections only where content exists */
 .fh-overview { display: grid; gap: 30px; padding-top: 22px; align-items: start; }
 .fh-overview.n2 { grid-template-columns: 1fr 1fr; }
 .fh-overview.n3 { grid-template-columns: 1.3fr 1fr 1fr; }
-.fh-overview h2 { font-family: var(--font-display); font-weight: 800; font-size: 15px;
+.fh-overview h2 { font-family: var(--font-label); font-weight: 900; font-size: 14px;
   text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 6px;
   padding-bottom: 6px; border-bottom: var(--rule); }
 @media (max-width: 860px) { .fh-overview.n2, .fh-overview.n3 { grid-template-columns: 1fr; } }
 
 /* scoreboard — the week, day by day */
-.fh-dayhead { font-family: var(--font-display); font-weight: 800; font-size: 19px;
+.fh-dayhead { font-family: var(--font-condensed); font-weight: 800; font-size: 24px;
+  text-transform: uppercase; letter-spacing: 0.015em;
   margin: 30px 0 4px; padding-bottom: 6px; border-bottom: var(--rule); }
 .fh-day:first-child .fh-dayhead { margin-top: 14px; }
 .fh-scoreline { position: relative; padding: 9px 0 9px 2px; border-bottom: var(--hairline); }
@@ -763,7 +814,7 @@ main.wrap { padding-bottom: 10px; }
 .fh-scoreline .m { position: absolute; inset: 0; }
 .fh-scoreline .who { display: block; font-size: 15px; line-height: 1.35; }
 .fh-scoreline .who a { color: inherit; font-weight: 600; position: relative; z-index: 1; }
-.fh-scoreline .who b { font-weight: 700; }
+.fh-scoreline .who b { font-family: var(--font-mono); font-weight: 640; font-size: 0.94em; }
 .fh-scoreline .sub { display: block; font-size: var(--fs-caption); color: var(--text-muted); margin-top: 1px; }
 
 /* conference picker — one league at a time */
@@ -804,7 +855,8 @@ main.wrap { padding-bottom: 10px; }
 .fh-areablock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 30px; align-items: start; }
 @media (max-width: 900px) { .fh-areablock { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .fh-areablock { grid-template-columns: 1fr; } }
-.fh-areahead { grid-column: 1 / -1; font-family: var(--font-display); font-weight: 800; font-size: 21px;
+.fh-areahead { grid-column: 1 / -1; font-family: var(--font-condensed); font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.015em; font-size: 25px;
   margin: 34px 0 10px; padding-bottom: 7px; border-bottom: var(--rule); }
 .fh-schoollink .cl { color: var(--text-muted); font-weight: 400; }
 
@@ -818,10 +870,10 @@ main.wrap { padding-bottom: 10px; }
   text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-link); margin-bottom: 4px; }
 .fh-second .hd { display: block; font-family: var(--font-display); font-weight: 800;
   font-size: 19px; line-height: 1.2; letter-spacing: -0.01em; }
-.fh-second .dk { display: block; font-size: var(--fs-small); color: var(--text-secondary);
-  margin-top: 5px; line-height: 1.45; }
+.fh-second .dk { display: block; font-family: var(--font-serif); font-size: var(--fs-small);
+  color: var(--text-secondary); margin-top: 5px; line-height: 1.5; }
 .fh-briefs { padding-top: 4px; }
-.fh-briefs h2 { font-family: var(--font-display); font-weight: 800; font-size: 14px;
+.fh-briefs h2 { font-family: var(--font-label); font-weight: 900; font-size: 13px;
   text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 16px 0 2px;
   padding-bottom: 6px; border-bottom: var(--rule); }
 .fh-brief { display: grid; grid-template-columns: 92px 1fr 74px; gap: 12px;
@@ -870,8 +922,8 @@ main.wrap { padding-bottom: 10px; }
   font-size: clamp(28px, 4vw, 40px); line-height: 1.08; letter-spacing: -0.022em;
   margin: 0 0 12px; text-wrap: balance;
 }
-.fh-article .dek { font-size: 18px; line-height: 1.45; color: var(--text-secondary); margin: 0 0 20px; }
-.fh-article p { font-size: 16px; line-height: 1.62; margin: 0 0 15px; text-wrap: pretty; }
+.fh-article .dek { font-family: var(--font-serif); font-size: 18px; line-height: 1.5; color: var(--text-secondary); margin: 0 0 20px; }
+.fh-article p { font-family: var(--font-serif); font-size: 16.5px; line-height: 1.66; margin: 0 0 15px; text-wrap: pretty; }
 
 /* ── nav dropdowns — admin/sport material lives up here, not mid-page ──── */
 
