@@ -350,3 +350,31 @@ CONF_EXTRA = [
     "Foothills Athletic Conference", "Twin Rivers League", "Federal League",
     "Northern Ten", "Prospectors League", "Homestead Conference",
 ]
+
+
+# ---- athletic colors --------------------------------------------------------
+# Curated school-color pairs (primary dark enough to carry a white monogram,
+# secondary as the accent). A school's colors are fixed identity — they do not
+# follow the site theme, exactly as a real athletic mark doesn't.
+SCHOOL_COLORS = [
+    ("#7b1e2b", "#e8c46b"),  # maroon / gold
+    ("#14294e", "#c8ccd4"),  # navy / silver
+    ("#1e5631", "#f2f2ee"),  # forest / white
+    ("#8c1d40", "#f0b323"),  # cardinal / sun gold
+    ("#4b2e83", "#b7a57a"),  # purple / vegas gold
+    ("#0f6a70", "#f4f1ea"),  # teal / cream
+    ("#1d1d1f", "#d97706"),  # black / orange
+    ("#1d4e9e", "#f2f2ee"),  # royal / white
+    ("#92400e", "#1d1d1f"),  # burnt orange / black
+    ("#167339", "#e8e6df"),  # kelly / stone
+    ("#6d1a36", "#9fb4c7"),  # garnet / powder
+    ("#14532d", "#e8c46b"),  # hunter / gold
+    ("#1e2a4a", "#c05621"),  # midnight / rust
+    ("#5b2a86", "#e5e7eb"),  # plum / grey
+    ("#3a5a78", "#f5e9d0"),  # steel / cream
+    ("#204e39", "#c8a24a"),  # pine / old gold
+    ("#7f1d1d", "#d4d4d8"),  # brick red / silver
+    ("#0e7490", "#fbbf24"),  # cyan-deep / amber
+    ("#3f2a56", "#3ba55d"),  # eggplant / green
+    ("#333d29", "#d97706"),  # olive drab / orange
+]
