@@ -39,6 +39,11 @@ from __future__ import annotations
 import json
 import os
 import pathlib
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+
+from app import brand  # noqa: E402
 
 SITE_URL = os.environ.get("FH_SITE_URL", "https://prep-network.vercel.app").rstrip("/")
 
@@ -50,7 +55,7 @@ PUBLICATION_TYPE = "site.standard.publication"
 DOCUMENT_TYPE = "site.standard.document"
 THEME_TYPE = "site.standard.theme.basic"
 
-NAME = "Fieldhouse"
+NAME = brand.NAME
 DESCRIPTION = ("Results, standings and championship coverage for Jefferson High "
                "School Activities Association member schools.")
 

@@ -19,6 +19,7 @@ import random
 import re
 import shutil
 import sys
+import zlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
@@ -566,7 +567,17 @@ class Gen:
         winter_invites = [dt.date(2026, 12, 5) + dt.timedelta(days=14 * i) for i in range(6)]
         spring_invites = [dt.date(2027, 3, 27) + dt.timedelta(days=14 * i) for i in range(4)]
 
+        # Athlete pools before the season loop, and a per-sport RNG stream
+        # inside it. With one shared stream in catalog order, moving a single
+        # sport between seasons redrew every sport after it — the whole state
+        # reshuffled to relocate one activity. Now a catalog edit changes that
+        # sport and nothing else.
+        for s in self.schools:
+            self.pool(s["name"])
+        base = self.rng
+
         for sport in CATALOG:
+            self.rng = random.Random(SEED ^ zlib.crc32(sport.key.encode()))
             dates = {"fall": fall_fri, "winter": winter, "spring": spring}[sport.season]
             invites = {"fall": fall_invites, "winter": winter_invites,
                        "spring": spring_invites}[sport.season]
@@ -578,6 +589,7 @@ class Gen:
                 self.meet_sport_season(
                     sport, invites,
                     champ_date=dt.date(2026, 10, 31) if sport.season == "fall" else None)
+        self.rng = base
 
         # emit
         shutil.rmtree(RECORDS / "contests", ignore_errors=True)

@@ -67,7 +67,6 @@ M = MarkType
 CATALOG: list[Sport] = [
     # ---- fall ----
     Sport("football", "Football", "fall", "Boys", S.GAME, None, ALL_SIX, "broad"),
-    Sport("girls-flag-football", "Girls Flag Football", "fall", "Girls", S.GAME, None, _g("6A 5A 4A-1A"), "metro"),
     Sport("boys-soccer", "Boys Soccer", "fall", "Boys", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
     Sport("girls-soccer", "Girls Soccer", "fall", "Girls", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
     Sport("field-hockey", "Field Hockey", "fall", "Girls", S.GAME, None, _g("6A-5A 4A-1A"), "metro"),
@@ -106,6 +105,7 @@ CATALOG: list[Sport] = [
     Sport("girls-lacrosse", "Girls Lacrosse", "spring", "Girls", S.GAME, None, _g("6A 5A-4A 3A-1A"), "metro"),
     Sport("boys-tennis", "Boys Tennis", "spring", "Boys", S.DUAL, None, _g("6A 5A 4A 3A-1A"), "broad"),
     Sport("boys-volleyball", "Boys Volleyball", "spring", "Boys", S.GAME, None, _g("6A 5A-1A"), "metro"),
+    Sport("girls-flag-football", "Girls Flag Football", "spring", "Girls", S.GAME, None, _g("6A 5A 4A-1A"), "metro"),
     Sport("girls-golf", "Girls Golf", "spring", "Girls", S.MEET, M.STROKES, _g("6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
     Sport("boys-track", "Boys Track & Field", "spring", "Boys", S.MEET, M.TIME, ALL_SIX, "broad"),
     Sport("girls-track", "Girls Track & Field", "spring", "Girls", S.MEET, M.TIME, ALL_SIX, "broad"),

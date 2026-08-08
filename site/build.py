@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT))
 
 from app import records_io  # noqa: E402
 from app.shapes import Dual, Game, Meet  # noqa: E402
+from app.brand import ASSOC, NAME, TITLE, WORDMARK, page_title  # noqa: E402
 from app.sports import BY_KEY, CATALOG  # noqa: E402
 
 import importlib.util as _ilu  # noqa: E402
@@ -36,8 +37,6 @@ stdsite = _ilu.module_from_spec(_sspec); _sspec.loader.exec_module(stdsite)
 
 RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
-BRAND = "FIELDHOUSE"
-ASSOC = "JHSAA"
 TODAY = "2027-01-16"          # the demo date the generator built around
 SEASON_LABEL = "2026–27"
 CREST_CLASSES = 12
@@ -387,14 +386,15 @@ def shell(title, body, crumb="", back="", story=None):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
-<link rel="stylesheet" href="/style.css">{stdsite.head_links(story)}
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">{stdsite.head_links(story)}
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
 {icons.sprite()}
 <input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
 <header class="fh-mast"><div class="wrap">
-  <a class="fh-wordmark" href="/">{BRAND}</a>
+  <a class="fh-wordmark" href="/">{WORDMARK}</a>
   <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
     <span></span><span></span><span></span>
   </label>
@@ -416,7 +416,7 @@ def shell(title, body, crumb="", back="", story=None):
 <label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
 <nav class="fh-drawer" aria-label="Site menu">
   <div class="fh-drawerhead">
-    <span class="fh-wordmark">{BRAND}</span>
+    <span class="fh-wordmark">{WORDMARK}</span>
     <label class="fh-drawerclose" for="fh-navtoggle" aria-label="Close menu">×</label>
   </div>
   <a class="top" href="/scoreboard/">Scores</a>
@@ -569,7 +569,7 @@ def render_game(reg, c: Game):
 </div>
 {periods}
 """
-    crumb = (f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}")
+    crumb = (f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}")
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
 
 
@@ -600,7 +600,7 @@ def render_dual(reg, c: Dual):
 <span class="fh-th">{esc(c.home)}</span><span class="fh-th">Score</span></div>
 {''.join(rows)}</div></div></div>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
 
 
@@ -647,7 +647,7 @@ def render_meet(reg, c: Meet):
 {scores}
 <div class="fh-section"><h2>{'Results' if c.events else 'Scheduled'}</h2>{''.join(blocks) or ''}</div>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
 
 
@@ -711,8 +711,8 @@ def render_sport_standings(reg, sp):
         bar = facet_bar(f"st-{sp.key}", [("division", "Division",
                                           [(g, class_chip(g) if g[0].isdigit() else esc(g)) for g in groups])])
         inner = bar + f"<div class='fh-filterable' id='st-{sp.key}'>{inner}</div>"
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Standings"
-    return shell(f"{sp.name} standings — {BRAND.title()}",
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Standings"
+    return shell(page_title(f"{sp.name} standings"),
                  sport_header(reg, sp, "standings/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
 
 
@@ -728,8 +728,8 @@ def render_sport_schedule(reg, sp):
                               ("changed", "Postponed / cancelled")]),
     ], note="Filters combine; links are shareable")
     inner = f"<div class='fh-section'>{bar}{contest_table(reg, rows, False, fid=f'sch-{sp.key}')}</div>"
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Schedule"
-    return shell(f"{sp.name} schedule — {BRAND.title()}",
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Schedule"
+    return shell(page_title(f"{sp.name} schedule"),
                  sport_header(reg, sp, "schedule/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
 
 
@@ -763,8 +763,8 @@ def render_sport_champs(reg, sp):
                 "spring": "conclude in June"}[sp.season]
         inner = (f"<p class='fh-lede'>{esc(sp.name)} championships {esc(when)}. "
                  f"Brackets and qualifying information post as the postseason approaches.</p>")
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Championships"
-    return shell(f"{sp.name} championships — {BRAND.title()}",
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Championships"
+    return shell(page_title(f"{sp.name} championships"),
                  sport_header(reg, sp, "champions/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
 
 
@@ -813,8 +813,8 @@ def render_sport(reg, sport):
   <p class="fh-more"><a href="/sports/{sport.key}/champions/">Championship information →</a></p></section>
 </div>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › {esc(sport.name)}"
-    return shell(f"{sport.name} — {BRAND.title()}", body, crumb)
+    crumb = f"<a href='/'>{NAME}</a> › {esc(sport.name)}"
+    return shell(page_title(f"{sport.name}"), body, crumb)
 
 
 def render_school(reg, s):
@@ -846,8 +846,8 @@ def render_school(reg, s):
 </div>
 {''.join(sections)}
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/#schools'>Schools</a> › {esc(name)}"
-    return shell(f"{name} — {BRAND.title()}", body, crumb, "← Schools|/#schools")
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/#schools'>Schools</a> › {esc(name)}"
+    return shell(page_title(f"{name}"), body, crumb, "← Schools|/#schools")
 
 
 def render_conference(reg, conf):
@@ -880,8 +880,8 @@ def render_conference(reg, conf):
   <span class="fh-th">City</span><span class="fh-th num">Sports</span></div>{member_rows}</div></div></div></div>
 </div>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/#conferences'>Conferences</a> › {esc(conf['name'])}"
-    return shell(f"{conf['name']} — {BRAND.title()}", body, crumb, "← Conferences|/#conferences")
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/#conferences'>Conferences</a> › {esc(conf['name'])}"
+    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences")
 
 
 def render_athlete(reg, a):
@@ -933,7 +933,7 @@ def render_athlete(reg, a):
 </div>
 {''.join(sections)}
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › {reg.school_link(school)} › {esc(name)}"
+    crumb = f"<a href='/'>{NAME}</a> › {reg.school_link(school)} › {esc(name)}"
     return shell(f"{name} — {school}", body, crumb, f"← {school}|{reg.school_url(school)}")
 
 
@@ -964,8 +964,8 @@ def render_scoreboard(reg):
 </div>
 {''.join(sections)}
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › Scoreboard"
-    return shell(f"Scoreboard — {BRAND.title()}", body, crumb)
+    crumb = f"<a href='/'>{NAME}</a> › Scoreboard"
+    return shell(page_title(f"Scoreboard"), body, crumb)
 
 
 def champ_finals(reg):
@@ -1021,8 +1021,8 @@ def render_championships(reg):
 <span class="fh-th">Champion</span><span class="fh-th">Final</span></div>
 <div class="fh-filterable" id="ch">{''.join(rows)}</div></div></div>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › Championships"
-    return shell(f"Championships — {BRAND.title()}", body, crumb)
+    crumb = f"<a href='/'>{NAME}</a> › Championships"
+    return shell(page_title(f"Championships"), body, crumb)
 
 
 def render_schools_index(reg):
@@ -1068,8 +1068,8 @@ def render_schools_index(reg):
 <nav class="fh-jump">{jump}</nav>
 {''.join(blocks)}
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › Schools"
-    return shell(f"Schools — {BRAND.title()}", body, crumb)
+    crumb = f"<a href='/'>{NAME}</a> › Schools"
+    return shell(page_title(f"Schools"), body, crumb)
 
 
 def render_confs_index(reg):
@@ -1093,8 +1093,8 @@ def render_confs_index(reg):
 </div>
 <div class="fh-confgrid">{''.join(blocks)}</div>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › Conferences"
-    return shell(f"Conferences — {BRAND.title()}", body, crumb)
+    crumb = f"<a href='/'>{NAME}</a> › Conferences"
+    return shell(page_title(f"Conferences"), body, crumb)
 
 
 def render_story(reg, st):
@@ -1108,8 +1108,8 @@ def render_story(reg, st):
 </article>
 <p class="fh-more"><a href="/news/">More from the association →</a></p>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/news/'>News</a> › {esc(st['kicker'])}"
-    return shell(f"{st['head']} — {BRAND.title()}", body, crumb, "← News|/news/", story=st)
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/news/'>News</a> › {esc(st['kicker'])}"
+    return shell(page_title(f"{st['head']}"), body, crumb, "← News|/news/", story=st)
 
 
 def render_news_index(reg):
@@ -1135,8 +1135,8 @@ def render_news_index(reg):
 {lane('association', 'Association business', 'Eligibility, officiating, participation and board decisions.')}
 </div>
 """
-    crumb = f"<a href='/'>{BRAND.title()}</a> › News"
-    return shell(f"News — {BRAND.title()}", body, crumb)
+    crumb = f"<a href='/'>{NAME}</a> › News"
+    return shell(page_title(f"News"), body, crumb)
 
 
 def season_chooser(reg, current="winter"):
@@ -1255,14 +1255,28 @@ def render_front(reg):
 }})();
 </script>
 """
-    return shell(f"{BRAND.title()} — {ASSOC}", body)
+    return shell(TITLE, body)
 
 
 # ──────────────────────────────────────────────────────────── write + verify
 
 
+def favicon() -> str:
+    """The wordmark's initial, so the mark follows a rename instead of going
+    stale. SVG rather than a raster: no font rasteriser here, and a tab icon
+    that's a letter has to stay crisp at 16px and on a retina bookmark bar."""
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
+        '<rect width="64" height="64" rx="12" fill="#1b4a8f"/>'
+        f'<text x="32" y="33" fill="#faf7f0" font-size="42" font-weight="800"'
+        ' text-anchor="middle" dominant-baseline="central"'
+        ' font-family="Helvetica Neue,Helvetica,Arial,sans-serif"'
+        f'>{WORDMARK[0]}</text></svg>\n'
+    )
+
+
 def link_check(pages):
-    targets = set(pages) | {"/style.css"}
+    targets = set(pages) | {"/style.css", "/favicon.svg"}
     broken = []
     for url, text in pages.items():
         for href in re.findall(r"href=['\"](/[^'\"#]*)", text):
@@ -1334,8 +1348,11 @@ def build():
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(text)
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
+    (OUT / "favicon.svg").write_text(favicon())
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
     shutil.copytree(ROOT / "report", OUT / "report")
+    for f in (OUT / "report").glob("*.html"):
+        f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK).replace("{{NAME}}", NAME))
     n_rec = stdsite.write_records(ROOT, news.STORIES)
     wk = stdsite.write_well_known(OUT)
     (ROOT / "dist").mkdir(exist_ok=True)
