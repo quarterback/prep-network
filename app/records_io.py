@@ -18,19 +18,77 @@ import pathlib
 from typing import Any
 
 from app.shapes import (
+    BoxScore,
     Competitor,
+    Entrant,
     Entry,
     Event,
     Mark,
     MarkType,
+    Matchup,
     Meet,
     Provenance,
     ReviewState,
+    Round,
+    SourceType,
     StandingRecord,
+    StatLine,
     TeamScore,
+    Tournament,
+    TournamentFormat,
 )
 
 MEET_TYPE = "org.prepnet.temp.contest.meet"
+
+
+# --------------------------------------------------------------- provenance
+
+# One serializer for all three shapes. This was copied per-shape; adding the
+# audit fields to a copy and not its siblings is exactly how a record ends up
+# unauditable, so there is now one of it.
+
+
+def _prov(p: Provenance | None) -> dict | None:
+    if p is None:
+        return None
+    d = {
+        "sourceType": p.source_type.value,
+        "sourceUri": p.source_uri,
+        "adapter": p.adapter,
+        "adapterVersion": p.adapter_version,
+        "extractedAt": p.extracted_at,
+        "confidence": p.confidence,
+        "reviewState": p.review_state.value,
+    }
+    # Optional fields stay absent rather than null: 8,000 records carry this
+    # block, and a null per absent field is real bytes for no information.
+    if p.source_sha256:
+        d["sourceSha256"] = p.source_sha256
+    if p.source_page is not None:
+        d["sourcePage"] = p.source_page
+    if p.external_ids:
+        d["externalIds"] = dict(p.external_ids)
+    if p.notes:
+        d["notes"] = p.notes
+    return d
+
+
+def _prov_from(p: dict | None) -> Provenance | None:
+    if not p:
+        return None
+    return Provenance(
+        source_uri=p["sourceUri"],
+        adapter=p["adapter"],
+        extracted_at=p["extractedAt"],
+        confidence=p.get("confidence", 1.0),
+        review_state=ReviewState(p.get("reviewState", "published")),
+        source_type=SourceType(p.get("sourceType", "unknown")),
+        source_sha256=p.get("sourceSha256"),
+        source_page=p.get("sourcePage"),
+        adapter_version=p.get("adapterVersion", "0"),
+        external_ids=p.get("externalIds", {}) or {},
+        notes=p.get("notes"),
+    )
 
 
 # ---------------------------------------------------------------- to JSON
@@ -103,17 +161,7 @@ def meet_to_dict(m: Meet, sequence: int = 0) -> dict:
         "sport": m.sport,
         "season": m.season,
         "host": m.host,
-        "provenance": (
-            {
-                "sourceUri": m.provenance.source_uri,
-                "adapter": m.provenance.adapter,
-                "extractedAt": m.provenance.extracted_at,
-                "confidence": m.provenance.confidence,
-                "reviewState": m.provenance.review_state.value,
-            }
-            if m.provenance
-            else None
-        ),
+        "provenance": _prov(m.provenance),
         "events": [_event(ev) for ev in m.events],
         "teamScores": [_team_score(t) for t in m.team_scores],
     }
@@ -129,16 +177,7 @@ def _mark_from(d: dict | None) -> Mark | None:
 
 
 def _meet_from(d: dict) -> Meet:
-    prov = None
-    if d.get("provenance"):
-        p = d["provenance"]
-        prov = Provenance(
-            source_uri=p["sourceUri"],
-            adapter=p["adapter"],
-            extracted_at=p["extractedAt"],
-            confidence=p["confidence"],
-            review_state=ReviewState(p["reviewState"]),
-        )
+    prov = _prov_from(d.get("provenance"))
     meet = Meet(
         name=d["name"],
         date=d.get("date"),
@@ -260,17 +299,7 @@ def dual_to_dict(d, sequence: int = 0) -> dict:
             }
             for l in d.lines
         ],
-        "provenance": (
-            {
-                "sourceUri": d.provenance.source_uri,
-                "adapter": d.provenance.adapter,
-                "extractedAt": d.provenance.extracted_at,
-                "confidence": d.provenance.confidence,
-                "reviewState": d.provenance.review_state.value,
-            }
-            if d.provenance
-            else None
-        ),
+        "provenance": _prov(d.provenance),
     }
 
 
@@ -283,6 +312,7 @@ def _dual_from(dd: dict):
         home=dd["home"], away=dd["away"],
         home_points=dd.get("homePoints"), away_points=dd.get("awayPoints"),
         clinched_at=dd.get("clinchedAt"),
+        provenance=_prov_from(dd.get("provenance")),
     )
     for ld in dd["lines"]:
         dual.lines.append(
@@ -320,18 +350,53 @@ def game_to_dict(g, sequence: int = 0) -> dict:
         "awayScore": g.away_score,
         "status": g.status,
         "periods": [{"label": p.label, "home": p.home, "away": p.away} for p in g.periods],
-        "provenance": (
-            {
-                "sourceUri": g.provenance.source_uri,
-                "adapter": g.provenance.adapter,
-                "extractedAt": g.provenance.extracted_at,
-                "confidence": g.provenance.confidence,
-                "reviewState": g.provenance.review_state.value,
-            }
-            if g.provenance
-            else None
-        ),
+        **({"box": _box(g.box)} if g.box else {}),
+        "provenance": _prov(g.provenance),
     }
+
+
+def _stat_line(s: StatLine) -> dict:
+    d = {"competitor": _competitor(s.competitor), "stats": dict(s.stats)}
+    if s.starter:
+        d["starter"] = True
+    return d
+
+
+def _box(b: BoxScore) -> dict:
+    return {
+        "columns": list(b.columns),
+        "home": [_stat_line(s) for s in b.home],
+        "away": [_stat_line(s) for s in b.away],
+        "homeTotals": dict(b.home_totals),
+        "awayTotals": dict(b.away_totals),
+    }
+
+
+def _box_from(d: dict | None) -> BoxScore | None:
+    if not d:
+        return None
+
+    def lines(key):
+        return [
+            StatLine(
+                competitor=Competitor(
+                    name=s["competitor"]["name"],
+                    school=s["competitor"]["school"],
+                    year=s["competitor"].get("year"),
+                ),
+                stats=s.get("stats", {}),
+                starter=s.get("starter", False),
+            )
+            for s in d.get(key, [])
+        ]
+
+    return BoxScore(
+        columns=d.get("columns", []),
+        home=lines("home"),
+        away=lines("away"),
+        home_totals=d.get("homeTotals", {}),
+        away_totals=d.get("awayTotals", {}),
+    )
 
 
 def _game_from(d: dict):
@@ -343,6 +408,8 @@ def _game_from(d: dict):
         home=d["home"], away=d["away"],
         home_score=d.get("homeScore"), away_score=d.get("awayScore"),
         status=d.get("status", "final"),
+        box=_box_from(d.get("box")),
+        provenance=_prov_from(d.get("provenance")),
     )
     for pd in d.get("periods", []):
         g.periods.append(Period(label=pd["label"], home=pd["home"], away=pd["away"]))
@@ -364,6 +431,138 @@ def contest_to_dict(c, sequence: int = 0) -> dict:
 def write_contest(path: pathlib.Path, contest, sequence: int = 0) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(contest_to_dict(contest, sequence), separators=(",", ":")) + "\n")
+
+
+# ------------------------------------------------------------- tournaments
+
+TOURNAMENT_TYPE = "org.prepnet.temp.postseason.tournament"
+
+
+def tournament_to_dict(t: Tournament) -> dict:
+    """A tournament stores STRUCTURE and pointers, never a copy of a result.
+
+    Matchup scores are the exception and are stored: the bracket has to draw a
+    score without opening 31 contest records, and the game record stays the
+    authority (:func:`reconcile` re-reads it). Anything else the bracket needs —
+    who is playing, who advanced — is derived.
+    """
+    return {
+        "$type": TOURNAMENT_TYPE,
+        "id": t.id,
+        "name": t.name,
+        "sport": t.sport,
+        "season": t.season,
+        "group": t.group,
+        "format": t.format.value,
+        "startDate": t.start_date,
+        "finalDate": t.final_date,
+        "finalVenue": t.final_venue,
+        "meetKey": t.meet_key,
+        "entrants": [
+            {
+                "seed": e.seed,
+                "school": e.school,
+                "qualifier": e.qualifier,
+                "record": e.record,
+                "conference": e.conference,
+            }
+            for e in t.entrants
+        ],
+        "rounds": [
+            {
+                "index": r.index,
+                "name": r.name,
+                "matchups": [
+                    {
+                        "round": m.round,
+                        "slot": m.slot,
+                        "home": m.home,
+                        "away": m.away,
+                        "homeSeed": m.home_seed,
+                        "awaySeed": m.away_seed,
+                        "homeScore": m.home_score,
+                        "awayScore": m.away_score,
+                        "contestKey": m.contest_key,
+                        "date": m.date,
+                        "time": m.time,
+                        "venue": m.venue,
+                        "status": m.status,
+                        "bye": m.bye,
+                    }
+                    for m in r.matchups
+                ],
+            }
+            for r in t.rounds
+        ],
+        "provenance": _prov(t.provenance),
+    }
+
+
+def _tournament_from(d: dict) -> Tournament:
+    t = Tournament(
+        id=d["id"],
+        name=d["name"],
+        sport=d["sport"],
+        season=d.get("season", ""),
+        group=d.get("group", ""),
+        format=TournamentFormat(d.get("format", "bracket")),
+        start_date=d.get("startDate"),
+        final_date=d.get("finalDate"),
+        final_venue=d.get("finalVenue"),
+        meet_key=d.get("meetKey"),
+        provenance=_prov_from(d.get("provenance")),
+    )
+    t.entrants = [
+        Entrant(
+            school=e["school"],
+            seed=e.get("seed"),
+            qualifier=e.get("qualifier"),
+            record=e.get("record"),
+            conference=e.get("conference"),
+        )
+        for e in d.get("entrants", [])
+    ]
+    for rd in d.get("rounds", []):
+        t.rounds.append(
+            Round(
+                index=rd["index"],
+                name=rd["name"],
+                matchups=[
+                    Matchup(
+                        round=m["round"],
+                        slot=m["slot"],
+                        home=m.get("home"),
+                        away=m.get("away"),
+                        home_seed=m.get("homeSeed"),
+                        away_seed=m.get("awaySeed"),
+                        home_score=m.get("homeScore"),
+                        away_score=m.get("awayScore"),
+                        contest_key=m.get("contestKey"),
+                        date=m.get("date"),
+                        time=m.get("time"),
+                        venue=m.get("venue"),
+                        status=m.get("status", "scheduled"),
+                        bye=m.get("bye", False),
+                    )
+                    for m in rd.get("matchups", [])
+                ],
+            )
+        )
+    return t
+
+
+def write_tournament(path: pathlib.Path, t: Tournament) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(tournament_to_dict(t), separators=(",", ":")) + "\n")
+
+
+def load_tournaments(records_dir: pathlib.Path) -> list[Tournament]:
+    out = []
+    for p in sorted(records_dir.glob("postseason/**/*.json")):
+        d = json.loads(p.read_text())
+        if d.get("$type") == TOURNAMENT_TYPE:
+            out.append(_tournament_from(d))
+    return out
 
 
 # -------------------------------------------------------------------- orgs
