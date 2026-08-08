@@ -870,7 +870,9 @@ class Gen:
             RECORDS,
             [dict(name=s["name"], city=s["city"], area=s["area"], mascot=s["mascot"],
                   classification=s["classification"], conference=s["conference"],
-                  enrollment=s["enrollment"], private=s["private"], sports=s["sports"])
+                  enrollment=s["enrollment"], private=s["private"], sports=s["sports"],
+                  colors=list(N.SCHOOL_COLORS[zlib.crc32(s["name"].encode())
+                                              % len(N.SCHOOL_COLORS)]))
              for s in self.schools],
             self.confs,
         )
