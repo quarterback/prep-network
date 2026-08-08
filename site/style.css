@@ -71,6 +71,7 @@
   --gray-600: hsl(219, 24%, 36%);
 
   /* classification chips — tones of the palette hues */
+  --cat-7a: hsl(219, 70%, 10%);
   --cat-6a: var(--prussian);
   --cat-5a: hsl(219, 58%, 38%);
   --cat-4a: hsl(219, 45%, 50%);
@@ -144,6 +145,7 @@
   --gray-500: hsl(288, 14%, 46%);
   --gray-600: hsl(282, 20%, 33%);
 
+  --cat-7a: hsl(276, 48%, 16%);
   --cat-6a: hsl(276, 40%, 26%);
   --cat-5a: hsl(276, 40%, 38%);
   --cat-4a: hsl(294, 45%, 36%);
@@ -182,6 +184,7 @@
   --gray-500: hsl(170, 12%, 44%);
   --gray-600: hsl(176, 16%, 32%);
 
+  --cat-7a: hsl(176, 50%, 12%);
   --cat-6a: hsl(176, 40%, 20%);
   --cat-5a: hsl(176, 40%, 30%);
   --cat-4a: hsl(118, 30%, 34%);
@@ -220,6 +223,7 @@
   --gray-500: hsl(230, 10%, 44%);
   --gray-600: hsl(190, 20%, 28%);
 
+  --cat-7a: #001512;
   --cat-6a: #012622;
   --cat-5a: #003b36;
   --cat-4a: hsl(175, 55%, 25%);
@@ -258,6 +262,7 @@
   --gray-500: hsl(170, 10%, 42%);
   --gray-600: hsl(180, 16%, 28%);
 
+  --cat-7a: #031114;
   --cat-6a: #071e22;
   --cat-5a: hsl(177, 61%, 22%);
   --cat-4a: hsl(177, 45%, 32%);
@@ -296,6 +301,7 @@
   --gray-500: hsl(180, 12%, 42%);
   --gray-600: hsl(188, 18%, 30%);
 
+  --cat-7a: hsl(188, 65%, 11%);
   --cat-6a: hsl(188, 55%, 18%);
   --cat-5a: hsl(188, 50%, 28%);
   --cat-4a: hsl(167, 35%, 34%);
@@ -422,6 +428,7 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
   border-radius: var(--radius-pill); color: #fff; font-size: 11.5px;
   font-weight: 700; white-space: nowrap;
 }
+.fh-badge.c7A { background: var(--cat-7a); }
 .fh-badge.c6A { background: var(--cat-6a); }
 .fh-badge.c5A { background: var(--cat-5a); }
 .fh-badge.c4A { background: var(--cat-4a); }

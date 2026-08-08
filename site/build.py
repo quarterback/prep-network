@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 from app import records_io  # noqa: E402
 from app.shapes import Dual, Game, Meet  # noqa: E402
 from app.brand import ASSOC, NAME, TITLE, WORDMARK, page_title  # noqa: E402
-from app.sports import BY_KEY, CATALOG  # noqa: E402
+from app.sports import BY_KEY, CATALOG, CLASSES  # noqa: E402
 
 import importlib.util as _ilu  # noqa: E402
 _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
@@ -798,7 +798,7 @@ def sport_nav(sp, active):
 
 
 def sport_header(reg, sp, active=""):
-    groups = list(dict.fromkeys(sp.champ_group(c) for c in ("6A", "5A", "4A", "3A", "2A", "1A")))
+    groups = list(dict.fromkeys(sp.champ_group(c) for c in tuple(CLASSES)))
     chips = "".join(class_chip(g) if g[0].isdigit() else f"<span class='fh-tag'>{esc(g)}</span>"
                     for g in groups)
     return f"""
@@ -813,7 +813,7 @@ def sport_header(reg, sp, active=""):
 
 
 def sport_groups(sp):
-    return list(dict.fromkeys(sp.champ_group(c) for c in ("6A", "5A", "4A", "3A", "2A", "1A")))
+    return list(dict.fromkeys(sp.champ_group(c) for c in tuple(CLASSES)))
 
 
 def rankings_by_group(reg, sp, limit=10):
@@ -1692,7 +1692,7 @@ def render_schools_index(reg):
             f"<h2 class='fh-areahead'>{esc(area)}</h2>{''.join(groups)}</section>")
 
     bar = facet_bar("schools-map", [("division", "Classification",
-                                     [(v, class_chip(v)) for v in ("6A", "5A", "4A", "3A", "2A", "1A")])],
+                                     [(v, class_chip(v)) for v in tuple(CLASSES)])],
                     note="Shows conferences with a member in that class")
     jump = "".join(f"<a href='#{slugify(a)}'>{esc(a)}</a>" for a in sorted(by_area))
     body = f"""
