@@ -188,6 +188,86 @@ class Registry:
         return rec
 
 
+# ────────────────────────────────────────────────────────────────── facets
+#
+# The faceted-filter schema, borrowed from dense-information SaaS: a sticky
+# segmented control over a large list, live result counts, multi-facet AND
+# semantics, deep-linkable state, and an escape hatch back to "All".
+#
+#   Linear / GitHub / Airtable   segmented controls, live counts, URL state
+#   Datadog / Retool             multi-facet AND across independent dimensions
+#   ESPN / OSAA standings        classification as the primary cut
+#
+# Contract, so any page opts in without new JS:
+#   1. Wrap the list in  <div class="fh-filterable" id="X">
+#   2. Give each filterable child  data-f-<facet>="value"  (space-separated when
+#      multi-valued, e.g. an invitational spanning several classifications)
+#   3. Render  facet_bar("X", [(facet, label, [(value, display), ...]), ...])
+
+
+def facet_bar(target, groups, note=""):
+    out = []
+    for key, label, values in groups:
+        chips = "".join(
+            f"<button type='button' data-facet='{esc(key)}' data-value='{esc(v)}'>{disp}</button>"
+            for v, disp in values)
+        out.append(
+            f"<div class='fh-facet'><span class='lb'>{esc(label)}</span>"
+            f"<div class='chips'><button type='button' data-facet='{esc(key)}' "
+            f"data-value='' class='on'>All</button>{chips}</div></div>")
+    tail = f"<span class='fh-facetnote'>{esc(note)}</span>" if note else ""
+    return (f"<div class='fh-facets' data-target='{esc(target)}'>{''.join(out)}"
+            f"<span class='fh-facetcount' data-count-for='{esc(target)}'></span>{tail}</div>")
+
+
+FACET_JS = """
+(function () {
+  document.querySelectorAll(".fh-facets").forEach(function (bar) {
+    var target = document.getElementById(bar.dataset.target);
+    if (!target) return;
+    var items = [].slice.call(target.children).filter(function (n) {
+      return [].some.call(n.attributes, function (a) { return a.name.indexOf("data-f-") === 0; });
+    });
+    var counter = document.querySelector('[data-count-for="' + bar.dataset.target + '"]');
+    var state = {};
+    function apply() {
+      var shown = 0;
+      items.forEach(function (el) {
+        var ok = Object.keys(state).every(function (k) {
+          if (!state[k]) return true;
+          var v = el.getAttribute("data-f-" + k) || "";
+          return (" " + v + " ").indexOf(" " + state[k] + " ") !== -1;
+        });
+        el.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (counter) counter.textContent = shown === items.length ? "" : shown + " shown";
+      var active = Object.keys(state).filter(function (k) { return state[k]; })
+        .map(function (k) { return k + ":" + state[k]; }).join(",");
+      history.replaceState(null, "", active ? "#" + active : location.pathname);
+    }
+    bar.querySelectorAll("button[data-facet]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state[b.dataset.facet] = b.dataset.value;
+        bar.querySelectorAll('button[data-facet="' + b.dataset.facet + '"]')
+          .forEach(function (o) { o.classList.toggle("on", o === b); });
+        apply();
+      });
+    });
+    if (location.hash.length > 1) {
+      location.hash.slice(1).split(",").forEach(function (pair) {
+        var kv = pair.split(":");
+        if (kv.length !== 2) return;
+        var b = bar.querySelector('button[data-facet="' + kv[0] + '"][data-value="' + kv[1] + '"]');
+        if (b) b.click();
+      });
+    }
+    apply();
+  });
+})();
+"""
+
+
 # ─────────────────────────────────────────────────────────────── shell + rail
 
 
@@ -311,6 +391,7 @@ def shell(title, body, crumb="", back=""):
 {toolbar}
 {body}
 </main>
+<script>{FACET_JS}</script>
 <script>
 (function () {{
   var chips = document.querySelectorAll(".fh-swatch");
@@ -342,7 +423,22 @@ def shell(title, body, crumb="", back=""):
 # ─────────────────────────────────────────────────────────── contest pieces
 
 
-def contest_row(reg, c, show_sport=True):
+def contest_facets(reg, c):
+    """Facet values a contest row can be filtered on."""
+    if isinstance(c, Meet):
+        divs = sorted({reg.schools[s]["classification"] for s in c.schools if s in reg.schools})
+        status = "final" if c.events else "upcoming"
+    else:
+        divs = sorted({reg.schools[s]["classification"]
+                       for s in (c.home, c.away) if s in reg.schools})
+        if isinstance(c, Game):
+            status = {"final": "final", "scheduled": "upcoming"}.get(c.status, "changed")
+        else:
+            status = "final" if c.home_points is not None else "upcoming"
+    return " ".join(divs), status
+
+
+def contest_row(reg, c, show_sport=True, facets=False):
     label = result_label(c)
     sport = BY_KEY[c.sport].name if show_sport and c.sport in BY_KEY else ""
     if isinstance(c, Meet):
@@ -352,18 +448,26 @@ def contest_row(reg, c, show_sport=True):
         who = (f"<span class='fh-plain'>{reg.school_link(c.away)} "
                f"<span class='fh-dim'>at</span> {reg.school_link(c.home)}</span>")
         vs = f"<span class='fh-name'><a href='{reg.url(c)}'>{esc(label) or 'Preview'}</a></span>"
-    return (f"<div class='fh-row' style='--grid-cols:86px minmax(200px,2fr) minmax(80px,1fr) minmax(90px,1fr)'>"
+    attrs = ""
+    if facets:
+        divs, status = contest_facets(reg, c)
+        attrs = (f" data-f-division='{esc(divs)}' data-f-status='{status}'"
+                 f" data-f-sport='{esc(c.sport)}'")
+    return (f"<div class='fh-row'{attrs} style='--grid-cols:86px minmax(200px,2fr) minmax(80px,1fr) minmax(90px,1fr)'>"
             f"<span class='fh-dim tnum'>{esc(nice_date(c.date))}</span>{who}{vs}"
             f"<span class='fh-plain fh-dim'>{esc(sport)}</span></div>")
 
 
-def contest_table(reg, contests, show_sport=True):
-    rows = "".join(contest_row(reg, c, show_sport) for c in contests)
+def contest_table(reg, contests, show_sport=True, fid=None):
+    rows = "".join(contest_row(reg, c, show_sport, facets=bool(fid)) for c in contests)
+    body_cls = f"fh-filterable' id='{fid}" if fid else ""
     return ("<div class='fh-tablescroll'><div class='fh-table' "
             "style='--grid-cols:86px minmax(200px,2fr) minmax(80px,1fr) minmax(90px,1fr)'>"
             "<div class='fh-thead'><span class='fh-th'>Date</span><span class='fh-th'>Matchup</span>"
             "<span class='fh-th'>Result</span><span class='fh-th'>" +
-            ("Sport" if show_sport else "") + "</span></div>" + rows + "</div></div>")
+            ("Sport" if show_sport else "") + "</span></div>"
+            + (f"<div class='fh-filterable' id='{fid}'>{rows}</div>" if fid else rows)
+            + "</div></div>")
 
 
 def standings_tables(reg, sport):
@@ -386,7 +490,8 @@ def standings_tables(reg, sport):
             f"<span class='fh-plain fh-dim'>{esc(reg.conf_of.get(s,''))}</span></div>"
             for i, (s, r) in enumerate(rows[:16]))
         blocks.append(
-            f"<div class='fh-section'><div class='fh-group'><h3>{esc(grp)}</h3>{class_chip(grp) if grp[0].isdigit() else ''}</div>"
+            f"<div class='fh-section' data-f-division='{esc(grp)}'>"
+            f"<div class='fh-group'><h3>{esc(grp)}</h3>{class_chip(grp) if grp[0].isdigit() else ''}</div>"
             "<div class='fh-tablescroll'><div class='fh-table' "
             "style='--grid-cols:26px 24px minmax(150px,1fr) 56px 56px minmax(90px,1fr)'>"
             "<div class='fh-thead'><span class='fh-th'></span><span class='fh-th'></span>"
@@ -561,6 +666,11 @@ def render_sport_standings(reg, sp):
                  ) if rows else "<p class='fh-lede'>Team scoring posts as meets are held.</p>"
     else:
         inner = standings_tables(reg, sp) or "<p class='fh-lede'>Standings post once conference play begins.</p>"
+    groups = list(dict.fromkeys(sp.champ_group(c) for c in ("6A", "5A", "4A", "3A", "2A", "1A")))
+    if len(groups) > 1:
+        bar = facet_bar(f"st-{sp.key}", [("division", "Division",
+                                          [(g, class_chip(g) if g[0].isdigit() else esc(g)) for g in groups])])
+        inner = bar + f"<div class='fh-filterable' id='st-{sp.key}'>{inner}</div>"
     crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Standings"
     return shell(f"{sp.name} standings — {BRAND.title()}",
                  sport_header(reg, sp, "standings/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
@@ -570,11 +680,14 @@ def render_sport_schedule(reg, sp):
     contests = sorted(reg.by_sport.get(sp.key, []), key=lambda c: c.date or "")
     played = [c for c in contests if (c.date or "") <= TODAY]
     upcoming = [c for c in contests if (c.date or "") > TODAY]
-    inner = ""
-    if upcoming:
-        inner += f"<div class='fh-section'><h2>Upcoming</h2>{contest_table(reg, upcoming[:40], False)}</div>"
-    inner += (f"<div class='fh-section'><h2>Results</h2>"
-              f"{contest_table(reg, list(reversed(played))[:80], False)}</div>")
+    rows = list(reversed(played))[:80] + upcoming[:40]
+    rows.sort(key=lambda c: c.date or "", reverse=True)
+    bar = facet_bar(f"sch-{sp.key}", [
+        ("division", "Classification", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]]),
+        ("status", "Status", [("final", "Final"), ("upcoming", "Upcoming"),
+                              ("changed", "Postponed / cancelled")]),
+    ], note="Filters combine; links are shareable")
+    inner = f"<div class='fh-section'>{bar}{contest_table(reg, rows, False, fid=f'sch-{sp.key}')}</div>"
     crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Schedule"
     return shell(f"{sp.name} schedule — {BRAND.title()}",
                  sport_header(reg, sp, "schedule/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
@@ -792,13 +905,16 @@ def render_scoreboard(reg):
     by_sport = defaultdict(list)
     for c in sorted(window, key=lambda c: c.date or ""):
         by_sport[c.sport].append(c)
-    sections = []
-    for key in sorted(by_sport, key=lambda k: (SEASON_ORDER.get(BY_KEY[k].season, 3), BY_KEY[k].name)):
-        sp = BY_KEY[key]
-        sections.append(
-            f"<div class='fh-section'><div class='fh-group'><h3><a href='/sports/{key}/'>{esc(sp.name)}</a></h3>"
-            f"<span class='fh-tag'>{len(by_sport[key])} contests</span></div>"
-            + contest_table(reg, by_sport[key][:24], show_sport=False) + "</div>")
+    ordered = sorted(window, key=lambda c: (c.date or "", c.sport))
+    sport_vals = [(k, esc(BY_KEY[k].name)) for k in
+                  sorted(by_sport, key=lambda k: BY_KEY[k].name)]
+    bar = facet_bar("sb", [
+        ("sport", "Sport", sport_vals),
+        ("division", "Classification", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]]),
+        ("status", "Status", [("final", "Final"), ("upcoming", "Upcoming"),
+                              ("changed", "Postponed / cancelled")]),
+    ], note="Filters combine; links are shareable")
+    sections = [bar + contest_table(reg, ordered, show_sport=True, fid="sb")]
     body = f"""
 <div class="fh-idhdr">
   <div></div>
@@ -843,20 +959,27 @@ def render_championships(reg):
         if not winner:
             continue
         rows.append(
-            f"<div class='fh-row' style='--grid-cols:minmax(140px,1.1fr) 64px 24px minmax(160px,1fr) 90px'>"
+            f"<div class='fh-row' data-f-season='{esc(sp.season)}' data-f-division='{esc(grp)}' "
+            f"style='--grid-cols:minmax(140px,1.1fr) 64px 24px minmax(160px,1fr) 90px'>"
             f"<span class='fh-plain fh-dim'>{esc(sp.name)}</span><span>{grp_chip(grp)}</span>"
             f"{reg.crest(winner,'xs')}<span class='fh-name'>{reg.school_link(winner)}</span>"
             f"<span class='fh-plain'><a href='{reg.url(c)}'>{esc(line)}</a></span></div>")
+    bar = facet_bar("ch", [
+        ("season", "Season", [("fall", "Fall"), ("winter", "Winter"), ("spring", "Spring")]),
+        ("division", "Division", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]] + [("Open", "Open")]),
+    ])
     body = f"""
 <div class="fh-idhdr">
   <div></div>
   <div><div class="name">Championships</div>
-  <div class="meta">Fall {SEASON_LABEL} · winter and spring championships follow their seasons</div></div>
+  <div class="meta">{SEASON_LABEL} · winter and spring titles decide as those seasons end</div></div>
   <div class="side"></div>
 </div>
+{bar}
 <div class="fh-tablescroll"><div class="fh-table" style="--grid-cols:minmax(140px,1.1fr) 64px 24px minmax(160px,1fr) 90px">
 <div class="fh-thead"><span class="fh-th">Sport</span><span class="fh-th">Division</span><span class="fh-th"></span>
-<span class="fh-th">Champion</span><span class="fh-th">Final</span></div>{''.join(rows)}</div></div>
+<span class="fh-th">Champion</span><span class="fh-th">Final</span></div>
+<div class="fh-filterable" id="ch">{''.join(rows)}</div></div></div>
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › Championships"
     return shell(f"Championships — {BRAND.title()}", body, crumb)

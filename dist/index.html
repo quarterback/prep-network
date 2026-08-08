@@ -702,6 +702,42 @@ main.wrap { padding-bottom: 10px; }
 }
 .fh-ic.lg { width: 28px; height: 28px; }
 
+/* ── faceted filter bar ────────────────────────────────────────────────── */
+
+.fh-facets {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px;
+  padding: 12px 0; margin-bottom: 4px;
+  background: var(--surface-page); border-bottom: var(--hairline);
+}
+.fh-facet { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.fh-facet .lb {
+  font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--text-muted); white-space: nowrap;
+}
+.fh-facet .chips {
+  display: flex; flex-wrap: wrap; gap: 2px; padding: 2px;
+  border: 1px solid var(--border-default); border-radius: var(--radius-pill);
+}
+.fh-facet button {
+  appearance: none; background: none; border: none; cursor: pointer;
+  border-radius: var(--radius-pill); padding: 4px 11px;
+  font-family: var(--font-text); font-size: var(--fs-caption); font-weight: 700;
+  color: var(--text-secondary); line-height: 1.5; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.fh-facet button:hover { color: var(--text-primary); background: var(--surface-hover); }
+.fh-facet button.on { background: var(--ink); color: var(--paper); }
+.fh-facet button.on .fh-badge { box-shadow: 0 0 0 1px var(--paper); }
+.fh-facet button .fh-badge { pointer-events: none; }
+.fh-facetcount {
+  font-size: var(--fs-caption); font-weight: 700; color: var(--brand-strong);
+  font-variant-numeric: tabular-nums;
+}
+.fh-facetnote { font-size: var(--fs-caption); color: var(--text-faint); margin-left: auto; }
+@media (max-width: 640px) { .fh-facetnote { display: none; } }
+.fh-filterable > [hidden] { display: none !important; }
+
 </style>
 <script>try{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 </head>
@@ -786,6 +822,52 @@ main.wrap { padding-bottom: 10px; }
 </script>
 
 </main>
+<script>
+(function () {
+  document.querySelectorAll(".fh-facets").forEach(function (bar) {
+    var target = document.getElementById(bar.dataset.target);
+    if (!target) return;
+    var items = [].slice.call(target.children).filter(function (n) {
+      return [].some.call(n.attributes, function (a) { return a.name.indexOf("data-f-") === 0; });
+    });
+    var counter = document.querySelector('[data-count-for="' + bar.dataset.target + '"]');
+    var state = {};
+    function apply() {
+      var shown = 0;
+      items.forEach(function (el) {
+        var ok = Object.keys(state).every(function (k) {
+          if (!state[k]) return true;
+          var v = el.getAttribute("data-f-" + k) || "";
+          return (" " + v + " ").indexOf(" " + state[k] + " ") !== -1;
+        });
+        el.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (counter) counter.textContent = shown === items.length ? "" : shown + " shown";
+      var active = Object.keys(state).filter(function (k) { return state[k]; })
+        .map(function (k) { return k + ":" + state[k]; }).join(",");
+      history.replaceState(null, "", active ? "#" + active : location.pathname);
+    }
+    bar.querySelectorAll("button[data-facet]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state[b.dataset.facet] = b.dataset.value;
+        bar.querySelectorAll('button[data-facet="' + b.dataset.facet + '"]')
+          .forEach(function (o) { o.classList.toggle("on", o === b); });
+        apply();
+      });
+    });
+    if (location.hash.length > 1) {
+      location.hash.slice(1).split(",").forEach(function (pair) {
+        var kv = pair.split(":");
+        if (kv.length !== 2) return;
+        var b = bar.querySelector('button[data-facet="' + kv[0] + '"][data-value="' + kv[1] + '"]');
+        if (b) b.click();
+      });
+    }
+    apply();
+  });
+})();
+</script>
 <script>
 (function () {
   var chips = document.querySelectorAll(".fh-swatch");
