@@ -31,6 +31,8 @@ _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
 news = _ilu.module_from_spec(_spec); _spec.loader.exec_module(news)
 _ispec = _ilu.spec_from_file_location("fh_icons", ROOT / "site/icons.py")
 icons = _ilu.module_from_spec(_ispec); _ispec.loader.exec_module(icons)
+_sspec = _ilu.spec_from_file_location("fh_stdsite", ROOT / "site/standardsite.py")
+stdsite = _ilu.module_from_spec(_sspec); _sspec.loader.exec_module(stdsite)
 
 RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
@@ -374,7 +376,7 @@ def build_menus(reg):
     DRAWER_RES = "".join(rsec)
 
 
-def shell(title, body, crumb="", back=""):
+def shell(title, body, crumb="", back="", story=None):
     pill = ""
     if back:
         label, url = back.split("|")
@@ -386,7 +388,7 @@ def shell(title, body, crumb="", back=""):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css">{stdsite.head_links(story)}
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
@@ -1109,7 +1111,7 @@ def render_story(reg, st):
 <p class="fh-more"><a href="/news/">More from the association →</a></p>
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/news/'>News</a> › {esc(st['kicker'])}"
-    return shell(f"{st['head']} — {BRAND.title()}", body, crumb, "← News|/news/")
+    return shell(f"{st['head']} — {BRAND.title()}", body, crumb, "← News|/news/", story=st)
 
 
 def render_news_index(reg):
@@ -1336,9 +1338,13 @@ def build():
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
     shutil.copytree(ROOT / "report", OUT / "report")
+    n_rec = stdsite.write_records(ROOT, news.STORIES)
+    wk = stdsite.write_well_known(OUT)
     (ROOT / "dist").mkdir(exist_ok=True)
     (ROOT / "dist/index.html").write_text(inline_preview(pages["/"]))
     print(f"{len(pages):,} pages · {len(reg.schools)} schools · {len(reg.athletes):,} athletes · links OK")
+    print(f"standard.site: {n_rec} records"
+          + (f" · published as {stdsite.PUB_URI}" if wk else " · unpublished (FH_PUB_URI unset)"))
 
 
 if __name__ == "__main__":

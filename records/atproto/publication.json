@@ -1,0 +1,32 @@
+{
+  "$type": "site.standard.publication",
+  "basicTheme": {
+    "$type": "site.standard.theme.basic",
+    "accent": {
+      "b": 143,
+      "g": 74,
+      "r": 27
+    },
+    "accentForeground": {
+      "b": 240,
+      "g": 247,
+      "r": 250
+    },
+    "background": {
+      "b": 240,
+      "g": 247,
+      "r": 250
+    },
+    "foreground": {
+      "b": 56,
+      "g": 28,
+      "r": 16
+    }
+  },
+  "description": "Results, standings and championship coverage for Jefferson High School Activities Association member schools.",
+  "name": "Fieldhouse",
+  "preferences": {
+    "showInDiscover": true
+  },
+  "url": "https://prep-network.vercel.app"
+}
