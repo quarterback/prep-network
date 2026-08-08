@@ -1485,6 +1485,69 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
   font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
   border: 2px solid var(--ink); background: var(--ink); color: var(--paper); }
 
+/* ═══════════════════════════════════════════════════ tenant mastheads
+   A school athletics page and a conference page are that organisation's own
+   home, not a subsection of the association's site. The state masthead is
+   replaced — not merely de-emphasised — by a utility strip carrying the
+   link-back and the network mark, and the organisation's identity becomes the
+   dominant header in its own colour.
+   Championship pages keep the association masthead on purpose: a state
+   tournament is an association property. */
+
+.fh-mast.tenant { display: none; }
+
+.fh-utility { border-bottom: var(--hairline); background: var(--surface-mast); }
+.fh-utility .wrap { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; padding-top: 6px; padding-bottom: 6px; }
+.fh-utility .back { font-size: var(--fs-caption); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-secondary); }
+.fh-utility .net { font-size: 15px; color: var(--text-secondary); opacity: 0.85; }
+.fh-utility .net:hover { opacity: 1; text-decoration: none; }
+
+.fh-orgmast { border-bottom: 3px solid var(--org, var(--ink)); background: var(--surface-page); }
+.fh-orgmast .wrap { display: flex; align-items: center; gap: 16px;
+  padding-top: 16px; padding-bottom: 14px; flex-wrap: wrap; }
+.fh-orgmast .idn { display: flex; align-items: center; gap: 14px; color: inherit; flex: 1; }
+.fh-orgmast .idn:hover { text-decoration: none; }
+.fh-orgmast .idn .fh-crest.lg { width: 56px; height: 56px; font-size: 17px; }
+.fh-orgmast .nm { display: block; font-family: var(--font-display); font-weight: 800;
+  font-size: 30px; line-height: 1.02; letter-spacing: -0.01em;
+  text-transform: uppercase; }
+.fh-orgmast .kind { display: block; margin-top: 3px; font-size: var(--fs-caption);
+  font-weight: 700; text-transform: uppercase; letter-spacing: var(--ls-caps);
+  color: var(--text-muted); }
+.fh-orgmast .fh-orgnav { display: flex; gap: 18px; width: 100%;
+  padding-top: 12px; margin-top: 12px; border-top: var(--hairline); }
+.fh-orgmast .fh-orgnav a { font-family: var(--font-condensed); font-weight: 800;
+  font-size: var(--fs-small); text-transform: uppercase; letter-spacing: var(--ls-caps);
+  color: inherit; padding-bottom: 2px; border-bottom: 3px solid transparent; }
+.fh-orgmast .fh-orgnav a:hover { text-decoration: none;
+  border-bottom-color: var(--org, var(--ink)); }
+.fh-orgmast .fh-burger { display: none; }
+
+@media (max-width: 760px) {
+  .fh-orgmast .nm { font-size: 22px; }
+  .fh-orgmast .idn .fh-crest.lg { width: 42px; height: 42px; font-size: 13px; }
+  .fh-orgmast .fh-burger { display: flex; }
+  .fh-orgmast .fh-orgnav { gap: 14px; overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; }
+  .fh-orgmast .fh-orgnav::-webkit-scrollbar { display: none; }
+  .fh-orgmast .fh-orgnav a { flex: 0 0 auto; }
+}
+
+.fh-drawersplit { margin: 14px 0 2px; padding-top: 10px; border-top: var(--hairline);
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted); }
+.fh-drawer .top.org { font-weight: 800; }
+
+/* the thin detail line under a tenant masthead — mascot, city, league */
+.fh-orgsub { display: flex; align-items: center; flex-wrap: wrap; gap: 7px;
+  margin: 2px 0 14px; padding: 9px 0 10px; border-bottom: var(--hairline);
+  font-size: var(--fs-small); color: var(--text-secondary); }
+.fh-orgsub .mascot { font-weight: 700; color: var(--text-primary); }
+.fh-orgsub .dot { color: var(--text-muted); }
+.fh-orgsub .side { margin-left: auto; }
+
 </style>
 
 <link rel="icon" href="/favicon.ico">
@@ -1493,6 +1556,7 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
 <body>
 <svg class="fh-sprite" aria-hidden="true"><defs><symbol id="i-ball-american-football" viewBox="0 0 24 24"><path d="M15 9l-6 6" /> <path d="M10 12l2 2" /> <path d="M12 10l2 2" /> <path d="M8 21a5 5 0 0 0 -5 -5" /> <path d="M16 3c-7.18 0 -13 5.82 -13 13a5 5 0 0 0 5 5c7.18 0 13 -5.82 13 -13a5 5 0 0 0 -5 -5" /> <path d="M16 3a5 5 0 0 0 5 5" /></symbol><symbol id="i-ball-baseball" viewBox="0 0 24 24"><path d="M5.636 18.364a9 9 0 1 0 12.728 -12.728a9 9 0 0 0 -12.728 12.728z" /> <path d="M12.495 3.02a9 9 0 0 1 -9.475 9.475" /> <path d="M20.98 11.505a9 9 0 0 0 -9.475 9.475" /> <path d="M9 9l2 2" /> <path d="M13 13l2 2" /> <path d="M11 7l2 1" /> <path d="M7 11l1 2" /> <path d="M16 11l1 2" /> <path d="M11 16l2 1" /></symbol><symbol id="i-ball-basketball" viewBox="0 0 24 24"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M5.65 5.65l12.7 12.7" /> <path d="M5.65 18.35l12.7 -12.7" /> <path d="M12 3a9 9 0 0 0 9 9" /> <path d="M3 12a9 9 0 0 1 9 9" /></symbol><symbol id="i-ball-football" viewBox="0 0 24 24"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M12 7l4.76 3.45l-1.76 5.55h-6l-1.76 -5.55z" /> <path d="M12 7v-4m3 13l2.5 3m-.74 -8.55l3.74 -1.45m-11.44 7.05l-2.56 2.95m.74 -8.55l-3.74 -1.45" /></symbol><symbol id="i-ball-tennis" viewBox="0 0 24 24"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M6 5.3a9 9 0 0 1 0 13.4" /> <path d="M18 5.3a9 9 0 0 0 0 13.4" /></symbol><symbol id="i-ball-volleyball" viewBox="0 0 24 24"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M12 12a8 8 0 0 0 8 4" /> <path d="M7.5 13.5a12 12 0 0 0 8.5 6.5" /> <path d="M12 12a8 8 0 0 0 -7.464 4.928" /> <path d="M12.951 7.353a12 12 0 0 0 -9.88 4.111" /> <path d="M12 12a8 8 0 0 0 -.536 -8.928" /> <path d="M15.549 15.147a12 12 0 0 0 1.38 -10.611" /></symbol><symbol id="i-bike" viewBox="0 0 24 24"><path d="M5 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M19 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /> <path d="M12 19l0 -4l-3 -3l5 -4l2 3l3 0" /> <path d="M17 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></symbol><symbol id="i-bowling" viewBox="0 0 24 24"><path d="M7 11v.01" /> <path d="M11 10v.01" /> <path d="M10 14v.01" /> <path d="M11.059 6.07a8 8 0 1 0 .32 15.81" /> <path d="M15.969 9h4" /> <path d="M14.969 5c0 1.5 1 2 1 4c0 2.5 -2 4.5 -2 7c0 2.6 1.9 6 1.9 6h4.1s2 -3.4 2 -6c0 -2.5 -2 -4.5 -2 -7c0 -2 1 -2.5 1 -4a3 3 0 1 0 -6 0" /></symbol><symbol id="i-golf" viewBox="0 0 24 24"><path d="M12 18v-15l7 4l-7 4" /> <path d="M9 17.67c-.62 .36 -1 .82 -1 1.33c0 1.1 1.8 2 4 2s4 -.9 4 -2c0 -.5 -.38 -.97 -1 -1.33" /></symbol><symbol id="i-ice-skating" viewBox="0 0 24 24"><path d="M5.905 5h3.418a1 1 0 0 1 .928 .629l1.143 2.856a3 3 0 0 0 2.207 1.83l4.717 .926a2.084 2.084 0 0 1 1.682 2.045v.714a1 1 0 0 1 -1 1h-13.895a1 1 0 0 1 -1 -1.1l.8 -8a1 1 0 0 1 1 -.9z" /> <path d="M3 19h17a1 1 0 0 0 1 -1" /> <path d="M9 15v4" /> <path d="M15 15v4" /></symbol><symbol id="i-karate" viewBox="0 0 24 24"><path d="M18 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M3 9l4.5 1l3 2.5" /> <path d="M13 21v-8l3 -5.5" /> <path d="M8 4.5l4 2l4 1l4 3.5l-2 3.5" /></symbol><symbol id="i-mountain" viewBox="0 0 24 24"><path d="M3 20h18l-6.921 -14.612a2.3 2.3 0 0 0 -4.158 0l-6.921 14.612z" /> <path d="M7.5 11l2 2.5l2.5 -2.5l2 3l2.5 -2" /></symbol><symbol id="i-play-football" viewBox="0 0 24 24"><path d="M11 4a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /> <path d="M3 17l5 1l.75 -1.5" /> <path d="M14 21v-4l-4 -3l1 -6" /> <path d="M6 12v-3l5 -1l3 3l3 1" /> <path d="M19.5 20a.5 .5 0 1 0 0 -1a.5 .5 0 0 0 0 1z" fill="currentColor" /></symbol><symbol id="i-run" viewBox="0 0 24 24"><path d="M13 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M4 17l5 1l.75 -1.5" /> <path d="M15 21l0 -4l-4 -3l1 -6" /> <path d="M7 12l0 -3l5 -1l3 3l3 1" /></symbol><symbol id="i-snowflake" viewBox="0 0 24 24"><path d="M10 4l2 1l2 -1" /> <path d="M12 2v6.5l3 1.72" /> <path d="M17.928 6.268l.134 2.232l1.866 1.232" /> <path d="M20.66 7l-5.629 3.25l.01 3.458" /> <path d="M19.928 14.268l-1.866 1.232l-.134 2.232" /> <path d="M20.66 17l-5.629 -3.25l-2.99 1.738" /> <path d="M14 20l-2 -1l-2 1" /> <path d="M12 22v-6.5l-3 -1.72" /> <path d="M6.072 17.732l-.134 -2.232l-1.866 -1.232" /> <path d="M3.34 17l5.629 -3.25l-.01 -3.458" /> <path d="M4.072 9.732l1.866 -1.232l.134 -2.232" /> <path d="M3.34 7l5.629 3.25l2.99 -1.738" /></symbol><symbol id="i-stretching" viewBox="0 0 24 24"><path d="M16 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M5 20l5 -.5l1 -2" /> <path d="M18 20v-5h-5.5l2.5 -6.5l-5.5 1l1.5 2" /></symbol><symbol id="i-swimming" viewBox="0 0 24 24"><path d="M16 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M6 11l4 -2l3.5 3l-1.5 2" /> <path d="M3 16.75a2.4 2.4 0 0 0 1 .25a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 1 -.25" /></symbol><symbol id="i-sword" viewBox="0 0 24 24"><path d="M20 4v5l-9 7l-4 4l-3 -3l4 -4l7 -9z" /> <path d="M6.5 11.5l6 6" /></symbol><symbol id="i-target-arrow" viewBox="0 0 24 24"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M12 7a5 5 0 1 0 5 5" /> <path d="M13 3.055a9 9 0 1 0 7.941 7.945" /> <path d="M15 6v3h3l3 -3h-3v-3z" /> <path d="M15 9l-3 3" /></symbol><symbol id="i-music" viewBox="0 0 24 24"><path d="M3 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /> <path d="M13 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /> <path d="M9 17v-13h10v13" /> <path d="M9 8h10" /></symbol><symbol id="i-microphone" viewBox="0 0 24 24"><path d="M15 12.9a5 5 0 1 0 -3.902 -3.9" /> <path d="M15 12.9l-3.902 -3.899l-7.513 8.584a2 2 0 1 0 2.827 2.83l8.588 -7.515z" /></symbol><symbol id="i-messages" viewBox="0 0 24 24"><path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" /> <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" /></symbol><symbol id="i-disc" viewBox="0 0 24 24"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M7 12a5 5 0 0 1 5 -5" /> <path d="M12 17a5 5 0 0 0 5 -5" /></symbol><symbol id="i-yoga" viewBox="0 0 24 24"><path d="M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /> <path d="M4 20h4l1.5 -3" /> <path d="M17 20l-1 -5h-5l1 -7" /> <path d="M4 10l4 -1l4 -1l4 1.5l4 1.5" /></symbol></defs></svg>
 <input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
+
 <header class="fh-mast"><div class="wrap">
   <a class="fh-wordmark" href="/">VarsityApex</a>
   <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
@@ -1523,6 +1587,7 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
     <span class="fh-wordmark">VarsityApex</span>
     <label class="fh-drawerclose" for="fh-navtoggle" aria-label="Close menu">×</label>
   </div>
+  
   <a class="top" href="/scoreboard/">Scores</a>
   <a class="top" href="/championships/">Championships</a>
   <a class="top" href="/news/">News</a>

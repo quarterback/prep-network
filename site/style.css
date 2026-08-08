@@ -1477,3 +1477,66 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
 .fh-reviewflag { display: inline-block; margin-bottom: 7px; padding: 3px 8px;
   font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
   border: 2px solid var(--ink); background: var(--ink); color: var(--paper); }
+
+/* ═══════════════════════════════════════════════════ tenant mastheads
+   A school athletics page and a conference page are that organisation's own
+   home, not a subsection of the association's site. The state masthead is
+   replaced — not merely de-emphasised — by a utility strip carrying the
+   link-back and the network mark, and the organisation's identity becomes the
+   dominant header in its own colour.
+   Championship pages keep the association masthead on purpose: a state
+   tournament is an association property. */
+
+.fh-mast.tenant { display: none; }
+
+.fh-utility { border-bottom: var(--hairline); background: var(--surface-mast); }
+.fh-utility .wrap { display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; padding-top: 6px; padding-bottom: 6px; }
+.fh-utility .back { font-size: var(--fs-caption); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-secondary); }
+.fh-utility .net { font-size: 15px; color: var(--text-secondary); opacity: 0.85; }
+.fh-utility .net:hover { opacity: 1; text-decoration: none; }
+
+.fh-orgmast { border-bottom: 3px solid var(--org, var(--ink)); background: var(--surface-page); }
+.fh-orgmast .wrap { display: flex; align-items: center; gap: 16px;
+  padding-top: 16px; padding-bottom: 14px; flex-wrap: wrap; }
+.fh-orgmast .idn { display: flex; align-items: center; gap: 14px; color: inherit; flex: 1; }
+.fh-orgmast .idn:hover { text-decoration: none; }
+.fh-orgmast .idn .fh-crest.lg { width: 56px; height: 56px; font-size: 17px; }
+.fh-orgmast .nm { display: block; font-family: var(--font-display); font-weight: 800;
+  font-size: 30px; line-height: 1.02; letter-spacing: -0.01em;
+  text-transform: uppercase; }
+.fh-orgmast .kind { display: block; margin-top: 3px; font-size: var(--fs-caption);
+  font-weight: 700; text-transform: uppercase; letter-spacing: var(--ls-caps);
+  color: var(--text-muted); }
+.fh-orgmast .fh-orgnav { display: flex; gap: 18px; width: 100%;
+  padding-top: 12px; margin-top: 12px; border-top: var(--hairline); }
+.fh-orgmast .fh-orgnav a { font-family: var(--font-condensed); font-weight: 800;
+  font-size: var(--fs-small); text-transform: uppercase; letter-spacing: var(--ls-caps);
+  color: inherit; padding-bottom: 2px; border-bottom: 3px solid transparent; }
+.fh-orgmast .fh-orgnav a:hover { text-decoration: none;
+  border-bottom-color: var(--org, var(--ink)); }
+.fh-orgmast .fh-burger { display: none; }
+
+@media (max-width: 760px) {
+  .fh-orgmast .nm { font-size: 22px; }
+  .fh-orgmast .idn .fh-crest.lg { width: 42px; height: 42px; font-size: 13px; }
+  .fh-orgmast .fh-burger { display: flex; }
+  .fh-orgmast .fh-orgnav { gap: 14px; overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; }
+  .fh-orgmast .fh-orgnav::-webkit-scrollbar { display: none; }
+  .fh-orgmast .fh-orgnav a { flex: 0 0 auto; }
+}
+
+.fh-drawersplit { margin: 14px 0 2px; padding-top: 10px; border-top: var(--hairline);
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted); }
+.fh-drawer .top.org { font-weight: 800; }
+
+/* the thin detail line under a tenant masthead — mascot, city, league */
+.fh-orgsub { display: flex; align-items: center; flex-wrap: wrap; gap: 7px;
+  margin: 2px 0 14px; padding: 9px 0 10px; border-bottom: var(--hairline);
+  font-size: var(--fs-small); color: var(--text-secondary); }
+.fh-orgsub .mascot { font-weight: 700; color: var(--text-primary); }
+.fh-orgsub .dot { color: var(--text-muted); }
+.fh-orgsub .side { margin-left: auto; }

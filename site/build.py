@@ -460,7 +460,37 @@ def sponsor_rail() -> str:
         for s in sponsors.SPONSORS)
 
 
-def shell(title, body, crumb="", back="", story=None):
+def tenant_masthead(t):
+    """A member organisation's own masthead.
+
+    VarsityApex is a network, and the relationship is the other way round from
+    what a single site implies: on a school's athletics page the SCHOOL is the
+    publisher and the association is the network it belongs to. So the state
+    masthead collapses to a link-back in a utility strip, the school's mark and
+    name become the dominant header in the school's own colours, and the
+    navigation becomes the school's.
+
+    Championship pages deliberately do NOT get this — a state tournament is an
+    association property and keeps the association's masthead.
+    """
+    nav = "".join(f"<a href='{u}'>{esc(l)}</a>" for l, u in t["nav"])
+    return f"""
+<div class="fh-utility"><div class="wrap">
+  <a class="back" href="{t['parent_url']}">← {esc(t['parent'])}</a>
+  <a class="net" href="/">{WORDMARK}</a>
+</div></div>
+<header class="fh-orgmast" style="--org:{t['color']}"><div class="wrap">
+  <a class="idn" href="{t['home']}">{t['mark']}
+    <span class="txt"><span class="nm">{esc(t['name'])}</span>
+    <span class="kind">{esc(t['kind'])}</span></span></a>
+  <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </label>
+  <nav class="fh-orgnav">{nav}</nav>
+</div></header>"""
+
+
+def shell(title, body, crumb="", back="", story=None, tenant=None):
     pill = ""
     if back:
         label, url = back.split("|")
@@ -479,7 +509,8 @@ def shell(title, body, crumb="", back="", story=None):
 <body>
 {icons.sprite()}
 <input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
-<header class="fh-mast"><div class="wrap">
+{tenant_masthead(tenant) if tenant else ""}
+<header class="fh-mast{' tenant' if tenant else ''}"><div class="wrap">
   <a class="fh-wordmark" href="/">{WORDMARK}</a>
   <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -509,6 +540,8 @@ def shell(title, body, crumb="", back="", story=None):
     <span class="fh-wordmark">{WORDMARK}</span>
     <label class="fh-drawerclose" for="fh-navtoggle" aria-label="Close menu">×</label>
   </div>
+  {''.join(f"<a class='top org' href='{u}'>{esc(l)}</a>" for l, u in tenant["nav"])
+   + "<div class='fh-drawersplit'>" + esc(ASSOC) + "</div>" if tenant else ""}
   <a class="top" href="/scoreboard/">Scores</a>
   <a class="top" href="/championships/">Championships</a>
   <a class="top" href="/news/">News</a>
@@ -872,6 +905,7 @@ def render_dual(reg, c: Dual):
 <div class="fh-thead"><span class="fh-th"></span><span class="fh-th">{esc(c.away)}</span>
 <span class="fh-th">{esc(c.home)}</span><span class="fh-th">Score</span></div>
 {''.join(rows)}</div></div></div>
+{provenance_note(reg, c)}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
@@ -1391,16 +1425,17 @@ def render_school(reg, s):
 
     ribbon = season_ribbon(sorted(s.get("sports", [])), link=lambda k: f"#t-{k}")
 
+    # No identity block and no in-page nav: the tenant masthead above carries
+    # both. Keeping them printed the school's name, crest and navigation twice
+    # on its own front page — which is what happens when a page that used to be
+    # a subsection of someone else's site becomes the top of its own.
     body = f"""
-<div class="fh-idhdr school athletics" style="border-top-color:{primary}">
-  {reg.crest(name, 'lg')}
-  <div><div class="name">{esc(name)}</div>
-  <div class="meta">{esc(s['mascot'])} · {esc(s['city'])} · {conf_html}</div></div>
-  <div class="side">{class_chip(s['classification'])}</div>
+<div class="fh-orgsub" style="border-color:{primary}">
+  <span class="mascot">{esc(s['mascot'])}</span>
+  <span class="dot">·</span><span>{esc(s['city'])}</span>
+  {f"<span class='dot'>·</span>{conf_html}" if conf_html else ""}
+  <span class="side">{class_chip(s['classification'])}</span>
 </div>
-{org_nav([("Home", "#"), ("Teams", "#teams"), ("Schedule", "#schedule"),
-          ("Results", "#results"), ("Championships", "#championships" if champs else "#schedule"),
-          ("Athletics Info", "#info")])}
 {ribbon}
 {lead}
 <div id="results"></div>
@@ -1415,7 +1450,21 @@ def render_school(reg, s):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/schools/'>Schools</a> › {esc(name)}"
-    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/")
+    url = f"/schools/{s['slug']}/"
+    tenant = {
+        "name": f"{name} Athletics",
+        "kind": f"{s.get('classification','')} · {conf}" if conf else s.get("classification", ""),
+        "mark": reg.crest(name, "lg"),
+        "color": primary,
+        "home": url,
+        "parent": ASSOC,
+        "parent_url": "/",
+        "nav": [("Home", url), ("Teams", url + "#teams"), ("Schedule", url + "#schedule"),
+                ("Results", url + "#results"), ("Championships", url + "#championships"),
+                ("Athletics Info", url + "#info")],
+    }
+    return shell(page_title(f"{name} Athletics"), body, crumb,
+                 "← Schools|/schools/", tenant=tenant)
 
 
 def render_conference(reg, conf):
@@ -1579,15 +1628,11 @@ def render_conference(reg, conf):
                   f"<div class='fh-teamseason'>{''.join(champ_rows)}</div></div></div>")
 
     body = f"""
-<div class="fh-idhdr athletics">
-  <div></div>
-  <div><div class="name">{esc(conf['name'])}</div>
-  <div class="meta">{esc(conf['area'])} · <span class="tnum">{len(members)}</span> member schools</div></div>
-  <div class="side"></div>
+<div class="fh-orgsub">
+  <span class="mascot">{esc(conf['area'])}</span>
+  <span class="dot">·</span><span><span class="tnum">{len(members)}</span> member schools</span>
 </div>
-{org_nav([("Home", "#"), ("Schools", "#schools"), ("Standings", "#standings"),
-          ("Schedule", "#schedule"), ("Championships", "#championships" if champs else "#standings")])}
-<div class="fh-memberstrip" id="schools">{strip}</div>
+<div class="fh-memberstrip" id="members">{strip}</div>
 {ribbon}
 {lead}
 {standings}
@@ -1597,7 +1642,26 @@ def render_conference(reg, conf):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/#conferences'>Conferences</a> › {esc(conf['name'])}"
-    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences")
+    url = f"/conferences/{conf['slug']}/"
+    # A conference has no crest of its own, so its mark is its initials in the
+    # same shape a school's mark uses — the header reads as an identity either
+    # way, rather than as a heading with nothing beside it.
+    mark = (f"<span class='fh-crest lg {crest_class(conf['name'])}'>"
+            f"{esc(monogram(conf['name']))}</span>")
+    tenant = {
+        "name": conf["name"],
+        "kind": f"{len(members)} member schools",
+        "mark": mark,
+        "color": "var(--ink)",
+        "home": url,
+        "parent": ASSOC,
+        "parent_url": "/",
+        "nav": [("Home", url), ("Members", url + "#members"),
+                ("Standings", url + "#standings"), ("Schedule", url + "#schedule"),
+                ("Results", url + "#results"), ("Champions", url + "#champions")],
+    }
+    return shell(page_title(f"{conf['name']}"), body, crumb,
+                 "← Conferences|/#conferences", tenant=tenant)
 
 
 def render_athlete(reg, a):
