@@ -32,6 +32,8 @@ _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
 news = _ilu.module_from_spec(_spec); _spec.loader.exec_module(news)
 _ispec = _ilu.spec_from_file_location("fh_icons", ROOT / "site/icons.py")
 icons = _ilu.module_from_spec(_ispec); _ispec.loader.exec_module(icons)
+_pspec = _ilu.spec_from_file_location("fh_sponsors", ROOT / "site/sponsors.py")
+sponsors = _ilu.module_from_spec(_pspec); _pspec.loader.exec_module(sponsors)
 _sspec = _ilu.spec_from_file_location("fh_stdsite", ROOT / "site/standardsite.py")
 stdsite = _ilu.module_from_spec(_sspec); _sspec.loader.exec_module(stdsite)
 
@@ -374,6 +376,14 @@ def build_menus(reg):
     DRAWER_RES = "".join(rsec)
 
 
+def sponsor_rail() -> str:
+    """Sponsor wordmarks, set in the site's faces. No hrefs — these are
+    fictional businesses, and a dead link in a footer is worse than none."""
+    return "".join(
+        f"<span class='fh-logo lm-{s['style']}'>{esc(s['name'])}</span>"
+        for s in sponsors.SPONSORS)
+
+
 def shell(title, body, crumb="", back="", story=None):
     pill = ""
     if back:
@@ -453,7 +463,8 @@ def shell(title, body, crumb="", back="", story=None):
 }})();
 </script>
 <footer class="fh-foot"><div class="wrap">
-  <a href="https://github.com/quarterback/prep-network">github.com/quarterback/prep-network</a>
+  <div class="fh-sponsors">{sponsor_rail()}</div>
+  <div class="fh-footmark">{WORDMARK}</div>
 </div></footer>
 </body>
 </html>
