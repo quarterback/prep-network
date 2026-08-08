@@ -1,5 +1,5 @@
 """
-The JHSAA activities catalog: 46 sanctioned activities over three shapes.
+The JHSAA activities catalog: 45 sanctioned activities over three shapes.
 
 Two ideas carry this file:
 
@@ -99,8 +99,7 @@ CATALOG: list[Sport] = [
     Sport("girls-alpine-skiing", "Girls Alpine Skiing", "winter", "Girls", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
     Sport("boys-nordic-skiing", "Boys Nordic Skiing", "winter", "Boys", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
     Sport("girls-nordic-skiing", "Girls Nordic Skiing", "winter", "Girls", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
-    Sport("boys-bowling", "Boys Bowling", "winter", "Boys", S.MEET, M.PINFALL, _g("6A-4A 3A-1A"), "broad"),
-    Sport("girls-bowling", "Girls Bowling", "winter", "Girls", S.MEET, M.PINFALL, _g("6A-4A 3A-1A"), "broad"),
+    Sport("bowling", "Bowling", "winter", "Coed", S.MEET, M.PINFALL, _g("6A-4A 3A-1A"), "broad"),
     Sport("boys-fencing", "Boys Fencing", "winter", "Boys", S.DUAL, None, OPEN, "metro"),
     Sport("girls-fencing", "Girls Fencing", "winter", "Girls", S.DUAL, None, OPEN, "metro"),
     Sport("gymnastics", "Gymnastics", "winter", "Girls", S.MEET, M.POINTS, _g("6A-5A 4A-1A"), "metro"),
