@@ -443,6 +443,7 @@ def shell(title, body, crumb="", back="", story=None):
 <title>{esc(title)}</title>
 <link rel="stylesheet" href="/style.css">
 {favicon_tag()}{stdsite.head_links(story)}
+<script defer src="/_vercel/insights/script.js"></script>
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
