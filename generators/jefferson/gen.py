@@ -161,27 +161,60 @@ class Gen:
         return schools
 
     def build_conferences(self, schools) -> list[dict]:
+        """Leagues are geographic — who you can reach on a Tuesday night.
+
+        These used to be built as `members[i::n_conf]` over an area sorted by
+        enrollment, so each league took every nth school by size and scattered
+        itself across the whole area, then took a name off the random stem list
+        with no relation to where it was. Schools now cluster by town before
+        they're split, and a league is named for the town it centres on, so
+        reading the members tells you where it is.
+        """
         rng = self.rng
         confs = []
         flavors = ["League", "Conference", "League", "Athletic Conference"]
         for area, _kind in AREAS:
-            members = sorted((s for s in schools if s["area"] == area),
-                             key=lambda s: -s["enrollment"])
+            members = [s for s in schools if s["area"] == area]
             if not members:
                 continue
             n_conf = max(1, round(len(members) / 8))
-            chunks = [members[i::n_conf] for i in range(n_conf)]
-            for chunk in chunks:
-                while True:
-                    nm = f"{rng.choice(N.STEMS)} {rng.choice(flavors)}"
-                    if nm.lower() not in self.used_places:
-                        self.used_places.add(nm.lower()); break
+
+            by_city: dict[str, list] = {}
+            for s in members:
+                by_city.setdefault(s["city"], []).append(s)
+            ordered = []
+            for city in sorted(by_city, key=lambda c: (-len(by_city[c]), c)):
+                ordered.extend(sorted(by_city[city], key=lambda s: -s["enrollment"]))
+
+            size = -(-len(ordered) // n_conf)          # ceil, so no empty chunk
+            for i in range(n_conf):
+                chunk = ordered[i * size:(i + 1) * size]
+                if not chunk:
+                    continue
+                cities = [s["city"] for s in chunk]
+                anchor = max(set(cities), key=lambda c: (cities.count(c), c))
+                nm = self._conf_name([anchor, area], flavors, rng)
                 slug = slugify(nm)
                 for s in chunk:
                     s["conference"] = nm
                 confs.append(dict(name=nm, slug=slug, area=area,
                                   members=[s["name"] for s in chunk]))
         return confs
+
+    def _conf_name(self, bases, flavors, rng) -> str:
+        """First free name from the geographic candidates; the stem list is a
+        last resort so a league never silently loses its place-name."""
+        for base in bases:
+            for flavor in flavors:
+                nm = f"{base} {flavor}"
+                if nm.lower() not in self.used_places:
+                    self.used_places.add(nm.lower())
+                    return nm
+        while True:
+            nm = f"{rng.choice(N.STEMS)} {rng.choice(flavors)}"
+            if nm.lower() not in self.used_places:
+                self.used_places.add(nm.lower())
+                return nm
 
     def build_offerings(self, schools):
         rng = self.rng
@@ -490,6 +523,13 @@ class Gen:
         "competitive-spirit": [("Game Day Routine", 0, (62.0, 94.0))],
         "winter-track": [("60 Meter Dash", 3, (7.0, 8.6)), ("400 Meter Dash", 3, (50, 68)),
                          ("1600 Meter Run", 3, (260, 340))],
+        # Activities: same MEET machinery, marks that match how each is judged.
+        # A band show is scored by a judging panel; a choir earns a division
+        # RATING (I best); debate is pure placement. No invented box scores.
+        "marching-band": [("Field Show", 0, (58.0, 96.0))],
+        "choir": [("Concert Choir", 0, (1.0, 4.0)), ("Chamber Ensemble", 0, (1.0, 4.0))],
+        "debate": [("Policy Debate", 2, (1.0, 30.0)), ("Lincoln-Douglas", 2, (1.0, 30.0)),
+                   ("Public Forum", 2, (1.0, 30.0))],
     }
 
     def meet_family(self, key):
@@ -523,7 +563,7 @@ class Gen:
                         base = (lo + hi) / 2 - st * (hi - lo) * 0.08 + rng.gauss(0, (hi - lo) * 0.07)
                         val = min(hi, max(lo, base))
                         if sport.lower_is_better is False and sport.mark_type.value in ("points", "pinfall"):
-                            val = (lo + hi) - val + lo  # high is good
+                            val = lo + hi - val  # reflect: strong teams score high
                         comp = []
                         if roster:
                             p = roster[k % len(roster)]
@@ -532,12 +572,16 @@ class Gen:
                             raw = self.fmt_time(val)
                         elif sport.mark_type.value in ("strokes", "pinfall"):
                             raw = str(int(val))
+                        elif sport.mark_type.value == "rating":
+                            raw = ["I", "II", "III", "IV"][min(3, int(val) - 1)]
                         else:
                             raw = f"{val:.2f}"
                         rows.append((val, school, comp, raw))
                 better_low = sport.lower_is_better or sport.mark_type.value in ("time", "strokes")
                 rows.sort(key=lambda r: r[0] if better_low else -r[0])
                 for place, (val, school, comp, raw) in enumerate(rows, 1):
+                    if sport.mark_type.value == "ordinal":
+                        raw = str(place)     # debate's mark IS the placement
                     mark = parse_mark(raw, sport.mark_type)
                     if incomplete and rng.random() < 0.15:
                         mark = None

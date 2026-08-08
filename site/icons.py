@@ -29,6 +29,10 @@ ICONS = {
  "swimming": "<path d=\"M16 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M6 11l4 -2l3.5 3l-1.5 2\" /> <path d=\"M3 16.75a2.4 2.4 0 0 0 1 .25a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2 -1a2.4 2.4 0 0 1 2 -1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 1 -.25\" />",
  "sword": "<path d=\"M20 4v5l-9 7l-4 4l-3 -3l4 -4l7 -9z\" /> <path d=\"M6.5 11.5l6 6\" />",
  "target-arrow": "<path d=\"M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M12 7a5 5 0 1 0 5 5\" /> <path d=\"M13 3.055a9 9 0 1 0 7.941 7.945\" /> <path d=\"M15 6v3h3l3 -3h-3v-3z\" /> <path d=\"M15 9l-3 3\" />",
+ "music": "<path d=\"M3 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0\" /> <path d=\"M13 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0\" /> <path d=\"M9 17v-13h10v13\" /> <path d=\"M9 8h10\" />",
+ "microphone": "<path d=\"M15 12.9a5 5 0 1 0 -3.902 -3.9\" /> <path d=\"M15 12.9l-3.902 -3.899l-7.513 8.584a2 2 0 1 0 2.827 2.83l8.588 -7.515z\" />",
+ "messages": "<path d=\"M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10\" /> <path d=\"M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2\" />",
+ "disc": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\" /> <path d=\"M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M7 12a5 5 0 0 1 5 -5\" /> <path d=\"M12 17a5 5 0 0 0 5 -5\" />",
  "yoga": "<path d=\"M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M4 20h4l1.5 -3\" /> <path d=\"M17 20l-1 -5h-5l1 -7\" /> <path d=\"M4 10l4 -1l4 -1l4 1.5l4 1.5\" />"
 }
 
@@ -73,7 +77,12 @@ SPORT_ICON = {
  "boys-volleyball": "ball-volleyball",
  "girls-golf": "golf",
  "boys-track": "run",
- "girls-track": "run"
+ "girls-track": "run",
+ "girls-badminton": "ball-tennis",
+ "ultimate": "disc",
+ "marching-band": "music",
+ "choir": "microphone",
+ "debate": "messages"
 }
 
 
