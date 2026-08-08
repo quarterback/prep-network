@@ -390,6 +390,7 @@ def shell(title, body, crumb="", back=""):
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
+{icons.sprite()}
 <input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
 <header class="fh-mast"><div class="wrap">
   <a class="fh-wordmark" href="/">{BRAND}</a>

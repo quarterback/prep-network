@@ -1,5 +1,11 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "python3 site/build.py",
   "outputDirectory": "dist/site",
-  "framework": null
+  "framework": null,
+  "functions": {
+    "api/**/*.py": {
+      "excludeFiles": "{dist/**,records/**,site/**,generators/**,tests/**,docs/**,report/**,**/__pycache__/**}"
+    }
+  }
 }

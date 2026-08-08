@@ -77,8 +77,20 @@ SPORT_ICON = {
 }
 
 
+def sprite() -> str:
+    """Every glyph as a <symbol>, emitted once per page.
+
+    Inlining the paths at each call site cost ~450 bytes a glyph, and the nav
+    carries the sports list twice (desktop dropdown + mobile drawer) — 82 icons,
+    ~37KB, on all 10,900 pages. Defined once and referenced, the same nav costs
+    the sprite (~9KB) plus ~55 bytes a reference. Stroke presentation moved to
+    CSS (`.fh-ic`) so a reference is just the class and the <use>.
+    """
+    syms = "".join(f'<symbol id="i-{name}" viewBox="0 0 24 24">{paths}</symbol>'
+                   for name, paths in ICONS.items())
+    return f'<svg class="fh-sprite" aria-hidden="true"><defs>{syms}</defs></svg>'
+
+
 def icon(sport_key: str, cls: str = "fh-ic") -> str:
-    name = SPORT_ICON.get(sport_key, "trophy")
-    return (f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-            f'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" '
-            f'aria-hidden="true">{ICONS[name]}</svg>')
+    name = SPORT_ICON.get(sport_key, "run")
+    return f'<svg class="{cls}" aria-hidden="true"><use href="#i-{name}"/></svg>'
