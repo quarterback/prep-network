@@ -1,12 +1,12 @@
 Licensed to Jefferson High School Activities Association        HY-TEK's MEET MANAGER 8.0 - 8:14 PM  2/20/2027  Page 1
-                        2027 JHSAA 6A-5A Swimming & Diving State Championships
+                        2027 JHSAA 7A-5A Swimming & Diving State Championships
                                     Ashbury Aquatic Center - 2/19/2027 to 2/20/2027
                                                   Results
 
 Event 1  Girls 200 Yard Medley Relay
     State: ! 1:44.32  2/16/2019 Ashbury Central
                                 A Chen, M Ruiz, K Patel, S Long
-    6A-5A: % 1:45.90  2/18/2023 Vista Terrace
+    7A-5A: % 1:45.90  2/18/2023 Vista Terrace
     Team                              Relay                    Seed Time  Finals Time  Points
 =================================================================================================
   1 Vista Terrace                     A                          1:48.22    1:47.05       40
@@ -93,7 +93,7 @@ Event 21 Girls 400 Yard Freestyle Relay
      1) Rasmussen, Ingrid 12               2) Petrov, Anya 12
      3) Delacroix, Simone 10               4) Grimaldi, Rosa 12
 
-Girls - 6A-5A - Team Rankings - Through Event 22
+Girls - 7A-5A - Team Rankings - Through Event 22
 =================================================================================================
     1) Vista Terrace                 331     2) Copper Lake East             298
     3) Norview                       266     4) Port Meridian South          185
@@ -101,7 +101,7 @@ Girls - 6A-5A - Team Rankings - Through Event 22
     7) Mabryville                     88     8) Elk Crossing                  74
     9) Farleymere                     51    10) Wickbrook                     33
 
-Boys - 6A-5A - Team Rankings - Through Event 22
+Boys - 7A-5A - Team Rankings - Through Event 22
 =================================================================================================
     1) Copper Lake East              344     2) Vista Terrace                311
     3) Norview                       240     4) Sage Summit                  166

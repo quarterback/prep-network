@@ -195,6 +195,44 @@ Worth the habit: for anything visual, render it.
   field sizes.
 - Three of the four specimens are reconstructions, as above.
 
+## Merging main: the base was stale
+
+This branch was cut from a `main` that has since moved a long way, and the
+divergence mattered more than the diff suggested. `main` had landed **the 7A
+expansion** — the state went from 256 schools to 840 across seven
+classifications, not six — plus generated athletic marks (`site/marks.py`) and
+a recomposed school/conference homepage.
+
+Three consequences, none of which would have shown as a merge conflict:
+
+- **The postseason was generated against the wrong state.** 112 championships
+  built from 256 schools, with 7A missing entirely. Regenerating against the
+  real state gives 129 championships over 840 schools.
+- **Field-size bands went dead.** `target_field` was tuned when a division had
+  a few dozen eligible schools; against a median of 88 it returned 32 for 59 of
+  65 brackets, and five of the six shapes the renderer must support stopped
+  occurring in real data. Rebanded against the actual spread.
+- **Two more undecided finals.** The bigger state contained a championship with
+  `status: final` and null scores — a second flavour of the "decides nothing"
+  bug alongside the draws, and it stuck a bracket the same way. The check now
+  covers both and leaves genuinely cancelled finals alone.
+
+On the tenant masthead specifically, `main` had already recomposed the local
+brand block, and its version is better than the one written here: `fh-orghead`
+draws a school's *generated athletic mark* rather than a monogram square, and
+already carries the Home · Teams · Schedule · Results · Championships ·
+Athletics Info navigation. So the merge takes main's block wholesale and this
+branch's contribution narrows to the part main was missing — replacing the state
+masthead with a `← JHSAA` utility strip. Keeping both would have put the
+school's identity on its own front page twice, which is the same duplication
+this work removed once already.
+
+The tests that broke on merge were the ones pinned to specific fixture data —
+three named Copper Lakes, a `6A-5A` swimming division that is now `7A-5A`, a
+cancelled final that no longer exists. They are now written against the shape of
+the invariant instead of the fixture, so the next state regeneration does not
+fail them for the wrong reason.
+
 ## Commands
 
 ```sh

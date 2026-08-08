@@ -277,10 +277,16 @@ def test_resolution_ladder(resolver, raw, school, method):
 
 
 def test_ambiguity_is_refused_not_guessed(resolver):
-    """Choosing between Copper Lake / East / West would be invisibly wrong."""
+    """Choosing between Copper Lake / East / West would be invisibly wrong.
+
+    Asserted on the SHAPE of the refusal, not on a fixed candidate list — the
+    state gains schools, and a test pinned to three names fails for the wrong
+    reason the moment a fourth Copper Lake opens.
+    """
     r = resolver.resolve("Copper Lak")
-    assert r.school is None
-    assert set(r.candidates) == {"Copper Lake", "Copper Lake East", "Copper Lake West"}
+    assert r.school is None and r.method == "unresolved"
+    assert len(r.candidates) >= 2
+    assert all(c.startswith("Copper Lak") for c in r.candidates)
 
 
 def test_unknown_school_is_reported_not_invented(resolver):
@@ -292,10 +298,11 @@ def test_unknown_school_is_reported_not_invented(resolver):
 def test_resolution_rewrites_competitors_with_their_school():
     """A school renamed without its athletes orphans every one of them."""
     game = scorebook_csv.parse(str(BOX))[0]
-    game.home = "Ansotegui Sidin"                      # as a truncated source would
+    stale = "Ansotegui Siding High School"             # as an unfolded source would
+    game.home = stale
     for s in game.box.home:
         s.competitor = type(s.competitor)(
-            name=s.competitor.name, school="Ansotegui Sidin", year=s.competitor.year)
+            name=s.competitor.name, school=stale, year=s.competitor.year)
     r = Resolver.from_records(RECORDS)
     resolve_mod.apply_to_contest(game, r)
     assert game.home == "Ansotegui Siding"

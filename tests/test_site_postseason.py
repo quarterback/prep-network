@@ -55,7 +55,9 @@ def _has_state_masthead(html):
 
 
 def _has_org_masthead(html):
-    return "fh-orgmast" in html
+    """The state mast replaced by the network utility strip, with the local
+    organisation's own header (`fh-orghead`) owning the page beneath it."""
+    return "fh-utility" in html and "fh-orghead" in html
 
 
 def test_a_school_page_is_the_schools_own_masthead(reg):
@@ -63,7 +65,7 @@ def test_a_school_page_is_the_schools_own_masthead(reg):
     html = build.render_school(reg, school)
     assert _has_org_masthead(html)
     assert not _has_state_masthead(html)
-    assert "ASHBROOK ATHLETICS" in html.upper()
+    assert "ASHBROOK" in html.upper()
     assert "← JHSAA" in html                      # the association collapses to a link-back
     assert "VarsityApex › Schools › Ashbrook" in re.sub(r"<[^>]+>", "", html)
 
@@ -73,16 +75,16 @@ def test_a_school_page_states_its_identity_once(reg):
     again in the body is what a subsection-turned-homepage looks like."""
     html = build.render_school(reg, reg.schools["Ashbrook"])
     body = html.split("</head>", 1)[-1]      # the <title> says it too
-    assert body.upper().count("ASHBROOK ATHLETICS") == 1
-    assert html.count("fh-orgnav") == 1
+    assert body.count("fh-orghead") == 1
+    assert body.count("fh-orgnav") == 1
     assert "fh-idhdr school" not in html
 
 
 def test_a_conference_page_is_its_own_masthead(reg):
-    conf = reg.confs["greater-ashbury-conference"]
+    slug, conf = next(iter(sorted(reg.confs.items())))
     html = build.render_conference(reg, conf)
     assert _has_org_masthead(html) and not _has_state_masthead(html)
-    assert "Greater Ashbury Conference" in html
+    assert conf["name"] in html
 
 
 def test_championship_pages_keep_the_association_masthead(reg):
@@ -107,17 +109,20 @@ def test_contest_pages_keep_the_association_masthead(reg):
 def test_championships_hub_lists_sports_and_divisions(reg):
     html = build.render_championships(reg)
     assert "/championships/football/" in html
-    for group in ("6A", "5A", "4A", "3A", "2A", "1A"):
+    for group in build.CLASSES:                 # every class, 7A included
         assert f">{group}</a>" in html
     assert "Happening now" in html
     assert "0 shown" not in html
 
 
 def test_hub_shows_consolidated_divisions_not_six_fabricated_ones(reg):
-    """Field hockey crowns two champions, not six."""
-    html = build.render_champ_sport(reg, build.BY_KEY["field-hockey"])
+    """Field hockey crowns two champions, not one per classification."""
+    sport = build.BY_KEY["field-hockey"]
+    expected = {sport.champ_group(g[0]) for g in sport.groups}
+    assert len(expected) < len(build.CLASSES)
+    html = build.render_champ_sport(reg, sport)
     groups = set(re.findall(r"class='dv'>.*?>(\S+?)</span>", html))
-    assert groups <= {"6A-5A", "4A-1A"}
+    assert groups <= expected
 
 
 def test_football_1a_bracket_renders_the_whole_tree(reg):

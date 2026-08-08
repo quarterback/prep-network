@@ -70,7 +70,13 @@ ROUND_GAP = 7
 #: Chosen so the six bracket shapes the renderer must support (4/8/12/16/24/32)
 #: all actually occur in the state rather than being unit-test-only.
 def target_field(eligible: int) -> int:
-    for floor, size in ((44, 32), (30, 24), (20, 16), (14, 12), (8, 8)):
+    # Bands are set against the ACTUAL spread of the state (median ~88 schools
+    # per division, range 1-317). Tuned once for a 256-school state, every band
+    # but the top one went empty when the 7A expansion tripled it: 59 of 65
+    # brackets came out at 32 and the renderer's other five shapes stopped
+    # occurring in real data. A qualifying field is a fraction of the division,
+    # not a constant.
+    for floor, size in ((120, 32), (80, 24), (50, 16), (30, 12), (16, 8)):
         if eligible >= floor:
             return size
     return 4
@@ -263,17 +269,24 @@ def _play(t: Tournament, today: str, rng: random.Random,
 # ------------------------------------------------------------------- driver
 
 
-def _drop_drawn_finals(records_dir: pathlib.Path) -> list[str]:
-    """Delete published championship games that ended level.
+def _drop_undecided_finals(records_dir: pathlib.Path) -> list[str]:
+    """Delete published championship games that decide nothing.
 
-    A knockout final cannot be a draw — somebody lifts the trophy. Four of the
-    state's fall finals were generated as 0-0 and 1-1 placeholders, which is
-    invisible until a bracket is built on top of them: the tournament adopts a
-    final with no winner, never resolves, and reports itself as still in
-    progress months after it was played. On the championships page that shows
-    up as "Boys Soccer · Championship — happening now" in January.
+    Two kinds, both generated as placeholders and both invisible until a bracket
+    is built on top of them:
 
-    They are removed rather than patched with an invented winner here, so the
+      * a **draw** — a knockout final cannot end level, somebody lifts the
+        trophy;
+      * a **scoreless "final"** — status says final, both scores are null.
+
+    Either way the tournament adopts a final with no winner, never resolves, and
+    reports itself as still in progress months after it was played. On the
+    championships page that reads as "Boys Soccer · Championship — happening
+    now" in January.
+
+    A genuinely CANCELLED final is kept: "the title was not decided" is a fact
+    about the season, and the bracket says so rather than inventing a champion.
+    The rest are removed rather than patched with a made-up winner, so the
     bracket derives the final like any other and there is still exactly one
     record of it.
     """
@@ -287,17 +300,24 @@ def _drop_drawn_finals(records_dir: pathlib.Path) -> list[str]:
             continue
         if d.get("$type") != records_io.GAME_TYPE:
             continue
+        if d.get("status") == "cancelled":
+            continue
         home, away = d.get("homeScore"), d.get("awayScore")
-        if home is not None and home == away:
-            dropped.append(f"{d.get('sport')} {d.get('name')} ({home}-{away})")
+        why = None
+        if home is None or away is None:
+            why = "no score"
+        elif home == away:
+            why = f"drawn {home}-{away}"
+        if why:
+            dropped.append(f"{d.get('sport')} {d.get('name')} ({why})")
             path.unlink()
     return dropped
 
 
 def build(records_dir: pathlib.Path, today: str = TODAY) -> tuple[int, int]:
     schools, _ = records_io.load_orgs(records_dir)
-    for note in _drop_drawn_finals(records_dir):
-        print(f"  dropped drawn final: {note}")
+    for note in _drop_undecided_finals(records_dir):
+        print(f"  dropped undecided final: {note}")
 
     # A generator must not read its own output. Left in, last run's quarterfinals
     # count as regular-season wins, which moves the seeds, which moves the

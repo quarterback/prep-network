@@ -480,6 +480,1059 @@
     "Wellers Landing",
     "Windrow"
    ]
+  },
+  {
+   "name": "Ashbury City Conference",
+   "slug": "ashbury-city-conference",
+   "area": "Ashbury Metro",
+   "members": [
+    "Amos Moss",
+    "Dolores Huerta",
+    "Los Robles",
+    "Los Robles Classical School",
+    "Westover",
+    "Winifred Davenport"
+   ]
+  },
+  {
+   "name": "Civic League",
+   "slug": "civic-league",
+   "area": "Ashbury Metro",
+   "members": [
+    "Elias Mercier",
+    "Evelyn Booker",
+    "Manuel Cordero",
+    "Mount Horeb",
+    "Mount Horeb Academy of Arts and Letters",
+    "Rye Academy of Arts and Letters",
+    "Teresa Escobedo",
+    "Jean Weiss",
+    "Renata Dahl"
+   ]
+  },
+  {
+   "name": "Commonwealth League",
+   "slug": "commonwealth-league",
+   "area": "Ashbury Metro",
+   "members": [
+    "Boyerstown",
+    "Eastgate",
+    "Leonard Coleman",
+    "Octavia Butler",
+    "Opal Stokes",
+    "Oskar Bellini"
+   ]
+  },
+  {
+   "name": "Jefferson Capital Conference",
+   "slug": "jefferson-capital-conference",
+   "area": "Ashbury Metro",
+   "members": [
+    "Beatrice Davenport",
+    "Fort Rogue",
+    "Isabel Ibarra",
+    "Althea Freeman",
+    "Los Alisos",
+    "Yuri Kochiyama",
+    "Ida B. Wells",
+    "Naomi Ward",
+    "San Joaqu\u00edn"
+   ]
+  },
+  {
+   "name": "Metropolitan Athletic Conference",
+   "slug": "metropolitan-athletic-conference",
+   "area": "Ashbury Metro",
+   "members": [
+    "Ansotegui Siding Commonwealth",
+    "Copper Lake Academy of Music and Media",
+    "Hawk Lake Eastgate",
+    "Grace Lee Boggs",
+    "Lillian Williams",
+    "James Baldwin",
+    "Perryville",
+    "Perryville Civic Leadership Academy",
+    "Petra Bianchi"
+   ]
+  },
+  {
+   "name": "Rose Valley League",
+   "slug": "rose-valley-league",
+   "area": "Ashbury Metro",
+   "members": [
+    "Commonwealth",
+    "Gabriel Montoya",
+    "Lars Jansen",
+    "Nathaniel Gaines",
+    "Sof\u00eda Cordero",
+    "St. Varian"
+   ]
+  },
+  {
+   "name": "Westside League",
+   "slug": "westside-league",
+   "area": "Ashbury Metro",
+   "members": [
+    "Belden Springs",
+    "Belden Springs Academy of Music and Media",
+    "Haverly",
+    "Katherine Johnson",
+    "Purcell School of Commerce",
+    "Willa Brown",
+    "Quillan",
+    "Quillan Technical Arts Academy",
+    "San Lorenzo",
+    "Selbyville Manufacturing and Technology Academy"
+   ]
+  },
+  {
+   "name": "Cascade Metro League",
+   "slug": "cascade-metro-league",
+   "area": "Cascade Divide",
+   "members": [
+    "Celia Browne",
+    "Eleanor Cole",
+    "Fort Carden",
+    "Snowline",
+    "Timber Crest",
+    "Winifred Booker"
+   ]
+  },
+  {
+   "name": "High Lakes League",
+   "slug": "high-lakes-league",
+   "area": "Cascade Divide",
+   "members": [
+    "Annie Springs Crater View",
+    "Crater View",
+    "Dahlberg",
+    "Dahlberg School of Science and Industry",
+    "Klamoya",
+    "St. Sophia School",
+    "New Leiden Classical Academy",
+    "John Lewis",
+    "Novak",
+    "Soren Ekstr\u00f6m",
+    "Mila Melnick",
+    "Mountain Gate",
+    "Orlova"
+   ]
+  },
+  {
+   "name": "Summit Conference",
+   "slug": "summit-conference",
+   "area": "Cascade Divide",
+   "members": [
+    "Anya Antonov",
+    "Gwendolyn Brooks",
+    "Igor Lebedev",
+    "Ruby Stokes",
+    "San Cordero",
+    "San Cordero Maritime Academy",
+    "San Cordero School of Commerce",
+    "St. Genevieve High School",
+    "Svenja Bianchi",
+    "Thurgood Marshall"
+   ]
+  },
+  {
+   "name": "Barclay Civic Conference",
+   "slug": "barclay-civic-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Bancroft",
+    "Sof\u00eda Barrag\u00e1n",
+    "Mary McLeod Bethune",
+    "Eleanor Tillman",
+    "Las Norias",
+    "Las Norias Foundry High",
+    "Naomi Moss",
+    "San Tom\u00e1s",
+    "Xavier Robles"
+   ]
+  },
+  {
+   "name": "Bellacosta Heritage Athletic Association",
+   "slug": "bellacosta-heritage-athletic-association",
+   "area": "Gold Valley",
+   "members": [
+    "Bellacosta Foundry High",
+    "Bellacosta University Prep",
+    "C\u00e9sar Mendoza",
+    "Fellows Mill",
+    "Fellows Mill Civic Leadership Academy",
+    "Gagarin",
+    "Gagarin School of Public Service",
+    "Mother Lode",
+    "Naomi Ellison"
+   ]
+  },
+  {
+   "name": "Fellows Mill Pioneer League",
+   "slug": "fellows-mill-pioneer-league",
+   "area": "Gold Valley",
+   "members": [
+    "Barclay",
+    "Barclay Golden Gate",
+    "Fellows Mill International School",
+    "Katherine Davenport",
+    "Leidesdorff Academy of Music and Media",
+    "Claudette Freeman",
+    "Monte Blanco",
+    "Monte Blanco Health Sciences Academy",
+    "Oscar Micheaux"
+   ]
+  },
+  {
+   "name": "Foundry League",
+   "slug": "foundry-league",
+   "area": "Gold Valley",
+   "members": [
+    "Golden Gate",
+    "Isaiah Price",
+    "Lars Bellini",
+    "Matteo Dahl",
+    "Montelago",
+    "Montelago Agricultural Sciences Academy",
+    "Rafael Escobedo",
+    "St. Agnes Preparatory",
+    "St. Helena Academy",
+    "Thomas Ekstr\u00f6m"
+   ]
+  },
+  {
+   "name": "Golden State Conference",
+   "slug": "golden-state-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Amos Cross",
+    "Astrid Ricci",
+    "Harlan Tillman",
+    "Lillian Stokes",
+    "Mercer City",
+    "Mercer City School of Design and Engineering",
+    "Mercer City Technical Arts Academy",
+    "Petra Jansen",
+    "St. Olga College Prep",
+    "Thomas Halvorsen"
+   ]
+  },
+  {
+   "name": "Mission Valley Athletic Conference",
+   "slug": "mission-valley-athletic-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Lillian Price",
+    "Lorna Booker",
+    "Moriarty",
+    "Moriarty Foundry High",
+    "Ruby Mercer",
+    "Vineyard High"
+   ]
+  },
+  {
+   "name": "Orchard League",
+   "slug": "orchard-league",
+   "area": "Gold Valley",
+   "members": [
+    "Foundry High",
+    "Gabriel Z\u00fa\u00f1iga",
+    "Lake Esperanza",
+    "Lake Esperanza School of Science and Industry",
+    "Marcus Price",
+    "Thomas Jansen"
+   ]
+  },
+  {
+   "name": "Sacramento Headwaters Conference",
+   "slug": "sacramento-headwaters-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Carmen Valera",
+    "Greta Adler",
+    "Orchard Hill",
+    "Rita Moreno",
+    "Thelma Moss",
+    "Valley Forge"
+   ]
+  },
+  {
+   "name": "San Telmo Union Conference",
+   "slug": "san-telmo-union-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Bellacosta",
+    "Harold Calder",
+    "San Telmo",
+    "San Telmo Agricultural Sciences Academy",
+    "Walter Langston",
+    "Evelyn Langston",
+    "Marcus Mercer",
+    "Pauli Booker",
+    "Vespertine"
+   ]
+  },
+  {
+   "name": "Silver Glen Industrial Athletic Association",
+   "slug": "silver-glen-industrial-athletic-association",
+   "area": "Gold Valley",
+   "members": [
+    "Abbey Vale",
+    "Abbey Vale Orchard Hill",
+    "Benedetti",
+    "Benedetti Orchard Hill",
+    "Thomas Moreau",
+    "McCrory",
+    "Tom\u00e1s Mar\u00edn",
+    "Pasquale",
+    "Porterfield",
+    "Greta Bellini",
+    "St. Elian",
+    "Velasco",
+    "Mission Ridge",
+    "Villard"
+   ]
+  },
+  {
+   "name": "Valley Metro Conference",
+   "slug": "valley-metro-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Cortland",
+    "Cortland Environmental Sciences Academy",
+    "Cortland Foundry High",
+    "Nathaniel Ward",
+    "Oskar Weiss",
+    "Svenja Ekstr\u00f6m"
+   ]
+  },
+  {
+   "name": "Vineyard League",
+   "slug": "vineyard-league",
+   "area": "Gold Valley",
+   "members": [
+    "Clara Cross",
+    "Jean Lindgren",
+    "Lars Mercier",
+    "Petra Weiss",
+    "St. Gabriel Preparatory",
+    "Valderra",
+    "Valderra Aviation and Engineering Academy",
+    "Valderra Technical Arts Academy",
+    "Winifred Browne"
+   ]
+  },
+  {
+   "name": "Arrieta Intercity Conference",
+   "slug": "arrieta-intercity-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Jon Arrieta",
+    "Nicol\u00e1s Trevi\u00f1o",
+    "Harold Whitaker",
+    "Sadie Freeman",
+    "Greaves",
+    "Greaves Aviation and Engineering Academy",
+    "St. Martin Preparatory",
+    "Viktor Gromov",
+    "Northrup"
+   ]
+  },
+  {
+   "name": "Basin Cities League",
+   "slug": "basin-cities-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Aitor Zubieta",
+    "Belyakov Agricultural Sciences Academy",
+    "Belyakov Depot High",
+    "Belyakov School of Public Service",
+    "Carmen Cordero",
+    "Mikhail Sidorov",
+    "Orchard Gate",
+    "Viktor Antonov",
+    "Yelena Belov"
+   ]
+  },
+  {
+   "name": "Ca\u00f1ada Grande Industrial Athletic Association",
+   "slug": "ca-ada-grande-industrial-athletic-association",
+   "area": "Halbrook Basin",
+   "members": [
+    "Ca\u00f1ada Grande",
+    "Itziar Lertxundi",
+    "Nikolai Orlov",
+    "St. Gabriel Academy",
+    "Emerson",
+    "Lorraine Hart",
+    "Nicol\u00e1s Villalba",
+    "Starlight",
+    "Starlight School of Science and Industry"
+   ]
+  },
+  {
+   "name": "Emerson Metropolitan League",
+   "slug": "emerson-metropolitan-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Arrieta",
+    "Arrieta Treasure Valley",
+    "Luc\u00eda Villase\u00f1or",
+    "Paul Robeson",
+    "Yuri Chernov",
+    "Beatriz Salcedo",
+    "Zubieta",
+    "Zubieta Manufacturing and Technology Academy",
+    "Zubieta River Plain"
+   ]
+  },
+  {
+   "name": "Foundry Conference",
+   "slug": "foundry-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Adela Villase\u00f1or",
+    "Andr\u00e9s Valera",
+    "Caswell",
+    "Caswell Classical School",
+    "Caswell Depot High",
+    "Caswell I-50 Technical",
+    "Caswell School of Science and Industry",
+    "Caswell University Prep",
+    "Salvador Montalvo",
+    "Tatiana Moroz"
+   ]
+  },
+  {
+   "name": "Gateway League",
+   "slug": "gateway-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Amaia Echevarria",
+    "Echevarria",
+    "Echevarria Foundry High",
+    "Echevarria I-50 Technical",
+    "Echevarria School of Commerce",
+    "Harold Tillman",
+    "Leire Aramburu",
+    "Mae Jemison",
+    "St. Elias College Prep",
+    "St. Raphael Preparatory"
+   ]
+  },
+  {
+   "name": "I-50 Metro Conference",
+   "slug": "i-50-metro-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Andr\u00e9s Ibarra",
+    "Belmonte Civic Leadership Academy",
+    "Belmonte Collegiate Academy",
+    "Belmonte Health Sciences Academy",
+    "Belmonte River Plain",
+    "I-50 Technical",
+    "Iker Aramburu",
+    "Miren Elorriaga",
+    "Nicol\u00e1s Ordo\u00f1ez"
+   ]
+  },
+  {
+   "name": "Intermountain Athletic Conference",
+   "slug": "intermountain-athletic-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Bayard Rustin",
+    "Belyakov Environmental Sciences Academy",
+    "Belyakov I-50 Technical",
+    "Belyakov Manufacturing and Technology Academy",
+    "Belyakov River Plain",
+    "Belyakov School of Science and Industry",
+    "Dorothy Height",
+    "Jos\u00e9 Mart\u00ed",
+    "Unai Etxeberria"
+   ]
+  },
+  {
+   "name": "Jefferson-Idaho Conference",
+   "slug": "jefferson-idaho-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Belmonte",
+    "Belmonte International School",
+    "Benjamin Banneker",
+    "Elena Mendoza",
+    "Javier Alvarado",
+    "River Plain",
+    "Rosa Casta\u00f1eda",
+    "St. Lucia Academy",
+    "Yelena Sokolov"
+   ]
+  },
+  {
+   "name": "Llerena Union Conference",
+   "slug": "llerena-union-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Anya Belov",
+    "Ella Baker",
+    "Javier C\u00e1rdenas",
+    "Javier Villalba",
+    "Llerena",
+    "Llerena Civic Leadership Academy",
+    "Llerena School of Science and Industry",
+    "St. Brigid Preparatory",
+    "Viktor Kareva",
+    "West Bench"
+   ]
+  },
+  {
+   "name": "Madrigal Heritage Athletic Association",
+   "slug": "madrigal-heritage-athletic-association",
+   "area": "Halbrook Basin",
+   "members": [
+    "Edith Tillman",
+    "Javier Casta\u00f1eda",
+    "Luc\u00eda Qui\u00f1ones",
+    "Madrigal",
+    "Madrigal Maritime Academy",
+    "Madrigal West Bench"
+   ]
+  },
+  {
+   "name": "Northrup Regional Athletic Association",
+   "slug": "northrup-regional-athletic-association",
+   "area": "Halbrook Basin",
+   "members": [
+    "Ander Aramburu",
+    "Northrup I-50 Technical",
+    "St. Martin High School",
+    "Ainhoa Mendizabal",
+    "Oksana Petrov",
+    "Ander Arrieta",
+    "Ralph Bellamy",
+    "Sergei Petrenko",
+    "Weissburg"
+   ]
+  },
+  {
+   "name": "Orchard Valley League",
+   "slug": "orchard-valley-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Amaia Etxeberria",
+    "Beatriz Mendoza",
+    "Carden City",
+    "Carden City West Bench",
+    "Opal Tillman",
+    "St. Casimir School"
+   ]
+  },
+  {
+   "name": "Orellana Pioneer League",
+   "slug": "orellana-pioneer-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Alina Antonov",
+    "Canal View",
+    "Katherine Booker",
+    "Lev Kareva",
+    "Mikel Elorriaga",
+    "Orellana",
+    "Orellana Canal View",
+    "Orellana Foundry High",
+    "Orellana School of Commerce",
+    "Orellana Treasure Valley"
+   ]
+  },
+  {
+   "name": "Pomar Central Conference",
+   "slug": "pomar-central-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Benton Cross",
+    "Walter Davenport",
+    "Berrio",
+    "Carmina",
+    "Eagleton",
+    "Eagleton School of Science and Industry",
+    "Greaves Junction",
+    "Greaves Junction Treasure Valley",
+    "Meridia",
+    "Meridia Manufacturing and Technology Academy",
+    "St. Francis Xavier College Prep",
+    "Starlake",
+    "Starlake Canal View"
+   ]
+  },
+  {
+   "name": "Serrano Civic Conference",
+   "slug": "serrano-civic-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Beatriz Zamora",
+    "Edith Hart",
+    "Edith Mercer",
+    "In\u00e9s Valera",
+    "Nicol\u00e1s Salcedo",
+    "Romare Bearden",
+    "Serrano",
+    "Serrano Applied Sciences Institute",
+    "Serrano Depot High",
+    "St. Isidore Academy"
+   ]
+  },
+  {
+   "name": "Snake Plain League",
+   "slug": "snake-plain-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Amaia Aramburu",
+    "Belmonte Agricultural Sciences Academy",
+    "Belmonte Applied Sciences Institute",
+    "Belmonte Classical Academy",
+    "Belmonte Technical Arts Academy",
+    "Depot High",
+    "Jon Etxeberria",
+    "Leire Garmendia",
+    "Nerea Mendizabal",
+    "Shirley Chisholm",
+    "St. Basil Academy",
+    "St. Basil School",
+    "Treasure Valley"
+   ]
+  },
+  {
+   "name": "Tolland Western League",
+   "slug": "tolland-western-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Drayfield Foundry High",
+    "Homecroft",
+    "Homecroft Manufacturing and Technology Academy",
+    "Miren Garmendia",
+    "Pomar",
+    "Garazi Mendizabal",
+    "St. Jerome High School",
+    "Tolland",
+    "Walter Browne"
+   ]
+  },
+  {
+   "name": "Treasure Valley League",
+   "slug": "treasure-valley-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Aitor Echevarria",
+    "Aldecoa",
+    "Aldecoa Academy of Arts and Letters",
+    "Aldecoa Applied Sciences Institute",
+    "Aldecoa Depot High",
+    "Esteban T\u00e9llez",
+    "Fannie Lou Hamer",
+    "Jon Garmendia",
+    "Pavel Kovalenko",
+    "St. Catherine College Prep"
+   ]
+  },
+  {
+   "name": "West Bench Conference",
+   "slug": "west-bench-conference",
+   "area": "Halbrook Basin",
+   "members": [
+    "Amalia Escobedo",
+    "Anya Orlov",
+    "Belyakov",
+    "Belyakov Academy of Music and Media",
+    "Belyakov Polytechnic Institute",
+    "Belyakov School of Design and Engineering",
+    "Lorraine Calder",
+    "Mila Chernov",
+    "St. Agnes Academy"
+   ]
+  },
+  {
+   "name": "Admiralty League",
+   "slug": "admiralty-league",
+   "area": "Harborline",
+   "members": [
+    "Breakwater",
+    "Fort Meriwether",
+    "Fort Meriwether Breakwater",
+    "Fort Meriwether Foundry High",
+    "Fort Meriwether School of Public Service",
+    "Klara Marchand"
+   ]
+  },
+  {
+   "name": "Breakwater League",
+   "slug": "breakwater-league",
+   "area": "Harborline",
+   "members": [
+    "Lev Volkov",
+    "Emilia Jansen",
+    "Pacific Gate",
+    "San D\u00e1maso",
+    "San D\u00e1maso Harbor Gate",
+    "Elena Markov",
+    "Katherine Bellamy",
+    "Renata Adler",
+    "Wales City"
+   ]
+  },
+  {
+   "name": "Coastal Metro Conference",
+   "slug": "coastal-metro-conference",
+   "area": "Harborline",
+   "members": [
+    "Anneliese Halvorsen",
+    "Beacon Hill",
+    "Galina Markov",
+    "Janice Davenport",
+    "Marcus Langston",
+    "Marina Moroz",
+    "Port Veles Civic Leadership Academy",
+    "Port Veles Foundry High",
+    "Port Veles Health Sciences Academy"
+   ]
+  },
+  {
+   "name": "Harbor Cities League",
+   "slug": "harbor-cities-league",
+   "area": "Harborline",
+   "members": [
+    "Aleksandr Lebedev",
+    "Geraldine Cross",
+    "Harbor Gate",
+    "Port Veles Agricultural Sciences Academy",
+    "Port Veles International Academy",
+    "Ralph Booker",
+    "Sofia Romanov"
+   ]
+  },
+  {
+   "name": "Maritime Athletic Conference",
+   "slug": "maritime-athletic-conference",
+   "area": "Harborline",
+   "members": [
+    "Admiralty High",
+    "Anneliese Ricci",
+    "Hazel Bennett",
+    "Irina Kovalenko",
+    "Jeannette Freeman",
+    "Nathaniel Moss",
+    "Santa Michaela",
+    "Santa Michaela Admiralty High",
+    "Santa Michaela Harbor Gate",
+    "Zoya Orlov"
+   ]
+  },
+  {
+   "name": "Pacific Gateway Conference",
+   "slug": "pacific-gateway-conference",
+   "area": "Harborline",
+   "members": [
+    "Amelia Freeman",
+    "Henrik Keller",
+    "Opal Avery",
+    "Port Veles",
+    "Seafarer High",
+    "St. Elias School",
+    "St. Vincent School",
+    "Thelma Avery",
+    "Walter Hart"
+   ]
+  },
+  {
+   "name": "Portside Conference",
+   "slug": "portside-conference",
+   "area": "Harborline",
+   "members": [
+    "Alder Landing Beacon Hill",
+    "Bah\u00eda Az\u00fal",
+    "Cabo Esperanza",
+    "Cabo Esperanza Technical Arts Academy",
+    "Fort Salish",
+    "Fort Salish Independent School",
+    "Isaiah Booker",
+    "Hazel Hart",
+    "Los Maderos",
+    "Maksim Karev",
+    "Port Ainsley",
+    "St. Elias Academy",
+    "Tamarack Harbor Civic Leadership Academy",
+    "Tule Admiralty High"
+   ]
+  },
+  {
+   "name": "Shipwright League",
+   "slug": "shipwright-league",
+   "area": "Harborline",
+   "members": [
+    "Igor Chernov",
+    "Katherine Williams",
+    "Nadia Chernov",
+    "Nadia Sidorov",
+    "Nathaniel Cross",
+    "Port Veles Civic Academy",
+    "Port Veles Maritime Academy",
+    "Roscoe Bennett",
+    "St. Helena College Prep"
+   ]
+  },
+  {
+   "name": "High Basin League",
+   "slug": "high-basin-league",
+   "area": "Juniper Highlands",
+   "members": [
+    "Gordon Parks",
+    "Juniper Ridge",
+    "Xabier Arregui",
+    "Edith Ward",
+    "Telfair",
+    "Telfair Country Day School",
+    "Tom\u00e1s Mendoza",
+    "Ruby Cross",
+    "Vesper"
+   ]
+  },
+  {
+   "name": "Juniper Metro Conference",
+   "slug": "juniper-metro-conference",
+   "area": "Juniper Highlands",
+   "members": [
+    "Calder",
+    "Calder Aviation and Engineering Academy",
+    "Calder School of Science and Industry",
+    "Nicol\u00e1s Qui\u00f1ones",
+    "Carroway",
+    "Carroway School of Public Service",
+    "Frances Gaines",
+    "Katherine Whitaker",
+    "Navrang"
+   ]
+  },
+  {
+   "name": "Plateau League",
+   "slug": "plateau-league",
+   "area": "Juniper Highlands",
+   "members": [
+    "Altamonte",
+    "Altamonte Civic Leadership Academy",
+    "Altamonte School of Commerce",
+    "Daniel Langston",
+    "Itziar Elorriaga",
+    "Thelma Stokes"
+   ]
+  },
+  {
+   "name": "Rim Country Conference",
+   "slug": "rim-country-conference",
+   "area": "Juniper Highlands",
+   "members": [
+    "Mikel Zubieta",
+    "Dry Lake",
+    "Isabel Montalvo",
+    "Three Saints",
+    "Salvador Figueroa",
+    "Vesper Polytechnic Institute"
+   ]
+  },
+  {
+   "name": "Sierra Basin Conference",
+   "slug": "sierra-basin-conference",
+   "area": "North Range",
+   "members": [
+    "St. Raphael College Prep",
+    "Nerea Urrutia",
+    "Leire Zubieta",
+    "St. Dominic Academy"
+   ]
+  },
+  {
+   "name": "Crossroads Athletic Conference",
+   "slug": "crossroads-athletic-conference",
+   "area": "Sage Plains",
+   "members": [
+    "Emigrant Trail",
+    "Mikel Echevarria",
+    "Mikel Garmendia",
+    "Rostova Junction",
+    "Rostova Junction Technical Arts Academy",
+    "St. Francis Xavier Preparatory"
+   ]
+  },
+  {
+   "name": "Emigrant League",
+   "slug": "emigrant-league",
+   "area": "Sage Plains",
+   "members": [
+    "Aurelia",
+    "Aurelia Classical Academy",
+    "Elena Petrenko",
+    "Nicol\u00e1s Cordero",
+    "Cordero Wells",
+    "St. Isidore College Prep",
+    "Harrow",
+    "Harrow School of Design and Engineering",
+    "St. Brigid School"
+   ]
+  },
+  {
+   "name": "Frontier Metro Conference",
+   "slug": "frontier-metro-conference",
+   "area": "Sage Plains",
+   "members": [
+    "Agate",
+    "Diamante",
+    "Dovetail",
+    "Marian Browne",
+    "Alina Belov",
+    "Rilland",
+    "San Vito",
+    "Garazi Aramburu",
+    "Wheatley"
+   ]
+  },
+  {
+   "name": "High Plains League",
+   "slug": "high-plains-league",
+   "area": "Sage Plains",
+   "members": [
+    "Frontier High",
+    "Harriman",
+    "Harriman Civic Leadership Academy",
+    "Harriman Maritime Academy",
+    "Homestead",
+    "Katya Moroz",
+    "Naomi Price",
+    "St. Casimir High School",
+    "St. Michael Academy",
+    "St. Teresa High School"
+   ]
+  },
+  {
+   "name": "I-50 Plains Conference",
+   "slug": "i-50-plains-conference",
+   "area": "Sage Plains",
+   "members": [
+    "Fort Valois",
+    "Fort Valois School of Design and Engineering",
+    "Fort Valois School of Public Service",
+    "Galina Romanov",
+    "Lev Voronin",
+    "Marian Cross"
+   ]
+  },
+  {
+   "name": "Bah\u00eda Athletic Conference",
+   "slug": "bah-a-athletic-conference",
+   "area": "South Coast",
+   "members": [
+    "Bah\u00eda Leal",
+    "Bah\u00eda Leal Costa Verde",
+    "Costa Verde",
+    "Isabel Lucero",
+    "James Gaines",
+    "Manuel Robles"
+   ]
+  },
+  {
+   "name": "Costa Norte League",
+   "slug": "costa-norte-league",
+   "area": "South Coast",
+   "members": [
+    "Alejandro Zamora",
+    "C\u00e9sar Peralta",
+    "Janice Cole",
+    "Oksana Romanov",
+    "Puerto de los Reyes",
+    "Puerto de los Reyes Civic Leadership Academy",
+    "Puerto de los Reyes International School",
+    "Puerto de los Reyes School of Commerce",
+    "Rosa Salcedo",
+    "Sof\u00eda Aranda"
+   ]
+  },
+  {
+   "name": "Humboldt Bay League",
+   "slug": "humboldt-bay-league",
+   "area": "South Coast",
+   "members": [
+    "Copperview Polytechnic Institute",
+    "Los Remolinos",
+    "Los Remolinos Mission Bay",
+    "Amelia Whitaker",
+    "Puerto Gallego",
+    "Puerto Gallego School of Science and Industry",
+    "Alejandro Salcedo",
+    "Punta del \u00c1guila",
+    "San Benicio",
+    "Harlan Cole",
+    "Santa Cruz del Norte",
+    "Winifred Ellison",
+    "Winifred Stokes",
+    "Galina Moroz"
+   ]
+  },
+  {
+   "name": "Mission Coast League",
+   "slug": "mission-coast-league",
+   "area": "South Coast",
+   "members": [
+    "Adela Robles",
+    "Claudette Cole",
+    "Daniel Gaines",
+    "Elena Petrov",
+    "Harold Williams",
+    "Mission Bay",
+    "St. Sophia Preparatory",
+    "Tatiana Chernov",
+    "Vernon Moss"
+   ]
+  },
+  {
+   "name": "Pacifica Conference",
+   "slug": "pacifica-conference",
+   "area": "South Coast",
+   "members": [
+    "Imani Cross",
+    "Las Palmas",
+    "Naomi Langston",
+    "Nikolai Markov",
+    "St. Jerome Academy",
+    "St. Nicholas College Prep"
+   ]
+  },
+  {
+   "name": "Redwood Coast Conference",
+   "slug": "redwood-coast-conference",
+   "area": "South Coast",
+   "members": [
+    "George Nakashima",
+    "Redwood Coast",
+    "San Borond\u00f3n",
+    "San Borond\u00f3n Agricultural Sciences Academy",
+    "San Borond\u00f3n Civic Academy",
+    "San Borond\u00f3n Country Day School",
+    "San Borond\u00f3n Environmental Sciences Academy",
+    "Sergei Belov",
+    "St. Casimir Preparatory"
+   ]
+  },
+  {
+   "name": "Umpqua Valley League",
+   "slug": "umpqua-valley-league",
+   "area": "Timber Valley",
+   "members": [
+    "St. Helena School",
+    "Black Springs Classical Academy",
+    "Gabriel Villase\u00f1or",
+    "Svenja Adler",
+    "Janice Bennett",
+    "Mill Creek",
+    "Wolf Gap International School",
+    "Astrid Bianchi"
+   ]
   }
  ]
 }

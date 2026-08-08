@@ -36,12 +36,13 @@ SEASON = "2026-27"
 TODAY = dt.date(2027, 1, 16)
 RECORDS = ROOT / "records"
 
-CLASS_TARGETS = {"6A": 38, "5A": 42, "4A": 44, "3A": 38, "2A": 36, "1A": 58}
-ENROLL = {"6A": (1800, 3200), "5A": (1200, 1799), "4A": (700, 1199),
+# The founding 256 keep their classes; 7A exists only via the expansion roster
+CLASS_TARGETS = {"7A": 0, "6A": 38, "5A": 42, "4A": 44, "3A": 38, "2A": 36, "1A": 58}
+ENROLL = {"7A": (2600, 4300), "6A": (1800, 3200), "5A": (1200, 1799), "4A": (700, 1199),
           "3A": (400, 699), "2A": (220, 399), "1A": (60, 219)}
-OFFER_RANGE = {"6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
+OFFER_RANGE = {"7A": (24, 32), "6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
                "3A": (11, 15), "2A": (8, 12), "1A": (6, 10)}
-POOL = {"6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
+POOL = {"7A": 84, "6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
 
 AREAS = [
     ("Ashbury Metro", "metro"), ("Harborline", "coast"), ("South Coast", "coast"),
@@ -63,6 +64,7 @@ class Gen:
         self.used_places: set[str] = set(N.BLOCKLIST)
         self.used_schools: set[str] = set()
         self.contests: list = []
+        self.expansion_city_data: dict = {}
         self.rosters: dict = {}
         self.pools: dict = {}
 
@@ -764,6 +766,12 @@ class Gen:
                   N.ANCHORS["boise_side"][0]: N.ANCHORS["boise_side"][1]}
         stated.update(dict(N.ANCHORS["secondary"]))
         stated.update({c: pop for c, pop, _a, _s in N.NAMED_CITIES})
+        # the 7A roster states city populations and counties; data wins
+        stated.update({c: pop for c, (pop, _cty) in self.expansion_city_data.items()})
+        by_county_name = {c: (c, r) for lst in N.COUNTY_GEO.values() for c, r in lst}
+        stated_county = {c: by_county_name[cty]
+                         for c, (_pop, cty) in self.expansion_city_data.items()
+                         if cty in by_county_name}
 
         towns = {}
         for s in self.schools:
@@ -775,10 +783,13 @@ class Gen:
         cities = []
         for (city, area), e in sorted(towns.items()):
             h = zlib.crc32(city.encode())
-            county, real = (N.COUNTY_GEO[area][h % len(N.COUNTY_GEO[area])]
-                            if city not in N.COUNTY_PINS else
-                            next((c, r) for c, r in sum(N.COUNTY_GEO.values(), [])
-                                 if c == N.COUNTY_PINS[city]))
+            if city in stated_county:
+                county, real = stated_county[city]
+            elif city in N.COUNTY_PINS:
+                county, real = next((c, r) for c, r in sum(N.COUNTY_GEO.values(), [])
+                                    if c == N.COUNTY_PINS[city])
+            else:
+                county, real = N.COUNTY_GEO[area][h % len(N.COUNTY_GEO[area])]
             if city in stated:
                 pop = stated[city]
             else:
@@ -797,10 +808,13 @@ class Gen:
                  "",
                  "Generated from `records/orgs/cities.json` by the state generator;",
                  "edit the generator, not this file. Counties are fictional; each",
-                 "names the real county whose ground it stands on. Populations are",
-                 "derived from school enrollment (a town holds roughly 15-22 people",
-                 "per public-high-school seat); anchor and owner-specified cities",
-                 "keep their stated figures.", ""]
+                 "names the real county whose ground it stands on. Owner-stated",
+                 "populations are authoritative; only unstated towns derive from",
+                 "school enrollment.",
+                 "",
+                 "**The ~17.6M state total is a design decision, not an error**",
+                 "(owner rule 2027-08: Jefferson is West Coast Texas). Do not",
+                 "rescale it.", ""]
         bycounty = {}
         for c in cities:
             bycounty.setdefault((c["county"], c["real_county"]), []).append(c)
@@ -819,6 +833,57 @@ class Gen:
                      f"{len(bycounty)} counties.")
         (ROOT / "docs/GAZETTEER-jefferson.md").write_text("\n".join(lines) + "\n")
 
+    # ---------------------------------------------------------- expansion
+    def load_expansion(self):
+        """The 7A planning roster (owner data, 2027-08): 584 schools, 67
+        conferences, new cities with stated populations and counties. Loaded
+        AFTER the founding 256 are built and never through the shared RNG —
+        everything a new school needs that the file doesn't state is derived
+        from a name hash, so the founding state stays byte-stable."""
+        import csv
+        path = ROOT / "generators/jefferson/data/expansion_schools.csv"
+        rows = list(csv.DictReader(open(path)))
+        confs_new: dict[str, dict] = {}
+        for r in rows:
+            name = r["school"]
+            h = zlib.crc32(name.encode())
+            cls = r["classification"]
+            lo, hi = OFFER_RANGE[cls]
+            target = lo + h % (hi - lo + 1)
+            offered = {"girls-volleyball", "boys-basketball", "girls-basketball",
+                       "boys-cross-country", "girls-cross-country",
+                       "boys-track", "girls-track"}
+            if not (r["private"] == "True") or h % 2:
+                offered.add("football")
+            for i, sp in enumerate(CATALOG):
+                if len(offered) >= target:
+                    break
+                if sp.key in offered:
+                    continue
+                p = {"broad": 0.75, "metro": 0.5, "mountain": 0.2,
+                     "aquatic": 0.35}[sp.reach]
+                if cls in ("1A", "2A") and sp.reach != "broad":
+                    p *= 0.4
+                if (zlib.crc32(f"{name}|{sp.key}".encode()) % 1000) / 1000 < p:
+                    offered.add(sp.key)
+            self.used_places.add(r["city"].lower())
+            self.used_schools.add(name.lower())
+            self.schools.append(dict(
+                name=name, city=r["city"], area=r["area"],
+                private=r["private"] == "True", classification=cls,
+                enrollment=int(r["enrollment"]), mascot=r["mascot"],
+                quality=((h >> 4) % 2000) / 1000 - 1.0,
+                sports=sorted(offered),
+            ))
+            self.by_name[name] = self.schools[-1]
+            self.schools[-1]["conference"] = r["conference"]
+            c = confs_new.setdefault(r["conference"], dict(
+                name=r["conference"], slug=slugify(r["conference"]),
+                area=r["area"], members=[]))
+            c["members"].append(name)
+            self.expansion_city_data[r["city"]] = (int(r["city_population"]), r["county"])
+        self.confs.extend(confs_new.values())
+
     # ---------------------------------------------------------------- run
     def run(self):
         self._str = {}
@@ -826,6 +891,7 @@ class Gen:
         self.by_name = {s["name"]: s for s in self.schools}
         self.confs = self.build_conferences(self.schools)
         self.build_offerings(self.schools)
+        self.load_expansion()
 
         fall_fri = self.weeks(dt.date(2026, 8, 28), 10)
         fall_playoffs = dt.date(2026, 11, 6)
