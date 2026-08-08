@@ -29,6 +29,8 @@ from app.sports import BY_KEY, CATALOG  # noqa: E402
 import importlib.util as _ilu  # noqa: E402
 _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
 news = _ilu.module_from_spec(_spec); _spec.loader.exec_module(news)
+_ispec = _ilu.spec_from_file_location("fh_icons", ROOT / "site/icons.py")
+icons = _ilu.module_from_spec(_ispec); _ispec.loader.exec_module(icons)
 
 RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
@@ -186,6 +188,86 @@ class Registry:
         return rec
 
 
+# ────────────────────────────────────────────────────────────────── facets
+#
+# The faceted-filter schema, borrowed from dense-information SaaS: a sticky
+# segmented control over a large list, live result counts, multi-facet AND
+# semantics, deep-linkable state, and an escape hatch back to "All".
+#
+#   Linear / GitHub / Airtable   segmented controls, live counts, URL state
+#   Datadog / Retool             multi-facet AND across independent dimensions
+#   ESPN / OSAA standings        classification as the primary cut
+#
+# Contract, so any page opts in without new JS:
+#   1. Wrap the list in  <div class="fh-filterable" id="X">
+#   2. Give each filterable child  data-f-<facet>="value"  (space-separated when
+#      multi-valued, e.g. an invitational spanning several classifications)
+#   3. Render  facet_bar("X", [(facet, label, [(value, display), ...]), ...])
+
+
+def facet_bar(target, groups, note=""):
+    out = []
+    for key, label, values in groups:
+        chips = "".join(
+            f"<button type='button' data-facet='{esc(key)}' data-value='{esc(v)}'>{disp}</button>"
+            for v, disp in values)
+        out.append(
+            f"<div class='fh-facet'><span class='lb'>{esc(label)}</span>"
+            f"<div class='chips'><button type='button' data-facet='{esc(key)}' "
+            f"data-value='' class='on'>All</button>{chips}</div></div>")
+    tail = f"<span class='fh-facetnote'>{esc(note)}</span>" if note else ""
+    return (f"<div class='fh-facets' data-target='{esc(target)}'>{''.join(out)}"
+            f"<span class='fh-facetcount' data-count-for='{esc(target)}'></span>{tail}</div>")
+
+
+FACET_JS = """
+(function () {
+  document.querySelectorAll(".fh-facets").forEach(function (bar) {
+    var target = document.getElementById(bar.dataset.target);
+    if (!target) return;
+    var items = [].slice.call(target.children).filter(function (n) {
+      return [].some.call(n.attributes, function (a) { return a.name.indexOf("data-f-") === 0; });
+    });
+    var counter = document.querySelector('[data-count-for="' + bar.dataset.target + '"]');
+    var state = {};
+    function apply() {
+      var shown = 0;
+      items.forEach(function (el) {
+        var ok = Object.keys(state).every(function (k) {
+          if (!state[k]) return true;
+          var v = el.getAttribute("data-f-" + k) || "";
+          return (" " + v + " ").indexOf(" " + state[k] + " ") !== -1;
+        });
+        el.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (counter) counter.textContent = shown === items.length ? "" : shown + " shown";
+      var active = Object.keys(state).filter(function (k) { return state[k]; })
+        .map(function (k) { return k + ":" + state[k]; }).join(",");
+      history.replaceState(null, "", active ? "#" + active : location.pathname);
+    }
+    bar.querySelectorAll("button[data-facet]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state[b.dataset.facet] = b.dataset.value;
+        bar.querySelectorAll('button[data-facet="' + b.dataset.facet + '"]')
+          .forEach(function (o) { o.classList.toggle("on", o === b); });
+        apply();
+      });
+    });
+    if (location.hash.length > 1) {
+      location.hash.slice(1).split(",").forEach(function (pair) {
+        var kv = pair.split(":");
+        if (kv.length !== 2) return;
+        var b = bar.querySelector('button[data-facet="' + kv[0] + '"][data-value="' + kv[1] + '"]');
+        if (b) b.click();
+      });
+    }
+    apply();
+  });
+})();
+"""
+
+
 # ─────────────────────────────────────────────────────────────── shell + rail
 
 
@@ -246,7 +328,50 @@ def build_rail(reg: Registry) -> str:
             "<span class='rr'><span class='nm'>All of this week →</span></span></a></div></div>")
 
 
-RAIL = ""  # populated in build()
+RAIL = ""        # populated in build()
+SPORT_MENU = ""   # nav dropdowns, populated in build()
+RES_MENU = ""
+DRAWER_SPORTS = ""  # mobile drawer, same material as the dropdowns
+DRAWER_RES = ""
+
+
+def build_menus(reg):
+    """Nav dropdowns: sports by season, resources by audience."""
+    global SPORT_MENU, RES_MENU, DRAWER_SPORTS, DRAWER_RES
+    cols = []
+    for season in ("fall", "winter", "spring"):
+        links = "".join(
+            f"<a href='/sports/{sp.key}/'>{icons.icon(sp.key, 'fh-ic sm')}{esc(sp.name)}</a>"
+            for sp in sorted(CATALOG, key=lambda s: s.name)
+            if sp.season == season and reg.by_sport.get(sp.key))
+        cols.append(f"<div><h4>{season.title()}</h4>{links}</div>")
+    SPORT_MENU = f"<div class='fh-dropcols'>{''.join(cols)}</div>"
+    rcols = []
+    for title, links in news.RESOURCES:
+        items = "".join(
+            (f"<a href='{href}'>{esc(label)}</a>" if href else f"<span>{esc(label)}</span>")
+            for label, href in links)
+        rcols.append(f"<div><h4>{esc(title)}</h4>{items}</div>")
+    RES_MENU = f"<div class='fh-dropcols'>{''.join(rcols)}</div>"
+
+    # the drawer carries the same material, as open sections rather than hovers
+    dsec = []
+    for season in ("fall", "winter", "spring"):
+        links = "".join(
+            f"<a href='/sports/{sp.key}/'>{icons.icon(sp.key, 'fh-ic sm')}{esc(sp.name)}</a>"
+            for sp in sorted(CATALOG, key=lambda s: s.name)
+            if sp.season == season and reg.by_sport.get(sp.key))
+        dsec.append(f"<details><summary>{season.title()} sports</summary>"
+                    f"<div class='items'>{links}</div></details>")
+    DRAWER_SPORTS = "".join(dsec)
+    rsec = []
+    for title, links in news.RESOURCES:
+        items = "".join(
+            (f"<a href='{href}'>{esc(label)}</a>" if href else f"<span>{esc(label)}</span>")
+            for label, href in links)
+        rsec.append(f"<details><summary>{esc(title)}</summary>"
+                    f"<div class='items'>{items}</div></details>")
+    DRAWER_RES = "".join(rsec)
 
 
 def shell(title, body, crumb="", back=""):
@@ -265,25 +390,47 @@ def shell(title, body, crumb="", back=""):
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
+<input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
 <header class="fh-mast"><div class="wrap">
   <a class="fh-wordmark" href="/">{BRAND}</a>
+  <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </label>
   <nav class="fh-mast-nav">
     <a href="/scoreboard/">Scores</a>
-    <a href="/#sports">Sports</a>
-    <a href="/schools/">Schools</a>
-    <a href="/conferences/">Conferences</a>
+    <div class="fh-menu"><button type="button">Sports ▾</button><div class="fh-drop">{SPORT_MENU}</div></div>
+    <div class="fh-menu"><button type="button">Schools ▾</button><div class="fh-drop cols">
+      <a href="/schools/">All member schools</a><a href="/conferences/">Conferences</a>
+      <a href="/schools/#6A">6A</a><a href="/schools/#5A">5A</a><a href="/schools/#4A">4A</a>
+      <a href="/schools/#3A">3A</a><a href="/schools/#2A">2A</a><a href="/schools/#1A">1A</a></div></div>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
+    <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
     <span class="fh-season">{ASSOC} · {SEASON_LABEL}</span>
     <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
     <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
   </nav>
 </div></header>
+<label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
+<nav class="fh-drawer" aria-label="Site menu">
+  <div class="fh-drawerhead">
+    <span class="fh-wordmark">{BRAND}</span>
+    <label class="fh-drawerclose" for="fh-navtoggle" aria-label="Close menu">×</label>
+  </div>
+  <a class="top" href="/scoreboard/">Scores</a>
+  <a class="top" href="/championships/">Championships</a>
+  <a class="top" href="/news/">News</a>
+  <a class="top" href="/schools/">Schools</a>
+  <a class="top" href="/conferences/">Conferences</a>
+  {DRAWER_SPORTS}
+  {DRAWER_RES}
+</nav>
 {RAIL}
 <main class="wrap">
 {toolbar}
 {body}
 </main>
+<script>{FACET_JS}</script>
 <script>
 (function () {{
   var chips = document.querySelectorAll(".fh-swatch");
@@ -315,7 +462,22 @@ def shell(title, body, crumb="", back=""):
 # ─────────────────────────────────────────────────────────── contest pieces
 
 
-def contest_row(reg, c, show_sport=True):
+def contest_facets(reg, c):
+    """Facet values a contest row can be filtered on."""
+    if isinstance(c, Meet):
+        divs = sorted({reg.schools[s]["classification"] for s in c.schools if s in reg.schools})
+        status = "final" if c.events else "upcoming"
+    else:
+        divs = sorted({reg.schools[s]["classification"]
+                       for s in (c.home, c.away) if s in reg.schools})
+        if isinstance(c, Game):
+            status = {"final": "final", "scheduled": "upcoming"}.get(c.status, "changed")
+        else:
+            status = "final" if c.home_points is not None else "upcoming"
+    return " ".join(divs), status
+
+
+def contest_row(reg, c, show_sport=True, facets=False):
     label = result_label(c)
     sport = BY_KEY[c.sport].name if show_sport and c.sport in BY_KEY else ""
     if isinstance(c, Meet):
@@ -325,18 +487,26 @@ def contest_row(reg, c, show_sport=True):
         who = (f"<span class='fh-plain'>{reg.school_link(c.away)} "
                f"<span class='fh-dim'>at</span> {reg.school_link(c.home)}</span>")
         vs = f"<span class='fh-name'><a href='{reg.url(c)}'>{esc(label) or 'Preview'}</a></span>"
-    return (f"<div class='fh-row' style='--grid-cols:86px minmax(200px,2fr) minmax(80px,1fr) minmax(90px,1fr)'>"
+    attrs = ""
+    if facets:
+        divs, status = contest_facets(reg, c)
+        attrs = (f" data-f-division='{esc(divs)}' data-f-status='{status}'"
+                 f" data-f-sport='{esc(c.sport)}'")
+    return (f"<div class='fh-row'{attrs} style='--grid-cols:86px minmax(200px,2fr) minmax(80px,1fr) minmax(90px,1fr)'>"
             f"<span class='fh-dim tnum'>{esc(nice_date(c.date))}</span>{who}{vs}"
             f"<span class='fh-plain fh-dim'>{esc(sport)}</span></div>")
 
 
-def contest_table(reg, contests, show_sport=True):
-    rows = "".join(contest_row(reg, c, show_sport) for c in contests)
+def contest_table(reg, contests, show_sport=True, fid=None):
+    rows = "".join(contest_row(reg, c, show_sport, facets=bool(fid)) for c in contests)
+    body_cls = f"fh-filterable' id='{fid}" if fid else ""
     return ("<div class='fh-tablescroll'><div class='fh-table' "
             "style='--grid-cols:86px minmax(200px,2fr) minmax(80px,1fr) minmax(90px,1fr)'>"
             "<div class='fh-thead'><span class='fh-th'>Date</span><span class='fh-th'>Matchup</span>"
             "<span class='fh-th'>Result</span><span class='fh-th'>" +
-            ("Sport" if show_sport else "") + "</span></div>" + rows + "</div></div>")
+            ("Sport" if show_sport else "") + "</span></div>"
+            + (f"<div class='fh-filterable' id='{fid}'>{rows}</div>" if fid else rows)
+            + "</div></div>")
 
 
 def standings_tables(reg, sport):
@@ -359,7 +529,8 @@ def standings_tables(reg, sport):
             f"<span class='fh-plain fh-dim'>{esc(reg.conf_of.get(s,''))}</span></div>"
             for i, (s, r) in enumerate(rows[:16]))
         blocks.append(
-            f"<div class='fh-section'><div class='fh-group'><h3>{esc(grp)}</h3>{class_chip(grp) if grp[0].isdigit() else ''}</div>"
+            f"<div class='fh-section' data-f-division='{esc(grp)}'>"
+            f"<div class='fh-group'><h3>{esc(grp)}</h3>{class_chip(grp) if grp[0].isdigit() else ''}</div>"
             "<div class='fh-tablescroll'><div class='fh-table' "
             "style='--grid-cols:26px 24px minmax(150px,1fr) 56px 56px minmax(90px,1fr)'>"
             "<div class='fh-thead'><span class='fh-th'></span><span class='fh-th'></span>"
@@ -479,25 +650,170 @@ def render_meet(reg, c: Meet):
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
 
 
-def render_sport(reg, sport):
-    contests = sorted(reg.by_sport.get(sport.key, []), key=lambda c: c.date or "")
+def sport_nav(sp, active):
+    """Sub-navigation for a sport hub.
+
+    Modelled on how associations actually organise a sport: MHSAA runs
+    Home / Today's Schedule / Brackets / Rankings / Past Champions / Results
+    Archive / Records, and OSAA scopes each activity to its own section with
+    classification tabs. A sport is a site inside the site — not a row on the
+    homepage.
+    """
+    items = [("", "Overview"),
+             ("standings/", "Season leaders" if sp.shape.value == "meet" else "Standings"),
+             ("schedule/", "Schedule & results"), ("champions/", "Championships")]
+    links = "".join(
+        f"<a href='/sports/{sp.key}/{path}'{' class=on' if path == active else ''}>{esc(label)}</a>"
+        for path, label in items)
+    return f"<nav class='fh-subnav'>{links}</nav>"
+
+
+def sport_header(reg, sp, active=""):
+    groups = list(dict.fromkeys(sp.champ_group(c) for c in ("6A", "5A", "4A", "3A", "2A", "1A")))
+    chips = "".join(class_chip(g) if g[0].isdigit() else f"<span class='fh-tag'>{esc(g)}</span>"
+                    for g in groups)
+    return f"""
+<div class="fh-idhdr sport">
+  <span class="fh-sportmark">{icons.icon(sp.key, 'fh-ic lg')}</span>
+  <div><div class="name">{esc(sp.name)}</div>
+  <div class="meta">{esc(sp.season.title())} · {SEASON_LABEL} · championship divisions: {chips}</div></div>
+  <div class="side"></div>
+</div>
+{sport_nav(sp, active)}
+"""
+
+
+def render_sport_standings(reg, sp):
+    if sp.shape.value == "meet":
+        wins = defaultdict(int)
+        for c in reg.by_sport.get(sp.key, []):
+            top = next((t for t in getattr(c, "team_scores", []) if t.rank == 1), None)
+            if top:
+                wins[top.school] += 1
+        rows = "".join(
+            f"<div class='fh-row{' first' if i == 0 else ''}' style='--grid-cols:26px 24px minmax(160px,1fr) 70px minmax(110px,1fr)'>"
+            f"<span class='fh-rank'>{i+1}</span>{reg.crest(sch,'xs')}"
+            f"<span class='fh-name'>{reg.school_link(sch)}</span>"
+            f"<span class='fh-num tnum'>{n}</span>"
+            f"<span class='fh-plain fh-dim'>{esc(reg.conf_of.get(sch,''))}</span></div>"
+            for i, (sch, n) in enumerate(sorted(wins.items(), key=lambda kv: (-kv[1], kv[0]))[:25]))
+        inner = ("<div class='fh-tablescroll'><div class='fh-table' "
+                 "style='--grid-cols:26px 24px minmax(160px,1fr) 70px minmax(110px,1fr)'>"
+                 "<div class='fh-thead'><span class='fh-th'></span><span class='fh-th'></span>"
+                 "<span class='fh-th'>School</span><span class='fh-th'>Meet wins</span>"
+                 f"<span class='fh-th'>Conference</span></div>{rows}</div></div>"
+                 ) if rows else "<p class='fh-lede'>Team scoring posts as meets are held.</p>"
+    else:
+        inner = standings_tables(reg, sp) or "<p class='fh-lede'>Standings post once conference play begins.</p>"
+    groups = list(dict.fromkeys(sp.champ_group(c) for c in ("6A", "5A", "4A", "3A", "2A", "1A")))
+    if len(groups) > 1:
+        bar = facet_bar(f"st-{sp.key}", [("division", "Division",
+                                          [(g, class_chip(g) if g[0].isdigit() else esc(g)) for g in groups])])
+        inner = bar + f"<div class='fh-filterable' id='st-{sp.key}'>{inner}</div>"
+    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Standings"
+    return shell(f"{sp.name} standings — {BRAND.title()}",
+                 sport_header(reg, sp, "standings/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
+
+
+def render_sport_schedule(reg, sp):
+    contests = sorted(reg.by_sport.get(sp.key, []), key=lambda c: c.date or "")
     played = [c for c in contests if (c.date or "") <= TODAY]
     upcoming = [c for c in contests if (c.date or "") > TODAY]
-    body = f"""
-<div class="fh-idhdr">
-  <div></div>
-  <div><div class="name">{esc(sport.name)}</div>
-  <div class="meta">{esc(sport.season.title())} · {SEASON_LABEL} · <span class="tnum">{len(contests):,}</span> contests</div></div>
-  <div class="side">{''.join(class_chip(g) if g[0].isdigit() else f"<span class='fh-tag'>{esc(g)}</span>" for g in dict.fromkeys(sport.champ_group(c) for c in ("6A","5A","4A","3A","2A","1A")))}</div>
+    rows = list(reversed(played))[:80] + upcoming[:40]
+    rows.sort(key=lambda c: c.date or "", reverse=True)
+    bar = facet_bar(f"sch-{sp.key}", [
+        ("division", "Classification", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]]),
+        ("status", "Status", [("final", "Final"), ("upcoming", "Upcoming"),
+                              ("changed", "Postponed / cancelled")]),
+    ], note="Filters combine; links are shareable")
+    inner = f"<div class='fh-section'>{bar}{contest_table(reg, rows, False, fid=f'sch-{sp.key}')}</div>"
+    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Schedule"
+    return shell(f"{sp.name} schedule — {BRAND.title()}",
+                 sport_header(reg, sp, "schedule/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
+
+
+def render_sport_champs(reg, sp):
+    mine = [(g, c) for s2, g, c in champ_finals(reg) if s2.key == sp.key]
+    rows = []
+    for grp, c in sorted(mine, key=lambda t: t[0]):
+        if isinstance(c, Game):
+            winner = c.winner
+            runner = c.away if c.winner == c.home else c.home
+            line = f"{max(c.home_score, c.away_score)}\u2013{min(c.home_score, c.away_score)}"
+        else:
+            order = sorted(c.team_scores, key=lambda t: t.rank or 99)
+            winner = order[0].school if order else ""
+            runner = order[1].school if len(order) > 1 else ""
+            line = "Results"
+        rows.append(
+            f"<div class='fh-row' style='--grid-cols:70px 24px minmax(160px,1fr) minmax(150px,1fr) 90px'>"
+            f"<span>{grp_chip(grp)}</span>"
+            f"{reg.crest(winner,'xs')}<span class='fh-name'>{reg.school_link(winner)}</span>"
+            f"<span class='fh-plain fh-dim'>{reg.school_link(runner) if runner else ''}</span>"
+            f"<span class='fh-plain'><a href='{reg.url(c)}'>{esc(line)}</a></span></div>")
+    if rows:
+        inner = ("<div class='fh-tablescroll'><div class='fh-table' "
+                 "style='--grid-cols:70px 24px minmax(160px,1fr) minmax(150px,1fr) 90px'>"
+                 "<div class='fh-thead'><span class='fh-th'>Division</span><span class='fh-th'></span>"
+                 "<span class='fh-th'>Champion</span><span class='fh-th'>Runner-up</span>"
+                 f"<span class='fh-th'>Final</span></div>{''.join(rows)}</div></div>")
+    else:
+        when = {"fall": "concluded in November", "winter": "conclude in March",
+                "spring": "conclude in June"}[sp.season]
+        inner = (f"<p class='fh-lede'>{esc(sp.name)} championships {esc(when)}. "
+                 f"Brackets and qualifying information post as the postseason approaches.</p>")
+    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Championships"
+    return shell(f"{sp.name} championships — {BRAND.title()}",
+                 sport_header(reg, sp, "champions/") + inner, crumb, f"← {sp.name}|/sports/{sp.key}/")
+
+
+def render_sport(reg, sport):
+    """The sport hub — a front page for one activity."""
+    contests = sorted(reg.by_sport.get(sport.key, []), key=lambda c: c.date or "")
+    played = list(reversed([c for c in contests if (c.date or "") <= TODAY]))
+    upcoming = [c for c in contests if (c.date or "") > TODAY]
+
+    if sport.shape.value == "meet":
+        recent = [c for c in played if getattr(c, "team_scores", None)][:6]
+        preview = "".join(
+            f"<a class='fh-resultrow' href='{reg.url(c)}'>"
+            f"<span class='w'>{esc(c.name)}</span>"
+            f"<span class='l'>won by {esc(next((t.school for t in c.team_scores if t.rank == 1), ''))}</span></a>"
+            for c in recent)
+    else:
+        rec = reg.records_for(sport.key)
+        top = sorted(rec.items(), key=lambda kv: (-kv[1]["w"], kv[1]["l"], kv[0]))[:8]
+        preview = "".join(
+            f"<a class='fh-resultrow' href='{reg.school_url(sch)}'>"
+            f"<span class='w'>{esc(sch)} <b>{r['w']}-{r['l']}</b></span>"
+            f"<span class='l'>{esc(reg.conf_of.get(sch,''))}</span></a>"
+            for sch, r in top)
+    preview = preview or "<p class='fh-lede'>Posts as the season progresses.</p>"
+
+    recent_rows = "".join(
+        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
+        f"<span class='w'>{esc(c.name if isinstance(c, Meet) else (c.winner or c.home) if isinstance(c, Game) else c.home)}</span>"
+        f"<span class='l'>{esc(nice_date(c.date))}</span></a>" for c in played[:8]) \
+        or "<p class='fh-lede'>No results yet.</p>"
+    next_rows = "".join(
+        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
+        f"<span class='w'>{esc(c.name if isinstance(c, Meet) else c.away)}</span>"
+        f"<span class='l'>{esc(('at ' + c.home) if not isinstance(c, Meet) else (c.host or ''))} · {esc(nice_date(c.date))}</span></a>"
+        for c in upcoming[:6]) or "<p class='fh-lede'>No contests scheduled.</p>"
+
+    body = sport_header(reg, sport) + f"""
+<div class="fh-cols3">
+  <section><h2>Recent results</h2><div class="fh-results">{recent_rows}</div>
+  <p class="fh-more"><a href="/sports/{sport.key}/schedule/">All results →</a></p></section>
+  <section><h2>{'Season leaders' if sport.shape.value == 'meet' else 'Standings'}</h2>
+  <div class="fh-results">{preview}</div>
+  <p class="fh-more"><a href="/sports/{sport.key}/standings/">Full table →</a></p></section>
+  <section><h2>Next up</h2><div class="fh-results">{next_rows}</div>
+  <p class="fh-more"><a href="/sports/{sport.key}/champions/">Championship information →</a></p></section>
 </div>
 """
-    if sport.shape.value in ("game", "dual"):
-        body += f"<div class='fh-section'><h2>Standings</h2>{standings_tables(reg, sport)}</div>"
-    body += f"<div class='fh-section'><h2>Latest results</h2>{contest_table(reg, list(reversed(played[-25:])), show_sport=False)}</div>"
-    if upcoming:
-        body += f"<div class='fh-section'><h2>Upcoming</h2>{contest_table(reg, upcoming[:15], show_sport=False)}</div>"
-    crumb = f"<a href='/'>{BRAND.title()}</a> › <a href='/#sports'>Sports</a> › {esc(sport.name)}"
-    return shell(f"{sport.name} — {BRAND.title()}", body, crumb, "← All sports|/#sports")
+    crumb = f"<a href='/'>{BRAND.title()}</a> › {esc(sport.name)}"
+    return shell(f"{sport.name} — {BRAND.title()}", body, crumb)
 
 
 def render_school(reg, s):
@@ -628,13 +944,16 @@ def render_scoreboard(reg):
     by_sport = defaultdict(list)
     for c in sorted(window, key=lambda c: c.date or ""):
         by_sport[c.sport].append(c)
-    sections = []
-    for key in sorted(by_sport, key=lambda k: (SEASON_ORDER.get(BY_KEY[k].season, 3), BY_KEY[k].name)):
-        sp = BY_KEY[key]
-        sections.append(
-            f"<div class='fh-section'><div class='fh-group'><h3><a href='/sports/{key}/'>{esc(sp.name)}</a></h3>"
-            f"<span class='fh-tag'>{len(by_sport[key])} contests</span></div>"
-            + contest_table(reg, by_sport[key][:24], show_sport=False) + "</div>")
+    ordered = sorted(window, key=lambda c: (c.date or "", c.sport))
+    sport_vals = [(k, esc(BY_KEY[k].name)) for k in
+                  sorted(by_sport, key=lambda k: BY_KEY[k].name)]
+    bar = facet_bar("sb", [
+        ("sport", "Sport", sport_vals),
+        ("division", "Classification", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]]),
+        ("status", "Status", [("final", "Final"), ("upcoming", "Upcoming"),
+                              ("changed", "Postponed / cancelled")]),
+    ], note="Filters combine; links are shareable")
+    sections = [bar + contest_table(reg, ordered, show_sport=True, fid="sb")]
     body = f"""
 <div class="fh-idhdr">
   <div></div>
@@ -679,67 +998,99 @@ def render_championships(reg):
         if not winner:
             continue
         rows.append(
-            f"<div class='fh-row' style='--grid-cols:minmax(140px,1.1fr) 64px 24px minmax(160px,1fr) 90px'>"
+            f"<div class='fh-row' data-f-season='{esc(sp.season)}' data-f-division='{esc(grp)}' "
+            f"style='--grid-cols:minmax(140px,1.1fr) 64px 24px minmax(160px,1fr) 90px'>"
             f"<span class='fh-plain fh-dim'>{esc(sp.name)}</span><span>{grp_chip(grp)}</span>"
             f"{reg.crest(winner,'xs')}<span class='fh-name'>{reg.school_link(winner)}</span>"
             f"<span class='fh-plain'><a href='{reg.url(c)}'>{esc(line)}</a></span></div>")
+    bar = facet_bar("ch", [
+        ("season", "Season", [("fall", "Fall"), ("winter", "Winter"), ("spring", "Spring")]),
+        ("division", "Division", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]] + [("Open", "Open")]),
+    ])
     body = f"""
 <div class="fh-idhdr">
   <div></div>
   <div><div class="name">Championships</div>
-  <div class="meta">Fall {SEASON_LABEL} · winter and spring championships follow their seasons</div></div>
+  <div class="meta">{SEASON_LABEL} · winter and spring titles decide as those seasons end</div></div>
   <div class="side"></div>
 </div>
+{bar}
 <div class="fh-tablescroll"><div class="fh-table" style="--grid-cols:minmax(140px,1.1fr) 64px 24px minmax(160px,1fr) 90px">
 <div class="fh-thead"><span class="fh-th">Sport</span><span class="fh-th">Division</span><span class="fh-th"></span>
-<span class="fh-th">Champion</span><span class="fh-th">Final</span></div>{''.join(rows)}</div></div>
+<span class="fh-th">Champion</span><span class="fh-th">Final</span></div>
+<div class="fh-filterable" id="ch">{''.join(rows)}</div></div></div>
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › Championships"
     return shell(f"Championships — {BRAND.title()}", body, crumb)
 
 
 def render_schools_index(reg):
-    dir_rows = "".join(
-        f"<a class='fh-row' href='/schools/{s['slug']}/' "
-        "style='--grid-cols:24px minmax(170px,1.2fr) 52px minmax(110px,1fr) minmax(120px,1fr) 44px'>"
-        f"{reg.crest(s['name'],'xs')}<span class='fh-name'>{esc(s['name'])}</span>"
-        f"<span>{class_chip(s['classification'])}</span>"
-        f"<span class='fh-plain fh-dim'>{esc(s['city'])}</span>"
-        f"<span class='fh-plain fh-dim'>{esc(s['conference'])}</span>"
-        f"<span class='fh-num tnum'>{len(s.get('sports', []))}</span></a>"
-        for s in sorted(reg.schools.values(), key=lambda s: s["name"]))
+    """Grouped by classification, then conference — never one flat list.
+
+    256 rows of undifferentiated text is unreadable. Classification is how an
+    association organizes itself and how a family narrows to their school.
+    """
+    by_class = defaultdict(lambda: defaultdict(list))
+    for sch in reg.schools.values():
+        by_class[sch["classification"]][sch["conference"]].append(sch)
+
+    blocks = []
+    for cls in ("6A", "5A", "4A", "3A", "2A", "1A"):
+        confs = by_class.get(cls)
+        if not confs:
+            continue
+        groups = []
+        for conf in sorted(confs):
+            members = sorted(confs[conf], key=lambda s: s["name"])
+            links = "".join(
+                f"<a class='fh-schoollink' href='/schools/{m['slug']}/'>"
+                f"{esc(m['name'])}<span class='ct'>{esc(m['city'])}</span></a>"
+                for m in members)
+            cslug = reg.conf_slug.get(conf, "")
+            groups.append(
+                f"<div class='fh-confgroup'>"
+                f"<h4><a href='/conferences/{cslug}/'>{esc(conf)}</a></h4>"
+                f"<div class='fh-schoollinks'>{links}</div></div>")
+        blocks.append(
+            f"<details class='fh-classblock' id='{cls}' open>"
+            f"<summary><span class='cl'>{class_chip(cls)}</span>"
+            f"<span class='ttl'>Class {esc(cls)}</span></summary>"
+            f"<div class='fh-confgrid'>{''.join(groups)}</div></details>")
+
+    jump = "".join(f"<a href='#{c}'>{class_chip(c)}</a>" for c in ("6A","5A","4A","3A","2A","1A"))
     body = f"""
 <div class="fh-idhdr">
-  <div></div>
-  <div><div class="name">Member schools</div>
-  <div class="meta"><span class="tnum">{len(reg.schools)}</span> schools · six classifications · <a href='/conferences/'>{len(reg.confs)} conferences</a></div></div>
+  <div></div><div><div class="name">Member schools</div>
+  <div class="meta">By classification and conference · <a href='/conferences/'>browse by conference</a></div></div>
   <div class="side"></div>
 </div>
-<div class="fh-tablescroll"><div class="fh-table" style="--grid-cols:24px minmax(170px,1.2fr) 52px minmax(110px,1fr) minmax(120px,1fr) 44px">
-<div class="fh-thead"><span class="fh-th"></span><span class="fh-th">School</span><span class="fh-th">Class</span>
-<span class="fh-th">City</span><span class="fh-th">Conference</span><span class="fh-th num">Sports</span></div>
-{dir_rows}</div></div>
+<nav class="fh-jump">{jump}</nav>
+{''.join(blocks)}
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › Schools"
     return shell(f"Schools — {BRAND.title()}", body, crumb)
 
 
 def render_confs_index(reg):
-    conf_rows = "".join(
-        f"<a class='fh-row' href='/conferences/{slug}/' style='--grid-cols:minmax(170px,1.2fr) minmax(110px,1fr) 52px'>"
-        f"<span class='fh-name'>{esc(c['name'])}</span><span class='fh-plain fh-dim'>{esc(c['area'])}</span>"
-        f"<span class='fh-num tnum'>{len(c['members'])}</span></a>"
-        for slug, c in sorted(reg.confs.items(), key=lambda kv: kv[1]["name"]))
+    by_area = defaultdict(list)
+    for slug, c in reg.confs.items():
+        by_area[c["area"]].append((slug, c))
+    blocks = []
+    for area in sorted(by_area):
+        rows = "".join(
+            f"<a class='fh-conflink' href='/conferences/{slug}/'>"
+            f"<span class='nm'>{esc(c['name'])}</span>"
+            f"<span class='ct'>{esc(', '.join(sorted({reg.schools[m]['classification'] for m in c['members'] if m in reg.schools}, key=lambda x: '654321'.find(x[0]))))}</span></a>"
+            for slug, c in sorted(by_area[area], key=lambda kv: kv[1]["name"]))
+        blocks.append(f"<div class='fh-confgroup'><h4>{esc(area)}</h4>"
+                      f"<div class='fh-schoollinks'>{rows}</div></div>")
     body = f"""
 <div class="fh-idhdr">
-  <div></div>
-  <div><div class="name">Conferences</div>
-  <div class="meta"><span class="tnum">{len(reg.confs)}</span> leagues · geography-based, mixed classification · <a href='/schools/'>{len(reg.schools)} schools</a></div></div>
+  <div></div><div><div class="name">Conferences</div>
+  <div class="meta">By region · leagues are geographic and mix classifications · <a href='/schools/'>browse by class</a></div></div>
   <div class="side"></div>
 </div>
-<div class="fh-tablescroll"><div class="fh-table" style="--grid-cols:minmax(170px,1.2fr) minmax(110px,1fr) 52px">
-<div class="fh-thead"><span class="fh-th">Conference</span><span class="fh-th">Area</span><span class="fh-th num">Schools</span></div>
-{conf_rows}</div></div>
+<div class="fh-confgrid">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › Conferences"
     return shell(f"Conferences — {BRAND.title()}", body, crumb)
@@ -761,152 +1112,135 @@ def render_story(reg, st):
 
 
 def render_news_index(reg):
-    items = "".join(
-        f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
-        f"<span class='kk'>{esc(st['kicker'])} · {esc(nice_date(st['date']))}</span>"
-        f"<span class='hd'>{esc(st['head'])}</span>"
-        f"<span class='dk'>{esc(st['dek'])}</span></a>"
-        for st in news.STORIES)
+    """Two lanes: activity/results coverage and association administration."""
+    def lane(kind, title, blurb):
+        items = "".join(
+            f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
+            f"<span class='kk'>{esc(st['kicker'])} · {esc(nice_date(st['date']))}</span>"
+            f"<span class='hd'>{esc(st['head'])}</span>"
+            f"<span class='dk'>{esc(st['dek'])}</span></a>"
+            for st in news.STORIES if st.get("kind") == kind)
+        return (f"<section><div class='fh-group' style='margin-top:0'><h3>{esc(title)}</h3></div>"
+                f"<p class='fh-lede'>{esc(blurb)}</p><div class='fh-storylist'>{items}</div></section>")
+
     body = f"""
 <div class="fh-idhdr">
   <div></div><div><div class="name">News &amp; notices</div>
-  <div class="meta">Championship information, rule changes, officiating and eligibility</div></div>
+  <div class="meta">Competition coverage and association announcements</div></div>
   <div class="side"></div>
 </div>
-<div class="fh-storylist">{items}</div>
+<div class="fh-newslanes">
+{lane('activity', 'Activities & competition', 'Championships, schedules and student-athletes.')}
+{lane('association', 'Association business', 'Eligibility, officiating, participation and board decisions.')}
+</div>
 """
     crumb = f"<a href='/'>{BRAND.title()}</a> › News"
     return shell(f"News — {BRAND.title()}", body, crumb)
 
 
+def season_chooser(reg, current="winter"):
+    """Season tabs + that season's sports, at the top of the page.
+
+    The first question is which season you are here for; the second is which
+    sport. Answer both above the fold, then get out of the way.
+    """
+    tabs = "".join(
+        f"<button type='button' data-season='{sn}'{' class=on' if sn == current else ''}>"
+        f"{sn.title()}</button>" for sn in ("fall", "winter", "spring"))
+    panes = []
+    for sn in ("fall", "winter", "spring"):
+        tiles = "".join(
+            f"<a class='fh-sporttile' href='/sports/{sp.key}/'>{icons.icon(sp.key)}"
+            f"<span>{esc(sp.name)}</span></a>"
+            for sp in sorted(CATALOG, key=lambda s: s.name)
+            if sp.season == sn and reg.by_sport.get(sp.key))
+        # every pane renders; JS collapses the inactive ones on load, so with
+        # scripting off the visitor gets all three seasons rather than none
+        panes.append(f"<div class='fh-sportgrid' data-season-pane='{sn}'>"
+                     f"<h3 class='fh-seasonlabel'>{sn.title()}</h3>{tiles}</div>")
+    return f"""
+<section class="fh-seasons">
+  <div class="fh-seasontabs">{tabs}<a class="all" href="/scoreboard/">Scoreboard →</a></div>
+  {''.join(panes)}
+</section>"""
+
+
 def render_front(reg):
     import datetime as dt
     t = dt.date.fromisoformat(TODAY)
-    lo = (t - dt.timedelta(days=6)).isoformat()
+    lo = (t - dt.timedelta(days=3)).isoformat()
 
-    # ── LEAD STORY + the news column (editorial, not cards)
-    lead, rest = news.STORIES[0], news.STORIES[1:5]
+    activity = [x for x in news.STORIES if x.get("kind") == "activity"]
+    assoc = [x for x in news.STORIES if x.get("kind") == "association"]
+
+    lead = activity[0]
     lead_html = (
         f"<a class='fh-hero' href='/news/{lead['slug']}/'>"
         f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
         f"<span class='hd'>{esc(lead['head'])}</span>"
         f"<span class='dk'>{esc(lead['dek'])}</span></a>")
-    rest_html = "".join(
+    more = "".join(
         f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
         f"<span class='kk'>{esc(st['kicker'])}</span>"
         f"<span class='hd'>{esc(st['head'])}</span></a>"
-        for st in rest)
+        for st in activity[1:3])
+    notices = "".join(
+        f"<a class='fh-notice' href='/news/{st['slug']}/'>"
+        f"<span class='kk'>{esc(st['kicker'])}</span>"
+        f"<span class='hd'>{esc(st['head'])}</span></a>"
+        for st in assoc[:3])
 
-    # ── FIND YOUR SCHOOL — client-side filter over every member school
     opts = "".join(
         f"<a class='fh-schoolhit' href='/schools/{s['slug']}/' "
         f"data-n='{esc((s['name'] + ' ' + s['city'] + ' ' + s['conference']).lower())}'>"
         f"{reg.crest(s['name'],'xs')}<span class='nm'>{esc(s['name'])}</span>"
-        f"<span class='ct'>{esc(s['city'])}</span>{class_chip(s['classification'])}</a>"
+        f"<span class='ct'>{esc(s['city'])}</span></a>"
         for s in sorted(reg.schools.values(), key=lambda s: s["name"]))
-    finder = f"""
-<section class="fh-finder">
-  <h2>Find your school</h2>
-  <input id="school-q" type="search" placeholder="School, town or conference" autocomplete="off"
-         aria-label="Search member schools">
-  <div class="fh-schoolhits" id="school-hits">{opts}</div>
-  <p class="fh-more"><a href="/schools/">Browse all member schools</a> · <a href="/conferences/">Conferences</a></p>
-</section>"""
-
-    # ── WINTER, by name (the season that is actually happening)
-    winter = sorted((sp for sp in CATALOG if sp.season == "winter" and reg.by_sport.get(sp.key)),
-                    key=lambda sp: sp.name)
-    winter_links = "".join(f"<a href='/sports/{sp.key}/'>{esc(sp.name)}</a>" for sp in winter)
-
-    # ── selected results: recognizable schools, one row per contest
-    def result_rows(keys, n=5):
-        out = []
-        for key in keys:
-            recent = [c for c in reg.by_sport.get(key, []) if c.date and lo <= c.date <= TODAY]
-            for c in list(reversed(recent))[:n]:
-                if isinstance(c, Meet):
-                    top = next((x for x in c.team_scores if x.rank == 1), None)
-                    out.append(
-                        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
-                        f"<span class='w'>{esc(c.name)}</span>"
-                        f"<span class='l'>{('won by ' + esc(top.school)) if top else 'Results'}</span></a>")
-                else:
-                    if isinstance(c, Game) and c.status == "final":
-                        win, lose = c.winner, (c.away if c.winner == c.home else c.home)
-                        ws, ls = max(c.home_score, c.away_score), min(c.home_score, c.away_score)
-                    elif isinstance(c, Dual) and c.home_points is not None:
-                        home_won = c.home_points >= c.away_points
-                        win, lose = (c.home, c.away) if home_won else (c.away, c.home)
-                        ws = f"{max(c.home_points, c.away_points):g}"
-                        ls = f"{min(c.home_points, c.away_points):g}"
-                    else:
-                        continue
-                    out.append(
-                        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
-                        f"<span class='w'>{esc(win)} <b>{ws}</b></span>"
-                        f"<span class='l'>{esc(lose)} <b>{ls}</b></span></a>")
-        return out
-
-    hoops = result_rows(["boys-basketball", "girls-basketball"], 4)[:8]
-    other = result_rows(["boys-wrestling", "girls-swimming", "boys-ice-hockey",
-                         "girls-alpine-skiing", "boys-bowling", "girls-fencing"], 2)[:8]
-
-    # ── championships
-    champs = sorted(champ_finals(reg), key=lambda t: (t[0].name, t[1]))[:8]
-    champ_rows = "".join(
-        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
-        f"<span class='w'>{esc((c.winner if isinstance(c, Game) else next((x.school for x in c.team_scores if x.rank == 1), '')) or '')}</span>"
-        f"<span class='l'>{esc(grp)} {esc(sp.name)}</span></a>"
-        for sp, grp, c in champs)
-
-    # ── resources
-    res_cols = "".join(
-        f"<div><h3>{esc(title)}</h3><ul>" + "".join(
-            (f"<li><a href='{href}'>{esc(label)}</a></li>" if href
-             else f"<li><span>{esc(label)}</span></li>")
-            for label, href in links) + "</ul></div>"
-        for title, links in news.RESOURCES)
 
     body = f"""
+{season_chooser(reg)}
+
 <div class="fh-top">
   <div class="fh-newscol">
     {lead_html}
-    <div class="fh-storylist">{rest_html}</div>
-    <p class="fh-more"><a href="/news/">All news &amp; notices →</a></p>
+    <div class="fh-storylist">{more}</div>
+    <p class="fh-more"><a href="/news/">All news →</a></p>
   </div>
   <aside class="fh-side">
-    {finder}
+    <section class="fh-finder">
+      <h2>Find your school</h2>
+      <input id="school-q" type="search" placeholder="School, town or conference"
+             autocomplete="off" aria-label="Search member schools">
+      <div class="fh-schoolhits" id="school-hits">{opts}</div>
+      <p class="fh-more"><a href="/schools/">By classification</a> · <a href="/conferences/">By conference</a></p>
+    </section>
+    <section class="fh-notices">
+      <h2>From the association</h2>
+      {notices}
+      <p class="fh-more"><a href="/news/">Notices &amp; announcements →</a></p>
+    </section>
   </aside>
 </div>
 
-<section class="fh-band">
-  <h2>Winter sports</h2>
-  <nav class="fh-sportlinks">{winter_links}</nav>
-  <p class="fh-more"><a href="/championships/">Fall championship results</a> ·
-  <a href="/#spring">Spring season</a> · <a href="/scoreboard/">Full scoreboard</a></p>
-</section>
-
-<div class="fh-cols3">
-  <section><h2>Basketball</h2><div class="fh-results">{''.join(hoops)}</div>
-  <p class="fh-more"><a href="/sports/boys-basketball/">Boys standings</a> ·
-  <a href="/sports/girls-basketball/">Girls standings</a></p></section>
-  <section><h2>Around the state</h2><div class="fh-results">{''.join(other)}</div>
-  <p class="fh-more"><a href="/scoreboard/">This week's scoreboard →</a></p></section>
-  <section><h2>Fall champions</h2><div class="fh-results">{champ_rows}</div>
-  <p class="fh-more"><a href="/championships/">All championships →</a></p></section>
-</div>
-
-<section class="fh-band" id="spring">
-  <h2>Resources</h2>
-  <div class="fh-reslinks">{res_cols}</div>
-</section>
-
 <script>
 (function () {{
+  var tabs = document.querySelectorAll(".fh-seasontabs button");
+  document.querySelectorAll("[data-season-pane]").forEach(function (p) {{
+    p.hidden = p.dataset.seasonPane !== "winter";
+  }});
+  document.querySelectorAll(".fh-seasonlabel").forEach(function (h) {{ h.hidden = true; }});
+  tabs.forEach(function (b) {{
+    b.addEventListener("click", function () {{
+      tabs.forEach(function (o) {{ o.classList.toggle("on", o === b); }});
+      document.querySelectorAll("[data-season-pane]").forEach(function (p) {{
+        p.hidden = p.dataset.seasonPane !== b.dataset.season;
+      }});
+    }});
+  }});
   var q = document.getElementById("school-q"), hits = document.getElementById("school-hits");
   if (!q) return;
   var rows = [].slice.call(hits.children);
-  function run() {{
+  q.addEventListener("input", function () {{
     var v = q.value.trim().toLowerCase();
     if (!v) {{ hits.classList.remove("open"); return; }}
     var n = 0;
@@ -916,8 +1250,7 @@ def render_front(reg):
       if (ok) n++;
     }});
     hits.classList.add("open");
-  }}
-  q.addEventListener("input", run);
+  }});
 }})();
 </script>
 """
@@ -958,6 +1291,7 @@ def build():
     global RAIL
     reg = Registry()
     RAIL = build_rail(reg)
+    build_menus(reg)
 
     pages = {"/": render_front(reg), "/scoreboard/": render_scoreboard(reg),
              "/schools/": render_schools_index(reg), "/conferences/": render_confs_index(reg),
@@ -976,6 +1310,9 @@ def build():
     for sp in CATALOG:
         if reg.by_sport.get(sp.key):
             pages[f"/sports/{sp.key}/"] = render_sport(reg, sp)
+            pages[f"/sports/{sp.key}/standings/"] = render_sport_standings(reg, sp)
+            pages[f"/sports/{sp.key}/schedule/"] = render_sport_schedule(reg, sp)
+            pages[f"/sports/{sp.key}/champions/"] = render_sport_champs(reg, sp)
     for s in reg.schools.values():
         pages[f"/schools/{s['slug']}/"] = render_school(reg, s)
     for slug, conf in reg.confs.items():

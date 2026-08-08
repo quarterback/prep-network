@@ -9,7 +9,7 @@ features. Written once, in the association's voice, never generated.
 """
 
 STORIES = [
-    dict(slug="winter-championship-brackets-set", kicker="Championships",
+    dict(slug="winter-championship-brackets-set", kind="activity", kicker="Championships",
          date="2027-01-15",
          head="Winter championship brackets released for basketball and wrestling",
          dek="Seeding meetings concluded Thursday. First-round sites are assigned to "
@@ -22,7 +22,7 @@ STORIES = [
                "Coaches should confirm rosters through their athletic director before "
                "the entry deadline. Corrections after the deadline require a written "
                "request from the school's principal."]),
-    dict(slug="alpine-nordic-schedule-change", kicker="Notice",
+    dict(slug="alpine-nordic-schedule-change", kind="activity", kicker="Notice",
          date="2027-01-14",
          head="Alpine and nordic events moved after Cascade Divide storm",
          dek="Three invitationals scheduled for last weekend have been rescheduled. "
@@ -32,7 +32,7 @@ STORIES = [
                "Rescheduled dates appear on each event page. Because qualifying is "
                "based on standard rather than event count, no skier's championship "
                "eligibility is affected by the cancellations."]),
-    dict(slug="officiating-shortage-winter", kicker="Officials",
+    dict(slug="officiating-shortage-winter", kind="association", kicker="Officials",
          date="2027-01-13",
          head="Association opens midseason officials registration for winter sports",
          dek="Basketball and wrestling assignments remain unfilled in several "
@@ -44,7 +44,7 @@ STORIES = [
                "conference.",
                "Schools experiencing coverage gaps should contact their conference "
                "assigner directly rather than rescheduling contests."]),
-    dict(slug="participation-record-girls-wrestling", kicker="Participation",
+    dict(slug="participation-record-girls-wrestling", kind="association", kicker="Participation",
          date="2027-01-12",
          head="Girls wrestling adds programs for a fourth consecutive year",
          dek="Eleven more schools are sponsoring the sport this winter, with the "
@@ -54,7 +54,7 @@ STORIES = [
                "Juniper Highlands.",
                "Several small schools are competing under cooperative agreements. "
                "Co-op athletes compete for the host school in championship events."]),
-    dict(slug="transfer-rule-clarification", kicker="Eligibility",
+    dict(slug="transfer-rule-clarification", kind="association", kicker="Eligibility",
          date="2027-01-09",
          head="Board clarifies transfer sit-out period for midyear enrollment",
          dek="The clarification affects students changing schools after the first "
@@ -64,7 +64,7 @@ STORIES = [
                "in any sport played at the previous school that year.",
                "Hardship waivers continue to be reviewed case by case. Athletic "
                "directors should file requests before the student competes, not after."]),
-    dict(slug="netherwood-swimmer-feature", kicker="Student-athlete",
+    dict(slug="netherwood-swimmer-feature", kind="activity", kicker="Student-athlete",
          date="2027-01-08",
          head="A Plainfield swimmer's long drive to the nearest pool",
          dek="Netherwood has no pool of its own. Practice means a bus ride, four "
