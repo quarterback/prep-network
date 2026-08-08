@@ -1488,15 +1488,18 @@ def season_chooser(reg, current="winter"):
         f"{sn.title()}</button>" for sn in ("fall", "winter", "spring"))
     panes = []
     for sn in ("fall", "winter", "spring"):
-        tiles = "".join(
-            f"<a class='fh-sporttile' href='/sports/{sp.key}/'>{icons.icon(sp.key)}"
-            f"<span>{esc(sp.name)}</span></a>"
+        items = "".join(
+            f"<a class='fh-ribbonitem' href='/sports/{sp.key}/' title='{esc(sp.name)}'>"
+            f"{icons.icon(sp.key)}<span>{esc(sp.name)}</span></a>"
             for sp in sorted(CATALOG, key=lambda s: s.name)
             if sp.season == sn and reg.by_sport.get(sp.key))
         # every pane renders; JS collapses the inactive ones on load, so with
-        # scripting off the visitor gets all three seasons rather than none
-        panes.append(f"<div class='fh-sportgrid' data-season-pane='{sn}'>"
-                     f"<h3 class='fh-seasonlabel'>{sn.title()}</h3>{tiles}</div>")
+        # scripting off the visitor gets all three seasons rather than none.
+        # A ribbon, not a grid: this is navigation — one horizontally
+        # scrollable band, so the lead story stays above the fold. The full
+        # directory lives in the Sports & Activities menu.
+        panes.append(f"<div class='fh-sportribbon' data-season-pane='{sn}'>"
+                     f"<h3 class='fh-seasonlabel'>{sn.title()}</h3>{items}</div>")
     return f"""
 <section class="fh-seasons">
   <div class="fh-seasontabs">{tabs}<a class="all" href="/scoreboard/">Scoreboard →</a></div>

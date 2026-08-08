@@ -993,19 +993,31 @@ main.wrap { padding-bottom: 10px; }
   stroke-linecap: round; stroke-linejoin: round; }
 .fh-ic.sm { width: 15px; height: 15px; opacity: 0.75; }
 
-.fh-sportgrid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 4px;
+/* Season sport ribbon — compact navigation, not a directory. One swipeable
+   band: icon first, a small label under it (two basketballs are identical
+   without one), the whole season+ribbon area a single ~120px block so the
+   lead story starts above the fold. */
+.fh-sportribbon {
+  display: flex; align-items: stretch; gap: 2px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; padding: 2px 0 8px;
 }
-.fh-sporttile {
-  display: flex; flex-direction: column; align-items: center; gap: 7px;
-  padding: 14px 8px; text-align: center; color: var(--text-primary);
-  border: 1px solid transparent; border-radius: var(--radius);
+.fh-sportribbon::-webkit-scrollbar { display: none; }
+.fh-ribbonitem {
+  flex: none; display: flex; flex-direction: column; align-items: center;
+  gap: 5px; padding: 8px 10px 6px; border-radius: var(--radius);
+  color: var(--text-primary); border: 1px solid transparent;
+  max-width: 96px; text-align: center;
 }
-.fh-sporttile span { font-size: var(--fs-caption); font-weight: 700; line-height: 1.2; }
-.fh-sporttile:hover {
+.fh-ribbonitem span {
+  font-size: 10px; font-weight: 700; line-height: 1.15;
+  letter-spacing: 0.01em; color: var(--text-secondary);
+}
+.fh-ribbonitem:hover, .fh-ribbonitem.on {
   background: var(--surface-hover); border-color: var(--border-subtle);
   text-decoration: none; color: var(--brand-strong);
 }
+.fh-ribbonitem.on span, .fh-ribbonitem:hover span { color: inherit; }
 
 /* ── grouped directories ───────────────────────────────────────────────── */
 
@@ -1128,7 +1140,7 @@ main.wrap { padding-bottom: 10px; }
 .fh-seasontabs .all {
   margin-left: auto; font-size: var(--fs-small); font-weight: 700;
 }
-.fh-seasons .fh-sportgrid { padding: 6px 0 10px; }
+.fh-seasons { padding-bottom: 0; }
 
 /* ── mobile navigation ─────────────────────────────────────────────────────
    CSS-only drawer (checkbox + label), so the menu works with scripting off.
