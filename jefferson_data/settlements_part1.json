@@ -1,0 +1,182 @@
+[
+  {
+    "id": "S001",
+    "name": "Ashford",
+    "region": "Cascadia Central Valley",
+    "population": 587000,
+    "type": "Primary City",
+    "metro": "Ashford Metro",
+    "description": "State capital and economic center"
+  },
+  {
+    "id": "S002",
+    "name": "Port Valdez",
+    "region": "Redwood Coast",
+    "population": 234000,
+    "type": "Major Coastal City",
+    "metro": "Port Valdez Metro",
+    "description": "Deep-water port, timber export hub"
+  },
+  {
+    "id": "S003",
+    "name": "Newbridge",
+    "region": "Boise Frontier Corridor",
+    "population": 198000,
+    "type": "Major Interstate City",
+    "metro": "Greater Boise-Jefferson Metro",
+    "description": "Boise metro bedroom/employment center"
+  },
+  {
+    "id": "S004",
+    "name": "Timberlake",
+    "region": "Cascadia Central Valley",
+    "population": 168000,
+    "type": "Regional City",
+    "metro": "Ashford Metro",
+    "description": "University town, tech corridor"
+  },
+  {
+    "id": "S005",
+    "name": "Redhaven",
+    "region": "Redwood Coast",
+    "population": 152000,
+    "type": "Regional City",
+    "metro": "Port Valdez Metro",
+    "description": "Fishing fleet homeport, tourism"
+  },
+  {
+    "id": "S006",
+    "name": "Volcano Ridge",
+    "region": "Shasta Highlands",
+    "population": 112000,
+    "type": "Regional City",
+    "metro": null,
+    "description": "Mountain recreation gateway, forestry"
+  },
+  {
+    "id": "S007",
+    "name": "Silverton",
+    "region": "Silver Basin",
+    "population": 94000,
+    "type": "Regional City",
+    "metro": null,
+    "description": "Agricultural processing, distribution"
+  },
+  {
+    "id": "S008",
+    "name": "Canyon Creek",
+    "region": "Boise Frontier Corridor",
+    "population": 82000,
+    "type": "Regional City",
+    "metro": "Greater Boise-Jefferson Metro",
+    "description": "Suburban residential, light industry"
+  },
+  {
+    "id": "S009",
+    "name": "Klamath Junction",
+    "region": "Klamath Uplands",
+    "population": 76000,
+    "type": "Regional City",
+    "metro": null,
+    "description": "Rail hub, livestock auction center"
+  },
+  {
+    "id": "S010",
+    "name": "Mendota",
+    "region": "Humboldt Delta",
+    "population": 72000,
+    "type": "Regional City",
+    "metro": null,
+    "description": "University, coastal agriculture research"
+  },
+  {
+    "id": "S011",
+    "name": "Desert Springs",
+    "region": "Harney Expanse",
+    "population": 68000,
+    "type": "Regional City",
+    "metro": null,
+    "description": "Geothermal energy, ranching services"
+  },
+  {
+    "id": "S012",
+    "name": "Oakmere",
+    "region": "Cascadia Central Valley",
+    "population": 58000,
+    "type": "Small City",
+    "metro": "Ashford Metro",
+    "description": "Suburban manufacturing, warehouses"
+  },
+  {
+    "id": "S013",
+    "name": "Cascade Heights",
+    "region": "Cascadia Central Valley",
+    "population": 52000,
+    "type": "Small City",
+    "metro": "Ashford Metro",
+    "description": "Residential suburb, commuter town"
+  },
+  {
+    "id": "S014",
+    "name": "Fort Braggton",
+    "region": "Redwood Coast",
+    "population": 47000,
+    "type": "Small City",
+    "metro": "Port Valdez Metro",
+    "description": "Historic fort, coastal tourism"
+  },
+  {
+    "id": "S015",
+    "name": "Lassen Peak",
+    "region": "Shasta Highlands",
+    "population": 43000,
+    "type": "Small City",
+    "metro": null,
+    "description": "Ski resort access, mountain sports"
+  },
+  {
+    "id": "S016",
+    "name": "Payette Crossing",
+    "region": "Boise Frontier Corridor",
+    "population": 41000,
+    "type": "Small City",
+    "metro": "Greater Boise-Jefferson Metro",
+    "description": "Logistics, trucking hub"
+  },
+  {
+    "id": "S017",
+    "name": "Willowbrook",
+    "region": "Cascadia Central Valley",
+    "population": 39000,
+    "type": "Small City",
+    "metro": "Ashford Metro",
+    "description": "Food processing, canneries"
+  },
+  {
+    "id": "S018",
+    "name": "Trinity Mine",
+    "region": "Trinity Mountains",
+    "population": 36000,
+    "type": "Small City",
+    "metro": null,
+    "description": "Historic mining, now tourism"
+  },
+  {
+    "id": "S019",
+    "name": "Modoc Flats",
+    "region": "Silver Basin",
+    "population": 33000,
+    "type": "Small City",
+    "metro": null,
+    "description": "Grain farming, grain elevators"
+  },
+  {
+    "id": "S020",
+    "name": "Owyhee Canyon",
+    "region": "Owyhee Rim Country",
+    "population": 31000,
+    "type": "Small City",
+    "metro": null,
+    "description": "Cattle ranching headquarters"
+  }
+]
