@@ -1020,6 +1020,74 @@ main.wrap { padding-bottom: 10px; }
 }
 .fh-ribbonitem.on span, .fh-ribbonitem:hover span { color: inherit; }
 
+/* org identity header — the mark carries it */
+.fh-orghead {
+  display: flex; align-items: center; gap: 18px;
+  padding: 18px 0 14px; border-bottom: 4px solid var(--ink);
+}
+.fh-orghead .fh-mark { flex: none; filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.18)); }
+.fh-orghead .name {
+  font-family: var(--font-display); font-weight: 800; font-size: 30px;
+  letter-spacing: -0.02em; line-height: 1.05; text-transform: uppercase;
+}
+.fh-orghead .name .ath { color: var(--text-muted); font-weight: 600; }
+.fh-orghead .nick { font-family: var(--font-display); font-weight: 800;
+  font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+.fh-orghead .meta { font-size: var(--fs-small); color: var(--text-secondary); margin-top: 3px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.fh-marktext { font-family: var(--font-display); }
+
+/* feature + events rail: the athletics-homepage top */
+.fh-orgtop { display: grid; grid-template-columns: 2fr 1fr; gap: 26px;
+  align-items: start; margin: 18px 0 6px; }
+@media (max-width: 860px) { .fh-orgtop { grid-template-columns: 1fr; gap: 14px; } }
+.fh-feature {
+  position: relative; overflow: hidden; border-radius: var(--radius);
+  padding: 88px 28px 24px; color: #fff;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.fh-feature .wm { position: absolute; right: -30px; top: -22px; opacity: 0.16;
+  pointer-events: none; }
+.fh-feature .wm .fh-mark { width: 220px; height: 220px; }
+.fh-feature .kk { font-size: var(--fs-micro); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); opacity: 0.85;
+  margin-bottom: 6px; position: relative; }
+.fh-feature .hd { font-family: var(--font-display); font-weight: 800;
+  font-size: 26px; letter-spacing: -0.015em; line-height: 1.15; position: relative; }
+.fh-feature .dk { font-family: var(--font-serif); font-size: var(--fs-small);
+  margin-top: 7px; opacity: 0.92; position: relative; }
+.fh-feature a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+.fh-feature .hd a { text-decoration: none; }
+.fh-eventsrail { display: flex; flex-direction: column; border-top: var(--rule); }
+.fh-eventsrail > * { display: block; padding: 8px 0; border-bottom: var(--hairline);
+  font-size: var(--fs-small); font-weight: 600; color: var(--text-primary);
+  line-height: 1.35; }
+.fh-eventsrail b { font-weight: 700; }
+.fh-eventsrail .kk { display: block; font-size: var(--fs-micro); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-link);
+  margin-bottom: 2px; }
+a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
+.fh-eventsrail a:hover { color: var(--text-link); }
+
+/* ScoreCard / UpcomingEvent rows */
+.fh-cardrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px; }
+.fh-card { border: 1px solid var(--border-subtle); border-radius: var(--radius);
+  padding: 10px 12px 9px; background: var(--surface-card); }
+.fh-card .st { display: block; font-size: var(--fs-micro); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted);
+  margin-bottom: 6px; }
+.fh-card .mrow { display: flex; align-items: center; gap: 7px; padding: 2px 0;
+  font-weight: 700; font-size: var(--fs-body); }
+.fh-card .mrow .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; }
+.fh-card .mrow.at { color: var(--text-muted); font-weight: 400;
+  font-size: var(--fs-caption); padding-left: 31px; }
+.fh-card .mrow.one { font-weight: 600; line-height: 1.35; }
+.fh-card .mrow b { font-size: 15px; }
+.fh-card .sp { display: block; margin-top: 6px; font-size: var(--fs-caption);
+  color: var(--text-muted); }
+
 /* ── athletics-site organization pages ─────────────────────────────────────
    School and conference homepages take the collegiate athletics-site shape:
    identity band with the school's own color, compact section nav, lead
@@ -1059,10 +1127,10 @@ main.wrap { padding-bottom: 10px; }
 }
 .fh-memberstrip::-webkit-scrollbar { display: none; }
 .fh-member {
-  flex: none; display: inline-flex; align-items: center; gap: 7px;
-  padding: 6px 12px 6px 7px; border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-pill); color: var(--text-primary);
-  font-size: var(--fs-small); font-weight: 700; white-space: nowrap;
+  flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 10px 10px 8px; border-radius: var(--radius); color: var(--text-primary);
+  font-size: 11px; font-weight: 700; text-align: center; max-width: 104px;
+  line-height: 1.2;
 }
 .fh-member:hover { background: var(--surface-hover); text-decoration: none;
   color: var(--brand-strong); }
