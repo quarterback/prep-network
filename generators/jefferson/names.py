@@ -89,6 +89,44 @@ NAMED_CITIES = [
     ("Annie Springs", 24_420, "Cascade Divide", None),
 ]
 
+# ---- counties ---------------------------------------------------------------
+# Jefferson sits on a real footprint (southern Oregon, far-northern California,
+# NW Nevada, the SW Idaho corner). Counties are fictional; each maps to the
+# real county whose ground it stands on. The school-name pool's county schools
+# (Marlow County, Sablewood Regional) come from these, so a county school sits
+# in its own county.
+COUNTY_GEO = {
+    "Ashbury Metro":     [("Marlow", "Jackson County, OR"),
+                          ("Camas", "Josephine County, OR")],
+    "Harborline":        [("Bidwell", "Coos County, OR"),
+                          ("Weller", "Curry County, OR")],
+    "South Coast":       [("Ostrander", "Del Norte County, CA"),
+                          ("San Marcos", "Humboldt County, CA")],
+    "Halbrook Basin":    [("Halbrook", "Canyon County, ID"),
+                          ("Vance", "Owyhee County, ID")],
+    "Cascade Divide":    [("Tamarack", "Klamath County, OR"),
+                          ("Cinder", "Siskiyou County, CA")],
+    "Juniper Highlands": [("Rimrock", "Lake County, OR"),
+                          ("Juniper", "Modoc County, CA")],
+    "Sage Plains":       [("Emigrant", "Harney County, OR"),
+                          ("Stagewater", "Malheur County, OR")],
+    "Timber Valley":     [("Antler", "Douglas County, OR")],
+    "Gold Valley":       [("Sablewood", "Trinity County, CA"),
+                          ("Ferris", "Shasta County, CA")],
+    "North Range":       [("Windrow", "Lassen County, CA"),
+                          ("Lodestone", "Humboldt County, NV"),
+                          ("Galena", "Washoe County, NV")],
+}
+
+# metro/anchor cities pinned to their county (the rest hash into their area's)
+COUNTY_PINS = {
+    "Ashbury": "Marlow", "Port Meridian": "Bidwell", "Halbrook": "Halbrook",
+    "Plainfield": "Antler", "Leidesdorff": "Sablewood", "Newark River": "Weller",
+    "Santa Laura": "San Marcos", "Hetfield": "Windrow", "New Leiden": "Tamarack",
+    "Annie Springs": "Cinder", "San Aurelio": "San Marcos",
+    "Puerto Alma": "San Marcos", "Mesa Dorada": "Ostrander",
+}
+
 # Santa Laura anchors a Spanish-derived naming layer on the southern coast;
 # these settle around it as single-school towns.
 SPANISH_TOWNS = ["San Aurelio", "Puerto Alma", "Mesa Dorada"]

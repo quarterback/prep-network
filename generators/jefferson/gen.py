@@ -734,6 +734,80 @@ class Gen:
                 self.make_meet(sport, f"JHSAA {group} {sport.name} Championships",
                                "Ashbury", champ_date, sorted(field), champ_date <= TODAY)
 
+    # ---------------------------------------------------------- gazetteer
+    def write_gazetteer(self):
+        """Counties and populations, derived from the state that exists.
+
+        Population comes from the schools rather than a fresh random draw: a
+        high school's four grades hold roughly 5%% of its town, so town pop ~
+        total public enrollment x 15-22, jittered on a stable hash of the name
+        (crc32, not the RNG stream — the gazetteer must not perturb the
+        season). Anchor and owner-specified cities keep their stated figures.
+        Emitted as records/orgs/cities.json and rendered to
+        docs/GAZETTEER-jefferson.md so the document can never drift from the
+        records.
+        """
+        import json
+        stated = {N.ANCHORS["inland_metro"][0]: N.ANCHORS["inland_metro"][1],
+                  N.ANCHORS["coastal_metro"][0]: N.ANCHORS["coastal_metro"][1],
+                  N.ANCHORS["boise_side"][0]: N.ANCHORS["boise_side"][1]}
+        stated.update(dict(N.ANCHORS["secondary"]))
+        stated.update({c: pop for c, pop, _a, _s in N.NAMED_CITIES})
+
+        towns = {}
+        for s in self.schools:
+            e = towns.setdefault((s["city"], s["area"]), dict(enroll=0, publics=0))
+            if not s["private"]:
+                e["enroll"] += s["enrollment"]
+                e["publics"] += 1
+
+        cities = []
+        for (city, area), e in sorted(towns.items()):
+            h = zlib.crc32(city.encode())
+            county, real = (N.COUNTY_GEO[area][h % len(N.COUNTY_GEO[area])]
+                            if city not in N.COUNTY_PINS else
+                            next((c, r) for c, r in sum(N.COUNTY_GEO.values(), [])
+                                 if c == N.COUNTY_PINS[city]))
+            if city in stated:
+                pop = stated[city]
+            else:
+                pop = e["enroll"] * (15 + h % 8) + h % 997
+                pop = int(round(pop, -2 if pop < 20000 else -3))
+            cities.append(dict(name=city, county=county, real_county=real,
+                               area=area, population=pop))
+        cities.sort(key=lambda c: (c["county"], -c["population"], c["name"]))
+
+        (RECORDS / "orgs").mkdir(parents=True, exist_ok=True)
+        (RECORDS / "orgs/cities.json").write_text(json.dumps(
+            {"$type": "org.prepnet.temp.org.cities", "cities": cities},
+            indent=1, sort_keys=True) + "\n")
+
+        lines = ["# Jefferson gazetteer — cities and towns by county",
+                 "",
+                 "Generated from `records/orgs/cities.json` by the state generator;",
+                 "edit the generator, not this file. Counties are fictional; each",
+                 "names the real county whose ground it stands on. Populations are",
+                 "derived from school enrollment (a town holds roughly 15-22 people",
+                 "per public-high-school seat); anchor and owner-specified cities",
+                 "keep their stated figures.", ""]
+        bycounty = {}
+        for c in cities:
+            bycounty.setdefault((c["county"], c["real_county"]), []).append(c)
+        total = 0
+        for (county, real), rows in sorted(bycounty.items()):
+            csum = sum(r["population"] for r in rows)
+            total += csum
+            lines.append(f"## {county} County ({real}) — {csum:,}")
+            lines.append("")
+            lines.append("| City or town | Population | Area |")
+            lines.append("| --- | ---: | --- |")
+            for r in rows:
+                lines.append(f"| {r['name']} | {r['population']:,} | {r['area']} |")
+            lines.append("")
+        lines.append(f"**State total: {total:,}** across {len(cities)} places, "
+                     f"{len(bycounty)} counties.")
+        (ROOT / "docs/GAZETTEER-jefferson.md").write_text("\n".join(lines) + "\n")
+
     # ---------------------------------------------------------------- run
     def run(self):
         self._str = {}
@@ -789,6 +863,7 @@ class Gen:
              for s in self.schools],
             self.confs,
         )
+        self.write_gazetteer()
         games = sum(1 for c in self.contests if isinstance(c, Game))
         duals = sum(1 for c in self.contests if isinstance(c, Dual))
         meets = sum(1 for c in self.contests if isinstance(c, Meet))
