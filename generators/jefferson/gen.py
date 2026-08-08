@@ -68,48 +68,140 @@ class Gen:
 
     # ---------------------------------------------------------- geography
     def town_name(self) -> str:
+        """One draw from the mixed map: fused plat compounds, settler surnames,
+        the old two-word nature names (now a minority), railroad stops, and the
+        occasional unexplained one-worder. See names.py for why the mix."""
+        rng = self.rng
         while True:
-            n = f"{self.rng.choice(N.STEMS)} {self.rng.choice(N.ENDINGS)}"
+            roll = rng.random()
+            if roll < 0.32:
+                n = rng.choice(N.FUSE_STEMS) + rng.choice(N.FUSE_SUFFIXES)
+            elif roll < 0.52:
+                n = f"{rng.choice(N.STEMS)} {rng.choice(N.ENDINGS)}"
+            elif roll < 0.72:
+                base = rng.choice(N.TOWN_SURNAMES)
+                n = base if rng.random() < 0.6 else \
+                    base + rng.choice(["ville", " City", "s Landing"])
+            elif roll < 0.85:
+                n = f"{rng.choice(N.TOWN_SURNAMES + N.STEMS)} {rng.choice(N.RAIL_TAILS)}"
+            else:
+                n = rng.choice(N.ODDITIES)
             if n.lower() not in self.used_places:
                 self.used_places.add(n.lower())
                 return n
 
     def build_schools(self) -> list[dict]:
         rng = self.rng
-        slots: list[dict] = []  # {city, area, weight, private, name_hint}
 
-        def add_city(city, area, publics, privates, weight):
-            self.used_places.add(city.lower())
-            dirs = [d for d in N.DIRECTIONS]
+        # Name pools are popped, not sampled, so a name appears once statewide.
+        # Naming history per the owner's spec: metro cores carry people and
+        # compass points (the schools that predate expansion), later rings
+        # carry neighborhoods and landscape, small towns carry their own name,
+        # rural consolidations carry county/union names.
+        person = list(N.CIVIC_FIGURES) + list(N.CIVIC_FULL)
+        rng.shuffle(person)
+        national = list(N.NATIONAL_FIGURES)
+        rng.shuffle(national)
+        person = person[:14] + national[:4]     # national figures used sparingly
+        rng.shuffle(person)
+        hoods = list(N.NEIGHBORHOODS); rng.shuffle(hoods)
+        geo = list(N.GEO_SCHOOLS); rng.shuffle(geo)
+        magnets = {"Ashbury": ["Jefferson School of Science and Technology",
+                               "Academy of Arts and Communication"],
+                   "Port Meridian": ["Port Meridian Polytechnic",
+                                     "Port Meridian Maritime"],
+                   "Halbrook": ["Halbrook Technical"]}
+
+        def draw(pool, fallback):
+            return pool.pop() if pool else fallback()
+
+        # Anchor cities are reserved before any random draw — town_name()
+        # produced a suburb "Averill" once, then the secondary city Averill was
+        # added on top of it: two towns, one name, in different leagues.
+        for key, val in N.ANCHORS.items():
+            if key == "secondary":
+                for city, _pop in val:
+                    self.used_places.add(city.lower())
+            else:
+                self.used_places.add(val[0].lower())
+
+        slots: list[dict] = []  # {city, area, weight, private, name}
+
+        def metro_plan(city, k):
+            """k public-school names for a metro. Ashbury pins the rivalry
+            pair the newsroom already covers."""
+            names = ["Ashbury Central", "Ashbury Heights"] if city == "Ashbury" else [city]
+            dirs = [d for d in N.DIRECTIONS if d not in ("Central", "Heights")]
             rng.shuffle(dirs)
-            for i in range(publics):
-                if i == 0 and publics <= 2:
-                    nm = city
+            mag = list(magnets.get(city, []))
+            while len(names) < k:
+                roll = rng.random()
+                if mag and len(names) >= k - len(mag):
+                    names.append(mag.pop(0))       # specialty schools last
+                elif roll < 0.34:
+                    names.append(draw(hoods, lambda: f"{city} {dirs.pop()}"))
+                elif roll < 0.62:
+                    names.append(draw(person, lambda: f"{city} {dirs.pop()}"))
+                elif roll < 0.80 and dirs:
+                    names.append(f"{city} {dirs.pop()}")
                 else:
-                    nm = f"{city} {dirs[i % len(dirs)]}"
+                    names.append(draw(geo, lambda: f"{city} {dirs.pop()}"))
+            return names
+
+        def add_city(city, area, publics, privates, weight, kind="town"):
+            self.used_places.add(city.lower())
+            if kind == "metro":
+                names = metro_plan(city, publics)
+            else:
+                dirs = [d for d in N.DIRECTIONS]
+                rng.shuffle(dirs)
+                names = []
+                for i in range(publics):
+                    if i == 0:
+                        names.append(city)
+                    elif kind == "suburb" and rng.random() < 0.5:
+                        # newer suburban schools name for the neighborhood
+                        names.append(draw(hoods, lambda: f"{city} {dirs[i % len(dirs)]}"))
+                    elif kind == "secondary" and i == 1 and rng.random() < 0.5:
+                        names.append(draw(person, lambda: f"{city} {dirs[i % len(dirs)]}"))
+                    else:
+                        names.append(f"{city} {dirs[i % len(dirs)]}")
+            for nm in names:
                 slots.append(dict(city=city, area=area, weight=weight + rng.random(),
                                   private=False, name=nm))
             rel = list(N.SAINTS + N.PROTESTANT)
             rng.shuffle(rel)
+            if city == "Ashbury":
+                # the newsroom's fencing story unseats this school by name
+                rel.remove("St. Sebastian Prep")
+                rel.insert(0, "St. Sebastian Prep")
+            preps = list(N.PREPS)
+            rng.shuffle(preps)
             for i in range(privates):
-                base = rel[i % len(rel)]
-                suffix = rng.choice(["", " Academy", " Prep", ""])
+                # roughly one prep-tradition school for every two religious ones
+                if preps and i % 3 == 2:
+                    nm = preps.pop()
+                else:
+                    base = rel[i % len(rel)]
+                    suffix = "" if ("Prep" in base or "Academy" in base) else \
+                        rng.choice(["", " Academy", " Prep", ""])
+                    nm = f"{base}{suffix}"
                 slots.append(dict(city=city, area=area, weight=weight - 1 + rng.random() * 2,
-                                  private=True, name=f"{base}{suffix}"))
+                                  private=True, name=nm))
 
         # metros and anchors
-        add_city("Ashbury", "Ashbury Metro", 12, 5, 10)
+        add_city("Ashbury", "Ashbury Metro", 12, 5, 10, kind="metro")
         for _ in range(9):   # Ashbury suburbs
             t = self.town_name()
-            add_city(t, "Ashbury Metro", rng.randint(1, 3), 0, 7)
-        add_city("Port Meridian", "Harborline", 6, 2, 8)
-        add_city("Halbrook", "Halbrook Basin", 5, 2, 8)
+            add_city(t, "Ashbury Metro", rng.randint(1, 3), 0, 7, kind="suburb")
+        add_city("Port Meridian", "Harborline", 6, 2, 8, kind="metro")
+        add_city("Halbrook", "Halbrook Basin", 5, 2, 8, kind="metro")
         for _ in range(3):
-            add_city(self.town_name(), "Halbrook Basin", rng.randint(1, 2), 0, 6)
+            add_city(self.town_name(), "Halbrook Basin", rng.randint(1, 2), 0, 6, kind="suburb")
         for city, _pop in N.ANCHORS["secondary"]:
             area = rng.choice(["Timber Valley", "Gold Valley", "Juniper Highlands",
                                "Cascade Divide", "South Coast"])
-            add_city(city, area, rng.randint(2, 3), rng.random() < 0.4, 5)
+            add_city(city, area, rng.randint(2, 3), rng.random() < 0.4, 5, kind="secondary")
 
         # Plainfield (owner request): three schools, fixed names
         self.used_places.add("plainfield")
@@ -117,23 +209,26 @@ class Gen:
             slots.append(dict(city="Plainfield", area="Timber Valley",
                               weight=4.5 + rng.random() * 2, private=False, name=nm))
 
-        # surname / civic-word schools sprinkled in metros
-        pools = list(N.SURNAMES_SCHOOL + N.CIVIC_WORDS)
-        rng.shuffle(pools)
-        for i in range(10):
-            slots.append(dict(city="Ashbury" if i % 2 else "Port Meridian",
-                              area="Ashbury Metro" if i % 2 else "Harborline",
-                              weight=6 + rng.random() * 3, private=False, name=pools[i]))
-
-        # the rural map: single-school towns until quota
+        # the rural map: single-school towns until quota. Mostly the town's own
+        # name; some consolidated districts (county/union/regional), a few
+        # named for the landscape.
         target = sum(CLASS_TARGETS.values())
+        counties = list(N.COUNTIES); rng.shuffle(counties)
         area_pool = ["Timber Valley"] * 4 + ["Gold Valley"] * 3 + ["Sage Plains"] * 3 + \
                     ["Juniper Highlands"] * 3 + ["Cascade Divide"] * 2 + \
                     ["South Coast"] * 2 + ["Harborline"] * 2 + ["North Range"] * 4
         while len(slots) < target:
             t = self.town_name()
             area = rng.choice(area_pool)
-            nm = t if rng.random() < 0.8 else f"{t} Union"
+            roll = rng.random()
+            if roll < 0.74:
+                nm = t
+            elif roll < 0.86 and counties:
+                nm = rng.choice(N.REGIONAL_FORMS).format(counties.pop())
+            elif roll < 0.94:
+                nm = draw(geo, lambda: f"{t} Union")
+            else:
+                nm = f"{t} Union"
             slots.append(dict(city=t, area=area, weight=rng.random() * 3,
                               private=rng.random() < 0.05, name=nm))
         slots = slots[:target]
@@ -191,9 +286,7 @@ class Gen:
                 chunk = ordered[i * size:(i + 1) * size]
                 if not chunk:
                     continue
-                cities = [s["city"] for s in chunk]
-                anchor = max(set(cities), key=lambda c: (cities.count(c), c))
-                nm = self._conf_name([anchor, area], flavors, rng)
+                nm = self._conf_name(area)
                 slug = slugify(nm)
                 for s in chunk:
                     s["conference"] = nm
@@ -201,20 +294,18 @@ class Gen:
                                   members=[s["name"] for s in chunk]))
         return confs
 
-    def _conf_name(self, bases, flavors, rng) -> str:
-        """First free name from the geographic candidates; the stem list is a
-        last resort so a league never silently loses its place-name."""
-        for base in bases:
-            for flavor in flavors:
-                nm = f"{base} {flavor}"
-                if nm.lower() not in self.used_places:
-                    self.used_places.add(nm.lower())
-                    return nm
-        while True:
-            nm = f"{rng.choice(N.STEMS)} {rng.choice(flavors)}"
+    def _conf_name(self, area) -> str:
+        """Next unused name from the area's curated list (names.CONF_NAMES —
+        rivers, corridors, historic identities, the odd numeric league), then
+        the statewide realignment-leftovers pool. Curated in preference order,
+        so an area's flagship league gets its strongest name. A numeric name
+        ("Cascade Eight") is allowed to disagree with current membership —
+        that's how those names age in real states."""
+        for nm in N.CONF_NAMES.get(area, []) + N.CONF_EXTRA:
             if nm.lower() not in self.used_places:
                 self.used_places.add(nm.lower())
                 return nm
+        raise RuntimeError(f"conference name pools exhausted for {area}")
 
     def build_offerings(self, schools):
         rng = self.rng

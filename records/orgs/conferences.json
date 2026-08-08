@@ -2,483 +2,497 @@
  "$type": "org.prepnet.temp.org.conferences",
  "conferences": [
   {
-   "name": "Ashbury League",
-   "slug": "ashbury-league",
+   "name": "Capital City League",
+   "slug": "capital-city-league",
    "area": "Ashbury Metro",
    "members": [
+    "Pacific Friends School",
+    "Lena Talltree",
+    "Covenant Christian",
+    "Jefferson School of Science and Technology",
+    "Vista Terrace",
+    "St. Sebastian Prep",
     "Ashbury West",
-    "Ashbury West Valley",
-    "Sacred Heart Prep",
-    "Ashbury North",
-    "Ashbury Central",
-    "Ashbury Northwest",
-    "Ashbury Heights",
-    "Asbury Methodist Academy"
+    "Ashbury Heights"
    ]
   },
   {
-   "name": "Ashbury Conference",
-   "slug": "ashbury-conference",
+   "name": "Greater Ashbury Conference",
+   "slug": "greater-ashbury-conference",
    "area": "Ashbury Metro",
    "members": [
-    "Holy Cross Prep",
-    "Ashbury Union",
+    "Timberline",
+    "Tubman",
+    "Providence Academy",
+    "North Fork",
+    "Academy of Arts and Communication",
     "Ashbury East",
-    "Kessler",
-    "Wesley Methodist Prep",
-    "Ashbury East Valley",
-    "Ostrander",
-    "Ashbury South"
+    "Ashbury Central",
+    "Steelbridge"
    ]
   },
   {
-   "name": "Ashbury Athletic Conference",
-   "slug": "ashbury-athletic-conference",
+   "name": "Metro Six",
+   "slug": "metro-six",
    "area": "Ashbury Metro",
    "members": [
-    "Ashbury Southeast",
-    "Ashbury South Valley",
-    "Silverleaf",
-    "Our Lady of the Pines",
-    "Wickham",
-    "Hargrove",
-    "Pine Butte Union",
-    "Pine Butte Northwest"
+    "Mercy Academy",
+    "Brookmont",
+    "Ansotegui Siding",
+    "Parkside",
+    "Copper Lake West",
+    "Copper Lake East",
+    "Copper Lake",
+    "Hawk Lake"
    ]
   },
   {
-   "name": "Willow Point League",
-   "slug": "willow-point-league",
+   "name": "Ashbury Suburban League",
+   "slug": "ashbury-suburban-league",
    "area": "Ashbury Metro",
    "members": [
-    "Pine Butte Central",
-    "South Harbor Southeast",
-    "South Harbor South",
-    "South Harbor East",
-    "Willow Point Central",
-    "Willow Point North",
-    "Willow Point Southeast",
-    "Aspen Harbor"
+    "Hawk Lake Central",
+    "Hawk Lake Southeast",
+    "Loomis City Northwest",
+    "Loomis City North",
+    "Loomis City",
+    "Norview",
+    "Mission Terrace",
+    "Rye"
    ]
   },
   {
-   "name": "Gold Creek League",
-   "slug": "gold-creek-league",
+   "name": "Overland Conference",
+   "slug": "overland-conference",
    "area": "Ashbury Metro",
    "members": [
-    "Aspen Harbor Heights",
-    "Eagle Flat Northwest",
-    "Eagle Flat",
-    "Gold Creek",
-    "Gold Creek Union",
-    "Antler Ridge",
-    "Obsidian Harbor",
-    "Raven Meadows"
+    "Crown Hill",
+    "Tindall Heights",
+    "Tindall",
+    "Purcell",
+    "Selbyville"
    ]
   },
   {
-   "name": "Port Meridian League",
-   "slug": "port-meridian-league",
+   "name": "Seaboard League",
+   "slug": "seaboard-league",
    "area": "Harborline",
    "members": [
-    "Port Meridian West",
-    "St. Perpetua",
-    "Port Meridian Northwest",
-    "Golden Valley",
-    "Blue Spruce",
     "Port Meridian South",
-    "Calvary"
+    "Bell",
+    "Port Meridian Maritime",
+    "Port Meridian Polytechnic",
+    "Port Meridian",
+    "Port Meridian West",
+    "Holy Cross"
    ]
   },
   {
-   "name": "Port Meridian Conference",
-   "slug": "port-meridian-conference",
+   "name": "Harborline Conference",
+   "slug": "harborline-conference",
    "area": "Harborline",
    "members": [
-    "Port Meridian Heights",
-    "Port Meridian Southeast",
-    "Port Meridian North",
-    "Winslow",
-    "Enterprise",
-    "Crimson Ridge",
-    "Alder Creek"
+    "Providence Academy Valley",
+    "Alder Landing",
+    "Ansotegui",
+    "Colbys Landing",
+    "Drayford",
+    "Garrity",
+    "Gold Mesa"
    ]
   },
   {
-   "name": "Willow Lake League",
-   "slug": "willow-lake-league",
+   "name": "Cannery Athletic League",
+   "slug": "cannery-athletic-league",
    "area": "Harborline",
    "members": [
-    "Iron Flat",
-    "Juniper Point",
-    "Salmonberry Prairie",
-    "South Bay",
-    "South Creek Union",
-    "Willow Bluff",
-    "Willow Lake"
+    "Granite Bar",
+    "Osprey Bluff",
+    "Antler County",
+    "Quarport",
+    "Tamarack Harbor",
+    "Wellerville Union",
+    "Wickbrook"
    ]
   },
   {
-   "name": "Eagle Prairie League",
-   "slug": "eagle-prairie-league",
+   "name": "Driftwood League",
+   "slug": "driftwood-league",
    "area": "South Coast",
    "members": [
-    "Eagle Prairie",
-    "Eagle Prairie Northwest",
-    "Alder Bluff",
-    "Alder Point",
-    "Black Basin",
-    "Cedar Bay Union",
-    "Cedar Springs Union"
+    "Ashfield",
+    "Sage Summit",
+    "Brackstead",
+    "Camas Ridge",
+    "Harmon Bar Union",
+    "Lost Glen",
+    "Lost Prairie"
    ]
   },
   {
-   "name": "Lost Point League",
-   "slug": "lost-point-league",
+   "name": "South Coast Conference",
+   "slug": "south-coast-conference",
    "area": "South Coast",
    "members": [
-    "Clear Prairie Union",
-    "Deer Junction",
-    "Eagle Gap",
-    "Hawk Pass Union",
-    "Juniper Junction",
-    "Larch Pass",
-    "Lost Point"
+    "Merrick Crossing",
+    "Quarmont",
+    "Renvale",
+    "Tallow",
+    "Thornwood",
+    "Walmont",
+    "Windrow Union"
    ]
   },
   {
-   "name": "Wolf Landing League",
-   "slug": "wolf-landing-league",
-   "area": "South Coast",
-   "members": [
-    "Madrone Point",
-    "Manzanita Harbor",
-    "Obsidian Bluff Union",
-    "Osprey Prairie",
-    "South Landing Union",
-    "Willow Hollow",
-    "Wolf Landing"
-   ]
-  },
-  {
-   "name": "Halbrook League",
-   "slug": "halbrook-league",
+   "name": "Basin Athletic Conference",
+   "slug": "basin-athletic-conference",
    "area": "Halbrook Basin",
    "members": [
-    "Halbrook Central",
-    "Halbrook East",
-    "Halbrook Heights",
-    "St. Norbert",
+    "Halbrook",
     "Halbrook Union",
-    "Halbrook Southeast",
-    "Our Lady of the Pines Academy",
-    "Juniper Landing Heights",
-    "Juniper Landing",
-    "Hawk Fork",
-    "Summit Springs"
+    "Northgate",
+    "Archbishop Doyle Prep",
+    "Halbrook Technical",
+    "Vasquez",
+    "St. Perpetua"
    ]
   },
   {
-   "name": "Blackpine League",
-   "slug": "blackpine-league",
+   "name": "Border League",
+   "slug": "border-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Drayfield",
+    "Garfield Park",
+    "Etchartville",
+    "Terrace Park",
+    "Stone Springs",
+    "Riverbend"
+   ]
+  },
+  {
+   "name": "Cascade Eight",
+   "slug": "cascade-eight",
    "area": "Cascade Divide",
    "members": [
-    "Blackpine Heights",
-    "Blackpine Central",
-    "Blackpine South",
-    "Cedarport",
-    "Cedarport East",
-    "Summervale",
+    "Redfork West",
+    "Redfork Central",
+    "Redfork",
+    "Alderfield",
+    "Aldermont",
+    "Alderton",
+    "Ashstead"
+   ]
+  },
+  {
+   "name": "Timberline League",
+   "slug": "timberline-league",
+   "area": "Cascade Divide",
+   "members": [
+    "Brackwood Union",
+    "Colby City",
+    "Granite Basin",
+    "Draybrook Union",
+    "Ferris",
+    "Huckle Lake",
+    "Juniper Bar"
+   ]
+  },
+  {
+   "name": "Divide Conference",
+   "slug": "divide-conference",
+   "area": "Cascade Divide",
+   "members": [
+    "Linfield",
+    "Loomisville Union",
+    "Naylor City",
+    "Normont",
+    "Tamarack Springs",
+    "Wolf Bar",
+    "Yandell Union"
+   ]
+  },
+  {
+   "name": "High Desert League",
+   "slug": "high-desert-league",
+   "area": "Juniper Highlands",
+   "members": [
     "Summervale Heights",
-    "Basalt Basin Union"
+    "Summervale Northwest",
+    "Summervale",
+    "Trinity Catholic",
+    "Marshall",
+    "Doyle Junction",
+    "Bidwells Landing",
+    "Bidwell Union"
    ]
   },
   {
-   "name": "High Fork League",
-   "slug": "high-fork-league",
-   "area": "Cascade Divide",
-   "members": [
-    "Bear Ridge",
-    "Bitter Bluff Union",
-    "Bitter Harbor",
-    "Bitter Prairie",
-    "Elk Falls",
-    "Elk Lake Union",
-    "Hawk Harbor",
-    "High Fork Union"
-   ]
-  },
-  {
-   "name": "Silver Landing League",
-   "slug": "silver-landing-league",
-   "area": "Cascade Divide",
-   "members": [
-    "Iron Creek",
-    "Juniper Lake Union",
-    "Lost Bay",
-    "Lost Valley Union",
-    "Madrone Basin",
-    "Manzanita Bluff",
-    "Osprey Glen",
-    "Silver Landing"
-   ]
-  },
-  {
-   "name": "Willow Ridge League",
-   "slug": "willow-ridge-league",
-   "area": "Cascade Divide",
-   "members": [
-    "Silver Valley",
-    "South Basin",
-    "Stone Glen",
-    "Summit Hollow",
-    "Trout Flat Union",
-    "Willow Ridge"
-   ]
-  },
-  {
-   "name": "Clear Springs League",
-   "slug": "clear-springs-league",
+   "name": "Juniper Athletic Conference",
+   "slug": "juniper-athletic-conference",
    "area": "Juniper Highlands",
    "members": [
-    "Alder Hollow",
-    "Basalt Pass Union",
-    "Bitter Springs",
-    "Camas Creek",
-    "Camas Mesa",
-    "Cedar Junction",
-    "Clear Junction",
-    "Clear Springs Union"
-   ]
-  },
-  {
-   "name": "North Gap League",
-   "slug": "north-gap-league",
-   "area": "Juniper Highlands",
-   "members": [
-    "Copper Gap",
-    "Eagle Pass Union",
-    "Eagle Valley",
-    "Huckle Prairie",
-    "Huckle Valley",
-    "Madrone Bluff",
-    "North Flat",
-    "North Gap"
-   ]
-  },
-  {
-   "name": "Willow Springs League",
-   "slug": "willow-springs-league",
-   "area": "Juniper Highlands",
-   "members": [
-    "North Lake Union",
-    "Raven Prairie",
-    "Sage Fork Union",
-    "Silver Butte",
-    "Tamarack Crossing",
-    "Tamarack Hollow Union",
-    "Willow Springs"
-   ]
-  },
-  {
-   "name": "Larch Flat League",
-   "slug": "larch-flat-league",
-   "area": "Sage Plains",
-   "members": [
-    "Antler Valley",
-    "Bitter Ridge",
-    "Camas Bluff",
-    "Elk Basin",
-    "Fox Landing",
-    "Gold Prairie Union",
-    "Granite Flat Union",
-    "Huckle Meadows",
-    "Huckle Springs",
-    "Larch Flat"
-   ]
-  },
-  {
-   "name": "Wolf Glen League",
-   "slug": "wolf-glen-league",
-   "area": "Sage Plains",
-   "members": [
-    "Larch Junction Union",
-    "Osprey Bluff Union",
-    "Red Glen",
-    "Red Hollow",
-    "Sage Glen",
-    "South Bluff Union",
-    "Stone Point",
-    "Wolf Basin",
-    "Wolf Glen"
-   ]
-  },
-  {
-   "name": "Plainfield League",
-   "slug": "plainfield-league",
-   "area": "Timber Valley",
-   "members": [
-    "East Plainfield",
-    "Netherwood",
-    "West Plainfield",
-    "Silver Junction",
-    "Silver Junction Central",
-    "Aspen Gap",
-    "Bitter Valley",
-    "Black Junction",
-    "Black Landing"
-   ]
-  },
-  {
-   "name": "Larch Ridge League",
-   "slug": "larch-ridge-league",
-   "area": "Timber Valley",
-   "members": [
-    "Cedar Gap",
-    "Deer Point",
-    "Fox Prairie",
-    "Gold Butte",
-    "Granite Ridge",
-    "Huckle Falls",
-    "Iron Butte",
-    "Larch Mesa",
-    "Larch Ridge Union"
-   ]
-  },
-  {
-   "name": "Sage Junction League",
-   "slug": "sage-junction-league",
-   "area": "Timber Valley",
-   "members": [
-    "Madrone Prairie",
-    "Manzanita Basin",
-    "Manzanita Crossing",
-    "Obsidian Point",
-    "Raven Creek",
-    "Red Creek",
-    "Sage Basin",
-    "Sage Gap",
-    "Sage Junction"
-   ]
-  },
-  {
-   "name": "Trout Springs League",
-   "slug": "trout-springs-league",
-   "area": "Timber Valley",
-   "members": [
-    "Salmonberry Ridge",
-    "South Gap",
-    "Summit Butte",
-    "Summit Creek",
-    "Tamarack Junction",
-    "Tamarack Lake",
-    "Trout Glen",
-    "Trout Springs"
-   ]
-  },
-  {
-   "name": "Redfork League",
-   "slug": "redfork-league",
-   "area": "Gold Valley",
-   "members": [
-    "Sacred Heart Academy",
-    "Redfork Union",
-    "Redfork Heights",
-    "Redfork Southeast",
-    "Asbury Methodist Academy Valley",
-    "Juniper Mesa",
-    "Juniper Mesa South",
-    "Alder Falls",
-    "Aspen Bay"
-   ]
-  },
-  {
-   "name": "Hawk Bay League",
-   "slug": "hawk-bay-league",
-   "area": "Gold Valley",
-   "members": [
-    "Aspen Butte Union",
-    "Basalt Butte",
-    "Black Creek Union",
-    "Black Meadows",
-    "Black Valley",
-    "Copper Fork",
-    "Copper Point Union",
-    "Copper Springs",
-    "Hawk Bay Union"
-   ]
-  },
-  {
-   "name": "Wolf Hollow League",
-   "slug": "wolf-hollow-league",
-   "area": "Gold Valley",
-   "members": [
-    "Juniper Bay Union",
-    "Juniper Bluff",
-    "Larch Bay",
-    "Osprey Hollow",
-    "Sage Point",
-    "Silver Flat",
-    "Silver Point",
-    "South Ridge",
-    "Wolf Hollow"
-   ]
-  },
-  {
-   "name": "Bitter Hollow League",
-   "slug": "bitter-hollow-league",
-   "area": "North Range",
-   "members": [
-    "Alder Springs",
-    "Antler Hollow",
-    "Basalt Creek",
-    "Basalt Lake",
-    "Bear Bluff",
-    "Bear Pass",
-    "Bitter Glen",
-    "Bitter Hollow Union"
-   ]
-  },
-  {
-   "name": "Elk Hollow League",
-   "slug": "elk-hollow-league",
-   "area": "North Range",
-   "members": [
-    "Black Gap Union",
-    "Black Mesa Union",
-    "Cedar Harbor",
+    "Carverport",
+    "Weller County",
     "Copper Bluff",
-    "Copper Butte",
-    "Copper Ridge",
-    "Elk Gap Union",
-    "Elk Hollow"
+    "Copper Crossing",
+    "Copper Gap",
+    "Eagle Butte Union",
+    "Elmburg",
+    "Ferris Spur"
    ]
   },
   {
-   "name": "Red Crossing League",
-   "slug": "red-crossing-league",
-   "area": "North Range",
+   "name": "Rimrock League",
+   "slug": "rimrock-league",
+   "area": "Juniper Highlands",
    "members": [
-    "Fox Fork Union",
-    "Gold Harbor",
-    "Granite Fork",
-    "Hawk Creek",
-    "Hawk Meadows",
-    "North Bay",
-    "Obsidian Landing",
-    "Red Crossing"
+    "Lost Springs",
+    "Norbrook",
+    "Ransom Union",
+    "Sage Point",
+    "Camas Regional",
+    "Thornford",
+    "Trout Junction",
+    "Walmere Union"
    ]
   },
   {
-   "name": "Willow Basin League",
-   "slug": "willow-basin-league",
+   "name": "Sagebrush Conference",
+   "slug": "sagebrush-conference",
+   "area": "Sage Plains",
+   "members": [
+    "Antler Prairie",
+    "Ashbrook",
+    "Basalt Prairie Union",
+    "Cutbank",
+    "Larchmont Ridge",
+    "Elmfield",
+    "Fiddletown",
+    "Garnerstead Union"
+   ]
+  },
+  {
+   "name": "Frontier Ten",
+   "slug": "frontier-ten",
+   "area": "Sage Plains",
+   "members": [
+    "Keldale",
+    "Kelview Union",
+    "Kendricks Landing",
+    "Loomiss Landing",
+    "Mabry",
+    "Naylors Landing",
+    "Ninemile",
+    "Osprey Pass"
+   ]
+  },
+  {
+   "name": "Emigrant Trail League",
+   "slug": "emigrant-trail-league",
+   "area": "Sage Plains",
+   "members": [
+    "Pellvale",
+    "Red Mesa Union",
+    "Sage Junction",
+    "Sage Meadows",
+    "Sixes",
+    "Standale",
+    "Stone Flat",
+    "Stone Meadows"
+   ]
+  },
+  {
+   "name": "Mid-State Conference",
+   "slug": "mid-state-conference",
+   "area": "Sage Plains",
+   "members": [
+    "Twin Rivers",
+    "Wickmere",
+    "Willow Valley",
+    "Halbrook Regional",
+    "Yarview"
+   ]
+  },
+  {
+   "name": "Timber Valley Conference",
+   "slug": "timber-valley-conference",
+   "area": "Timber Valley",
+   "members": [
+    "Netherwood",
+    "East Plainfield",
+    "West Plainfield",
+    "Blackpine",
+    "Blackpine North",
+    "Alder Siding Union",
+    "Alderwell Union",
+    "Bluewater",
+    "Ashwood"
+   ]
+  },
+  {
+   "name": "Millrace League",
+   "slug": "millrace-league",
+   "area": "Timber Valley",
+   "members": [
+    "Aspen Meadows",
+    "Aspen Spur Union",
+    "Black Springs",
+    "Elk Fork",
+    "Farleywood",
+    "Cascade View",
+    "Gold Hollow",
+    "Silver Lake",
+    "Harmon Siding"
+   ]
+  },
+  {
+   "name": "Big Trees Conference",
+   "slug": "big-trees-conference",
+   "area": "Timber Valley",
+   "members": [
+    "Redwood Glen",
+    "Sablewood County",
+    "Manzanita Junction",
+    "Obsidian Fork",
+    "Odells Landing",
+    "Osprey Fork",
+    "Pine Siding",
+    "Purcell Crossing",
+    "Meridian Union"
+   ]
+  },
+  {
+   "name": "Valley Heritage League",
+   "slug": "valley-heritage-league",
+   "area": "Timber Valley",
+   "members": [
+    "Sage Falls",
+    "Silstead",
+    "Thornton",
+    "Tule",
+    "Tamarack Union",
+    "Wolf Gap",
+    "Yarburg"
+   ]
+  },
+  {
+   "name": "Mother Lode League",
+   "slug": "mother-lode-league",
+   "area": "Gold Valley",
+   "members": [
+    "Averill East",
+    "Averill",
+    "St. Isidore",
+    "Averill Northwest",
+    "Mercy Academy Valley",
+    "Crane",
+    "Kelford",
+    "Kelford Northwest",
+    "Augustus Mercer"
+   ]
+  },
+  {
+   "name": "Gold Valley Conference",
+   "slug": "gold-valley-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Cedarport Southeast",
+    "Cedarport",
+    "Antler Creek",
+    "Upper Ostrander Union",
+    "Clear Spur",
+    "Copper Prairie",
+    "Deer Spur",
+    "Graywell",
+    "Hawk Bar"
+   ]
+  },
+  {
+   "name": "Stagecoach League",
+   "slug": "stagecoach-league",
+   "area": "Gold Valley",
+   "members": [
+    "High Bar",
+    "High Lake",
+    "Huckle Bay",
+    "Huckle Prairie",
+    "Linbrook",
+    "Mabry Junction Union",
+    "Owl Canyon",
+    "Merrick City",
+    "Odellville"
+   ]
+  },
+  {
+   "name": "Jefferson Heritage Conference",
+   "slug": "jefferson-heritage-conference",
+   "area": "Gold Valley",
+   "members": [
+    "Quarford",
+    "Quarview",
+    "Rimrock Valley",
+    "Silver Basin Union",
+    "Silver Glen",
+    "Bear Flat",
+    "Yarfield"
+   ]
+  },
+  {
+   "name": "North Range League",
+   "slug": "north-range-league",
    "area": "North Range",
    "members": [
-    "South Falls",
-    "Stone Junction",
-    "Trout Meadows",
-    "Trout Mesa",
-    "Willow Basin"
+    "Alder Crossing",
+    "Aspen Harbor",
+    "Carverford",
+    "Coppermont",
+    "Doyleville Union",
+    "Marlow County",
+    "Etchart",
+    "Galena"
+   ]
+  },
+  {
+   "name": "Territorial Conference",
+   "slug": "territorial-conference",
+   "area": "North Range",
+   "members": [
+    "Garrity City",
+    "Garrityville",
+    "Gold Creek",
+    "Graymont",
+    "Halfway House Union",
+    "Harmon",
+    "Juniper Crossing",
+    "Mabryville"
+   ]
+  },
+  {
+   "name": "Short Line League",
+   "slug": "short-line-league",
+   "area": "North Range",
+   "members": [
+    "Marshdale",
+    "Millport",
+    "Rimrock",
+    "Pellburg Union",
+    "High Prairie",
+    "Purcellville",
+    "Renbrook",
+    "Sage Lake"
+   ]
+  },
+  {
+   "name": "Pioneer League",
+   "slug": "pioneer-league",
+   "area": "North Range",
+   "members": [
+    "Ulery City",
+    "Walview",
+    "Weller",
+    "Wellers Landing",
+    "Yandells Landing"
    ]
   }
  ]
