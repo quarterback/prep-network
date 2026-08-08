@@ -613,11 +613,13 @@ footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 .lm-tall    { font-family: var(--font-condensed); font-weight: 800; font-size: 18px;
   text-transform: uppercase; letter-spacing: 0.03em; }
 
+.fh-footrow { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  padding-top: 22px; }
 .fh-footmark {
   font-family: var(--font-stencil); font-weight: 800; font-style: italic;
   font-size: 34px; letter-spacing: -0.015em; color: var(--text-muted);
-  padding-top: 22px;
 }
+.fh-foottag { font-size: var(--fs-small); font-weight: 600; color: var(--text-muted); }
 
 @media (max-width: 560px) {
   .fh-sponsors { gap: 14px 24px; }
@@ -710,18 +712,25 @@ main.wrap { padding-bottom: 10px; }
 @media (max-width: 860px) { .fh-top { grid-template-columns: 1fr; } }
 
 .fh-hero { display: block; color: inherit; padding-bottom: 18px; border-bottom: var(--rule); }
-.fh-hero .ph { display: block; margin-bottom: 14px; }
+.fh-hero .ph { display: block; margin-bottom: 14px;
+  border: 1px solid var(--border-default); padding: 8px; border-radius: 4px;
+  background: var(--surface-card); }
 .fh-hero .ph img { display: block; width: 100%; height: auto; aspect-ratio: 16/9;
-  object-fit: cover; }
+  object-fit: cover; border-radius: 2px; }
 
-/* article photography — captioned and credited, as a newsroom prints it */
-.fh-figure { margin: 18px 0 6px; }
-.fh-figure img { display: block; width: 100%; height: auto; }
+/* article photography — mounted, not slapped in: a bordered frame with an
+   inset mat, caption printed inside the frame under a hairline */
+.fh-figure { margin: 20px 0 24px; border: 1px solid var(--border-default);
+  background: var(--surface-card); padding: 10px; border-radius: 4px; }
+.fh-figure img { display: block; width: 100%; height: auto; border-radius: 2px; }
 .fh-figure figcaption { font-size: var(--fs-caption); color: var(--text-muted);
-  padding-top: 6px; border-bottom: var(--hairline); padding-bottom: 8px; }
+  padding: 9px 2px 1px; margin-top: 9px; border-top: var(--hairline); }
 
 .fh-storyrow.pic { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; }
-.fh-storyrow .th img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; }
+.fh-storyrow .th { border: 1px solid var(--border-default); padding: 4px;
+  border-radius: 3px; background: var(--surface-card); }
+.fh-storyrow .th img { display: block; width: 100%; height: auto;
+  aspect-ratio: 3/2; object-fit: cover; border-radius: 2px; }
 .fh-hero:hover { text-decoration: none; }
 .fh-hero .kk, .fh-storyrow .kk, .fh-article .kk {
   display: block; font-size: var(--fs-caption); font-weight: 700;
@@ -923,6 +932,20 @@ main.wrap { padding-bottom: 10px; }
 .fh-reslinks li span { color: var(--text-faint); }
 
 /* article */
+.fh-articlegrid { display: grid; grid-template-columns: minmax(0, 66ch) 280px;
+  gap: 48px; align-items: start; }
+@media (max-width: 900px) { .fh-articlegrid { grid-template-columns: 1fr; gap: 8px; } }
+.fh-morestories { padding-top: 26px; }
+.fh-morestories h2 { font-family: var(--font-label); font-weight: 900; font-size: 13px;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 4px;
+  padding-bottom: 8px; border-bottom: var(--rule); }
+.fh-morestories a { display: block; color: var(--text-primary); font-weight: 600;
+  font-size: var(--fs-body); line-height: 1.4; padding: 11px 0;
+  border-bottom: var(--hairline); }
+.fh-morestories a:hover { color: var(--text-link); text-decoration: none; }
+.fh-morestories .kk { display: block; font-size: var(--fs-micro); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-link);
+  margin-bottom: 2px; }
 .fh-article { max-width: 66ch; padding-top: 18px; }
 .fh-article h1 {
   font-family: var(--font-display); font-weight: 800;
@@ -1400,7 +1423,8 @@ main.wrap { padding-bottom: 10px; }
 </script>
 <footer class="fh-foot"><div class="wrap">
   <div class="fh-sponsors"><span class='fh-logo lm-slant'>Cascade Divide Orthopedics</span><span class='fh-logo lm-soft'>Timber Valley Credit Union</span><span class='fh-logo lm-poster'>Growers Mutual</span><span class='fh-logo lm-serif'>Cloverbank Dairy</span><span class='fh-logo lm-mono'>Harborline Electric Co-op</span><span class='fh-logo lm-neutral'>Sagebrush Orthodontics</span><span class='fh-logo lm-collegiate'>Granite Basin College</span><span class='fh-logo lm-tall'>Meridian Outfitters</span></div>
-  <div class="fh-footmark">VarsityApex</div>
+  <div class="fh-footrow"><span class="fh-footmark">VarsityApex</span>
+    <span class="fh-foottag">The official site of the JHSAA</span></div>
 </div></footer>
 </body>
 </html>

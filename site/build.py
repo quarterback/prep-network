@@ -491,7 +491,8 @@ def shell(title, body, crumb="", back="", story=None):
 </script>
 <footer class="fh-foot"><div class="wrap">
   <div class="fh-sponsors">{sponsor_rail()}</div>
-  <div class="fh-footmark">{WORDMARK}</div>
+  <div class="fh-footrow"><span class="fh-footmark">{WORDMARK}</span>
+    <span class="fh-foottag">The official site of the {ASSOC}</span></div>
 </div></footer>
 </body>
 </html>
@@ -1421,15 +1422,25 @@ def story_img(st, cls=""):
 
 def render_story(reg, st):
     paras = "".join(f"<p>{esc(b)}</p>" for b in st["body"])
+    others = [s for s in news.STORIES if s["slug"] != st["slug"]][:6]
+    more = "".join(
+        f"<a href='/news/{s['slug']}/'><span class='kk'>{esc(s['kicker'])}</span>"
+        f"{esc(s['head'])}</a>" for s in others)
     body = f"""
+<div class="fh-articlegrid">
 <article class="fh-article">
   <div class="kk">{esc(st['kicker'])} · {esc(nice_date(st['date']))}</div>
   <h1>{esc(st['head'])}</h1>
   <p class="dek">{esc(st['dek'])}</p>
   {story_img(st)}
   {paras}
+  <p class="fh-more"><a href="/news/">More from the association →</a></p>
 </article>
-<p class="fh-more"><a href="/news/">More from the association →</a></p>
+<aside class="fh-morestories">
+  <h2>More stories</h2>
+  {more}
+</aside>
+</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/news/'>News</a> › {esc(st['kicker'])}"
     return shell(page_title(f"{st['head']}"), body, crumb, "← News|/news/", story=st)
