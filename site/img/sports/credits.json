@@ -1,0 +1,78 @@
+{
+ "aquatic": {
+  "credit": "JoshDobson",
+  "license": "CC BY"
+ },
+ "baseball": {
+  "credit": "woodleywonderworks",
+  "license": "CC BY"
+ },
+ "basketball": {
+  "credit": "JonRidinger",
+  "license": "CC BY 3.0"
+ },
+ "bowling": {
+  "credit": "Atomic Taco from Seattle, WA, USA",
+  "license": "CC BY-SA 2.0"
+ },
+ "fencing": {
+  "credit": "George E. Koronaios",
+  "license": "CC BY-SA 4.0"
+ },
+ "field": {
+  "credit": "roanokecollege",
+  "license": "CC BY"
+ },
+ "football": {
+  "credit": "bubbaonthenet",
+  "license": "CC BY"
+ },
+ "golf": {
+  "credit": "emmolos",
+  "license": "CC BY"
+ },
+ "gym-generic": {
+  "credit": "FOTO:Fortepan \u2014 ID 75703: Adom\u00e1nyoz\u00f3/Donor: Jank\u00f3 Attila. archive copy",
+  "license": "CC BY-SA 3.0"
+ },
+ "gymnastics": {
+  "credit": "Erin Costa",
+  "license": "CC BY"
+ },
+ "hockey": {
+  "credit": "Rhys A.",
+  "license": "CC BY"
+ },
+ "performing": {
+  "credit": "Ken Lund",
+  "license": "CC BY-SA"
+ },
+ "ski": {
+  "credit": "Me",
+  "license": "CC BY 2.5"
+ },
+ "soccer": {
+  "credit": "glennharper",
+  "license": "CC BY-SA"
+ },
+ "tennis": {
+  "credit": "Joe Shlabotnik",
+  "license": "CC BY"
+ },
+ "track": {
+  "credit": "Jim, the Photographer",
+  "license": "CC BY"
+ },
+ "trail": {
+  "credit": "Peter Mooney",
+  "license": "CC BY-SA"
+ },
+ "volleyball": {
+  "credit": "chrisamichaels",
+  "license": "CC BY"
+ },
+ "wrestling": {
+  "credit": "Sergio V. Rodriguez",
+  "license": "CC BY-SA 4.0"
+ }
+}

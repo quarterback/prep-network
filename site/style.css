@@ -356,6 +356,15 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-mast-nav a:hover { color: var(--text-link); text-decoration: none; }
 .fh-season { font-size: var(--fs-small); color: var(--text-muted); }
 
+/* network utility bar — the compact mast on school/conference pages */
+.fh-mast.compact { border-top: none; border-bottom: var(--hairline); }
+.fh-mast.compact .wrap { padding-top: 7px; padding-bottom: 7px; }
+.fh-mast.compact .fh-wordmark { font-size: 15px; letter-spacing: 0.02em; }
+.fh-mast.compact .fh-mast-nav a {
+  font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted);
+}
+.fh-mast.compact .fh-mast-nav a:hover { color: var(--text-link); }
+
 /* ── toolbar: breadcrumb + back pill (entity pages) ─────────────────────── */
 
 .fh-toolbar {
@@ -1064,6 +1073,9 @@ main.wrap { padding-bottom: 10px; }
 .fh-feature .dk { font-family: var(--font-serif); font-size: var(--fs-small);
   margin-top: 7px; opacity: 0.92; position: relative; }
 .fh-feature a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+.fh-feature.photo { min-height: 240px; }
+.fh-feature .cr { position: absolute; right: 12px; bottom: 8px; font-size: 10px;
+  opacity: 0.6; }
 .fh-feature .hd a { text-decoration: none; }
 .fh-eventsrail { display: flex; flex-direction: column; border-top: var(--rule); }
 .fh-eventsrail > * { display: block; padding: 8px 0; border-bottom: var(--hairline);
@@ -1174,7 +1186,7 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
   font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.014em;
 }
 .fh-classblock > summary:hover .ttl { color: var(--brand-strong); }
-.fh-confgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px 26px; }
+.fh-confgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px 40px; }
 .fh-confgroup h4 {
   font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--text-muted); margin: 0 0 8px;
@@ -1184,9 +1196,14 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
 .fh-confgroup h4 a:hover { color: var(--text-link); }
 .fh-schoollinks { display: grid; gap: 3px; }
 .fh-schoollink, .fh-conflink {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
-  font-size: var(--fs-small); font-weight: 700; color: var(--text-primary); padding: 2px 0;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 2px 12px; flex-wrap: wrap;
+  font-size: var(--fs-small); font-weight: 700; color: var(--text-primary);
+  padding: 4px 0; border-bottom: var(--hairline); min-width: 0;
 }
+.fh-conflink .nm { flex: 1 1 auto; min-width: 0; }
+.fh-conflink .ct { flex: none; white-space: nowrap; font-weight: 600;
+  font-size: var(--fs-caption); color: var(--text-muted); }
 .fh-schoollink:hover, .fh-conflink:hover { color: var(--brand-strong); text-decoration: none; }
 .fh-schoollink .ct, .fh-conflink .ct {
   font-weight: 400; font-size: var(--fs-caption); color: var(--text-muted);
