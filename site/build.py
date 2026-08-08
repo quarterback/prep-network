@@ -1099,10 +1099,35 @@ def render_news_index(reg):
     return shell(f"News — {BRAND.title()}", body, crumb)
 
 
+def season_chooser(reg, current="winter"):
+    """Season tabs + that season's sports, at the top of the page.
+
+    The first question is which season you are here for; the second is which
+    sport. Answer both above the fold, then get out of the way.
+    """
+    tabs = "".join(
+        f"<button type='button' data-season='{sn}'{' class=on' if sn == current else ''}>"
+        f"{sn.title()}</button>" for sn in ("fall", "winter", "spring"))
+    panes = []
+    for sn in ("fall", "winter", "spring"):
+        tiles = "".join(
+            f"<a class='fh-sporttile' href='/sports/{sp.key}/'>{icons.icon(sp.key)}"
+            f"<span>{esc(sp.name)}</span></a>"
+            for sp in sorted(CATALOG, key=lambda s: s.name)
+            if sp.season == sn and reg.by_sport.get(sp.key))
+        panes.append(f"<div class='fh-sportgrid' data-season-pane='{sn}'"
+                     f"{'' if sn == current else ' hidden'}>{tiles}</div>")
+    return f"""
+<section class="fh-seasons">
+  <div class="fh-seasontabs">{tabs}<a class="all" href="/scoreboard/">Scoreboard →</a></div>
+  {''.join(panes)}
+</section>"""
+
+
 def render_front(reg):
     import datetime as dt
     t = dt.date.fromisoformat(TODAY)
-    lo = (t - dt.timedelta(days=6)).isoformat()
+    lo = (t - dt.timedelta(days=3)).isoformat()
 
     activity = [x for x in news.STORIES if x.get("kind") == "activity"]
     assoc = [x for x in news.STORIES if x.get("kind") == "association"]
@@ -1113,89 +1138,41 @@ def render_front(reg):
         f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
         f"<span class='hd'>{esc(lead['head'])}</span>"
         f"<span class='dk'>{esc(lead['dek'])}</span></a>")
-    more_activity = "".join(
+    more = "".join(
         f"<a class='fh-storyrow' href='/news/{st['slug']}/'>"
         f"<span class='kk'>{esc(st['kicker'])}</span>"
         f"<span class='hd'>{esc(st['head'])}</span></a>"
-        for st in activity[1:])
-
-    # association notices — administrative, kept in its own lane
+        for st in activity[1:3])
     notices = "".join(
         f"<a class='fh-notice' href='/news/{st['slug']}/'>"
         f"<span class='kk'>{esc(st['kicker'])}</span>"
         f"<span class='hd'>{esc(st['head'])}</span></a>"
-        for st in assoc)
+        for st in assoc[:3])
 
-    # find your school
     opts = "".join(
         f"<a class='fh-schoolhit' href='/schools/{s['slug']}/' "
         f"data-n='{esc((s['name'] + ' ' + s['city'] + ' ' + s['conference']).lower())}'>"
         f"{reg.crest(s['name'],'xs')}<span class='nm'>{esc(s['name'])}</span>"
-        f"<span class='ct'>{esc(s['city'])}</span>{class_chip(s['classification'])}</a>"
+        f"<span class='ct'>{esc(s['city'])}</span></a>"
         for s in sorted(reg.schools.values(), key=lambda s: s["name"]))
-    finder = f"""
-<section class="fh-finder">
-  <h2>Find your school</h2>
-  <input id="school-q" type="search" placeholder="School, town or conference" autocomplete="off"
-         aria-label="Search member schools">
-  <div class="fh-schoolhits" id="school-hits">{opts}</div>
-  <p class="fh-more"><a href="/schools/">Browse by classification</a> · <a href="/conferences/">By conference</a></p>
-</section>"""
-
-    # winter sports as icons + name
-    winter = sorted((sp for sp in CATALOG if sp.season == "winter" and reg.by_sport.get(sp.key)),
-                    key=lambda sp: sp.name)
-    tiles = "".join(
-        f"<a class='fh-sporttile' href='/sports/{sp.key}/'>{icons.icon(sp.key)}"
-        f"<span>{esc(sp.name)}</span></a>" for sp in winter)
-
-    def result_rows(keys, n=5):
-        out = []
-        for key in keys:
-            recent = [c for c in reg.by_sport.get(key, []) if c.date and lo <= c.date <= TODAY]
-            for c in list(reversed(recent))[:n]:
-                if isinstance(c, Meet):
-                    top = next((x for x in c.team_scores if x.rank == 1), None)
-                    out.append(
-                        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
-                        f"<span class='w'>{esc(c.name)}</span>"
-                        f"<span class='l'>{('won by ' + esc(top.school)) if top else 'Results'}</span></a>")
-                else:
-                    if isinstance(c, Game) and c.status == "final":
-                        win, lose = c.winner, (c.away if c.winner == c.home else c.home)
-                        ws, ls = max(c.home_score, c.away_score), min(c.home_score, c.away_score)
-                    elif isinstance(c, Dual) and c.home_points is not None:
-                        home_won = c.home_points >= c.away_points
-                        win, lose = (c.home, c.away) if home_won else (c.away, c.home)
-                        ws = f"{max(c.home_points, c.away_points):g}"
-                        ls = f"{min(c.home_points, c.away_points):g}"
-                    else:
-                        continue
-                    out.append(
-                        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
-                        f"<span class='w'>{esc(win)} <b>{ws}</b></span>"
-                        f"<span class='l'>{esc(lose)} <b>{ls}</b></span></a>")
-        return out
-
-    hoops = result_rows(["boys-basketball", "girls-basketball"], 4)[:8]
-    other = result_rows(["boys-wrestling", "girls-swimming", "boys-ice-hockey",
-                         "girls-alpine-skiing", "boys-bowling", "girls-fencing"], 2)[:8]
-    nxt = sorted((c for c in reg.contests if c.date and c.date > TODAY), key=lambda c: c.date)[:8]
-    next_rows = "".join(
-        f"<a class='fh-resultrow' href='{reg.url(c)}'>"
-        f"<span class='w'>{esc(c.name if isinstance(c, Meet) else c.away)}</span>"
-        f"<span class='l'>{esc(('at ' + c.home) if not isinstance(c, Meet) else (c.host or ''))} · {esc(nice_date(c.date))}</span></a>"
-        for c in nxt)
 
     body = f"""
+{season_chooser(reg)}
+
 <div class="fh-top">
   <div class="fh-newscol">
     {lead_html}
-    <div class="fh-storylist">{more_activity}</div>
+    <div class="fh-storylist">{more}</div>
     <p class="fh-more"><a href="/news/">All news →</a></p>
   </div>
   <aside class="fh-side">
-    {finder}
+    <section class="fh-finder">
+      <h2>Find your school</h2>
+      <input id="school-q" type="search" placeholder="School, town or conference"
+             autocomplete="off" aria-label="Search member schools">
+      <div class="fh-schoolhits" id="school-hits">{opts}</div>
+      <p class="fh-more"><a href="/schools/">By classification</a> · <a href="/conferences/">By conference</a></p>
+    </section>
     <section class="fh-notices">
       <h2>From the association</h2>
       {notices}
@@ -1204,27 +1181,21 @@ def render_front(reg):
   </aside>
 </div>
 
-<section class="fh-band">
-  <h2>Winter sports</h2>
-  <nav class="fh-sportgrid">{tiles}</nav>
-</section>
-
-<div class="fh-cols3">
-  <section><h2>Basketball</h2><div class="fh-results">{''.join(hoops)}</div>
-  <p class="fh-more"><a href="/sports/boys-basketball/">Boys standings</a> ·
-  <a href="/sports/girls-basketball/">Girls standings</a></p></section>
-  <section><h2>Around the state</h2><div class="fh-results">{''.join(other)}</div>
-  <p class="fh-more"><a href="/scoreboard/">This week's scoreboard →</a></p></section>
-  <section><h2>Coming up</h2><div class="fh-results">{next_rows}</div>
-  <p class="fh-more"><a href="/scoreboard/">Full schedule →</a></p></section>
-</div>
-
 <script>
 (function () {{
+  var tabs = document.querySelectorAll(".fh-seasontabs button");
+  tabs.forEach(function (b) {{
+    b.addEventListener("click", function () {{
+      tabs.forEach(function (o) {{ o.classList.toggle("on", o === b); }});
+      document.querySelectorAll("[data-season-pane]").forEach(function (p) {{
+        p.hidden = p.dataset.seasonPane !== b.dataset.season;
+      }});
+    }});
+  }});
   var q = document.getElementById("school-q"), hits = document.getElementById("school-hits");
   if (!q) return;
   var rows = [].slice.call(hits.children);
-  function run() {{
+  q.addEventListener("input", function () {{
     var v = q.value.trim().toLowerCase();
     if (!v) {{ hits.classList.remove("open"); return; }}
     var n = 0;
@@ -1234,8 +1205,7 @@ def render_front(reg):
       if (ok) n++;
     }});
     hits.classList.add("open");
-  }}
-  q.addEventListener("input", run);
+  }});
 }})();
 </script>
 """

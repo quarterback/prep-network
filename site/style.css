@@ -730,3 +730,20 @@ main.wrap { padding-bottom: 10px; }
 .fh-facetnote { font-size: var(--fs-caption); color: var(--text-faint); margin-left: auto; }
 @media (max-width: 640px) { .fh-facetnote { display: none; } }
 .fh-filterable > [hidden] { display: none !important; }
+
+/* ── season chooser: the first question, answered at the top ───────────── */
+
+.fh-seasons { padding: 18px 0 6px; border-bottom: var(--hairline); }
+.fh-seasontabs { display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px; }
+.fh-seasontabs button {
+  appearance: none; background: none; border: none; cursor: pointer;
+  font-family: var(--font-display); font-weight: 800; font-size: 20px;
+  letter-spacing: -0.014em; color: var(--text-faint); padding: 4px 12px 6px;
+  border-bottom: 3px solid transparent;
+}
+.fh-seasontabs button:hover { color: var(--text-secondary); }
+.fh-seasontabs button.on { color: var(--ink); border-bottom-color: var(--ink); }
+.fh-seasontabs .all {
+  margin-left: auto; font-size: var(--fs-small); font-weight: 700;
+}
+.fh-seasons .fh-sportgrid { padding: 6px 0 10px; }
