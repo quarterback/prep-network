@@ -75,6 +75,24 @@ BLOCKLIST = {
     "bly", "keno", "dairy", "bonanza", "drain", "glenn", "malin", "dorris",
 }
 
+# owner-specified cities (2027-08): place, population, region, and — where
+# given — the exact school list. Plainfield's three schools appear exactly as
+# written: the city is their location, not part of their names.
+NAMED_CITIES = [
+    ("Plainfield", 84_323, "Timber Valley",
+     ["George Washington Carver", "Benjamin F. Harding", "Plainfield Science"]),
+    ("Leidesdorff", 56_304, "Gold Valley", ["Leidesdorff"]),
+    ("Newark River", 60_029, "Harborline", None),
+    ("Santa Laura", 58_650, "South Coast", None),
+    ("Hetfield", 17_340, "North Range", None),
+    ("New Leiden", 35_738, "Cascade Divide", None),
+    ("Annie Springs", 24_420, "Cascade Divide", None),
+]
+
+# Santa Laura anchors a Spanish-derived naming layer on the southern coast;
+# these settle around it as single-school towns.
+SPANISH_TOWNS = ["San Aurelio", "Puerto Alma", "Mesa Dorada"]
+
 # handpicked anchors (all fictional; checked against the blocklist by eye)
 ANCHORS = {
     "inland_metro": ("Ashbury", 470_000),        # major inland city, ~900k metro

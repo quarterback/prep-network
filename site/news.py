@@ -121,17 +121,17 @@ STORIES = [
                "in any sport played at the previous school that year.",
                "Hardship waivers continue to be reviewed case by case. Athletic "
                "directors should file requests before the student competes, not after."]),
-    dict(slug="netherwood-swimmer-feature", kind="activity", kicker="Student-athlete",
+    dict(slug="carver-swimmer-feature", kind="activity", kicker="Student-athlete",
          date="2027-01-08",
          head="A Plainfield swimmer's long drive to the nearest pool",
-         dek="Netherwood has no pool of its own. Practice means a bus ride, four "
-             "mornings a week, before first period.",
-         body=["Netherwood's swimmers train at a community pool two towns over, "
-               "leaving before dawn and returning in time for class.",
+         dek="George Washington Carver has no pool of its own. Practice means a "
+             "bus ride, four mornings a week, before first period.",
+         body=["Carver's swimmers train at the municipal pool across town, leaving "
+               "before dawn and returning in time for class.",
                "The arrangement is common outside the metros, where aquatic programs "
                "depend on shared municipal facilities.",
-               "East Plainfield and West Plainfield share the same water, and the "
-               "three programs practice on a rotating schedule."]),
+               "Benjamin F. Harding and Plainfield Science share the same water, and "
+               "the three programs practice on a rotating schedule."]),
 ]
 
 RESOURCES = [

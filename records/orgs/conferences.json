@@ -6,14 +6,14 @@
    "slug": "capital-city-league",
    "area": "Ashbury Metro",
    "members": [
-    "Pacific Friends School",
-    "Lena Talltree",
+    "Academy of Arts and Communication",
+    "Ashbury East",
     "Covenant Christian",
-    "Jefferson School of Science and Technology",
-    "Vista Terrace",
     "St. Sebastian Prep",
+    "Ashbury Heights",
+    "Tubman",
     "Ashbury West",
-    "Ashbury Heights"
+    "Timberline"
    ]
   },
   {
@@ -21,14 +21,14 @@
    "slug": "greater-ashbury-conference",
    "area": "Ashbury Metro",
    "members": [
-    "Timberline",
-    "Tubman",
     "Providence Academy",
     "North Fork",
-    "Academy of Arts and Communication",
-    "Ashbury East",
+    "Steelbridge",
     "Ashbury Central",
-    "Steelbridge"
+    "Lena Talltree",
+    "Vista Terrace",
+    "Mercy Academy",
+    "Jefferson School of Science and Technology"
    ]
   },
   {
@@ -36,13 +36,13 @@
    "slug": "metro-six",
    "area": "Ashbury Metro",
    "members": [
-    "Mercy Academy",
-    "Brookmont",
+    "Pacific Friends School",
     "Ansotegui Siding",
+    "Brookmont",
     "Parkside",
     "Copper Lake West",
-    "Copper Lake East",
     "Copper Lake",
+    "Copper Lake East",
     "Hawk Lake"
    ]
   },
@@ -78,13 +78,14 @@
    "slug": "seaboard-league",
    "area": "Harborline",
    "members": [
-    "Port Meridian South",
-    "Bell",
     "Port Meridian Maritime",
-    "Port Meridian Polytechnic",
+    "Bell",
+    "Providence Academy Valley",
+    "Holy Cross",
+    "Port Meridian South",
     "Port Meridian",
     "Port Meridian West",
-    "Holy Cross"
+    "Port Meridian Polytechnic"
    ]
   },
   {
@@ -92,13 +93,14 @@
    "slug": "harborline-conference",
    "area": "Harborline",
    "members": [
-    "Providence Academy Valley",
-    "Alder Landing",
-    "Ansotegui",
-    "Colbys Landing",
+    "Newark River",
+    "Newark River North",
+    "Aldermont",
+    "Alderport",
+    "Black Bluff",
     "Drayford",
     "Garrity",
-    "Gold Mesa"
+    "Granite Bar"
    ]
   },
   {
@@ -106,12 +108,11 @@
    "slug": "cannery-athletic-league",
    "area": "Harborline",
    "members": [
-    "Granite Bar",
     "Osprey Bluff",
-    "Antler County",
+    "Halbrook County",
     "Quarport",
     "Tamarack Harbor",
-    "Wellerville Union",
+    "Thornwood",
     "Wickbrook"
    ]
   },
@@ -120,13 +121,15 @@
    "slug": "driftwood-league",
    "area": "South Coast",
    "members": [
+    "Santa Laura North",
+    "Santa Laura",
+    "Bidwell Regional",
     "Ashfield",
-    "Sage Summit",
+    "Basalt Falls",
+    "Cascade View",
     "Brackstead",
     "Camas Ridge",
-    "Harmon Bar Union",
-    "Lost Glen",
-    "Lost Prairie"
+    "Copperview"
    ]
   },
   {
@@ -134,13 +137,15 @@
    "slug": "south-coast-conference",
    "area": "South Coast",
    "members": [
-    "Merrick Crossing",
-    "Quarmont",
-    "Renvale",
-    "Tallow",
-    "Thornwood",
-    "Walmont",
-    "Windrow Union"
+    "Mesa Dorada",
+    "Puerto Alma",
+    "Sage Harbor",
+    "San Aurelio",
+    "Silmere",
+    "Silport Union",
+    "Summit Spur",
+    "Summit Valley Union",
+    "Tindall Spur"
    ]
   },
   {
@@ -149,11 +154,11 @@
    "area": "Halbrook Basin",
    "members": [
     "Halbrook",
-    "Halbrook Union",
-    "Northgate",
     "Archbishop Doyle Prep",
-    "Halbrook Technical",
     "Vasquez",
+    "Northgate",
+    "Halbrook Technical",
+    "Halbrook Union",
     "St. Perpetua"
    ]
   },
@@ -164,8 +169,8 @@
    "members": [
     "Drayfield",
     "Garfield Park",
-    "Etchartville",
     "Terrace Park",
+    "Etchartville",
     "Stone Springs",
     "Riverbend"
    ]
@@ -179,9 +184,11 @@
     "Redfork Central",
     "Redfork",
     "Alderfield",
-    "Aldermont",
     "Alderton",
-    "Ashstead"
+    "Annie Springs",
+    "Colby City",
+    "Silver Lake",
+    "Garnervale"
    ]
   },
   {
@@ -189,27 +196,14 @@
    "slug": "timberline-league",
    "area": "Cascade Divide",
    "members": [
-    "Brackwood Union",
-    "Colby City",
-    "Granite Basin",
-    "Draybrook Union",
-    "Ferris",
-    "Huckle Lake",
-    "Juniper Bar"
-   ]
-  },
-  {
-   "name": "Divide Conference",
-   "slug": "divide-conference",
-   "area": "Cascade Divide",
-   "members": [
-    "Linfield",
-    "Loomisville Union",
-    "Naylor City",
-    "Normont",
+    "Mabryville",
+    "New Leiden",
+    "Upper Sablewood Union",
+    "Ransom City Union",
+    "Salmonberry Harbor",
     "Tamarack Springs",
-    "Wolf Bar",
-    "Yandell Union"
+    "Tule",
+    "Yarmere"
    ]
   },
   {
@@ -217,14 +211,14 @@
    "slug": "high-desert-league",
    "area": "Juniper Highlands",
    "members": [
-    "Summervale Heights",
     "Summervale Northwest",
     "Summervale",
+    "Summervale Heights",
     "Trinity Catholic",
     "Marshall",
     "Doyle Junction",
-    "Bidwells Landing",
-    "Bidwell Union"
+    "Antler Fork",
+    "Antler Junction"
    ]
   },
   {
@@ -232,14 +226,14 @@
    "slug": "juniper-athletic-conference",
    "area": "Juniper Highlands",
    "members": [
+    "Camas Bar Union",
+    "Marlow Union",
     "Carverport",
-    "Weller County",
-    "Copper Bluff",
-    "Copper Crossing",
-    "Copper Gap",
-    "Eagle Butte Union",
-    "Elmburg",
-    "Ferris Spur"
+    "Cinder",
+    "Cinnabar",
+    "Meridian County",
+    "Owl Canyon",
+    "Larchmont Ridge"
    ]
   },
   {
@@ -247,14 +241,26 @@
    "slug": "rimrock-league",
    "area": "Juniper Highlands",
    "members": [
-    "Lost Springs",
-    "Norbrook",
-    "Ransom Union",
-    "Sage Point",
+    "Farleymere",
+    "Garnerbrook",
+    "Gold Junction",
+    "Hawk Fork Union",
+    "Linburg",
+    "Obsidian Glen Union",
+    "Osprey Junction Union",
+    "Sage Point"
+   ]
+  },
+  {
+   "name": "Mid-State Conference",
+   "slug": "mid-state-conference",
+   "area": "Juniper Highlands",
+   "members": [
+    "Silton Union",
     "Camas Regional",
-    "Thornford",
     "Trout Junction",
-    "Walmere Union"
+    "Ulerys Landing",
+    "Yandell Siding"
    ]
   },
   {
@@ -264,12 +270,12 @@
    "members": [
     "Antler Prairie",
     "Ashbrook",
-    "Basalt Prairie Union",
-    "Cutbank",
-    "Larchmont Ridge",
+    "Colevale",
     "Elmfield",
-    "Fiddletown",
-    "Garnerstead Union"
+    "Ferris Bar",
+    "Halestead",
+    "Halfway House",
+    "Iron Ridge"
    ]
   },
   {
@@ -278,13 +284,13 @@
    "area": "Sage Plains",
    "members": [
     "Keldale",
-    "Kelview Union",
-    "Kendricks Landing",
-    "Loomiss Landing",
+    "Lodestone",
     "Mabry",
+    "Manzanita Gap",
+    "Milldale Union",
+    "Millview",
     "Naylors Landing",
-    "Ninemile",
-    "Osprey Pass"
+    "Bear Flat"
    ]
   },
   {
@@ -292,25 +298,25 @@
    "slug": "emigrant-trail-league",
    "area": "Sage Plains",
    "members": [
-    "Pellvale",
-    "Red Mesa Union",
-    "Sage Junction",
-    "Sage Meadows",
+    "Placer",
+    "Granite Basin",
+    "Raven Gap",
+    "Raven Point",
+    "Rimrock Valley",
+    "Silver Junction",
     "Sixes",
-    "Standale",
-    "Stone Flat",
-    "Stone Meadows"
+    "Summit Landing"
    ]
   },
   {
-   "name": "Mid-State Conference",
-   "slug": "mid-state-conference",
+   "name": "Jefferson Heritage Conference",
+   "slug": "jefferson-heritage-conference",
    "area": "Sage Plains",
    "members": [
+    "Trout Glen",
+    "Trout Point",
     "Twin Rivers",
-    "Wickmere",
-    "Willow Valley",
-    "Halbrook Regional",
+    "Bluewater",
     "Yarview"
    ]
   },
@@ -319,15 +325,14 @@
    "slug": "timber-valley-conference",
    "area": "Timber Valley",
    "members": [
-    "Netherwood",
-    "East Plainfield",
-    "West Plainfield",
-    "Blackpine",
+    "Plainfield Science",
+    "George Washington Carver",
+    "Benjamin F. Harding",
     "Blackpine North",
-    "Alder Siding Union",
-    "Alderwell Union",
-    "Bluewater",
-    "Ashwood"
+    "Blackpine",
+    "Aspen Meadows",
+    "Aspen Spur Union",
+    "Averillville"
    ]
   },
   {
@@ -335,14 +340,13 @@
    "slug": "millrace-league",
    "area": "Timber Valley",
    "members": [
-    "Aspen Meadows",
-    "Aspen Spur Union",
     "Black Springs",
-    "Elk Fork",
+    "Colebrook",
+    "Tamarack Union",
+    "Eagle Pass Union",
+    "Elk Basin",
     "Farleywood",
-    "Cascade View",
     "Gold Hollow",
-    "Silver Lake",
     "Harmon Siding"
    ]
   },
@@ -352,14 +356,13 @@
    "area": "Timber Valley",
    "members": [
     "Redwood Glen",
-    "Sablewood County",
-    "Manzanita Junction",
-    "Obsidian Fork",
-    "Odells Landing",
-    "Osprey Fork",
+    "Iron Glen",
+    "Pellmont",
     "Pine Siding",
-    "Purcell Crossing",
-    "Meridian Union"
+    "Quardale",
+    "Ransoms Landing",
+    "Sage Falls",
+    "Salmonberry Glen"
    ]
   },
   {
@@ -367,11 +370,10 @@
    "slug": "valley-heritage-league",
    "area": "Timber Valley",
    "members": [
-    "Sage Falls",
-    "Silstead",
-    "Thornton",
-    "Tule",
-    "Tamarack Union",
+    "Whistle Stop",
+    "Winfield",
+    "Winton",
+    "Weller Union",
     "Wolf Gap",
     "Yarburg"
    ]
@@ -382,14 +384,14 @@
    "area": "Gold Valley",
    "members": [
     "Averill East",
-    "Averill",
-    "St. Isidore",
     "Averill Northwest",
+    "St. Isidore",
+    "Averill",
     "Mercy Academy Valley",
-    "Crane",
     "Kelford",
     "Kelford Northwest",
-    "Augustus Mercer"
+    "Crane",
+    "Cedarport"
    ]
   },
   {
@@ -397,15 +399,15 @@
    "slug": "gold-valley-conference",
    "area": "Gold Valley",
    "members": [
+    "Augustus Mercer",
     "Cedarport Southeast",
-    "Cedarport",
-    "Antler Creek",
-    "Upper Ostrander Union",
-    "Clear Spur",
+    "Upper Antler Union",
+    "Basalt Fork",
+    "Carverstead",
     "Copper Prairie",
-    "Deer Spur",
-    "Graywell",
-    "Hawk Bar"
+    "Coppervale",
+    "Elmmont",
+    "Farleystead"
    ]
   },
   {
@@ -413,29 +415,30 @@
    "slug": "stagecoach-league",
    "area": "Gold Valley",
    "members": [
-    "High Bar",
-    "High Lake",
-    "Huckle Bay",
-    "Huckle Prairie",
-    "Linbrook",
+    "High Prairie",
+    "Fiddletown",
+    "Grayton Union",
+    "Graywell",
+    "Kelview",
+    "Leidesdorff",
     "Mabry Junction Union",
-    "Owl Canyon",
-    "Merrick City",
-    "Odellville"
+    "Merrick",
+    "Merrick City"
    ]
   },
   {
-   "name": "Jefferson Heritage Conference",
-   "slug": "jefferson-heritage-conference",
+   "name": "Pioneer League",
+   "slug": "pioneer-league",
    "area": "Gold Valley",
    "members": [
-    "Quarford",
+    "Merrick Spur Union",
+    "Odellville",
     "Quarview",
-    "Rimrock Valley",
-    "Silver Basin Union",
+    "Sage Springs Union",
     "Silver Glen",
-    "Bear Flat",
-    "Yarfield"
+    "Walport",
+    "Yandell",
+    "Yarmont"
    ]
   },
   {
@@ -443,14 +446,15 @@
    "slug": "north-range-league",
    "area": "North Range",
    "members": [
-    "Alder Crossing",
-    "Aspen Harbor",
-    "Carverford",
-    "Coppermont",
-    "Doyleville Union",
-    "Marlow County",
+    "Alderbrook",
+    "Ansotegui Union",
+    "Antler Bar Union",
+    "Assay",
+    "Copperford",
+    "Cutbank",
     "Etchart",
-    "Galena"
+    "Galena",
+    "Graymont"
    ]
   },
   {
@@ -458,14 +462,15 @@
    "slug": "territorial-conference",
    "area": "North Range",
    "members": [
-    "Garrity City",
-    "Garrityville",
-    "Gold Creek",
-    "Graymont",
-    "Halfway House Union",
-    "Harmon",
+    "Hetfield",
     "Juniper Crossing",
-    "Mabryville"
+    "Kelmere",
+    "Madrone Flat",
+    "Marshmont Union",
+    "Millport",
+    "Ninemile",
+    "Norburg Union",
+    "Rimrock"
    ]
   },
   {
@@ -473,26 +478,14 @@
    "slug": "short-line-league",
    "area": "North Range",
    "members": [
-    "Marshdale",
-    "Millport",
-    "Rimrock",
-    "Pellburg Union",
-    "High Prairie",
-    "Purcellville",
-    "Renbrook",
-    "Sage Lake"
-   ]
-  },
-  {
-   "name": "Pioneer League",
-   "slug": "pioneer-league",
-   "area": "North Range",
-   "members": [
-    "Ulery City",
-    "Walview",
+    "Sage Summit",
+    "Red Landing Union",
+    "Red Siding",
+    "Sage Lake",
     "Weller",
     "Wellers Landing",
-    "Yandells Landing"
+    "Ostrander Regional",
+    "Yarvale"
    ]
   }
  ]

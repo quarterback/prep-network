@@ -124,6 +124,10 @@ class Gen:
                     self.used_places.add(city.lower())
             else:
                 self.used_places.add(val[0].lower())
+        for city, _pop, _area, _spec in N.NAMED_CITIES:
+            self.used_places.add(city.lower())
+        for city in N.SPANISH_TOWNS:
+            self.used_places.add(city.lower())
 
         slots: list[dict] = []  # {city, area, weight, private, name}
 
@@ -203,11 +207,24 @@ class Gen:
                                "Cascade Divide", "South Coast"])
             add_city(city, area, rng.randint(2, 3), rng.random() < 0.4, 5, kind="secondary")
 
-        # Plainfield (owner request): three schools, fixed names
-        self.used_places.add("plainfield")
-        for nm in ("Netherwood", "East Plainfield", "West Plainfield"):
-            slots.append(dict(city="Plainfield", area="Timber Valley",
-                              weight=4.5 + rng.random() * 2, private=False, name=nm))
+        # Owner-specified cities: population sets the slot weight (and so the
+        # classification band); a given school list is used verbatim, otherwise
+        # the count follows population and the first school takes the city name.
+        for city, pop, area, spec in N.NAMED_CITIES:
+            weight = pop / 15_000            # 84k ~ 5.6, 17k ~ 1.2
+            if spec is None:
+                k = max(1, round(pop / 30_000))
+                dirs = [d for d in N.DIRECTIONS]
+                rng.shuffle(dirs)
+                spec = [city] + [f"{city} {dirs[i]}" for i in range(k - 1)]
+            for nm in spec:
+                slots.append(dict(city=city, area=area,
+                                  weight=weight + rng.random(), private=False, name=nm))
+
+        # the Spanish-derived southern coast around Santa Laura
+        for city in N.SPANISH_TOWNS:
+            slots.append(dict(city=city, area="South Coast",
+                              weight=rng.random() * 3, private=False, name=city))
 
         # the rural map: single-school towns until quota. Mostly the town's own
         # name; some consolidated districts (county/union/regional), a few
