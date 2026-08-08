@@ -429,13 +429,13 @@ def sponsor_rail() -> str:
         for s in sponsors.SPONSORS)
 
 
-def shell(title, body, crumb="", back="", story=None):
+def shell(title, body, crumb="", back="", story=None, org=False):
     pill = ""
     if back:
         label, url = back.split("|")
         pill = f"<a class='fh-pill' href='{url}'>{esc(label)}</a>"
     toolbar = f"<div class='fh-toolbar'><span class='fh-crumb'>{crumb}</span>{pill}</div>" if crumb else ""
-    return f"""<!doctype html>
+    page = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -449,7 +449,7 @@ def shell(title, body, crumb="", back="", story=None):
 <body>
 {icons.sprite()}
 <input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
-<header class="fh-mast"><div class="wrap">
+<!--M--><header class="fh-mast"><div class="wrap">
   <a class="fh-wordmark" href="/">{WORDMARK}</a>
   <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -459,8 +459,7 @@ def shell(title, body, crumb="", back="", story=None):
     <div class="fh-menu"><button type="button">Sports &amp; Activities ▾</button><div class="fh-drop">{SPORT_MENU}</div></div>
     <div class="fh-menu"><button type="button">Schools ▾</button><div class="fh-drop cols">
       <a href="/schools/">All member schools</a><a href="/conferences/">Conferences</a>
-      <a href="/schools/#6A">6A</a><a href="/schools/#5A">5A</a><a href="/schools/#4A">4A</a>
-      <a href="/schools/#3A">3A</a><a href="/schools/#2A">2A</a><a href="/schools/#1A">1A</a></div></div>
+      {''.join(f"<a href='/schools/#{c}'>{c}</a>" for c in CLASSES)}</div></div>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
     <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
@@ -472,7 +471,7 @@ def shell(title, body, crumb="", back="", story=None):
     <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"></button>
     <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"></button>
   </nav>
-</div></header>
+</div></header><!--/M-->
 <label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
 <nav class="fh-drawer" aria-label="Site menu">
   <div class="fh-drawerhead">
@@ -520,6 +519,26 @@ def shell(title, body, crumb="", back="", story=None):
 </body>
 </html>
 """
+    if org:
+        # Network utility bar: on a school or conference page the local
+        # organization owns the masthead. VarsityApex explains the connected
+        # network; it doesn't visually own the page.
+        compact = f"""<header class="fh-mast compact"><div class="wrap">
+  <a class="fh-wordmark" href="/">{WORDMARK}</a>
+  <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </label>
+  <nav class="fh-mast-nav">
+    <a href="/scoreboard/">Scores</a>
+    <a href="/schools/">Schools</a>
+    <a href="/conferences/">Conferences</a>
+    <a href="/championships/">Championships</a>
+    <a href="/news/">News</a>
+  </nav>
+</div></header>"""
+        import re as _re
+        page = _re.sub(r"<!--M-->.*?<!--/M-->", compact.replace("\\", "\\\\"), page, flags=_re.S)
+    return page.replace("<!--M-->", "").replace("<!--/M-->", "")
 
 
 # ─────────────────────────────────────────────────────────── contest pieces
@@ -932,7 +951,7 @@ def render_sport_schedule(reg, sp):
     rows = list(reversed(played))[:80] + upcoming[:40]
     rows.sort(key=lambda c: c.date or "", reverse=True)
     bar = facet_bar(f"sch-{sp.key}", [
-        ("division", "Classification", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]]),
+        ("division", "Classification", [(v, class_chip(v)) for v in CLASSES]),
         ("status", "Status", [("final", "Final"), ("upcoming", "Upcoming"),
                               ("changed", "Postponed / cancelled")]),
     ])
@@ -1286,7 +1305,7 @@ def render_school(reg, s):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/schools/'>Schools</a> › {esc(name)}"
-    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/")
+    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True)
 
 
 def render_conference(reg, conf):
@@ -1477,7 +1496,7 @@ def render_conference(reg, conf):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/#conferences'>Conferences</a> › {esc(conf['name'])}"
-    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences")
+    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences", org=True)
 
 
 def render_athlete(reg, a):
@@ -1547,7 +1566,7 @@ def render_scoreboard(reg):
                   sorted(by_sport, key=lambda k: BY_KEY[k].name)]
     bar = facet_bar("sb", [
         ("sport", "Sport", sport_vals),
-        ("division", "Classification", [(v, class_chip(v)) for v in ('6A', '5A', '4A', '3A', '2A', '1A')]),
+        ("division", "Classification", [(v, class_chip(v)) for v in CLASSES]),
         ("status", "Status", [("final", "Final"), ("upcoming", "Upcoming"),
                               ("changed", "Postponed / cancelled")]),
     ])
@@ -1719,14 +1738,14 @@ def render_confs_index(reg):
         rows = "".join(
             f"<a class='fh-conflink' href='/conferences/{slug}/'>"
             f"<span class='nm'>{esc(c['name'])}</span>"
-            f"<span class='ct'>{esc(', '.join(sorted({reg.schools[m]['classification'] for m in c['members'] if m in reg.schools}, key=lambda x: '654321'.find(x[0]))))}</span></a>"
+            f"<span class='ct'>{esc(', '.join(sorted({reg.schools[m]['classification'] for m in c['members'] if m in reg.schools}, key=CLASSES.index)))}</span></a>"
             for slug, c in sorted(by_area[area], key=lambda kv: kv[1]["name"]))
         blocks.append(f"<div class='fh-confgroup'><h4>{esc(area)}</h4>"
                       f"<div class='fh-schoollinks'>{rows}</div></div>")
     body = f"""
 <div class="fh-idhdr">
   <div></div><div><div class="name">Conferences</div>
-  <div class="meta">By region · leagues are geographic and mix classifications · <a href='/schools/'>browse by class</a></div></div>
+  <div class="meta"><a href='/schools/'>Schools by classification</a></div></div>
   <div class="side"></div>
 </div>
 <div class="fh-confgrid">{''.join(blocks)}</div>

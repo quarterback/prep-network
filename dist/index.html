@@ -363,6 +363,15 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-mast-nav a:hover { color: var(--text-link); text-decoration: none; }
 .fh-season { font-size: var(--fs-small); color: var(--text-muted); }
 
+/* network utility bar — the compact mast on school/conference pages */
+.fh-mast.compact { border-top: none; border-bottom: var(--hairline); }
+.fh-mast.compact .wrap { padding-top: 7px; padding-bottom: 7px; }
+.fh-mast.compact .fh-wordmark { font-size: 15px; letter-spacing: 0.02em; }
+.fh-mast.compact .fh-mast-nav a {
+  font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted);
+}
+.fh-mast.compact .fh-mast-nav a:hover { color: var(--text-link); }
+
 /* ── toolbar: breadcrumb + back pill (entity pages) ─────────────────────── */
 
 .fh-toolbar {
@@ -1181,7 +1190,7 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
   font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.014em;
 }
 .fh-classblock > summary:hover .ttl { color: var(--brand-strong); }
-.fh-confgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px 26px; }
+.fh-confgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px 40px; }
 .fh-confgroup h4 {
   font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--text-muted); margin: 0 0 8px;
@@ -1191,9 +1200,14 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
 .fh-confgroup h4 a:hover { color: var(--text-link); }
 .fh-schoollinks { display: grid; gap: 3px; }
 .fh-schoollink, .fh-conflink {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
-  font-size: var(--fs-small); font-weight: 700; color: var(--text-primary); padding: 2px 0;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 2px 12px; flex-wrap: wrap;
+  font-size: var(--fs-small); font-weight: 700; color: var(--text-primary);
+  padding: 4px 0; border-bottom: var(--hairline); min-width: 0;
 }
+.fh-conflink .nm { flex: 1 1 auto; min-width: 0; }
+.fh-conflink .ct { flex: none; white-space: nowrap; font-weight: 600;
+  font-size: var(--fs-caption); color: var(--text-muted); }
 .fh-schoollink:hover, .fh-conflink:hover { color: var(--brand-strong); text-decoration: none; }
 .fh-schoollink .ct, .fh-conflink .ct {
   font-weight: 400; font-size: var(--fs-caption); color: var(--text-muted);
@@ -1395,8 +1409,7 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
     <div class="fh-menu"><button type="button">Sports &amp; Activities ▾</button><div class="fh-drop"><div class='fh-dropcols'><div><h4>Fall</h4><a href='/sports/boys-cross-country/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Boys Cross Country</a><a href='/sports/boys-golf/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-golf"/></svg>Boys Golf</a><a href='/sports/boys-soccer/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-football"/></svg>Boys Soccer</a><a href='/sports/boys-water-polo/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Boys Water Polo</a><a href='/sports/field-hockey/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-golf"/></svg>Field Hockey</a><a href='/sports/football/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-american-football"/></svg>Football</a><a href='/sports/girls-cross-country/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Girls Cross Country</a><a href='/sports/girls-soccer/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-football"/></svg>Girls Soccer</a><a href='/sports/girls-tennis/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-tennis"/></svg>Girls Tennis</a><a href='/sports/girls-volleyball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-volleyball"/></svg>Girls Volleyball</a><a href='/sports/girls-water-polo/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Girls Water Polo</a><a href='/sports/marching-band/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-music"/></svg>Marching Band</a><a href='/sports/mountain-biking/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-bike"/></svg>Mountain Biking</a></div><div><h4>Winter</h4><a href='/sports/bowling/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-bowling"/></svg>Bowling</a><a href='/sports/boys-alpine-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-mountain"/></svg>Boys Alpine Skiing</a><a href='/sports/boys-basketball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-basketball"/></svg>Boys Basketball</a><a href='/sports/boys-fencing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-sword"/></svg>Boys Fencing</a><a href='/sports/boys-ice-hockey/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ice-skating"/></svg>Boys Ice Hockey</a><a href='/sports/boys-nordic-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-snowflake"/></svg>Boys Nordic Skiing</a><a href='/sports/boys-swimming/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Boys Swimming &amp; Diving</a><a href='/sports/boys-wrestling/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-karate"/></svg>Boys Wrestling</a><a href='/sports/competitive-spirit/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-stretching"/></svg>Competitive Spirit</a><a href='/sports/debate/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-messages"/></svg>Debate</a><a href='/sports/girls-alpine-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-mountain"/></svg>Girls Alpine Skiing</a><a href='/sports/girls-basketball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-basketball"/></svg>Girls Basketball</a><a href='/sports/girls-fencing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-sword"/></svg>Girls Fencing</a><a href='/sports/girls-ice-hockey/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ice-skating"/></svg>Girls Ice Hockey</a><a href='/sports/girls-nordic-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-snowflake"/></svg>Girls Nordic Skiing</a><a href='/sports/girls-swimming/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Girls Swimming &amp; Diving</a><a href='/sports/girls-wrestling/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-karate"/></svg>Girls Wrestling</a><a href='/sports/gymnastics/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-yoga"/></svg>Gymnastics</a><a href='/sports/winter-track/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Winter Track</a></div><div><h4>Spring</h4><a href='/sports/baseball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-baseball"/></svg>Baseball</a><a href='/sports/boys-lacrosse/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-target-arrow"/></svg>Boys Lacrosse</a><a href='/sports/boys-tennis/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-tennis"/></svg>Boys Tennis</a><a href='/sports/boys-track/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Boys Track &amp; Field</a><a href='/sports/boys-volleyball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-volleyball"/></svg>Boys Volleyball</a><a href='/sports/choir/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-microphone"/></svg>Choir</a><a href='/sports/girls-badminton/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-tennis"/></svg>Girls Badminton</a><a href='/sports/girls-flag-football/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-play-football"/></svg>Girls Flag Football</a><a href='/sports/girls-golf/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-golf"/></svg>Girls Golf</a><a href='/sports/girls-lacrosse/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-target-arrow"/></svg>Girls Lacrosse</a><a href='/sports/girls-track/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Girls Track &amp; Field</a><a href='/sports/softball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-baseball"/></svg>Softball</a><a href='/sports/ultimate/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-disc"/></svg>Ultimate</a></div></div></div></div>
     <div class="fh-menu"><button type="button">Schools ▾</button><div class="fh-drop cols">
       <a href="/schools/">All member schools</a><a href="/conferences/">Conferences</a>
-      <a href="/schools/#6A">6A</a><a href="/schools/#5A">5A</a><a href="/schools/#4A">4A</a>
-      <a href="/schools/#3A">3A</a><a href="/schools/#2A">2A</a><a href="/schools/#1A">1A</a></div></div>
+      <a href='/schools/#7A'>7A</a><a href='/schools/#6A'>6A</a><a href='/schools/#5A'>5A</a><a href='/schools/#4A'>4A</a><a href='/schools/#3A'>3A</a><a href='/schools/#2A'>2A</a><a href='/schools/#1A'>1A</a></div></div>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
     <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop"><div class='fh-dropcols'><div><h4>Schools &amp; athletic directors</h4><a href='/schools/'>Member school directory</a><a href='/conferences/'>Conference assignments</a><span>Classification cycle</span><span>Cooperative program agreements</span><a href='/report/dual.html'>Report a result</a></div><div><h4>Coaches</h4><span>Rules meetings and clinics</span><span>Practice and contest limitations</span><span>Sport-by-sport manuals</span><span>Out-of-season contact rules</span></div><div><h4>Officials</h4><span>Register as an official</span><span>Conference assigners</span><span>Rules interpretations</span><span>Evaluation and ratings</span></div><div><h4>Students &amp; families</h4><span>Eligibility standards</span><span>Transfer and residency</span><span>Championship ticketing</span><span>Sportsmanship expectations</span></div></div></div></div>
