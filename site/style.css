@@ -1293,3 +1293,187 @@ main.wrap { padding-bottom: 10px; }
   font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.06em;
   text-transform: uppercase; color: var(--text-muted);
 }
+
+/* ══════════════════════════════════════════════════════════ postseason
+   The bracket is positioned SERVER-SIDE: app/postseason.py emits an (x, y)
+   for every card and the SVG elbow paths in the same coordinate system.
+   Nothing here may reposition a card — moving one in CSS moves it away from
+   the line drawn to it, and the fix for that is always another offset
+   somewhere else. Layout questions belong in the layout pass.
+   Below --bp-bracket the tree is abandoned rather than squeezed: a 32-team
+   bracket has no honest phone layout, so the columns become one round at a
+   time behind the radio tabs. */
+
+.fh-brk { --bp: 900px; margin: 18px 0 8px; }
+/* The round radios live here (siblings of the tab strip AND the canvas) so the
+   `~` selectors below can reach both. Never visible; the labels are the UI. */
+.fh-brk > input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0;
+  pointer-events: none; }
+.fh-brk-scroll { overflow-x: auto; overflow-y: hidden; padding-bottom: 10px;
+  scrollbar-width: thin; }
+.fh-brk-canvas { position: relative; width: var(--bw); height: var(--bh);
+  min-width: var(--bw); }
+.fh-brk-links { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.fh-brk-links .lk { fill: none; stroke: var(--text-muted); stroke-width: 1.5;
+  opacity: 0.4; }
+.fh-brk-links .lk.on { stroke: var(--ink); opacity: 1; stroke-width: 2; }
+
+.fh-brk-col { position: absolute; top: 0; left: var(--x); width: var(--cw); }
+.fh-brk-hd { position: absolute; top: -26px; left: 0; width: var(--cw);
+  font-family: var(--font-condensed); font-weight: 800; font-size: var(--fs-caption);
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted); }
+.fh-brk { padding-top: 26px; }
+
+.fh-brk-card { position: absolute; top: var(--y); left: 0;
+  width: var(--cw); height: var(--ch); box-sizing: border-box;
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--surface-card); border: 2px solid var(--ink);
+  color: inherit; text-decoration: none; overflow: hidden; }
+a.fh-brk-card:hover { background: var(--surface-hover); text-decoration: none; }
+a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.fh-brk-card.final { border-width: 3px; box-shadow: 4px 4px 0 var(--ink); }
+.fh-brk-card.bye { border-style: dashed; opacity: 0.72; }
+
+.fh-brk-card .tm { display: grid; grid-template-columns: 20px 16px 1fr auto;
+  gap: 6px; align-items: center; padding: 3px 7px; font-size: var(--fs-small);
+  line-height: 1.15; }
+.fh-brk-card .tm + .tm { border-top: var(--hairline); }
+.fh-brk-card .tm .sd { font-size: 9px; font-weight: 800; color: var(--text-muted);
+  text-align: right; font-variant-numeric: tabular-nums; }
+.fh-brk-card .tm .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fh-brk-card .tm .sc { font-weight: 800; font-variant-numeric: tabular-nums; }
+.fh-brk-card .tm.won .nm, .fh-brk-card .tm.won .sc { font-weight: 800; }
+.fh-brk-card .tm.out { opacity: 0.5; }
+.fh-brk-card .tm.tbd .nm { color: var(--text-muted); font-style: italic; }
+.fh-brk-card .mt { padding: 1px 7px 2px; font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); }
+
+.fh-brk-tabs { display: none; }
+@media (max-width: 900px) {
+  .fh-brk { padding-top: 0; }
+  .fh-brk-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px;
+    scrollbar-width: none; }
+  .fh-brk-tabs::-webkit-scrollbar { display: none; }
+  .fh-brk-tabs label { flex: 0 0 auto; padding: 6px 11px; cursor: pointer;
+    border: 2px solid var(--ink); background: var(--surface-card);
+    font-family: var(--font-condensed); font-weight: 800; font-size: var(--fs-caption);
+    text-transform: uppercase; letter-spacing: var(--ls-caps); white-space: nowrap; }
+  .fh-brk-scroll { overflow: visible; }
+  .fh-brk-canvas { width: auto; min-width: 0; height: auto; }
+  .fh-brk-links { display: none; }
+  .fh-brk-col { position: static; width: auto; display: none; }
+  .fh-brk-hd { display: none; }
+  .fh-brk-card { position: static; width: auto; height: auto; margin-bottom: 8px; }
+  /* one round at a time — the tab order matches the column order */
+  #brkr0:checked ~ .fh-brk-scroll .c0, #brkr1:checked ~ .fh-brk-scroll .c1,
+  #brkr2:checked ~ .fh-brk-scroll .c2, #brkr3:checked ~ .fh-brk-scroll .c3,
+  #brkr4:checked ~ .fh-brk-scroll .c4, #brkr5:checked ~ .fh-brk-scroll .c5 { display: block; }
+  #brkr0:checked ~ .fh-brk-tabs label[for="brkr0"],
+  #brkr1:checked ~ .fh-brk-tabs label[for="brkr1"],
+  #brkr2:checked ~ .fh-brk-tabs label[for="brkr2"],
+  #brkr3:checked ~ .fh-brk-tabs label[for="brkr3"],
+  #brkr4:checked ~ .fh-brk-tabs label[for="brkr4"],
+  #brkr5:checked ~ .fh-brk-tabs label[for="brkr5"] {
+    background: var(--ink); color: var(--paper); }
+}
+
+/* state chips */
+.fh-state { display: inline-block; padding: 1px 7px; font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.05em; border: 1.5px solid currentColor; }
+.fh-state.complete { color: var(--text-muted); }
+.fh-state.in_progress { color: var(--paper); background: var(--ink); border-color: var(--ink); }
+.fh-state.upcoming { color: var(--text-secondary); }
+
+/* championships hub */
+.fh-livebar { margin: 14px 0 6px; padding: 14px 16px; border: var(--rule);
+  background: var(--surface-th); }
+.fh-livebar h2 { font-family: var(--font-condensed); font-weight: 800;
+  font-size: var(--fs-caption); text-transform: uppercase;
+  letter-spacing: var(--ls-caps); margin: 0 0 9px; }
+.fh-liverow { display: flex; flex-wrap: wrap; gap: 8px; }
+.fh-livechip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px;
+  border: 2px solid var(--ink); background: var(--surface-card); color: inherit; }
+.fh-livechip:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-livechip .sp { font-weight: 700; font-size: var(--fs-small); }
+.fh-livechip .rd { font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted); }
+
+.fh-champseason { margin-top: 30px; }
+.fh-champseason h2 { font-family: var(--font-display); font-weight: 800; font-size: 19px;
+  margin: 0 0 4px; padding-bottom: 7px; border-bottom: var(--rule); }
+.fh-champrow { display: grid; grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: 12px; align-items: center; padding: 9px 0; border-bottom: var(--hairline); }
+@media (max-width: 600px) { .fh-champrow { grid-template-columns: 1fr; gap: 5px; } }
+.fh-champrow .sp { display: flex; align-items: center; gap: 8px;
+  font-weight: 700; color: inherit; }
+.fh-champrow .dvs { display: flex; flex-wrap: wrap; gap: 5px; }
+.dvchip { display: inline-block; min-width: 40px; text-align: center; padding: 4px 9px;
+  border: 2px solid var(--ink); font-family: var(--font-condensed); font-weight: 800;
+  font-size: var(--fs-caption); letter-spacing: 0.02em; color: inherit;
+  background: var(--surface-card); }
+.dvchip:hover { background: var(--surface-hover); text-decoration: none; }
+.dvchip.in_progress { background: var(--ink); color: var(--paper); }
+.dvchip.upcoming { border-style: dashed; color: var(--text-secondary); }
+
+/* one sport's championships */
+.fh-champgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px; margin-top: 20px; }
+.fh-champcard { display: flex; flex-direction: column; gap: 7px; padding: 13px;
+  border: var(--rule); background: var(--surface-card); color: inherit; }
+.fh-champcard:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-champcard .ch { display: flex; align-items: center; gap: 6px;
+  font-weight: 700; font-size: var(--fs-small); }
+.fh-champcard .ch.dim { color: var(--text-secondary); font-weight: 600; }
+
+/* a tournament page */
+.fh-idhdr.champ .name { font-size: 26px; }
+.fh-facts { display: flex; flex-wrap: wrap; gap: 0 34px; margin: 16px 0 4px;
+  padding: 12px 0; border-top: var(--hairline); border-bottom: var(--hairline); }
+.fh-facts dt { font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted); }
+.fh-facts dd { margin: 2px 0 0; font-weight: 700; font-size: var(--fs-small); }
+.fh-champnav { margin: 16px 0 2px; font-size: var(--fs-caption); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted); }
+.fh-rndhd { font-family: var(--font-condensed); font-weight: 800; font-size: 14px;
+  text-transform: uppercase; letter-spacing: var(--ls-caps);
+  margin: 20px 0 5px; padding-bottom: 5px; border-bottom: var(--rule); }
+
+.fh-champbanner { display: flex; align-items: center; gap: 15px; margin: 16px 0;
+  padding: 16px 18px; border: var(--rule); background: var(--surface-th); }
+.fh-champbanner .kk { display: block; font-size: 10px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.fh-champbanner .hd { display: block; font-family: var(--font-display); font-weight: 800;
+  font-size: 24px; line-height: 1.1; margin-top: 2px; }
+.fh-champbanner .hd a { color: inherit; }
+.fh-champbanner .dk { display: block; font-size: var(--fs-small);
+  color: var(--text-secondary); margin-top: 3px; }
+
+/* postseason context on a contest page */
+.fh-tourbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+  margin-bottom: 14px; padding-bottom: 10px; border-bottom: var(--rule); }
+.fh-tourbar .tn { font-weight: 700; font-size: var(--fs-small); color: inherit; }
+.fh-tourbar .rd { font-size: 10px; font-weight: 800; letter-spacing: 0.06em;
+  padding: 2px 7px; background: var(--ink); color: var(--paper); }
+.fh-tourbar .bk { margin-left: auto; font-size: var(--fs-small); font-weight: 700; }
+.fh-tourlinks { margin: 12px 0 2px; font-size: var(--fs-small);
+  color: var(--text-secondary); }
+
+/* box score */
+.fh-boxhd { display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-condensed); font-weight: 800; font-size: 15px;
+  text-transform: uppercase; letter-spacing: var(--ls-caps);
+  margin: 18px 0 5px; padding-bottom: 5px; border-bottom: var(--rule); }
+.fh-table .fh-row.totals { font-weight: 800; border-top: var(--rule);
+  background: var(--surface-th); }
+.fh-splits { display: block; font-size: 10.5px; color: var(--text-muted);
+  font-variant-numeric: tabular-nums; margin-top: 1px; }
+.fh-evhead h4 .rnd { font-weight: 600; color: var(--text-muted); }
+
+/* provenance */
+.fh-prov { padding: 13px 15px; border: var(--hairline); background: var(--surface-th);
+  font-size: var(--fs-small); }
+.fh-prov p { margin: 0 0 4px; }
+.fh-prov code { font-family: var(--font-mono, monospace); font-size: 11.5px; }
+.fh-reviewflag { display: inline-block; margin-bottom: 7px; padding: 3px 8px;
+  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+  border: 2px solid var(--ink); background: var(--ink); color: var(--paper); }

@@ -89,6 +89,17 @@ _RELAY = re.compile(
 )
 
 
+def _iso(text: str | None) -> str | None:
+    """Hy-Tek prints US dates; every record in this project stores ISO.
+
+    Left as printed, a meet sorts as a string against ISO neighbours and lands
+    in the wrong place on every schedule it appears on — while still looking
+    like a date on its own page.
+    """
+    m = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", (text or "").strip())
+    return f"{m.group(3)}-{int(m.group(1)):02d}-{int(m.group(2)):02d}" if m else (text or None)
+
+
 def _grade(text: str | None) -> str | None:
     t = (text or "").strip()
     return None if t in ("", "--") else t
@@ -146,7 +157,7 @@ def parse_text(text: str, source_uri: str) -> list[Meet]:
                 m = re.match(r"^(.*?)\s+-\s+(\d+/\d+/\d{4})(?:\s+to\s+(\d+/\d+/\d{4}))?$", nxt)
                 if m:
                     meet.venue = m.group(1).strip()
-                    meet.date, meet.end_date = m.group(2), m.group(3)
+                    meet.date, meet.end_date = _iso(m.group(2)), _iso(m.group(3))
                 break
             continue
 

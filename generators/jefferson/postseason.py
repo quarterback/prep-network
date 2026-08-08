@@ -213,7 +213,10 @@ def _play(t: Tournament, today: str, rng: random.Random,
                 same = m.home == g.home
                 m.home_score = g.home_score if same else g.away_score
                 m.away_score = g.away_score if same else g.home_score
-                m.status, m.contest_key = "final", contest_key(g)
+                # A cancelled final carries its status through: no scores, no
+                # champion, and the bracket says so instead of implying one.
+                m.status = "cancelled" if g.status == "cancelled" else "final"
+                m.contest_key = contest_key(g)
                 m.date, m.venue = g.date, g.venue or t.final_venue
                 continue
 
@@ -260,8 +263,41 @@ def _play(t: Tournament, today: str, rng: random.Random,
 # ------------------------------------------------------------------- driver
 
 
+def _drop_drawn_finals(records_dir: pathlib.Path) -> list[str]:
+    """Delete published championship games that ended level.
+
+    A knockout final cannot be a draw — somebody lifts the trophy. Four of the
+    state's fall finals were generated as 0-0 and 1-1 placeholders, which is
+    invisible until a bracket is built on top of them: the tournament adopts a
+    final with no winner, never resolves, and reports itself as still in
+    progress months after it was played. On the championships page that shows
+    up as "Boys Soccer · Championship — happening now" in January.
+
+    They are removed rather than patched with an invented winner here, so the
+    bracket derives the final like any other and there is still exactly one
+    record of it.
+    """
+    dropped = []
+    for path in (records_dir / "contests").rglob("*.json"):
+        try:
+            d = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        if "Championship" not in (d.get("name") or ""):
+            continue
+        if d.get("$type") != records_io.GAME_TYPE:
+            continue
+        home, away = d.get("homeScore"), d.get("awayScore")
+        if home is not None and home == away:
+            dropped.append(f"{d.get('sport')} {d.get('name')} ({home}-{away})")
+            path.unlink()
+    return dropped
+
+
 def build(records_dir: pathlib.Path, today: str = TODAY) -> tuple[int, int]:
     schools, _ = records_io.load_orgs(records_dir)
+    for note in _drop_drawn_finals(records_dir):
+        print(f"  dropped drawn final: {note}")
 
     # A generator must not read its own output. Left in, last run's quarterfinals
     # count as regular-season wins, which moves the seeds, which moves the
@@ -413,6 +449,24 @@ def main() -> int:
             sizes[t.size] = sizes.get(t.size, 0) + 1
     print("  states:", ", ".join(f"{k} {v}" for k, v in sorted(by_state.items())))
     print("  field sizes:", ", ".join(f"{k}→{v}" for k, v in sorted(sizes.items())))
+
+    # A bracket whose last round is in the past but has no champion is stuck,
+    # and a stuck bracket does not look broken — it looks live. Say so loudly
+    # rather than shipping a fall championship that reports itself as playing.
+    # "No champion" is not the test — a cancelled final has none and is finished.
+    # The test is whether anything is still waiting to be played in the past.
+    stuck = [t for t in tours
+             if t.format is TournamentFormat.BRACKET
+             and t.final_date and t.final_date <= args.today
+             and t.final is not None and not t.final.resolved]
+    if stuck:
+        for t in stuck:
+            print(f"  \033[33mSTUCK\033[0m {t.id}: final {t.final_date} unresolved")
+        return 1
+    cancelled = [t for t in tours if t.final is not None
+                 and t.final.status == "cancelled"]
+    for t in cancelled:
+        print(f"  note: {t.id} final was cancelled — no champion")
     return 0
 
 

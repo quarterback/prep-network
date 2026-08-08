@@ -31,7 +31,7 @@ from app.shapes import Matchup, Round, Tournament
 
 #: Card metrics, in the canvas's own units (which the renderer treats as px).
 CARD_W = 232
-CARD_H = 58
+CARD_H = 64          # two team rows and a status line
 GUTTER = 46          # horizontal space between columns, where the elbows live
 LEAF_GAP = 16        # vertical space between adjacent first-round cards
 PAD_Y = 10

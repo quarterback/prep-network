@@ -289,12 +289,38 @@ def test_a_school_appears_at_most_once_in_a_field(tournaments):
 
 
 def test_completed_brackets_have_a_champion(tournaments):
+    """Complete means the postseason is over — which is not the same as having
+    a champion. A cancelled final ends the tournament and crowns nobody."""
     done = [t for t in tournaments
             if t.status is TournamentStatus.COMPLETE
             and t.format is TournamentFormat.BRACKET]
     assert done
     for t in done:
+        if t.final is not None and t.final.status == "cancelled":
+            assert t.champion is None
+            continue
         assert t.champion and t.champion in t.schools()
+
+
+def test_a_cancelled_final_does_not_leave_a_bracket_looking_live(tournaments):
+    """The state has one. Reported as in-progress it would sit under
+    "happening now" on the championships page for the rest of the year."""
+    cancelled = [t for t in tournaments
+                 if t.final is not None and t.final.status == "cancelled"]
+    assert cancelled
+    for t in cancelled:
+        assert t.status is TournamentStatus.COMPLETE
+        assert t.final.resolved and not t.final.decided
+
+
+def test_no_published_championship_game_is_a_draw(tournaments):
+    """A knockout final cannot end level; one that does never resolves."""
+    for t in tournaments:
+        if t.format is not TournamentFormat.BRACKET or t.final is None:
+            continue
+        f = t.final
+        if f.home_score is not None and f.away_score is not None:
+            assert f.home_score != f.away_score, t.id
 
 
 def test_in_progress_brackets_have_both_played_and_unplayed_rounds(tournaments):

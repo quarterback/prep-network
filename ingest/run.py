@@ -18,6 +18,7 @@ land (and, in the managed flow, after the PR carrying them is reviewed).
 from __future__ import annotations
 
 import argparse
+import json
 import pathlib
 import re
 import sys
@@ -100,24 +101,103 @@ def _describe(contest) -> str:
     return " · ".join(bits)
 
 
+def _existing_path(records_dir: pathlib.Path, contest) -> pathlib.Path | None:
+    """The record this import UPDATES, if the state already has one.
+
+    A re-import has to land on the same file or the state acquires two records
+    for one contest — both valid, both linked from the school pages, differing
+    only in that one of them came from the source. Identity is the contest
+    itself (sport, date, and the two teams), which is what a second export of
+    the same game agrees with even when the file name and the internal ids do
+    not.
+    """
+    home = getattr(contest, "home", None)
+    if not home or not contest.date:
+        return None
+    for path in (records_dir / "contests").rglob("*.json"):
+        try:
+            d = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        if (d.get("sport") == contest.sport and d.get("date") == contest.date
+                and d.get("home") == home and d.get("away") == contest.away):
+            return path
+    return None
+
+
+#: Sports the association runs as separate gendered championships, keyed by the
+#: pair of sport keys a combined meet has to be split into.
+GENDERED = {
+    "swimming": ("boys-swimming", "girls-swimming"),
+    "track": ("boys-track", "girls-track"),
+    "cross-country": ("boys-cross-country", "girls-cross-country"),
+}
+
+
+def split_by_gender(meet, sport: str | None):
+    """One combined meet -> one contest per gendered sport key.
+
+    Hy-Tek runs boys and girls in a single meet and prints one results report
+    for both; the association sanctions them as two championships with two sets
+    of team scores. Filing the combined meet under either key is wrong in a way
+    that looks fine — the girls' swimming page would carry the boys' 200 free —
+    so the split happens here, at the boundary between the source's shape and
+    the association's.
+    """
+    import copy
+
+    family = next((f for f in GENDERED if sport and f in sport), None)
+    if family is None:
+        return [(meet, sport)]
+    genders = {ev.gender for ev in meet.events if ev.gender}
+    if len(genders) < 2:
+        return [(meet, sport)]
+
+    boys_key, girls_key = GENDERED[family]
+    out = []
+    for gender, key in (("Boys", boys_key), ("Girls", girls_key)):
+        part = copy.copy(meet)
+        part.events = [ev for ev in meet.events if ev.gender == gender]
+        part.team_scores = [t for t in meet.team_scores if t.gender == gender]
+        if not part.events:
+            continue
+        part.name = f"{meet.name} — {gender}"
+        out.append((part, key))
+    return out or [(meet, sport)]
+
+
 def run_one(source: pathlib.Path, adapter: str, sport: str | None,
             records_dir: pathlib.Path, season: str, dry_run: bool) -> int:
     print(f"\n\033[1m{source.name}\033[0m  →  adapter {adapter}")
-    contests = ADAPTERS[adapter](str(source))
-    if not contests:
+    parsed = ADAPTERS[adapter](str(source))
+    if not parsed:
         print("  nothing parsed")
         return 0
+    contests = []
+    for c in parsed:
+        if isinstance(c, Meet):
+            contests.extend(split_by_gender(c, sport))
+        else:
+            contests.append((c, sport))
 
     resolver = resolve_mod.Resolver.from_records(records_dir)
     written = 0
-    for i, contest in enumerate(contests):
+    for i, (contest, target_sport) in enumerate(contests):
         resolve_mod.apply_to_contest(contest, resolver)
         contest.season = contest.season or season
-        contest.sport = contest.sport or sport
+        contest.sport = contest.sport or target_sport
 
         name = contest.name or f"{adapter}-{i}"
-        path = (records_dir / "contests" / season /
-                (contest.sport or "unfiled") / f"{slugify(name)[:70]}.json")
+        existing = _existing_path(records_dir, contest)
+        path = existing or (records_dir / "contests" / season /
+                            (contest.sport or "unfiled") / f"{slugify(name)[:70]}.json")
+        if existing is not None:
+            # Keep the record's place in the stored sequence; the site orders by
+            # it and a re-import should not jump a January game to the end.
+            try:
+                i = json.loads(existing.read_text()).get("sequence", i)
+            except (OSError, ValueError):
+                pass
         flag = ""
         prov = contest.provenance
         if prov and prov.review_state is ReviewState.NEEDS_REVIEW:

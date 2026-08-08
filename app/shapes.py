@@ -567,6 +567,17 @@ class Matchup:
         return self.winner is not None
 
     @property
+    def resolved(self) -> bool:
+        """Nothing further will happen here.
+
+        A cancelled contest is not decided — there is no winner and inventing
+        one would be a lie — but it is finished, and a bracket that treats it as
+        merely undecided reports itself as still being played forever. The state
+        has exactly one of these: a 3A girls soccer final that was called off.
+        """
+        return self.decided or self.status == "cancelled"
+
+    @property
     def ready(self) -> bool:
         """Both sides known — the matchup can be shown as a real fixture."""
         return bool(self.home and self.away)
@@ -582,7 +593,7 @@ class Round:
 
     @property
     def complete(self) -> bool:
-        return bool(self.matchups) and all(m.decided for m in self.matchups)
+        return bool(self.matchups) and all(m.resolved for m in self.matchups)
 
     @property
     def started(self) -> bool:
@@ -658,7 +669,10 @@ class Tournament:
                     else TournamentStatus.UPCOMING)
         if not self.rounds:
             return TournamentStatus.UPCOMING
-        if self.champion:
+        # COMPLETE means the postseason is over, which is not quite the same as
+        # "there is a champion": a cancelled final ends the tournament without
+        # crowning anyone, and callers must handle `champion is None`.
+        if self.champion or all(r.complete for r in self.rounds):
             return TournamentStatus.COMPLETE
         if any(r.started for r in self.rounds):
             return TournamentStatus.IN_PROGRESS
