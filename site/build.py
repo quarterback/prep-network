@@ -1107,10 +1107,20 @@ def event_card(reg, c, final):
             f"{'Box →' if final else 'Preview →'}</a></span></div>")
 
 
-def feature_panel(kicker, hd, dk, colors, watermark=""):
-    """FeaturedStory: a branded color panel — the graphic-card treatment
-    athletics sites use when a story has no photograph."""
+def feature_panel(kicker, hd, dk, colors, watermark="", photo=None):
+    """FeaturedStory: real photography under the organization's color — every
+    news-shaped surface carries a photograph (owner rule). The color arrives
+    as a gradient overlay so identity survives on top of the image; the photo
+    credit prints in the corner, as the license requires."""
     c1, _c2 = colors
+    if photo:
+        url, credit = photo
+        style = (f"background:linear-gradient(100deg, {c1}f2 30%, {c1}99 62%, {c1}55), "
+                 f"url('{url}') center/cover no-repeat")
+        cr = f"<span class='cr'>Photo: {esc(credit)}</span>" if credit else ""
+        return (f"<div class='fh-feature photo' style=\"{style}\">"
+                f"<span class='kk'>{kicker}</span><span class='hd'>{hd}</span>"
+                f"<span class='dk'>{dk}</span>{cr}</div>")
     return (f"<div class='fh-feature' style='background:{c1}'>"
             f"<div class='wm'>{watermark}</div>"
             f"<span class='kk'>{kicker}</span><span class='hd'>{hd}</span>"
@@ -1171,7 +1181,8 @@ def render_school(reg, s):
         lead = feature_panel(esc(kicker), hd,
                              f"{dk} · <a href='{reg.url(lead_c)}'>Full result →</a>",
                              s.get("colors") or ["#14294e", "#c8ccd4"],
-                             watermark=reg.mark(name, 200))
+                             watermark=reg.mark(name, 200),
+                             photo=sport_photo(lead_c.sport))
 
     recent_rows = [event_card(reg, c, final=True) for c in played[:4]]
     next_rows = [event_card(reg, c, final=False) for c in upcoming[:4]]
@@ -1399,7 +1410,8 @@ def render_conference(reg, conf):
                 f"{reg.school_link(s2)} sits second at {r2['cw']}-{r2['cl']} "
                 f"in {esc(conf['name'])} play · <a href='#standings'>Standings →</a>",
                 marks.conf_colors(conf["name"]),
-                watermark=marks.conf_mark(conf["name"], 200))
+                watermark=marks.conf_mark(conf["name"], 200),
+                photo=sport_photo(default_key))
 
     # ---- composite week, grouped by day ----
     week = sorted((c for c in reg.contests if c.date and
@@ -1752,6 +1764,50 @@ def render_confs_index(reg):
 """
     crumb = f"<a href='/'>{NAME}</a> › Conferences"
     return shell(page_title(f"Conferences"), body, crumb)
+
+
+SPORTS_IMG = ROOT / "site/img/sports"
+try:
+    import json as _json2
+    SPORTS_CREDITS = _json2.load(open(SPORTS_IMG / "credits.json"))
+except Exception:
+    SPORTS_CREDITS = {}
+
+# sport key -> photo in the action library; news-style surfaces carry a real
+# photograph, per the owner's rule
+SPORT_PHOTO = {}
+for _k, _names in {
+    "football": ("football", "girls-flag-football"),
+    "soccer": ("boys-soccer", "girls-soccer"),
+    "volleyball": ("girls-volleyball", "boys-volleyball"),
+    "trail": ("boys-cross-country", "girls-cross-country", "mountain-biking"),
+    "tennis": ("girls-tennis", "boys-tennis", "girls-badminton"),
+    "golf": ("boys-golf", "girls-golf"),
+    "aquatic": ("boys-water-polo", "girls-water-polo", "boys-swimming", "girls-swimming"),
+    "basketball": ("boys-basketball", "girls-basketball"),
+    "wrestling": ("boys-wrestling", "girls-wrestling"),
+    "hockey": ("boys-ice-hockey", "girls-ice-hockey"),
+    "ski": ("boys-alpine-skiing", "girls-alpine-skiing", "boys-nordic-skiing", "girls-nordic-skiing"),
+    "bowling": ("bowling",),
+    "fencing": ("boys-fencing", "girls-fencing"),
+    "gymnastics": ("gymnastics", "competitive-spirit"),
+    "track": ("winter-track", "boys-track", "girls-track"),
+    "performing": ("marching-band", "choir"),
+    "field": ("boys-lacrosse", "girls-lacrosse", "field-hockey", "ultimate"),
+    "gym-generic": ("debate",),
+}.items():
+    for _n in _names:
+        SPORT_PHOTO[_n] = _k
+
+
+def sport_photo(sport_key):
+    """(url, credit line) for the sport's action photograph."""
+    k = SPORT_PHOTO.get(sport_key, "gym-generic")
+    if not (SPORTS_IMG / f"{k}.jpg").exists():
+        k = "gym-generic"
+    c = SPORTS_CREDITS.get(k, {})
+    credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
+    return f"/img/sports/{k}.jpg", credit
 
 
 NEWS_IMG = ROOT / "site/img/news"
@@ -2112,6 +2168,8 @@ def build():
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
     if NEWS_IMG.exists():
         shutil.copytree(NEWS_IMG, OUT / "img/news", ignore=shutil.ignore_patterns("credits.json"))
+    if SPORTS_IMG.exists():
+        shutil.copytree(SPORTS_IMG, OUT / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
     shutil.copytree(ROOT / "report", OUT / "report")
     for f in (OUT / "report").glob("*.html"):
         f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)
