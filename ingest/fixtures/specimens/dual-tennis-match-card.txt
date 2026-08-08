@@ -1,0 +1,30 @@
+JHSAA TENNIS — OFFICIAL DUAL MATCH CARD
+Printed 03/19/2027 18:22
+
+Match ID    : JHSAA-BT-2027-06809
+Date        : 03/19/2027
+Sport       : Boys Tennis
+Home        : Vista Terrace
+Visitor     : Academy of Arts and Communication
+Site        : Vista Terrace HS Courts
+Format      : 6S/3D
+Status      : Complete
+
+LINE FLIGHT      HOME PLAYER(S)                        VISITOR PLAYER(S)                     WON   SCORE
+---- ----------- ------------------------------------- ------------------------------------- ----- ----------------------
+S1   Singles 1   Marchetti, Enzo (12)                  Delgado, Ruben (11)                   HOME  6-3, 6-4
+S2   Singles 2   Lindgren, Anders (11)                 Farouk, Yusuf (12)                    AWAY  4-6, 6-7 (5)
+S3   Singles 3   Osei, Kwame (12)                      Brennan, Cillian (10)                 HOME  6-2, 6-2
+S4   Singles 4   Petrenko, Vadym (10)                  Nakashima, Ren (12)                   AWAY  3-6, 6-4, 8-10
+S5   Singles 5   Haddad, Karim (10)                    Oyelaran, Tunde (11)                  HOME  6-4, 7-5
+S6   Singles 6   Gundersen, Erik (12)                  Sabatini, Paolo (9)                   AWAY  2-6, 4-6
+D1   Doubles 1   Marchetti, Enzo (12)                  Delgado, Ruben (11)                   HOME  6-4, 6-3
+                 Lindgren, Anders (11)                 Farouk, Yusuf (12)
+D2   Doubles 2   Osei, Kwame (12)                      Brennan, Cillian (10)                 AWAY  5-7, 6-3, 6-10
+                 Petrenko, Vadym (10)                  Nakashima, Ren (12)
+D3   Doubles 3   Haddad, Karim (10)                    Oyelaran, Tunde (11)                  HOME  6-1, 6-2
+                 Ferraro, Luca (11)                    Sabatini, Paolo (9)
+
+TEAM RESULT : Vista Terrace 5, Academy of Arts and Communication 4
+CLINCHED AT : Line D3
+OFFICIAL    : Vandermeer, Astrid

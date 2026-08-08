@@ -428,6 +428,19 @@ def contest_to_dict(c, sequence: int = 0) -> dict:
     raise TypeError(type(c))
 
 
+def load_contest_dict(d: dict):
+    """One canonical JSON document -> its dataclass. The inverse of
+    :func:`contest_to_dict`, and what makes a round-trip test possible."""
+    kind = d["$type"]
+    if kind == MEET_TYPE:
+        return _meet_from(d)
+    if kind == DUAL_TYPE:
+        return _dual_from(d)
+    if kind == GAME_TYPE:
+        return _game_from(d)
+    raise ValueError(f"unknown record type {kind!r}")
+
+
 def write_contest(path: pathlib.Path, contest, sequence: int = 0) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(contest_to_dict(contest, sequence), separators=(",", ":")) + "\n")
