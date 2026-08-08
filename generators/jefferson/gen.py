@@ -808,10 +808,13 @@ class Gen:
                  "",
                  "Generated from `records/orgs/cities.json` by the state generator;",
                  "edit the generator, not this file. Counties are fictional; each",
-                 "names the real county whose ground it stands on. Populations are",
-                 "derived from school enrollment (a town holds roughly 15-22 people",
-                 "per public-high-school seat); anchor and owner-specified cities",
-                 "keep their stated figures.", ""]
+                 "names the real county whose ground it stands on. Owner-stated",
+                 "populations are authoritative; only unstated towns derive from",
+                 "school enrollment.",
+                 "",
+                 "**The ~17.6M state total is a design decision, not an error**",
+                 "(owner rule 2027-08: Jefferson is West Coast Texas). Do not",
+                 "rescale it.", ""]
         bycounty = {}
         for c in cities:
             bycounty.setdefault((c["county"], c["real_county"]), []).append(c)
