@@ -38,7 +38,6 @@ RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
 BRAND = "FIELDHOUSE"
 ASSOC = "JHSAA"
-STATE = "Jefferson"
 TODAY = "2027-01-16"          # the demo date the generator built around
 SEASON_LABEL = "2026–27"
 CREST_CLASSES = 12
@@ -454,7 +453,7 @@ def shell(title, body, crumb="", back="", story=None):
 }})();
 </script>
 <footer class="fh-foot"><div class="wrap">
-  <span>{BRAND.title()} — working title · {STATE} is a fictional state; all schools and people are invented</span>
+  <span>{BRAND.title()}</span>
   <a href="https://github.com/quarterback/prep-network">github.com/quarterback/prep-network</a>
 </div></footer>
 </body>
