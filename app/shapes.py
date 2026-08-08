@@ -649,6 +649,13 @@ class Tournament:
 
     @property
     def status(self) -> TournamentStatus:
+        if self.format is not TournamentFormat.BRACKET:
+            # A meet-decided title has no rounds to inspect. It is finished when
+            # the meet it points at exists; before that it is a date on the
+            # calendar. Falling through to the bracket logic reports every
+            # swimming and cross-country championship as permanently upcoming.
+            return (TournamentStatus.COMPLETE if self.meet_key
+                    else TournamentStatus.UPCOMING)
         if not self.rounds:
             return TournamentStatus.UPCOMING
         if self.champion:
