@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 from app import records_io  # noqa: E402
 from app.shapes import Dual, Game, Meet  # noqa: E402
 from app.brand import ASSOC, NAME, TITLE, WORDMARK, page_title  # noqa: E402
-from app.sports import BY_KEY, CATALOG  # noqa: E402
+from app.sports import BY_KEY, CATALOG, CLASSES  # noqa: E402
 
 import importlib.util as _ilu  # noqa: E402
 _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
@@ -35,6 +35,8 @@ _ispec = _ilu.spec_from_file_location("fh_icons", ROOT / "site/icons.py")
 icons = _ilu.module_from_spec(_ispec); _ispec.loader.exec_module(icons)
 _pspec = _ilu.spec_from_file_location("fh_sponsors", ROOT / "site/sponsors.py")
 sponsors = _ilu.module_from_spec(_pspec); _pspec.loader.exec_module(sponsors)
+_mspec = _ilu.spec_from_file_location("fh_marks", ROOT / "site/marks.py")
+marks = _ilu.module_from_spec(_mspec); _mspec.loader.exec_module(marks)
 _sspec = _ilu.spec_from_file_location("fh_stdsite", ROOT / "site/standardsite.py")
 stdsite = _ilu.module_from_spec(_sspec); _sspec.loader.exec_module(stdsite)
 
@@ -175,6 +177,11 @@ class Registry:
             return (f"<span class='fh-crest {size}' style='background:{colors[0]}'>"
                     f"{esc(monogram(name))}</span>")
         return f"<span class='fh-crest {size} {crest_class(name)}'>{esc(monogram(name))}</span>"
+
+    def mark(self, name, size=72):
+        if name not in self.schools:
+            return ""
+        return marks.school_mark(self.schools[name], size)
 
     def records_for(self, sport_key):
         """Derived W-L(-T) per school for a GAME/DUAL sport."""
@@ -436,6 +443,7 @@ def shell(title, body, crumb="", back="", story=None):
 <title>{esc(title)}</title>
 <link rel="stylesheet" href="/style.css">
 {favicon_tag()}{stdsite.head_links(story)}
+<script defer src="/_vercel/insights/script.js"></script>
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
@@ -791,7 +799,7 @@ def sport_nav(sp, active):
 
 
 def sport_header(reg, sp, active=""):
-    groups = list(dict.fromkeys(sp.champ_group(c) for c in ("6A", "5A", "4A", "3A", "2A", "1A")))
+    groups = list(dict.fromkeys(sp.champ_group(c) for c in tuple(CLASSES)))
     chips = "".join(class_chip(g) if g[0].isdigit() else f"<span class='fh-tag'>{esc(g)}</span>"
                     for g in groups)
     return f"""
@@ -806,7 +814,7 @@ def sport_header(reg, sp, active=""):
 
 
 def sport_groups(sp):
-    return list(dict.fromkeys(sp.champ_group(c) for c in ("6A", "5A", "4A", "3A", "2A", "1A")))
+    return list(dict.fromkeys(sp.champ_group(c) for c in tuple(CLASSES)))
 
 
 def rankings_by_group(reg, sp, limit=10):
@@ -927,7 +935,7 @@ def render_sport_schedule(reg, sp):
         ("division", "Classification", [(v, class_chip(v)) for v, _ in [('6A', '6A'), ('5A', '5A'), ('4A', '4A'), ('3A', '3A'), ('2A', '2A'), ('1A', '1A')]]),
         ("status", "Status", [("final", "Final"), ("upcoming", "Upcoming"),
                               ("changed", "Postponed / cancelled")]),
-    ], note="Filters combine; links are shareable")
+    ])
     inner = f"<div class='fh-section'>{bar}{contest_table(reg, rows, False, fid=f'sch-{sp.key}')}</div>"
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sp.key}/'>{esc(sp.name)}</a> › Schedule"
     return shell(page_title(f"{sp.name} schedule"),
@@ -1051,6 +1059,45 @@ def _champ_winner(c):
     return order[0].school if order else ""
 
 
+def event_card(reg, c, final):
+    """ScoreCard / UpcomingEvent: marks, names, scores or date — the same row
+    at state, conference and school scope."""
+    sp = BY_KEY[c.sport]
+    if isinstance(c, Meet):
+        line = meet_line(reg, c) if final else esc(c.name)
+        return (f"<div class='fh-card'><span class='st'>{'FINAL' if final else esc(nice_date(c.date))}</span>"
+                f"<div class='mrow one'>{line}</div>"
+                f"<span class='sp'>{esc(sp.name)} · <a href='{reg.url(c)}'>"
+                f"{'Result' if final else 'Details'} →</a></span></div>")
+    home, away = c.home, c.away
+    if final:
+        hs = c.home_score if isinstance(c, Game) else c.home_points
+        as_ = c.away_score if isinstance(c, Game) else c.away_points
+        rows = (f"<div class='mrow'>{reg.crest(away,'xs')}<span class='nm'>{reg.school_link(away)}</span>"
+                f"<b class='tnum'>{as_ if as_ is not None else ''}</b></div>"
+                f"<div class='mrow'>{reg.crest(home,'xs')}<span class='nm'>{reg.school_link(home)}</span>"
+                f"<b class='tnum'>{hs if hs is not None else ''}</b></div>")
+        head = "FINAL"
+    else:
+        rows = (f"<div class='mrow'>{reg.crest(away,'xs')}<span class='nm'>{reg.school_link(away)}</span></div>"
+                f"<div class='mrow at'>at</div>"
+                f"<div class='mrow'>{reg.crest(home,'xs')}<span class='nm'>{reg.school_link(home)}</span></div>")
+        head = esc(nice_date(c.date))
+    return (f"<div class='fh-card'><span class='st'>{head}</span>{rows}"
+            f"<span class='sp'>{esc(sp.name)} · <a href='{reg.url(c)}'>"
+            f"{'Box →' if final else 'Preview →'}</a></span></div>")
+
+
+def feature_panel(kicker, hd, dk, colors, watermark=""):
+    """FeaturedStory: a branded color panel — the graphic-card treatment
+    athletics sites use when a story has no photograph."""
+    c1, _c2 = colors
+    return (f"<div class='fh-feature' style='background:{c1}'>"
+            f"<div class='wm'>{watermark}</div>"
+            f"<span class='kk'>{kicker}</span><span class='hd'>{hd}</span>"
+            f"<span class='dk'>{dk}</span></div>")
+
+
 def conf_position(reg, sport_key, school):
     """(rank, w, l, size) of `school` inside its conference for one sport."""
     rec = reg.records_for(sport_key)
@@ -1102,19 +1149,13 @@ def render_school(reg, s):
         else:
             hd = score_line(reg, lead_c)
             dk = "Final"
-        lead = (f"<div class='fh-orglead' style='border-color:{primary}'>"
-                f"<span class='kk'>{esc(kicker)}</span>"
-                f"<span class='hd'>{hd}</span>"
-                f"<span class='dk'>{dk} · <a href='{reg.url(lead_c)}'>Full result →</a></span></div>")
+        lead = feature_panel(esc(kicker), hd,
+                             f"{dk} · <a href='{reg.url(lead_c)}'>Full result →</a>",
+                             s.get("colors") or ["#14294e", "#c8ccd4"],
+                             watermark=reg.mark(name, 200))
 
-    recent_rows = []
-    for c in played[:4]:
-        line = meet_line(reg, c) if isinstance(c, Meet) else score_line(reg, c)
-        if line:
-            recent_rows.append(score_row(reg.url(c), line,
-                                         f"{esc(BY_KEY[c.sport].name)} · Final"))
-    next_rows = [score_row(reg.url(c), matchup_line(reg, c), esc(BY_KEY[c.sport].name))
-                 for c in upcoming[:4]]
+    recent_rows = [event_card(reg, c, final=True) for c in played[:4]]
+    next_rows = [event_card(reg, c, final=False) for c in upcoming[:4]]
     strip = ""
     if recent_rows or next_rows:
         cols = []
@@ -1206,18 +1247,33 @@ def render_school(reg, s):
 
     ribbon = season_ribbon(sorted(s.get("sports", [])), link=lambda k: f"#t-{k}")
 
+    rail_items = []
+    for c in upcoming[:3]:
+        rail_items.append(f"<a href='{reg.url(c)}'><span class='kk'>{esc(BY_KEY[c.sport].name)}</span>"
+                          f"{matchup_line(reg, c)}</a>")
+    for c in played[:3]:
+        line = meet_line(reg, c) if isinstance(c, Meet) else score_line(reg, c)
+        if line:
+            rail_items.append(f"<div><span class='kk'>{esc(BY_KEY[c.sport].name)} · Final</span>{line}</div>")
+    feature_grid = ""
+    if lead or rail_items:
+        feature_grid = (f"<div class='fh-orgtop'>{lead}"
+                        f"<aside class='fh-eventsrail'>{''.join(rail_items[:4])}</aside></div>")
+
     body = f"""
-<div class="fh-idhdr school athletics" style="border-top-color:{primary}">
-  {reg.crest(name, 'lg')}
-  <div><div class="name">{esc(name)}</div>
-  <div class="meta">{esc(s['mascot'])} · {esc(s['city'])} · {conf_html}</div></div>
-  <div class="side">{class_chip(s['classification'])}</div>
-</div>
+<header class="fh-orghead" style="border-color:{primary}">
+  {reg.mark(name, 76)}
+  <div class="id">
+    <div class="name">{esc(name)} <span class="ath">Athletics</span></div>
+    <div class="nick" style="color:{primary}">{esc(s['mascot'])}</div>
+    <div class="meta">{esc(s['city'])} · {conf_html} · {class_chip(s['classification'])}</div>
+  </div>
+</header>
 {org_nav([("Home", "#"), ("Teams", "#teams"), ("Schedule", "#schedule"),
           ("Results", "#results"), ("Championships", "#championships" if champs else "#schedule"),
           ("Athletics Info", "#info")])}
+{feature_grid}
 {ribbon}
-{lead}
 <div id="results"></div>
 {strip}
 <div class="fh-section" id="teams"><div class="fh-group"><h2>Teams</h2></div>
@@ -1242,9 +1298,9 @@ def render_conference(reg, conf):
     mset = set(members)
     today = _dt.date.fromisoformat(TODAY)
 
-    # ---- member strip: the league IS its schools ----
+    # ---- member strip: marks first — the league IS its schools ----
     strip = "".join(
-        f"<a class='fh-member' href='{reg.school_url(m)}'>{reg.crest(m, 'sm')}"
+        f"<a class='fh-member' href='{reg.school_url(m)}'>{reg.mark(m, 44)}"
         f"<span>{esc(m)}</span></a>"
         for m in members if m in reg.schools)
 
@@ -1254,10 +1310,10 @@ def render_conference(reg, conf):
     ribbon = season_ribbon(conf_sports)
 
     # ---- standings, one sport at a time ----
-    def conf_table(key):
+    def conf_table(key, limit=4):
         rec = reg.records_for(key)
         rows = sorted(((s, r) for s, r in rec.items() if s in mset),
-                      key=lambda kv: (-kv[1]["cw"], kv[1]["cl"], -kv[1]["w"], kv[1]["l"], kv[0]))
+                      key=lambda kv: (-kv[1]["cw"], kv[1]["cl"], -kv[1]["w"], kv[1]["l"], kv[0]))[:limit]
         if not rows:
             return ""
         cols = "26px 24px minmax(150px,1fr) 62px 62px"
@@ -1318,13 +1374,13 @@ def render_conference(reg, conf):
         if len(rows) >= 2:
             (s1, r1), (s2, r2) = rows[0], rows[1]
             sp = BY_KEY[default_key]
-            lead = (f"<div class='fh-orglead'>"
-                    f"<span class='kk'>{esc(sp.name)} · Standings race</span>"
-                    f"<span class='hd'>{reg.school_link(s1)} leads at "
-                    f"<span class='tnum'>{r1['cw']}-{r1['cl']}</span></span>"
-                    f"<span class='dk'>{reg.school_link(s2)} sits second at {r2['cw']}-{r2['cl']} "
-                    f"in {esc(conf['name'])} play · "
-                    f"<a href='#standings'>Standings →</a></span></div>")
+            lead = feature_panel(
+                f"{esc(sp.name)} · Standings race",
+                f"{reg.school_link(s1)} leads at <span class='tnum'>{r1['cw']}-{r1['cl']}</span>",
+                f"{reg.school_link(s2)} sits second at {r2['cw']}-{r2['cl']} "
+                f"in {esc(conf['name'])} play · <a href='#standings'>Standings →</a>",
+                marks.conf_colors(conf["name"]),
+                watermark=marks.conf_mark(conf["name"], 200))
 
     # ---- composite week, grouped by day ----
     week = sorted((c for c in reg.contests if c.date and
@@ -1359,17 +1415,11 @@ def render_conference(reg, conf):
                      (c.date or "") <= TODAY and
                      any(sch in mset for sch in reg.contest_schools(c))),
                     key=lambda c: c.date, reverse=True)
-    result_rows = []
-    for c in finals:
-        line = meet_line(reg, c) if isinstance(c, Meet) else score_line(reg, c)
-        if line:
-            result_rows.append(score_row(reg.url(c), line, esc(BY_KEY[c.sport].name)))
-        if len(result_rows) >= 8:
-            break
+    result_rows = [event_card(reg, c, final=True) for c in finals[:6]]
     recent = ""
     if result_rows:
         recent = (f"<div class='fh-section' id='results'><div class='fh-group'>"
-                  f"<h2>Recent results</h2></div><div class='fh-results'>"
+                  f"<h2>Recent results</h2></div><div class='fh-cardrow'>"
                   + "".join(result_rows) + "</div></div>")
 
     # ---- fall champions: the completed season's league winners ----
@@ -1393,18 +1443,33 @@ def render_conference(reg, conf):
                   f"<h2>Fall champions</h2></div><div class='fh-teamgrid'>"
                   f"<div class='fh-teamseason'>{''.join(champ_rows)}</div></div></div>")
 
+    cc1, _cc2 = marks.conf_colors(conf["name"])
+    rail_items = []
+    for c in week[:3]:
+        rail_items.append(f"<a href='{reg.url(c)}'><span class='kk'>{esc(BY_KEY[c.sport].name)}</span>"
+                          f"{matchup_line(reg, c)}</a>")
+    for c in finals[:2]:
+        line = meet_line(reg, c) if isinstance(c, Meet) else score_line(reg, c)
+        if line:
+            rail_items.append(f"<div><span class='kk'>{esc(BY_KEY[c.sport].name)} · Final</span>{line}</div>")
+    feature_grid = ""
+    if lead or rail_items:
+        feature_grid = (f"<div class='fh-orgtop'>{lead}"
+                        f"<aside class='fh-eventsrail'>{''.join(rail_items[:4])}</aside></div>")
+
     body = f"""
-<div class="fh-idhdr athletics">
-  <div></div>
-  <div><div class="name">{esc(conf['name'])}</div>
-  <div class="meta">{esc(conf['area'])} · <span class="tnum">{len(members)}</span> member schools</div></div>
-  <div class="side"></div>
-</div>
+<header class="fh-orghead" style="border-color:{cc1}">
+  {marks.conf_mark(conf['name'], 64)}
+  <div class="id">
+    <div class="name">{esc(conf['name'])}</div>
+    <div class="meta">{esc(conf['area'])}</div>
+  </div>
+</header>
 {org_nav([("Home", "#"), ("Schools", "#schools"), ("Standings", "#standings"),
           ("Schedule", "#schedule"), ("Championships", "#championships" if champs else "#standings")])}
 <div class="fh-memberstrip" id="schools">{strip}</div>
+{feature_grid}
 {ribbon}
-{lead}
 {standings}
 {this_week}
 {recent}
@@ -1628,7 +1693,7 @@ def render_schools_index(reg):
             f"<h2 class='fh-areahead'>{esc(area)}</h2>{''.join(groups)}</section>")
 
     bar = facet_bar("schools-map", [("division", "Classification",
-                                     [(v, class_chip(v)) for v in ("6A", "5A", "4A", "3A", "2A", "1A")])],
+                                     [(v, class_chip(v)) for v in tuple(CLASSES)])],
                     note="Shows conferences with a member in that class")
     jump = "".join(f"<a href='#{slugify(a)}'>{esc(a)}</a>" for a in sorted(by_area))
     body = f"""

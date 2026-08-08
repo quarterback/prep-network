@@ -8,7 +8,7 @@ Two ideas carry this file:
 2. **`classification` is not `championship_group`.** A school carries one base
    class (6A–1A, by enrollment); each sport maps those classes onto its own
    championship divisions, consolidating where participation doesn't support six
-   brackets. Tennis runs 6A/5A/4A/3A-1A; swimming runs 6A-5A/4A-1A; skiing and
+   brackets. Tennis runs 7A/6A/5A/4A/3A-1A; swimming runs 7A-5A/4A-1A; skiing and
    fencing run open divisions. `champ_group()` is the single authority.
 
 Associations sanction *activities*, not just sports — marching band, choir and
@@ -25,7 +25,7 @@ from dataclasses import dataclass
 
 from app.shapes import MarkType, Shape
 
-CLASSES = ["6A", "5A", "4A", "3A", "2A", "1A"]
+CLASSES = ["7A", "6A", "5A", "4A", "3A", "2A", "1A"]
 
 
 @dataclass(frozen=True)
@@ -65,7 +65,7 @@ def _g(*specs: str) -> tuple[tuple[str, ...], ...]:
     return tuple(out)
 
 
-ALL_SIX = _g("6A 5A 4A 3A 2A 1A")
+ALL_CLASSES = _g("7A 6A 5A 4A 3A 2A 1A")
 OPEN = (tuple(CLASSES),)   # one open division
 
 S = Shape
@@ -73,54 +73,54 @@ M = MarkType
 
 CATALOG: list[Sport] = [
     # ---- fall ----
-    Sport("football", "Football", "fall", "Boys", S.GAME, None, ALL_SIX, "broad"),
-    Sport("marching-band", "Marching Band", "fall", "Coed", S.MEET, M.POINTS, _g("6A-5A 4A-3A 2A-1A"), "broad"),
-    Sport("boys-soccer", "Boys Soccer", "fall", "Boys", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
-    Sport("girls-soccer", "Girls Soccer", "fall", "Girls", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
-    Sport("field-hockey", "Field Hockey", "fall", "Girls", S.GAME, None, _g("6A-5A 4A-1A"), "metro"),
-    Sport("girls-volleyball", "Girls Volleyball", "fall", "Girls", S.GAME, None, ALL_SIX, "broad"),
-    Sport("boys-cross-country", "Boys Cross Country", "fall", "Boys", S.MEET, M.TIME, ALL_SIX, "broad", lower_is_better=True),
-    Sport("girls-cross-country", "Girls Cross Country", "fall", "Girls", S.MEET, M.TIME, ALL_SIX, "broad", lower_is_better=True),
-    Sport("girls-tennis", "Girls Tennis", "fall", "Girls", S.DUAL, None, _g("6A 5A 4A 3A-1A"), "broad"),
-    Sport("boys-golf", "Boys Golf", "fall", "Boys", S.MEET, M.STROKES, _g("6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
+    Sport("football", "Football", "fall", "Boys", S.GAME, None, ALL_CLASSES, "broad"),
+    Sport("marching-band", "Marching Band", "fall", "Coed", S.MEET, M.POINTS, _g("7A-5A 4A-3A 2A-1A"), "broad"),
+    Sport("boys-soccer", "Boys Soccer", "fall", "Boys", S.GAME, None, _g("7A 6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("girls-soccer", "Girls Soccer", "fall", "Girls", S.GAME, None, _g("7A 6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("field-hockey", "Field Hockey", "fall", "Girls", S.GAME, None, _g("7A-5A 4A-1A"), "metro"),
+    Sport("girls-volleyball", "Girls Volleyball", "fall", "Girls", S.GAME, None, ALL_CLASSES, "broad"),
+    Sport("boys-cross-country", "Boys Cross Country", "fall", "Boys", S.MEET, M.TIME, ALL_CLASSES, "broad", lower_is_better=True),
+    Sport("girls-cross-country", "Girls Cross Country", "fall", "Girls", S.MEET, M.TIME, ALL_CLASSES, "broad", lower_is_better=True),
+    Sport("girls-tennis", "Girls Tennis", "fall", "Girls", S.DUAL, None, _g("7A 6A 5A 4A 3A-1A"), "broad"),
+    Sport("boys-golf", "Boys Golf", "fall", "Boys", S.MEET, M.STROKES, _g("7A 6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
     Sport("mountain-biking", "Mountain Biking", "fall", "Coed", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
     Sport("boys-water-polo", "Boys Water Polo", "fall", "Boys", S.GAME, None, OPEN, "aquatic"),
     Sport("girls-water-polo", "Girls Water Polo", "fall", "Girls", S.GAME, None, OPEN, "aquatic"),
     # ---- winter ----
-    Sport("boys-basketball", "Boys Basketball", "winter", "Boys", S.GAME, None, ALL_SIX, "broad"),
-    Sport("girls-basketball", "Girls Basketball", "winter", "Girls", S.GAME, None, ALL_SIX, "broad"),
-    Sport("boys-wrestling", "Boys Wrestling", "winter", "Boys", S.DUAL, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
-    Sport("girls-wrestling", "Girls Wrestling", "winter", "Girls", S.DUAL, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
-    Sport("boys-swimming", "Boys Swimming & Diving", "winter", "Boys", S.MEET, M.TIME, _g("6A-5A 4A-1A"), "aquatic"),
-    Sport("girls-swimming", "Girls Swimming & Diving", "winter", "Girls", S.MEET, M.TIME, _g("6A-5A 4A-1A"), "aquatic"),
+    Sport("boys-basketball", "Boys Basketball", "winter", "Boys", S.GAME, None, ALL_CLASSES, "broad"),
+    Sport("girls-basketball", "Girls Basketball", "winter", "Girls", S.GAME, None, ALL_CLASSES, "broad"),
+    Sport("boys-wrestling", "Boys Wrestling", "winter", "Boys", S.DUAL, None, _g("7A 6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("girls-wrestling", "Girls Wrestling", "winter", "Girls", S.DUAL, None, _g("7A 6A 5A 4A 3A 2A-1A"), "broad"),
+    Sport("boys-swimming", "Boys Swimming & Diving", "winter", "Boys", S.MEET, M.TIME, _g("7A-5A 4A-1A"), "aquatic"),
+    Sport("girls-swimming", "Girls Swimming & Diving", "winter", "Girls", S.MEET, M.TIME, _g("7A-5A 4A-1A"), "aquatic"),
     Sport("boys-ice-hockey", "Boys Ice Hockey", "winter", "Boys", S.GAME, None, OPEN, "mountain"),
     Sport("girls-ice-hockey", "Girls Ice Hockey", "winter", "Girls", S.GAME, None, OPEN, "mountain"),
     Sport("boys-alpine-skiing", "Boys Alpine Skiing", "winter", "Boys", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
     Sport("girls-alpine-skiing", "Girls Alpine Skiing", "winter", "Girls", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
     Sport("boys-nordic-skiing", "Boys Nordic Skiing", "winter", "Boys", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
     Sport("girls-nordic-skiing", "Girls Nordic Skiing", "winter", "Girls", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
-    Sport("bowling", "Bowling", "winter", "Coed", S.MEET, M.PINFALL, _g("6A-4A 3A-1A"), "broad"),
+    Sport("bowling", "Bowling", "winter", "Coed", S.MEET, M.PINFALL, _g("7A-4A 3A-1A"), "broad"),
     Sport("boys-fencing", "Boys Fencing", "winter", "Boys", S.DUAL, None, OPEN, "metro"),
     Sport("girls-fencing", "Girls Fencing", "winter", "Girls", S.DUAL, None, OPEN, "metro"),
-    Sport("gymnastics", "Gymnastics", "winter", "Girls", S.MEET, M.POINTS, _g("6A-5A 4A-1A"), "metro"),
-    Sport("competitive-spirit", "Competitive Spirit", "winter", "Coed", S.MEET, M.POINTS, _g("6A 5A 4A-1A"), "broad"),
+    Sport("gymnastics", "Gymnastics", "winter", "Girls", S.MEET, M.POINTS, _g("7A-5A 4A-1A"), "metro"),
+    Sport("competitive-spirit", "Competitive Spirit", "winter", "Coed", S.MEET, M.POINTS, _g("7A 6A 5A 4A-1A"), "broad"),
     Sport("winter-track", "Winter Track", "winter", "Coed", S.MEET, M.TIME, OPEN, "metro"),
-    Sport("debate", "Debate", "winter", "Coed", S.MEET, M.ORDINAL, _g("6A-4A 3A-1A"), "metro", lower_is_better=True),
+    Sport("debate", "Debate", "winter", "Coed", S.MEET, M.ORDINAL, _g("7A-4A 3A-1A"), "metro", lower_is_better=True),
 
     # ---- spring ----
-    Sport("baseball", "Baseball", "spring", "Boys", S.GAME, None, ALL_SIX, "broad"),
-    Sport("softball", "Softball", "spring", "Girls", S.GAME, None, ALL_SIX, "broad"),
-    Sport("boys-lacrosse", "Boys Lacrosse", "spring", "Boys", S.GAME, None, _g("6A 5A-4A 3A-1A"), "metro"),
-    Sport("girls-lacrosse", "Girls Lacrosse", "spring", "Girls", S.GAME, None, _g("6A 5A-4A 3A-1A"), "metro"),
-    Sport("boys-tennis", "Boys Tennis", "spring", "Boys", S.DUAL, None, _g("6A 5A 4A 3A-1A"), "broad"),
-    Sport("boys-volleyball", "Boys Volleyball", "spring", "Boys", S.GAME, None, _g("6A 5A-1A"), "metro"),
-    Sport("girls-flag-football", "Girls Flag Football", "spring", "Girls", S.GAME, None, _g("6A 5A 4A-1A"), "metro"),
-    Sport("girls-badminton", "Girls Badminton", "spring", "Girls", S.DUAL, None, _g("6A 5A 4A-1A"), "metro"),
-    Sport("ultimate", "Ultimate", "spring", "Coed", S.GAME, None, _g("6A-4A 3A-1A"), "metro"),
-    Sport("choir", "Choir", "spring", "Coed", S.MEET, M.RATING, _g("6A-5A 4A-3A 2A-1A"), "broad", lower_is_better=True),
-    Sport("girls-golf", "Girls Golf", "spring", "Girls", S.MEET, M.STROKES, _g("6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
-    Sport("boys-track", "Boys Track & Field", "spring", "Boys", S.MEET, M.TIME, ALL_SIX, "broad"),
-    Sport("girls-track", "Girls Track & Field", "spring", "Girls", S.MEET, M.TIME, ALL_SIX, "broad"),
+    Sport("baseball", "Baseball", "spring", "Boys", S.GAME, None, ALL_CLASSES, "broad"),
+    Sport("softball", "Softball", "spring", "Girls", S.GAME, None, ALL_CLASSES, "broad"),
+    Sport("boys-lacrosse", "Boys Lacrosse", "spring", "Boys", S.GAME, None, _g("7A 6A 5A-4A 3A-1A"), "metro"),
+    Sport("girls-lacrosse", "Girls Lacrosse", "spring", "Girls", S.GAME, None, _g("7A 6A 5A-4A 3A-1A"), "metro"),
+    Sport("boys-tennis", "Boys Tennis", "spring", "Boys", S.DUAL, None, _g("7A 6A 5A 4A 3A-1A"), "broad"),
+    Sport("boys-volleyball", "Boys Volleyball", "spring", "Boys", S.GAME, None, _g("7A 6A 5A-1A"), "metro"),
+    Sport("girls-flag-football", "Girls Flag Football", "spring", "Girls", S.GAME, None, _g("7A 6A 5A 4A-1A"), "metro"),
+    Sport("girls-badminton", "Girls Badminton", "spring", "Girls", S.DUAL, None, _g("7A 6A 5A 4A-1A"), "metro"),
+    Sport("ultimate", "Ultimate", "spring", "Coed", S.GAME, None, _g("7A-4A 3A-1A"), "metro"),
+    Sport("choir", "Choir", "spring", "Coed", S.MEET, M.RATING, _g("7A-5A 4A-3A 2A-1A"), "broad", lower_is_better=True),
+    Sport("girls-golf", "Girls Golf", "spring", "Girls", S.MEET, M.STROKES, _g("7A 6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
+    Sport("boys-track", "Boys Track & Field", "spring", "Boys", S.MEET, M.TIME, ALL_CLASSES, "broad"),
+    Sport("girls-track", "Girls Track & Field", "spring", "Girls", S.MEET, M.TIME, ALL_CLASSES, "broad"),
 ]
 
 BY_KEY: dict[str, Sport] = {s.key: s for s in CATALOG}
