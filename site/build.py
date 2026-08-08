@@ -453,7 +453,6 @@ def shell(title, body, crumb="", back="", story=None):
 }})();
 </script>
 <footer class="fh-foot"><div class="wrap">
-  <span>{BRAND.title()}</span>
   <a href="https://github.com/quarterback/prep-network">github.com/quarterback/prep-network</a>
 </div></footer>
 </body>
