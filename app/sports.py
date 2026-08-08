@@ -1,5 +1,5 @@
 """
-The JHSAA sports catalog: ~35 sanctioned activities over three shapes.
+The JHSAA activities catalog: 46 sanctioned activities over three shapes.
 
 Two ideas carry this file:
 
@@ -10,6 +10,13 @@ Two ideas carry this file:
    championship divisions, consolidating where participation doesn't support six
    brackets. Tennis runs 6A/5A/4A/3A-1A; swimming runs 6A-5A/4A-1A; skiing and
    fencing run open divisions. `champ_group()` is the single authority.
+
+Associations sanction *activities*, not just sports — marching band, choir and
+debate crown state champions under the same body, on the same calendar, in the
+same classifications. They are MEETs whose marks aren't numbers: band is judged
+POINTS, choir is an adjudicated RATING (I–IV), debate is pure ORDINAL placing.
+Nothing downstream needed changing to carry them, which is the point of a mark
+type wider than a stopwatch.
 """
 
 from __future__ import annotations
@@ -67,7 +74,7 @@ M = MarkType
 CATALOG: list[Sport] = [
     # ---- fall ----
     Sport("football", "Football", "fall", "Boys", S.GAME, None, ALL_SIX, "broad"),
-    Sport("girls-flag-football", "Girls Flag Football", "fall", "Girls", S.GAME, None, _g("6A 5A 4A-1A"), "metro"),
+    Sport("marching-band", "Marching Band", "fall", "Coed", S.MEET, M.POINTS, _g("6A-5A 4A-3A 2A-1A"), "broad"),
     Sport("boys-soccer", "Boys Soccer", "fall", "Boys", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
     Sport("girls-soccer", "Girls Soccer", "fall", "Girls", S.GAME, None, _g("6A 5A 4A 3A 2A-1A"), "broad"),
     Sport("field-hockey", "Field Hockey", "fall", "Girls", S.GAME, None, _g("6A-5A 4A-1A"), "metro"),
@@ -99,6 +106,8 @@ CATALOG: list[Sport] = [
     Sport("gymnastics", "Gymnastics", "winter", "Girls", S.MEET, M.POINTS, _g("6A-5A 4A-1A"), "metro"),
     Sport("competitive-spirit", "Competitive Spirit", "winter", "Coed", S.MEET, M.POINTS, _g("6A 5A 4A-1A"), "broad"),
     Sport("winter-track", "Winter Track", "winter", "Coed", S.MEET, M.TIME, OPEN, "metro"),
+    Sport("debate", "Debate", "winter", "Coed", S.MEET, M.ORDINAL, _g("6A-4A 3A-1A"), "metro", lower_is_better=True),
+
     # ---- spring ----
     Sport("baseball", "Baseball", "spring", "Boys", S.GAME, None, ALL_SIX, "broad"),
     Sport("softball", "Softball", "spring", "Girls", S.GAME, None, ALL_SIX, "broad"),
@@ -106,6 +115,10 @@ CATALOG: list[Sport] = [
     Sport("girls-lacrosse", "Girls Lacrosse", "spring", "Girls", S.GAME, None, _g("6A 5A-4A 3A-1A"), "metro"),
     Sport("boys-tennis", "Boys Tennis", "spring", "Boys", S.DUAL, None, _g("6A 5A 4A 3A-1A"), "broad"),
     Sport("boys-volleyball", "Boys Volleyball", "spring", "Boys", S.GAME, None, _g("6A 5A-1A"), "metro"),
+    Sport("girls-flag-football", "Girls Flag Football", "spring", "Girls", S.GAME, None, _g("6A 5A 4A-1A"), "metro"),
+    Sport("girls-badminton", "Girls Badminton", "spring", "Girls", S.DUAL, None, _g("6A 5A 4A-1A"), "metro"),
+    Sport("ultimate", "Ultimate", "spring", "Coed", S.GAME, None, _g("6A-4A 3A-1A"), "metro"),
+    Sport("choir", "Choir", "spring", "Coed", S.MEET, M.RATING, _g("6A-5A 4A-3A 2A-1A"), "broad", lower_is_better=True),
     Sport("girls-golf", "Girls Golf", "spring", "Girls", S.MEET, M.STROKES, _g("6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
     Sport("boys-track", "Boys Track & Field", "spring", "Boys", S.MEET, M.TIME, ALL_SIX, "broad"),
     Sport("girls-track", "Girls Track & Field", "spring", "Girls", S.MEET, M.TIME, ALL_SIX, "broad"),

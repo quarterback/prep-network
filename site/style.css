@@ -22,6 +22,28 @@
   font-display: swap; src: url('fonts/PPNeueMontreal-Medium.woff2') format('woff2'); }
 @font-face { font-family: 'PP Neue Montreal'; font-weight: 400; font-style: normal;
   font-display: swap; src: url('fonts/PPNeueMontreal-Book.woff2') format('woff2'); }
+@font-face { font-family: 'PP Valve Stencil'; font-weight: 800; font-style: italic;
+  font-display: swap; src: url('fonts/PPValve-StencilExtraboldItalic.woff2') format('woff2'); }
+@font-face { font-family: 'PP Object Sans'; font-weight: 900; font-style: normal;
+  font-display: swap; src: url('fonts/PPObjectSans-Heavy.woff2') format('woff2'); }
+@font-face { font-family: 'PP Object Sans'; font-weight: 900; font-style: italic;
+  font-display: swap; src: url('fonts/PPObjectSans-HeavySlanted.woff2') format('woff2'); }
+@font-face { font-family: 'PP Formula Extended'; font-weight: 700; font-style: normal;
+  font-display: swap; src: url('fonts/PPFormula-ExtendedBold.woff') format('woff'); }
+@font-face { font-family: 'PP Pangram Compressed'; font-weight: 800; font-style: normal;
+  font-display: swap; src: url('fonts/PPPangramSans-CompressedExtrabold.woff') format('woff'); }
+@font-face { font-family: 'PP Fuji'; font-weight: 700; font-style: normal;
+  font-display: swap; src: url('fonts/PPFuji-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Author'; font-weight: 400; font-style: normal;
+  font-display: swap; src: url('fonts/author-regular.woff') format('woff'); }
+@font-face { font-family: 'Author'; font-weight: 600; font-style: normal;
+  font-display: swap; src: url('fonts/author-semibold.woff') format('woff'); }
+@font-face { font-family: 'Author'; font-weight: 700; font-style: italic;
+  font-display: swap; src: url('fonts/author-bold-italic.woff') format('woff'); }
+@font-face { font-family: 'Switzer'; font-weight: 600; font-style: normal;
+  font-display: swap; src: url('fonts/switzer-semibold.woff2') format('woff2'); }
+@font-face { font-family: 'Azeret Mono'; font-weight: 100 900; font-style: normal;
+  font-display: swap; src: url('fonts/azeret-mono-variable.woff2') format('woff2'); }
 
 :root {
   /* ---- palette slots (owner scheme 2026-08) ----
@@ -80,8 +102,14 @@
 
   /* ---- type roles ---- */
   --font-wordmark: 'PP Valve', 'Arial Black', sans-serif;
+  --font-stencil: 'PP Valve Stencil', 'PP Valve', 'Arial Black', sans-serif;
   --font-display: 'PP Neue Montreal', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-text: 'PP Neue Montreal', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-serif: 'Author', Georgia, 'Times New Roman', serif;
+  --font-label: 'PP Object Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-condensed: 'PP Pangram Compressed', 'Arial Narrow', sans-serif;
+  --font-poster: 'PP Formula Extended', 'Arial Black', sans-serif;
+  --font-mono: 'Azeret Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --fs-display: 30px; --fs-title: 18px; --fs-body: 14px; --fs-small: 13px;
   --fs-caption: 12px; --fs-micro: 11px;
@@ -134,6 +162,158 @@
   --crest-6: hsl(80, 20%, 34%);  --crest-7: hsl(80, 16%, 44%);
   --crest-8: hsl(320, 36%, 38%); --crest-9: hsl(260, 30%, 42%);
   --crest-10: hsl(300, 26%, 30%); --crest-11: hsl(350, 30%, 44%);
+}
+
+/* ── scheme: meadow — frosted-mint / willow-green / deep-teal / charcoal /
+   sunflower-gold. Ink derives as a deep tone of the teal hue (176). ── */
+[data-theme="meadow"] {
+  --linen: #b9dfb7;            /* willow tint takes the band slot */
+  --ivory: #e9fbe6;            /* frosted-mint takes the ground slot */
+  --cyan: hsl(39, 100%, 86%);  /* sunflower tint takes the highlight slot */
+  --ice: #ffbf46;              /* sunflower-gold takes the accent-detail slot */
+  --prussian: hsl(176, 30%, 13%);
+
+  --brand-strong: hsl(176, 48%, 27%);
+
+  --gray-150: hsl(140, 20%, 88%);
+  --gray-200: hsla(176, 30%, 13%, 0.14);
+  --gray-300: hsla(176, 30%, 13%, 0.24);
+  --gray-400: hsl(160, 10%, 60%);
+  --gray-500: hsl(170, 12%, 44%);
+  --gray-600: hsl(176, 16%, 32%);
+
+  --cat-6a: hsl(176, 40%, 20%);
+  --cat-5a: hsl(176, 40%, 30%);
+  --cat-4a: hsl(118, 30%, 34%);
+  --cat-3a: hsl(118, 28%, 44%);
+  --cat-2a: hsl(39, 70%, 36%);
+  --cat-1a: hsl(240, 8%, 42%);
+
+  --rank-gold: hsl(39, 85%, 40%);
+
+  --surface-subtle: hsl(114, 45%, 94%);
+  --surface-zebra: hsla(118, 39%, 66%, 0.14);
+
+  --crest-0: hsl(176, 40%, 22%); --crest-1: hsl(176, 32%, 32%);
+  --crest-2: hsl(118, 30%, 32%); --crest-3: hsl(118, 26%, 42%);
+  --crest-4: hsl(39, 65%, 36%);  --crest-5: hsl(39, 55%, 44%);
+  --crest-6: hsl(240, 10%, 38%); --crest-7: hsl(240, 8%, 48%);
+  --crest-8: hsl(150, 25%, 34%); --crest-9: hsl(90, 20%, 38%);
+  --crest-10: hsl(200, 20%, 36%); --crest-11: hsl(20, 25%, 42%);
+}
+
+/* ── scheme: evergreen — evergreen / lavender-mist / amber-earth / deep-purple.
+   The palette carries its own inks; lavender-mist is the ground. ── */
+[data-theme="evergreen"] {
+  --linen: hsl(175, 30%, 86%);  /* evergreen tint takes the band slot */
+  --ivory: #ece5f0;             /* lavender-mist takes the ground slot */
+  --cyan: hsl(33, 80%, 87%);    /* amber tint takes the highlight slot */
+  --ice: #e98a15;               /* amber-earth takes the accent-detail slot */
+  --prussian: #012622;
+
+  --brand-strong: hsl(310, 62%, 30%);   /* deep-purple carries links */
+
+  --gray-150: hsl(278, 18%, 88%);
+  --gray-200: hsla(174, 95%, 8%, 0.15);
+  --gray-300: hsla(174, 95%, 8%, 0.25);
+  --gray-400: hsl(278, 8%, 60%);
+  --gray-500: hsl(230, 10%, 44%);
+  --gray-600: hsl(190, 20%, 28%);
+
+  --cat-6a: #012622;
+  --cat-5a: #003b36;
+  --cat-4a: hsl(175, 55%, 25%);
+  --cat-3a: hsl(310, 55%, 30%);
+  --cat-2a: hsl(310, 45%, 42%);
+  --cat-1a: hsl(33, 75%, 36%);
+
+  --rank-gold: hsl(33, 83%, 42%);
+
+  --surface-subtle: hsl(278, 30%, 94%);
+  --surface-zebra: hsla(175, 40%, 60%, 0.14);
+
+  --crest-0: #012622; --crest-1: #003b36;
+  --crest-2: hsl(175, 50%, 24%); --crest-3: hsl(175, 35%, 34%);
+  --crest-4: hsl(310, 55%, 28%); --crest-5: hsl(310, 42%, 38%);
+  --crest-6: hsl(33, 70%, 34%);  --crest-7: hsl(33, 55%, 42%);
+  --crest-8: hsl(270, 30%, 36%); --crest-9: hsl(210, 30%, 32%);
+  --crest-10: hsl(150, 25%, 30%); --crest-11: hsl(0, 25%, 38%);
+}
+
+/* ── scheme: harbor — ink-black / deep-ocean / jungle-teal / peach-glow /
+   racing-red. Peach is the warm ground; the red stays a detail. ── */
+[data-theme="harbor"] {
+  --linen: #f4c095;             /* peach-glow takes the band slot */
+  --ivory: hsl(27, 65%, 95%);   /* peach tint takes the ground slot */
+  --cyan: hsl(177, 45%, 87%);   /* ocean tint takes the highlight slot */
+  --ice: #ee2e31;               /* racing-red takes the accent-detail slot */
+  --prussian: #071e22;
+
+  --brand-strong: hsl(177, 61%, 25%);
+
+  --gray-150: hsl(27, 25%, 88%);
+  --gray-200: hsla(189, 66%, 8%, 0.15);
+  --gray-300: hsla(189, 66%, 8%, 0.25);
+  --gray-400: hsl(167, 8%, 58%);
+  --gray-500: hsl(170, 10%, 42%);
+  --gray-600: hsl(180, 16%, 28%);
+
+  --cat-6a: #071e22;
+  --cat-5a: hsl(177, 61%, 22%);
+  --cat-4a: hsl(177, 45%, 32%);
+  --cat-3a: hsl(167, 20%, 40%);
+  --cat-2a: hsl(359, 60%, 40%);
+  --cat-1a: hsl(27, 45%, 40%);
+
+  --rank-gold: hsl(359, 70%, 44%);
+
+  --surface-subtle: hsl(27, 55%, 93%);
+  --surface-zebra: hsla(167, 17%, 49%, 0.12);
+
+  --crest-0: #071e22; --crest-1: hsl(177, 61%, 22%);
+  --crest-2: hsl(177, 45%, 30%); --crest-3: hsl(167, 22%, 38%);
+  --crest-4: hsl(359, 60%, 36%); --crest-5: hsl(359, 48%, 46%);
+  --crest-6: hsl(27, 50%, 38%);  --crest-7: hsl(27, 40%, 46%);
+  --crest-8: hsl(200, 30%, 30%); --crest-9: hsl(150, 20%, 32%);
+  --crest-10: hsl(220, 20%, 36%); --crest-11: hsl(0, 20%, 34%);
+}
+
+/* ── scheme: citrus — electric-aqua / pearl-aqua / beige / pumpkin-spice /
+   harvest-orange. No dark value, so ink derives deep on the aqua hue. ── */
+[data-theme="citrus"] {
+  --linen: #a8dcd1;             /* pearl-aqua takes the band slot */
+  --ivory: hsl(74, 30%, 93%);   /* beige tint takes the ground slot */
+  --cyan: hsl(188, 75%, 87%);   /* electric-aqua tint takes the highlight slot */
+  --ice: #f96900;               /* pumpkin-spice takes the accent-detail slot */
+  --prussian: hsl(188, 55%, 13%);
+
+  --brand-strong: hsl(25, 90%, 36%);
+
+  --gray-150: hsl(74, 18%, 86%);
+  --gray-200: hsla(188, 55%, 13%, 0.15);
+  --gray-300: hsla(188, 55%, 13%, 0.25);
+  --gray-400: hsl(167, 10%, 58%);
+  --gray-500: hsl(180, 12%, 42%);
+  --gray-600: hsl(188, 18%, 30%);
+
+  --cat-6a: hsl(188, 55%, 18%);
+  --cat-5a: hsl(188, 50%, 28%);
+  --cat-4a: hsl(167, 35%, 34%);
+  --cat-3a: hsl(25, 85%, 36%);
+  --cat-2a: hsl(26, 70%, 44%);
+  --cat-1a: hsl(74, 25%, 36%);
+
+  --rank-gold: hsl(25, 95%, 42%);
+
+  --surface-subtle: hsl(167, 35%, 92%);
+  --surface-zebra: hsla(188, 83%, 67%, 0.14);
+
+  --crest-0: hsl(188, 55%, 20%); --crest-1: hsl(188, 45%, 30%);
+  --crest-2: hsl(167, 35%, 32%); --crest-3: hsl(167, 28%, 42%);
+  --crest-4: hsl(25, 80%, 36%);  --crest-5: hsl(26, 65%, 44%);
+  --crest-6: hsl(74, 28%, 34%);  --crest-7: hsl(74, 22%, 44%);
+  --crest-8: hsl(210, 30%, 34%); --crest-9: hsl(150, 22%, 36%);
+  --crest-10: hsl(240, 15%, 38%); --crest-11: hsl(10, 40%, 42%);
 }
 
 * { box-sizing: border-box; }
@@ -229,6 +409,10 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 }
 .fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0e1c36 0 34%, #ffede1 0 67%, #d7f9ff 0); }
 .fh-swatch[data-theme-choice="bloom"] { background: linear-gradient(135deg, #c287e8 0 34%, #eecfd4 0 67%, #cfd4c5 0); }
+.fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
+.fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }
+.fh-swatch[data-theme-choice="harbor"] { background: linear-gradient(135deg, #071e22 0 34%, #f4c095 0 67%, #ee2e31 0); }
+.fh-swatch[data-theme-choice="citrus"] { background: linear-gradient(135deg, #1d4e57 0 34%, #dce2c8 0 67%, #f96900 0); }
 .fh-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* chips */
@@ -378,11 +562,62 @@ a.fh-row:hover { text-decoration: none; }
 }
 
 footer.fh-foot { background: var(--surface-mast); border-top: var(--rule); margin-top: 40px; }
-footer.fh-foot .wrap {
-  display: flex; gap: 8px 26px; flex-wrap: wrap; padding-top: 14px; padding-bottom: 30px;
-  font-size: var(--fs-caption); color: var(--text-muted);
+footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
+
+/* ── sponsor rail ──────────────────────────────────────────────────────────
+   Wordmarks set in the site's own faces rather than sourced as art: a logo
+   that half-resembles a real company's is the one failure mode worth avoiding,
+   and type follows the palette into dark mode without a second asset.
+   Monochrome at rest, as sponsor rails generally are, so eight of them read as
+   a row and not eight competing brand colours. */
+
+.fh-sponsors {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 18px 34px;
+  padding-bottom: 22px; border-bottom: var(--hairline);
 }
-footer.fh-foot a { color: var(--text-secondary); font-weight: 600; }
+.fh-logo {
+  color: var(--text-muted); white-space: nowrap; line-height: 1;
+  transition: color 120ms ease;
+}
+.fh-logo:hover { color: var(--text-secondary); }
+
+.lm-slant   { font-family: var(--font-label); font-weight: 900; font-style: italic;
+  font-size: 17px; letter-spacing: -0.01em; }
+.lm-poster  { font-family: var(--font-poster); font-weight: 700; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.02em; }
+.lm-mono    { font-family: var(--font-mono); font-weight: 500; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.14em; }
+.lm-soft    { font-family: var(--font-fuji, 'PP Fuji'); font-weight: 700; font-size: 16px;
+  display: inline-flex; align-items: center; gap: 7px; }
+.lm-soft::before {
+  content: ""; width: 11px; height: 11px; flex: none;
+  border: 2px solid currentColor; border-radius: 50%;
+}
+.lm-serif   { font-family: var(--font-serif); font-weight: 700; font-style: italic;
+  font-size: 17px; border-bottom: 2px solid currentColor; padding-bottom: 2px; }
+.lm-collegiate { font-family: var(--font-serif); font-weight: 600; font-size: 16px;
+  display: inline-flex; align-items: center; gap: 7px; }
+.lm-collegiate::before {
+  content: ""; width: 11px; height: 11px; flex: none;
+  border: 2px solid currentColor; border-radius: 2px; transform: rotate(45deg);
+}
+.lm-neutral { font-family: 'Switzer', sans-serif; font-weight: 600; font-size: 15px;
+  letter-spacing: 0.01em; }
+.lm-tall    { font-family: var(--font-condensed); font-weight: 800; font-size: 18px;
+  text-transform: uppercase; letter-spacing: 0.03em; }
+
+.fh-footrow { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+  padding-top: 22px; }
+.fh-footmark {
+  font-family: var(--font-stencil); font-weight: 800; font-style: italic;
+  font-size: 34px; letter-spacing: -0.015em; color: var(--text-muted);
+}
+.fh-foottag { font-size: var(--fs-small); font-weight: 600; color: var(--text-muted); }
+
+@media (max-width: 560px) {
+  .fh-sponsors { gap: 14px 24px; }
+  .fh-footmark { font-size: 26px; }
+}
 
 main.wrap { padding-bottom: 10px; }
 
@@ -410,8 +645,11 @@ main.wrap { padding-bottom: 10px; }
 }
 .fh-railcell .rr .nm.sub { font-weight: 400; color: var(--text-muted); }
 .fh-railcell .rr b { font-variant-numeric: tabular-nums; font-size: 12.5px; font-weight: 500; color: var(--text-secondary); }
-.fh-railcell .rs { font-size: 10px; color: var(--text-faint); white-space: nowrap;
-  overflow: hidden; text-overflow: ellipsis; }
+/* The sport is how you know what you're looking at before you read the names —
+   at faint/10px it was the least legible thing in the cell. */
+.fh-railcell .rs { font-size: 10.5px; font-weight: 700; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fh-railcell.more { justify-content: center; }
 .fh-crest.xs { width: 16px; height: 16px; font-size: 6.5px; border-radius: 4px; }
 
@@ -467,6 +705,25 @@ main.wrap { padding-bottom: 10px; }
 @media (max-width: 860px) { .fh-top { grid-template-columns: 1fr; } }
 
 .fh-hero { display: block; color: inherit; padding-bottom: 18px; border-bottom: var(--rule); }
+.fh-hero .ph { display: block; margin-bottom: 14px;
+  border: 1px solid var(--border-default); padding: 8px; border-radius: 4px;
+  background: var(--surface-card); }
+.fh-hero .ph img { display: block; width: 100%; height: auto; aspect-ratio: 16/9;
+  object-fit: cover; border-radius: 2px; }
+
+/* article photography — mounted, not slapped in: a bordered frame with an
+   inset mat, caption printed inside the frame under a hairline */
+.fh-figure { margin: 20px 0 24px; border: 1px solid var(--border-default);
+  background: var(--surface-card); padding: 10px; border-radius: 4px; }
+.fh-figure img { display: block; width: 100%; height: auto; border-radius: 2px; }
+.fh-figure figcaption { font-size: var(--fs-caption); color: var(--text-muted);
+  padding: 9px 2px 1px; margin-top: 9px; border-top: var(--hairline); }
+
+.fh-storyrow.pic { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; }
+.fh-storyrow .th { border: 1px solid var(--border-default); padding: 4px;
+  border-radius: 3px; background: var(--surface-card); }
+.fh-storyrow .th img { display: block; width: 100%; height: auto;
+  aspect-ratio: 3/2; object-fit: cover; border-radius: 2px; }
 .fh-hero:hover { text-decoration: none; }
 .fh-hero .kk, .fh-storyrow .kk, .fh-article .kk {
   display: block; font-size: var(--fs-caption); font-weight: 700;
@@ -479,6 +736,7 @@ main.wrap { padding-bottom: 10px; }
   text-wrap: balance;
 }
 .fh-hero:hover .hd { color: var(--brand-strong); }
+.fh-hero .dk { font-family: var(--font-serif); }
 .fh-hero .dk {
   display: block; margin-top: 10px; font-size: 16px; line-height: 1.5;
   color: var(--text-secondary); max-width: 60ch; text-wrap: pretty;
@@ -494,8 +752,8 @@ main.wrap { padding-bottom: 10px; }
 }
 .fh-storyrow:hover .hd { color: var(--brand-strong); }
 .fh-storyrow .dk {
-  display: block; margin-top: 5px; font-size: var(--fs-small);
-  color: var(--text-secondary); max-width: 66ch;
+  display: block; margin-top: 5px; font-family: var(--font-serif);
+  font-size: var(--fs-small); color: var(--text-secondary); max-width: 66ch;
 }
 .fh-more { margin: 12px 0 0; font-size: var(--fs-small); font-weight: 600; }
 
@@ -535,6 +793,109 @@ main.wrap { padding-bottom: 10px; }
 }
 @media (max-width: 860px) { .fh-cols3 { grid-template-columns: 1fr; gap: 22px; } }
 .fh-results { display: grid; }
+
+/* score rows — a result is both schools and both scores, matchup first */
+.fh-scorerow { position: relative; padding: 9px 0; border-bottom: var(--hairline); }
+.fh-scorerow:hover { background: var(--surface-hover); }
+.fh-scorerow .m { position: absolute; inset: 0; }
+.fh-scorerow .who { display: block; font-size: var(--fs-body); line-height: 1.35; }
+.fh-scorerow .who a { color: inherit; font-weight: 600; position: relative; z-index: 1; }
+.fh-scorerow .who b { font-family: var(--font-mono); font-weight: 640;
+  font-size: 0.94em; color: var(--text-primary); }
+.fh-scorerow .when { display: block; font-size: var(--fs-caption); color: var(--text-muted); margin-top: 2px; }
+
+/* overview composition — sections only where content exists */
+.fh-overview { display: grid; gap: 30px; padding-top: 22px; align-items: start; }
+.fh-overview.n2 { grid-template-columns: 1fr 1fr; }
+.fh-overview.n3 { grid-template-columns: 1.3fr 1fr 1fr; }
+.fh-overview h2 { font-family: var(--font-label); font-weight: 900; font-size: 14px;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 6px;
+  padding-bottom: 6px; border-bottom: var(--rule); }
+@media (max-width: 860px) { .fh-overview.n2, .fh-overview.n3 { grid-template-columns: 1fr; } }
+
+/* scoreboard — the week, day by day */
+.fh-dayhead { font-family: var(--font-condensed); font-weight: 800; font-size: 24px;
+  text-transform: uppercase; letter-spacing: 0.015em;
+  margin: 30px 0 4px; padding-bottom: 6px; border-bottom: var(--rule); }
+.fh-day:first-child .fh-dayhead { margin-top: 14px; }
+.fh-scoreline { position: relative; padding: 9px 0 9px 2px; border-bottom: var(--hairline); }
+.fh-scoreline:hover { background: var(--surface-hover); }
+.fh-scoreline .m { position: absolute; inset: 0; }
+.fh-scoreline .who { display: block; font-size: 15px; line-height: 1.35; }
+.fh-scoreline .who a { color: inherit; font-weight: 600; position: relative; z-index: 1; }
+.fh-scoreline .who b { font-family: var(--font-mono); font-weight: 640; font-size: 0.94em; }
+.fh-scoreline .sub { display: block; font-size: var(--fs-caption); color: var(--text-muted); margin-top: 1px; }
+
+/* conference picker — one league at a time */
+.fh-pickbar { display: flex; align-items: center; gap: 10px; margin: 16px 0 4px; }
+.fh-pickbar label { font-size: var(--fs-caption); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-secondary); }
+.fh-pickbar select { height: 34px; border: 1px solid var(--border-default); border-radius: 6px;
+  padding: 0 10px; font-family: var(--font-text); font-size: var(--fs-body);
+  background: var(--surface-card); color: var(--text-primary); min-width: 240px; }
+
+/* championships record book */
+.fh-champbook { padding-top: 6px; }
+.fh-champblock { margin-top: 34px; }
+.fh-champblock h2 { display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-weight: 800; font-size: 19px;
+  margin: 0 0 6px; padding-bottom: 7px; border-bottom: var(--rule); }
+.fh-champblock h2 a { color: inherit; }
+.fh-champblock h2 .ssn { margin-left: auto; font-size: var(--fs-caption); font-weight: 600;
+  color: var(--text-muted); text-transform: none; letter-spacing: 0; }
+.fh-champline { display: grid; grid-template-columns: 74px 24px minmax(160px,1fr) 90px;
+  gap: 10px; align-items: center; padding: 8px 0; border-bottom: var(--hairline); }
+.fh-champline .ch a { font-weight: 700; color: inherit; }
+.fh-champline .rs { font-size: var(--fs-small); }
+
+/* team hub — the school's teams by season */
+.fh-teamgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: start; }
+@media (max-width: 720px) { .fh-teamgrid { grid-template-columns: 1fr; } }
+.fh-teamseason h3 { font-family: var(--font-display); font-weight: 800; font-size: 14px;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 4px;
+  padding-bottom: 5px; border-bottom: var(--rule); }
+.fh-teamrow { display: flex; align-items: center; gap: 8px; color: inherit;
+  padding: 7px 2px; border-bottom: var(--hairline); font-size: var(--fs-body); }
+.fh-teamrow:hover { text-decoration: none; background: var(--surface-hover); }
+.fh-teamrow .nm { font-weight: 600; flex: 1; }
+.fh-teamrow .tnum { color: var(--text-secondary); }
+
+/* schools directory — the competitive geography */
+.fh-areablock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 30px; align-items: start; }
+@media (max-width: 900px) { .fh-areablock { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .fh-areablock { grid-template-columns: 1fr; } }
+.fh-areahead { grid-column: 1 / -1; font-family: var(--font-condensed); font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.015em; font-size: 25px;
+  margin: 34px 0 10px; padding-bottom: 7px; border-bottom: var(--rule); }
+.fh-schoollink .cl { color: var(--text-muted); font-weight: 400; }
+
+/* front-page editorial hierarchy: lead, seconds, briefs */
+.fh-seconds { display: grid; grid-template-columns: 1fr 1fr; gap: 0 26px; }
+@media (max-width: 640px) { .fh-seconds { grid-template-columns: 1fr; } }
+.fh-second { display: block; color: inherit; padding: 14px 0 16px; border-bottom: var(--hairline); }
+.fh-second:hover { text-decoration: none; }
+.fh-second:hover .hd { color: var(--brand-strong); }
+.fh-second .kk { display: block; font-size: var(--fs-micro); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-link); margin-bottom: 4px; }
+.fh-second .hd { display: block; font-family: var(--font-display); font-weight: 800;
+  font-size: 19px; line-height: 1.2; letter-spacing: -0.01em; }
+.fh-second .dk { display: block; font-family: var(--font-serif); font-size: var(--fs-small);
+  color: var(--text-secondary); margin-top: 5px; line-height: 1.5; }
+.fh-briefs { padding-top: 4px; }
+.fh-briefs h2 { font-family: var(--font-label); font-weight: 900; font-size: 13px;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 16px 0 2px;
+  padding-bottom: 6px; border-bottom: var(--rule); }
+.fh-brief { display: grid; grid-template-columns: 92px 1fr 74px; gap: 12px;
+  align-items: baseline; color: inherit; padding: 8px 0; border-bottom: var(--hairline); }
+.fh-brief:hover { text-decoration: none; }
+.fh-brief:hover .hd { color: var(--brand-strong); }
+.fh-brief .kk { font-size: var(--fs-micro); font-weight: 700; text-transform: uppercase;
+  letter-spacing: var(--ls-caps); color: var(--text-muted); }
+.fh-brief .hd { font-weight: 600; font-size: var(--fs-body); line-height: 1.35; }
+.fh-brief .dt { font-size: var(--fs-caption); color: var(--text-faint); text-align: right; }
+@media (max-width: 640px) { .fh-brief { grid-template-columns: 1fr; gap: 2px; } .fh-brief .dt { text-align: left; } }
+.fh-latest h2, .fh-notices h2, .fh-finder h2 { font-size: 14px; text-transform: uppercase;
+  letter-spacing: var(--ls-caps); }
 .fh-resultrow {
   display: grid; grid-template-columns: 1fr; gap: 1px; padding: 9px 0;
   border-bottom: var(--hairline); color: inherit;
@@ -564,14 +925,28 @@ main.wrap { padding-bottom: 10px; }
 .fh-reslinks li span { color: var(--text-faint); }
 
 /* article */
+.fh-articlegrid { display: grid; grid-template-columns: minmax(0, 66ch) 280px;
+  gap: 48px; align-items: start; }
+@media (max-width: 900px) { .fh-articlegrid { grid-template-columns: 1fr; gap: 8px; } }
+.fh-morestories { padding-top: 26px; }
+.fh-morestories h2 { font-family: var(--font-label); font-weight: 900; font-size: 13px;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 4px;
+  padding-bottom: 8px; border-bottom: var(--rule); }
+.fh-morestories a { display: block; color: var(--text-primary); font-weight: 600;
+  font-size: var(--fs-body); line-height: 1.4; padding: 11px 0;
+  border-bottom: var(--hairline); }
+.fh-morestories a:hover { color: var(--text-link); text-decoration: none; }
+.fh-morestories .kk { display: block; font-size: var(--fs-micro); font-weight: 700;
+  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-link);
+  margin-bottom: 2px; }
 .fh-article { max-width: 66ch; padding-top: 18px; }
 .fh-article h1 {
   font-family: var(--font-display); font-weight: 800;
   font-size: clamp(28px, 4vw, 40px); line-height: 1.08; letter-spacing: -0.022em;
   margin: 0 0 12px; text-wrap: balance;
 }
-.fh-article .dek { font-size: 18px; line-height: 1.45; color: var(--text-secondary); margin: 0 0 20px; }
-.fh-article p { font-size: 16px; line-height: 1.62; margin: 0 0 15px; text-wrap: pretty; }
+.fh-article .dek { font-family: var(--font-serif); font-size: 18px; line-height: 1.5; color: var(--text-secondary); margin: 0 0 20px; }
+.fh-article p { font-family: var(--font-serif); font-size: 16.5px; line-height: 1.66; margin: 0 0 15px; text-wrap: pretty; }
 
 /* ── nav dropdowns — admin/sport material lives up here, not mid-page ──── */
 
@@ -598,17 +973,24 @@ main.wrap { padding-bottom: 10px; }
   padding-bottom: 5px; border-bottom: var(--hairline);
 }
 .fh-dropcols a, .fh-dropcols span {
-  display: flex; align-items: center; gap: 7px; padding: 3px 0;
-  font-size: var(--fs-small); font-weight: 600; color: var(--text-primary);
+  display: flex; align-items: center; gap: 7px; padding: 2px 0;
+  font-size: var(--fs-caption); font-weight: 600; color: var(--text-primary);
   white-space: nowrap;
 }
+/* navigation, not a page-sized overlay: cap the panel's height and scroll */
+.fh-drop { max-height: min(62vh, 520px); overflow-y: auto; }
 .fh-dropcols span { color: var(--text-faint); font-weight: 400; }
 .fh-dropcols a:hover { color: var(--text-link); text-decoration: none; }
 @media (max-width: 720px) { .fh-menu > button { display: none; } }
 
 /* ── sport icons ───────────────────────────────────────────────────────── */
 
-.fh-ic { width: 22px; height: 22px; flex: none; }
+/* Glyphs are <use> refs into a per-page <symbol> sprite; stroke lives here so a
+   reference stays ~55 bytes instead of carrying six presentation attributes. */
+.fh-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.fh-ic { width: 22px; height: 22px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round; }
 .fh-ic.sm { width: 15px; height: 15px; opacity: 0.75; }
 
 .fh-sportgrid {

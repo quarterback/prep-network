@@ -1,0 +1,1160 @@
+{
+ "$type": "org.prepnet.temp.org.cities",
+ "cities": [
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Plainfield",
+   "population": 84323,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Blackpine",
+   "population": 84000,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Netherwood",
+   "population": 31754,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Black Springs",
+   "population": 22000,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Tamarack Flat",
+   "population": 20000,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Aspen Meadows",
+   "population": 17900,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Wolf Gap",
+   "population": 15200,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Yarburg",
+   "population": 12300,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Kendrickville",
+   "population": 11600,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Gold Hollow",
+   "population": 10500,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Ashwood",
+   "population": 9000,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Purcell Crossing",
+   "population": 8700,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Harmon",
+   "population": 7300,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Huckle Glen",
+   "population": 6600,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Salmonberry Glen",
+   "population": 6100,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Cinder",
+   "population": 5900,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Ansotegui",
+   "population": 5800,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Camas Crossing",
+   "population": 5100,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Manzanita Junction",
+   "population": 5100,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Harmon Siding",
+   "population": 5000,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Alderwell",
+   "population": 4900,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Pine Siding",
+   "population": 4800,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Ransoms Landing",
+   "population": 4700,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Whistle Stop",
+   "population": 4600,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Bidwell",
+   "population": 4500,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Flume",
+   "population": 3600,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Pellmont",
+   "population": 3300,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Harmons Landing",
+   "population": 2700,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Winvale",
+   "population": 2200,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Aspen Spur",
+   "population": 2100,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Timber Valley",
+   "county": "Antler",
+   "name": "Bidwell City",
+   "population": 1400,
+   "real_county": "Douglas County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Bidwell",
+   "name": "Port Meridian",
+   "population": 205000,
+   "real_county": "Coos County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Bidwell",
+   "name": "Tule",
+   "population": 18800,
+   "real_county": "Coos County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Bidwell",
+   "name": "Rimrock",
+   "population": 6100,
+   "real_county": "Coos County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Camas",
+   "name": "Copper Lake",
+   "population": 111000,
+   "real_county": "Josephine County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Camas",
+   "name": "Ansotegui Siding",
+   "population": 104000,
+   "real_county": "Josephine County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Camas",
+   "name": "Hawk Lake",
+   "population": 86000,
+   "real_county": "Josephine County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Camas",
+   "name": "Loomis City",
+   "population": 79000,
+   "real_county": "Josephine County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Camas",
+   "name": "Tindall",
+   "population": 61000,
+   "real_county": "Josephine County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Camas",
+   "name": "Selbyville",
+   "population": 27000,
+   "real_county": "Josephine County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Cinder",
+   "name": "Annie Springs",
+   "population": 24420,
+   "real_county": "Siskiyou County, CA"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Cinder",
+   "name": "Draybrook",
+   "population": 8300,
+   "real_county": "Siskiyou County, CA"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Cinder",
+   "name": "Naylor City",
+   "population": 5900,
+   "real_county": "Siskiyou County, CA"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Cinder",
+   "name": "Huckle Lake",
+   "population": 3600,
+   "real_county": "Siskiyou County, CA"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Cinder",
+   "name": "Sage Spur",
+   "population": 3500,
+   "real_county": "Siskiyou County, CA"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Cinder",
+   "name": "Ashstead",
+   "population": 2100,
+   "real_county": "Siskiyou County, CA"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Standale",
+   "population": 13100,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Ulery Junction",
+   "population": 12400,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Lodestone",
+   "population": 10200,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Elmfield",
+   "population": 8300,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Kelview",
+   "population": 5800,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Sage Meadows",
+   "population": 4400,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Yandell City",
+   "population": 4100,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Millview",
+   "population": 3500,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Ninemile",
+   "population": 2000,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "name": "Ashbrook",
+   "population": 1900,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "Cedarport",
+   "population": 96000,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "Kelford",
+   "population": 71000,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "Silver Glen",
+   "population": 18200,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "Elk Crossing",
+   "population": 15300,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "Hawk Bar",
+   "population": 10500,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "High Bar",
+   "population": 9100,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "Ansoteguiville",
+   "population": 4100,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Ferris",
+   "name": "Basalt Fork",
+   "population": 3800,
+   "real_county": "Shasta County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Galena",
+   "population": 16700,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Norford",
+   "population": 11100,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Norstead",
+   "population": 5400,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Farleyford",
+   "population": 5300,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Ferris",
+   "population": 4100,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Mabryville",
+   "population": 3700,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Huckle Butte",
+   "population": 3100,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
+   "name": "Windrow",
+   "population": 2800,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Halbrook",
+   "name": "Halbrook",
+   "population": 185000,
+   "real_county": "Canyon County, ID"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Summervale",
+   "population": 43000,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Sage Point",
+   "population": 11100,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Gold Junction",
+   "population": 10400,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Elk Spur",
+   "population": 7000,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Thornford",
+   "population": 6700,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Elmburg",
+   "population": 6200,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Farleymere",
+   "population": 4700,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Silvale",
+   "population": 2800,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Clear Prairie",
+   "population": 2000,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Norbrook",
+   "population": 900,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Juniper",
+   "name": "Copper Crossing",
+   "population": 600,
+   "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Lodestone",
+   "name": "Marshdale",
+   "population": 16800,
+   "real_county": "Humboldt County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Lodestone",
+   "name": "Etchart",
+   "population": 10000,
+   "real_county": "Humboldt County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Lodestone",
+   "name": "Wellers Landing",
+   "population": 8900,
+   "real_county": "Humboldt County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Lodestone",
+   "name": "Copper Bar",
+   "population": 8700,
+   "real_county": "Humboldt County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Lodestone",
+   "name": "Pellburg",
+   "population": 5800,
+   "real_county": "Humboldt County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Lodestone",
+   "name": "Graymont",
+   "population": 600,
+   "real_county": "Humboldt County, NV"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Marlow",
+   "name": "Ashbury",
+   "population": 470000,
+   "real_county": "Jackson County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Marlow",
+   "name": "Norview",
+   "population": 95000,
+   "real_county": "Jackson County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Marlow",
+   "name": "Rye",
+   "population": 62000,
+   "real_county": "Jackson County, OR"
+  },
+  {
+   "area": "Ashbury Metro",
+   "county": "Marlow",
+   "name": "Purcell",
+   "population": 40000,
+   "real_county": "Jackson County, OR"
+  },
+  {
+   "area": "South Coast",
+   "county": "Ostrander",
+   "name": "Mesa Dorada",
+   "population": 11500,
+   "real_county": "Del Norte County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "Ostrander",
+   "name": "Quarmont",
+   "population": 11200,
+   "real_county": "Del Norte County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "Ostrander",
+   "name": "Tindall Spur",
+   "population": 10300,
+   "real_county": "Del Norte County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "Ostrander",
+   "name": "Halfway House",
+   "population": 5000,
+   "real_county": "Del Norte County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "Ostrander",
+   "name": "Elk Prairie",
+   "population": 4800,
+   "real_county": "Del Norte County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "Ostrander",
+   "name": "Ashfield",
+   "population": 3500,
+   "real_county": "Del Norte County, CA"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Rimrock",
+   "name": "Doyle Junction",
+   "population": 46000,
+   "real_county": "Lake County, OR"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Rimrock",
+   "name": "Clear Springs",
+   "population": 14700,
+   "real_county": "Lake County, OR"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Rimrock",
+   "name": "Camas Landing",
+   "population": 10100,
+   "real_county": "Lake County, OR"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Rimrock",
+   "name": "Trout Junction",
+   "population": 5900,
+   "real_county": "Lake County, OR"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Rimrock",
+   "name": "Silton",
+   "population": 2700,
+   "real_county": "Lake County, OR"
+  },
+  {
+   "area": "Juniper Highlands",
+   "county": "Rimrock",
+   "name": "Stovepipe",
+   "population": 2000,
+   "real_county": "Lake County, OR"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Sablewood",
+   "name": "Averill",
+   "population": 118000,
+   "real_county": "Trinity County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Sablewood",
+   "name": "Leidesdorff",
+   "population": 56304,
+   "real_county": "Trinity County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Sablewood",
+   "name": "Sage Springs",
+   "population": 11500,
+   "real_county": "Trinity County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Sablewood",
+   "name": "Copper Prairie",
+   "population": 5000,
+   "real_county": "Trinity County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Sablewood",
+   "name": "Carverstead",
+   "population": 1900,
+   "real_county": "Trinity County, CA"
+  },
+  {
+   "area": "Gold Valley",
+   "county": "Sablewood",
+   "name": "Odellville",
+   "population": 600,
+   "real_county": "Trinity County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "Santa Laura",
+   "population": 58650,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "Copperview",
+   "population": 15300,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "Tallow",
+   "population": 14100,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "Ransom Spur",
+   "population": 9000,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "Puerto Alma",
+   "population": 8300,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "Camas Ridge",
+   "population": 6200,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "San Aurelio",
+   "population": 3700,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
+   "name": "Alder Flat",
+   "population": 3600,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Latgaway",
+   "population": 28411,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Naylors Landing",
+   "population": 8000,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Milldale",
+   "population": 6100,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Mabry",
+   "population": 5700,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Stone Meadows",
+   "population": 5200,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Trout Point",
+   "population": 5000,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Kendricks Landing",
+   "population": 4700,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Silver Junction",
+   "population": 3000,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Sage Junction",
+   "population": 2500,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Basalt Prairie",
+   "population": 2400,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Antler Prairie",
+   "population": 2300,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Sixes",
+   "population": 2000,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Stagewater",
+   "name": "Keldale",
+   "population": 100,
+   "real_county": "Malheur County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Redfork",
+   "population": 58000,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "New Leiden",
+   "population": 35738,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Ransom",
+   "population": 9300,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Tamarack Springs",
+   "population": 6900,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Yarmere",
+   "population": 4600,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Brackwood",
+   "population": 3400,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Halemere",
+   "population": 3300,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Alderfield",
+   "population": 2900,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Ransom City",
+   "population": 2900,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Juniper Bar",
+   "population": 2300,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Alderton",
+   "population": 2000,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Cascade Divide",
+   "county": "Tamarack",
+   "name": "Copperton",
+   "population": 100,
+   "real_county": "Klamath County, OR"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Vance",
+   "name": "Etchartville",
+   "population": 74000,
+   "real_county": "Owyhee County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Vance",
+   "name": "Stone Springs",
+   "population": 70000,
+   "real_county": "Owyhee County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Vance",
+   "name": "Drayfield",
+   "population": 51000,
+   "real_county": "Owyhee County, ID"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Newark River",
+   "population": 60029,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Tamarack Harbor",
+   "population": 20000,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Alder Landing",
+   "population": 14000,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Garrity",
+   "population": 9800,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Aldermont",
+   "population": 7500,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Pellford",
+   "population": 5700,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Wickbrook",
+   "population": 4400,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "Harborline",
+   "county": "Weller",
+   "name": "Granite Bar",
+   "population": 2500,
+   "real_county": "Curry County, OR"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Millport",
+   "population": 19600,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Hetfield",
+   "population": 17340,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Elk Bluff",
+   "population": 14700,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Cutbank",
+   "population": 8600,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Aspen Harbor",
+   "population": 7000,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Placer",
+   "population": 4200,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Assay",
+   "population": 3200,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Sage Lake",
+   "population": 3200,
+   "real_county": "Lassen County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Windrow",
+   "name": "Doyleville",
+   "population": 3000,
+   "real_county": "Lassen County, CA"
+  }
+ ]
+}

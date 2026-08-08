@@ -164,6 +164,13 @@ def parse_mark(raw: str, type: MarkType) -> Mark:
             v = (int(mins or 0) * 60) + int(secs) + float(f"0.{frac}")
             return Mark(raw=text, type=type, value=v)
 
+    if type is MarkType.RATING:
+        # Adjudicated panels print Roman numerals: a Division I rating is the
+        # best a choir can earn. Comparable value = the numeral, so lower wins.
+        roman = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5}
+        if cleaned.upper() in roman:
+            return Mark(raw=text, type=type, value=float(roman[cleaned.upper()]))
+
     if type in (MarkType.DISTANCE, MarkType.HEIGHT):
         m = _FEET_IN.match(cleaned)
         if m:
