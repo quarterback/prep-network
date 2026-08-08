@@ -329,13 +329,15 @@ def build_rail(reg: Registry) -> str:
 
 
 RAIL = ""        # populated in build()
-SPORT_MENU = ""  # nav dropdowns, populated in build()
+SPORT_MENU = ""   # nav dropdowns, populated in build()
 RES_MENU = ""
+DRAWER_SPORTS = ""  # mobile drawer, same material as the dropdowns
+DRAWER_RES = ""
 
 
 def build_menus(reg):
     """Nav dropdowns: sports by season, resources by audience."""
-    global SPORT_MENU, RES_MENU
+    global SPORT_MENU, RES_MENU, DRAWER_SPORTS, DRAWER_RES
     cols = []
     for season in ("fall", "winter", "spring"):
         links = "".join(
@@ -351,6 +353,25 @@ def build_menus(reg):
             for label, href in links)
         rcols.append(f"<div><h4>{esc(title)}</h4>{items}</div>")
     RES_MENU = f"<div class='fh-dropcols'>{''.join(rcols)}</div>"
+
+    # the drawer carries the same material, as open sections rather than hovers
+    dsec = []
+    for season in ("fall", "winter", "spring"):
+        links = "".join(
+            f"<a href='/sports/{sp.key}/'>{icons.icon(sp.key, 'fh-ic sm')}{esc(sp.name)}</a>"
+            for sp in sorted(CATALOG, key=lambda s: s.name)
+            if sp.season == season and reg.by_sport.get(sp.key))
+        dsec.append(f"<details><summary>{season.title()} sports</summary>"
+                    f"<div class='items'>{links}</div></details>")
+    DRAWER_SPORTS = "".join(dsec)
+    rsec = []
+    for title, links in news.RESOURCES:
+        items = "".join(
+            (f"<a href='{href}'>{esc(label)}</a>" if href else f"<span>{esc(label)}</span>")
+            for label, href in links)
+        rsec.append(f"<details><summary>{esc(title)}</summary>"
+                    f"<div class='items'>{items}</div></details>")
+    DRAWER_RES = "".join(rsec)
 
 
 def shell(title, body, crumb="", back=""):
@@ -369,8 +390,12 @@ def shell(title, body, crumb="", back=""):
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
+<input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
 <header class="fh-mast"><div class="wrap">
   <a class="fh-wordmark" href="/">{BRAND}</a>
+  <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </label>
   <nav class="fh-mast-nav">
     <a href="/scoreboard/">Scores</a>
     <div class="fh-menu"><button type="button">Sports ▾</button><div class="fh-drop">{SPORT_MENU}</div></div>
@@ -386,6 +411,20 @@ def shell(title, body, crumb="", back=""):
     <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
   </nav>
 </div></header>
+<label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
+<nav class="fh-drawer" aria-label="Site menu">
+  <div class="fh-drawerhead">
+    <span class="fh-wordmark">{BRAND}</span>
+    <label class="fh-drawerclose" for="fh-navtoggle" aria-label="Close menu">×</label>
+  </div>
+  <a class="top" href="/scoreboard/">Scores</a>
+  <a class="top" href="/championships/">Championships</a>
+  <a class="top" href="/news/">News</a>
+  <a class="top" href="/schools/">Schools</a>
+  <a class="top" href="/conferences/">Conferences</a>
+  {DRAWER_SPORTS}
+  {DRAWER_RES}
+</nav>
 {RAIL}
 <main class="wrap">
 {toolbar}
@@ -1115,8 +1154,10 @@ def season_chooser(reg, current="winter"):
             f"<span>{esc(sp.name)}</span></a>"
             for sp in sorted(CATALOG, key=lambda s: s.name)
             if sp.season == sn and reg.by_sport.get(sp.key))
-        panes.append(f"<div class='fh-sportgrid' data-season-pane='{sn}'"
-                     f"{'' if sn == current else ' hidden'}>{tiles}</div>")
+        # every pane renders; JS collapses the inactive ones on load, so with
+        # scripting off the visitor gets all three seasons rather than none
+        panes.append(f"<div class='fh-sportgrid' data-season-pane='{sn}'>"
+                     f"<h3 class='fh-seasonlabel'>{sn.title()}</h3>{tiles}</div>")
     return f"""
 <section class="fh-seasons">
   <div class="fh-seasontabs">{tabs}<a class="all" href="/scoreboard/">Scoreboard →</a></div>
@@ -1184,6 +1225,10 @@ def render_front(reg):
 <script>
 (function () {{
   var tabs = document.querySelectorAll(".fh-seasontabs button");
+  document.querySelectorAll("[data-season-pane]").forEach(function (p) {{
+    p.hidden = p.dataset.seasonPane !== "winter";
+  }});
+  document.querySelectorAll(".fh-seasonlabel").forEach(function (h) {{ h.hidden = true; }});
   tabs.forEach(function (b) {{
     b.addEventListener("click", function () {{
       tabs.forEach(function (o) {{ o.classList.toggle("on", o === b); }});
