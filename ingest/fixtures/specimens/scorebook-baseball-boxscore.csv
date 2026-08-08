@@ -1,0 +1,38 @@
+# JHSAA Electronic Scorebook — Game Export v2.4
+# Generated for Adela Villaseñor at Belmonte Agricultural Sciences Academy  — PARSE-ONLY: this sport's season has not started at the demo date, so the record is not imported
+GAME,gameId,date,sport,level,venue,attendance,status
+GAME,JHSAA-BAS-20270319,2027-03-19,Baseball,Varsity,Belmonte Agricultural Sciences Academy Legion Park,821,Final
+TEAM,role,school,schoolCode,conference,final
+TEAM,home,Belmonte Agricultural Sciences Academy,BAS,—,6
+TEAM,away,Adela Villaseñor,AV,—,4
+LINESCORE,teamCode,1,2,3,4,5,6,7,FINAL
+LINESCORE,BAS,0,2,0,1,0,3,0,6
+LINESCORE,AV,1,0,0,2,0,0,1,4
+SECTION,BATTING
+PLAYER,teamCode,no,name,yr,gs,ab,r,h,rbi,bb,so,lob,avg
+PLAYER,BAS,30,"Bergstrom, Talia",12,1,3,0,2,1,0,1,0,.667
+PLAYER,BAS,4,"Sandberg, Cade",12,1,3,0,1,0,0,0,4,.333
+PLAYER,BAS,41,"Haddad, Julien",11,1,4,1,0,1,0,2,0,.000
+PLAYER,BAS,36,"Escobar, Long",10,1,2,1,1,2,0,1,2,.500
+PLAYER,BAS,45,"Ferreira, Karim",12,1,4,1,1,0,0,0,0,.250
+PLAYER,BAS,36,"Mwangi, Mira",10,1,4,1,1,0,1,1,0,.250
+PLAYER,BAS,38,"Lindgren, Sven",10,1,4,2,0,0,0,1,0,.000
+PLAYER,BAS,42,"Escobar, Zainab",9,1,3,0,0,0,0,0,4,.000
+PLAYER,BAS,30,"Haddad, Bryce",10,1,2,0,1,2,0,0,4,.500
+TOTALS,BAS,,,,,29,6,7,6,1,6,,.241
+PLAYER,AV,30,"Ferraro, Kyle",11,1,2,1,0,1,0,0,4,.000
+PLAYER,AV,6,"Castellanos, Marisol",10,1,4,2,2,1,0,1,1,.500
+PLAYER,AV,30,"Abioye, Rosa",9,1,4,1,0,0,2,0,1,.000
+PLAYER,AV,9,"Moreau, Anya",10,1,4,0,0,0,0,0,0,.000
+PLAYER,AV,26,"Ivanov, Fintan",12,1,4,0,3,0,1,2,4,.750
+PLAYER,AV,12,"Achebe, Cade",10,1,3,0,1,0,0,2,4,.333
+PLAYER,AV,20,"Mwangi, Mateo",12,1,3,0,0,1,1,0,2,.000
+PLAYER,AV,19,"Batbayar, Fintan",11,1,4,0,1,0,0,1,3,.250
+PLAYER,AV,17,"Abioye, Elle",9,1,2,0,0,1,1,2,2,.000
+TOTALS,AV,,,,,30,4,7,4,5,8,,.233
+SECTION,PITCHING
+PLAYER,teamCode,no,name,yr,gs,ip,h,r,er,bb,so,hr,era
+PLAYER,BAS,10,"Pham, Otgon",10,1,2.1,5,2,2,2,7,0,2.43
+PLAYER,BAS,12,"Ivanov, Tui",10,0,4.2,7,2,2,4,3,1,3.23
+PLAYER,AV,25,"Okonkwo, Julien",11,1,2.1,3,3,3,1,8,2,4.25
+PLAYER,AV,9,"Castellanos, Tui",10,0,4.2,7,5,5,2,3,2,2.92

@@ -467,43 +467,13 @@ def sponsor_rail() -> str:
         for s in sponsors.SPONSORS)
 
 
-def tenant_masthead(t):
-    """The network utility strip that replaces the state masthead.
-
-    VarsityApex is a network, and on a school's athletics page the relationship
-    runs the other way from what a single site implies: the SCHOOL is the
-    publisher and the association is the network it belongs to. So the state
-    masthead is replaced — not merely shrunk — by a link-back and a small
-    network mark.
-
-    This is deliberately ONLY the utility layer. The dominant local header and
-    the organisation's own navigation are rendered in the page body by
-    ``render_school`` / ``render_conference`` (``fh-orghead`` + ``org_nav``),
-    which already draw the school's generated athletic mark in its own colours.
-    Emitting an identity block here too is how the school's name, crest and nav
-    end up on its own front page twice.
-
-    Championship pages deliberately do NOT get this — a state tournament is an
-    association property and keeps the association's masthead.
-    """
-    return f"""
-<div class="fh-utility"><div class="wrap">
-  <a class="back" href="{t['parent_url']}">← {esc(t['parent'])}</a>
-  <span class="mid">{esc(t['name'])}</span>
-  <a class="net" href="/">{WORDMARK}</a>
-  <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </label>
-</div></div>"""
-
-
-def shell(title, body, crumb="", back="", story=None, tenant=None):
+def shell(title, body, crumb="", back="", story=None, org=False):
     pill = ""
     if back:
         label, url = back.split("|")
         pill = f"<a class='fh-pill' href='{url}'>{esc(label)}</a>"
     toolbar = f"<div class='fh-toolbar'><span class='fh-crumb'>{crumb}</span>{pill}</div>" if crumb else ""
-    return f"""<!doctype html>
+    page = f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -517,8 +487,7 @@ def shell(title, body, crumb="", back="", story=None, tenant=None):
 <body>
 {icons.sprite()}
 <input type="checkbox" id="fh-navtoggle" class="fh-navtoggle" hidden>
-{tenant_masthead(tenant) if tenant else ""}
-<header class="fh-mast{' tenant' if tenant else ''}"><div class="wrap">
+<!--M--><header class="fh-mast"><div class="wrap">
   <a class="fh-wordmark" href="/">{WORDMARK}</a>
   <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -540,14 +509,13 @@ def shell(title, body, crumb="", back="", story=None, tenant=None):
     <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"></button>
     <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"></button>
   </nav>
-</div></header>
+</div></header><!--/M-->
 <label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
 <nav class="fh-drawer" aria-label="Site menu">
   <div class="fh-drawerhead">
     <span class="fh-wordmark">{WORDMARK}</span>
     <label class="fh-drawerclose" for="fh-navtoggle" aria-label="Close menu">×</label>
   </div>
-  {f"<div class='fh-drawersplit'>{esc(ASSOC)}</div>" if tenant else ""}
   <a class="top" href="/scoreboard/">Scores</a>
   <a class="top" href="/championships/">Championships</a>
   <a class="top" href="/news/">News</a>
@@ -589,6 +557,27 @@ def shell(title, body, crumb="", back="", story=None, tenant=None):
 </body>
 </html>
 """
+    if org:
+        # Network utility bar: on a school or conference page the local
+        # organization owns the masthead. VarsityApex explains the connected
+        # network; it doesn't visually own the page.
+        compact = f"""<header class="fh-mast compact"><div class="wrap">
+  <a class="fh-wordmark" href="/">{WORDMARK}</a>
+  <label class="fh-burger" for="fh-navtoggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </label>
+  <nav class="fh-mast-nav">
+    <a class="fh-backassoc" href="/">← {ASSOC}</a>
+    <a href="/scoreboard/">Scores</a>
+    <a href="/schools/">Schools</a>
+    <a href="/conferences/">Conferences</a>
+    <a href="/championships/">Championships</a>
+    <a href="/news/">News</a>
+  </nav>
+</div></header>"""
+        import re as _re
+        page = _re.sub(r"<!--M-->.*?<!--/M-->", compact.replace("\\", "\\\\"), page, flags=_re.S)
+    return page.replace("<!--M-->", "").replace("<!--/M-->", "")
 
 
 # ─────────────────────────────────────────────────────────── contest pieces
@@ -819,11 +808,13 @@ def box_score_tables(reg, c: Game):
     box = c.box
     if not box:
         return ""
-    cols = box.columns
-    grid = f"minmax(150px,1.6fr) 30px repeat({len(cols)},minmax(44px,1fr))"
-    tables = []
-    for school, lines, totals in ((c.away, box.away, box.away_totals),
-                                  (c.home, box.home, box.home_totals)):
+
+    def table(school, side, section, totals):
+        cols = box.columns_for(section)
+        lines = box.rows(side, section)
+        if not lines:
+            return ""
+        grid = f"minmax(150px,1.6fr) 30px repeat({len(cols)},minmax(44px,1fr))"
         head = "".join(f"<span class='fh-th'>{esc(k.upper())}</span>" for k in cols)
         rows = []
         for s in lines:
@@ -834,20 +825,37 @@ def box_score_tables(reg, c: Game):
                 f"{reg.athlete_link(s.competitor.name, school)}</span>"
                 f"<span class='fh-dim'>{esc(CLASS_LABEL.get(s.competitor.year or '', ''))}</span>"
                 f"{cells}</div>")
-        if totals:
+        # A section's totals only make sense when the source printed them for
+        # that section's columns; a shared totals row is shown once, on the
+        # single-table sports.
+        if totals and any(k in totals for k in cols):
             cells = "".join(
                 f"<span class='fh-num tnum'>{esc(totals.get(k, ''))}</span>" for k in cols)
             rows.append(f"<div class='fh-row totals'><span class='fh-name'>Team totals</span>"
                         f"<span class='fh-dim'></span>{cells}</div>")
-        tables.append(
-            f"<h4 class='fh-boxhd'>{reg.crest(school,'xs')} {esc(school)}</h4>"
-            f"<div class='fh-tablescroll'><div class='fh-table narrow' "
-            f"style='--grid-cols:{grid}'>"
-            f"<div class='fh-thead'><span class='fh-th'>Player</span>"
-            f"<span class='fh-th'></span>{head}</div>{''.join(rows)}</div></div>")
+        label = f"<h5 class='fh-boxsec'>{esc(section)}</h5>" if section else ""
+        return (f"{label}<div class='fh-tablescroll'><div class='fh-table narrow' "
+                f"style='--grid-cols:{grid}'>"
+                f"<div class='fh-thead'><span class='fh-th'>Player</span>"
+                f"<span class='fh-th'></span>{head}</div>{''.join(rows)}</div></div>")
+
+    tables = []
+    for school, side, totals in ((c.away, "away", box.away_totals),
+                                 (c.home, "home", box.home_totals)):
+        parts = [table(school, side, sec, totals) for sec in box.section_names()]
+        parts = [p for p in parts if p]
+        if parts:
+            tables.append(
+                f"<h4 class='fh-boxhd'>{reg.crest(school,'xs')} {esc(school)}</h4>"
+                + "".join(parts))
     starters = sum(1 for s in box.home + box.away if s.starter)
-    note = (f"<p class='fh-dim'>{len(box.home) + len(box.away)} players · "
-            f"{starters} starters · columns as printed by the source scorebook.</p>")
+    bits = [f"{len(box.home) + len(box.away)} rows"]
+    if box.sections:
+        bits.append(f"{len(box.sections)} tables: {', '.join(box.sections)}")
+    elif starters:
+        bits.append(f"{starters} starters")
+    bits.append("columns as printed by the source scorebook")
+    note = f"<p class='fh-dim'>{esc(' · '.join(bits))}.</p>"
     return (f"<div class='fh-section'><h2>Box score</h2>{''.join(tables)}{note}</div>")
 
 
@@ -1305,10 +1313,20 @@ def event_card(reg, c, final):
             f"{'Box →' if final else 'Preview →'}</a></span></div>")
 
 
-def feature_panel(kicker, hd, dk, colors, watermark=""):
-    """FeaturedStory: a branded color panel — the graphic-card treatment
-    athletics sites use when a story has no photograph."""
+def feature_panel(kicker, hd, dk, colors, watermark="", photo=None):
+    """FeaturedStory: real photography under the organization's color — every
+    news-shaped surface carries a photograph (owner rule). The color arrives
+    as a gradient overlay so identity survives on top of the image; the photo
+    credit prints in the corner, as the license requires."""
     c1, _c2 = colors
+    if photo:
+        url, credit = photo
+        style = (f"background:linear-gradient(100deg, {c1}f2 30%, {c1}99 62%, {c1}55), "
+                 f"url('{url}') center/cover no-repeat")
+        cr = f"<span class='cr'>Photo: {esc(credit)}</span>" if credit else ""
+        return (f"<div class='fh-feature photo' style=\"{style}\">"
+                f"<span class='kk'>{kicker}</span><span class='hd'>{hd}</span>"
+                f"<span class='dk'>{dk}</span>{cr}</div>")
     return (f"<div class='fh-feature' style='background:{c1}'>"
             f"<div class='wm'>{watermark}</div>"
             f"<span class='kk'>{kicker}</span><span class='hd'>{hd}</span>"
@@ -1369,7 +1387,8 @@ def render_school(reg, s):
         lead = feature_panel(esc(kicker), hd,
                              f"{dk} · <a href='{reg.url(lead_c)}'>Full result →</a>",
                              s.get("colors") or ["#14294e", "#c8ccd4"],
-                             watermark=reg.mark(name, 200))
+                             watermark=reg.mark(name, 200),
+                             photo=sport_photo(lead_c.sport))
 
     recent_rows = [event_card(reg, c, final=True) for c in played[:4]]
     next_rows = [event_card(reg, c, final=False) for c in upcoming[:4]]
@@ -1503,9 +1522,7 @@ def render_school(reg, s):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/schools/'>Schools</a> › {esc(name)}"
-    tenant = {"name": f"{name} Athletics", "parent": ASSOC, "parent_url": "/"}
-    return shell(page_title(f"{name} Athletics"), body, crumb,
-                 "← Schools|/schools/", tenant=tenant)
+    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True)
 
 
 def render_conference(reg, conf):
@@ -1599,7 +1616,8 @@ def render_conference(reg, conf):
                 f"{reg.school_link(s2)} sits second at {r2['cw']}-{r2['cl']} "
                 f"in {esc(conf['name'])} play · <a href='#standings'>Standings →</a>",
                 marks.conf_colors(conf["name"]),
-                watermark=marks.conf_mark(conf["name"], 200))
+                watermark=marks.conf_mark(conf["name"], 200),
+                photo=sport_photo(default_key))
 
     # ---- composite week, grouped by day ----
     week = sorted((c for c in reg.contests if c.date and
@@ -1696,9 +1714,7 @@ def render_conference(reg, conf):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/#conferences'>Conferences</a> › {esc(conf['name'])}"
-    tenant = {"name": conf["name"], "parent": ASSOC, "parent_url": "/"}
-    return shell(page_title(f"{conf['name']}"), body, crumb,
-                 "← Conferences|/#conferences", tenant=tenant)
+    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences", org=True)
 
 
 def render_athlete(reg, a):
@@ -2221,13 +2237,57 @@ def render_confs_index(reg):
     body = f"""
 <div class="fh-idhdr">
   <div></div><div><div class="name">Conferences</div>
-  <div class="meta">By region · leagues are geographic and mix classifications · <a href='/schools/'>browse by class</a></div></div>
+  <div class="meta"><a href='/schools/'>Schools by classification</a></div></div>
   <div class="side"></div>
 </div>
 <div class="fh-confgrid">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Conferences"
     return shell(page_title(f"Conferences"), body, crumb)
+
+
+SPORTS_IMG = ROOT / "site/img/sports"
+try:
+    import json as _json2
+    SPORTS_CREDITS = _json2.load(open(SPORTS_IMG / "credits.json"))
+except Exception:
+    SPORTS_CREDITS = {}
+
+# sport key -> photo in the action library; news-style surfaces carry a real
+# photograph, per the owner's rule
+SPORT_PHOTO = {}
+for _k, _names in {
+    "football": ("football", "girls-flag-football"),
+    "soccer": ("boys-soccer", "girls-soccer"),
+    "volleyball": ("girls-volleyball", "boys-volleyball"),
+    "trail": ("boys-cross-country", "girls-cross-country", "mountain-biking"),
+    "tennis": ("girls-tennis", "boys-tennis", "girls-badminton"),
+    "golf": ("boys-golf", "girls-golf"),
+    "aquatic": ("boys-water-polo", "girls-water-polo", "boys-swimming", "girls-swimming"),
+    "basketball": ("boys-basketball", "girls-basketball"),
+    "wrestling": ("boys-wrestling", "girls-wrestling"),
+    "hockey": ("boys-ice-hockey", "girls-ice-hockey"),
+    "ski": ("boys-alpine-skiing", "girls-alpine-skiing", "boys-nordic-skiing", "girls-nordic-skiing"),
+    "bowling": ("bowling",),
+    "fencing": ("boys-fencing", "girls-fencing"),
+    "gymnastics": ("gymnastics", "competitive-spirit"),
+    "track": ("winter-track", "boys-track", "girls-track"),
+    "performing": ("marching-band", "choir"),
+    "field": ("boys-lacrosse", "girls-lacrosse", "field-hockey", "ultimate"),
+    "gym-generic": ("debate",),
+}.items():
+    for _n in _names:
+        SPORT_PHOTO[_n] = _k
+
+
+def sport_photo(sport_key):
+    """(url, credit line) for the sport's action photograph."""
+    k = SPORT_PHOTO.get(sport_key, "gym-generic")
+    if not (SPORTS_IMG / f"{k}.jpg").exists():
+        k = "gym-generic"
+    c = SPORTS_CREDITS.get(k, {})
+    credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
+    return f"/img/sports/{k}.jpg", credit
 
 
 NEWS_IMG = ROOT / "site/img/news"
@@ -2593,6 +2653,8 @@ def build():
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
     if NEWS_IMG.exists():
         shutil.copytree(NEWS_IMG, OUT / "img/news", ignore=shutil.ignore_patterns("credits.json"))
+    if SPORTS_IMG.exists():
+        shutil.copytree(SPORTS_IMG, OUT / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
     shutil.copytree(ROOT / "report", OUT / "report")
     for f in (OUT / "report").glob("*.html"):
         f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)

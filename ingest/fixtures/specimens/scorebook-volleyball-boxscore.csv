@@ -1,0 +1,29 @@
+# JHSAA Electronic Scorebook — Game Export v2.4
+# Generated for Abbey Prep at Sofia Romanov
+GAME,gameId,date,sport,level,venue,attendance,status
+GAME,JHSAA-GIR-20260828,2026-08-28,Girls Volleyball,Varsity,Sofia Romanov Main Gymnasium,1458,Final
+TEAM,role,school,schoolCode,conference,final
+TEAM,home,Sofia Romanov,SR,—,3
+TEAM,away,Abbey Prep,AP,—,0
+LINESCORE,teamCode,S1,S2,S3,FINAL
+LINESCORE,SR,25,25,25,3
+LINESCORE,AP,19,22,20,0
+PLAYER,teamCode,no,name,yr,gs,sp,k,e,ta,pct,ast,dig,bs,ba,sa,se
+PLAYER,SR,5,"Achebe, Rin",10,1,3,9,1,24,+0.333,5,8,0,2,2,1
+PLAYER,SR,22,"Castellanos, Cade",9,1,3,6,1,12,+0.417,11,3,0,1,3,1
+PLAYER,SR,10,"Vasquez, Priya",12,1,3,7,0,18,+0.389,3,5,0,3,1,1
+PLAYER,SR,21,"Mwangi, Erik",12,1,3,6,1,15,+0.333,4,6,0,1,2,0
+PLAYER,SR,8,"Gundersen, Sunita",9,1,3,4,2,16,+0.125,3,6,0,1,0,2
+PLAYER,SR,4,"Abioye, Karim",9,1,3,5,2,9,+0.333,4,4,0,0,0,1
+PLAYER,SR,24,"Nkemelu, Rohan",12,0,3,6,2,17,+0.235,7,9,0,1,0,1
+PLAYER,SR,3,"Sandberg, Karim",11,0,3,5,2,9,+0.333,7,9,3,1,0,1
+TOTALS,SR,,,,,3,48,11,120,+0.308,44,50,3,10,8,8
+PLAYER,AP,13,"Abioye, Joana",9,1,3,5,0,17,+0.294,4,3,0,0,1,2
+PLAYER,AP,11,"Moreau, Nils",9,1,3,6,1,21,+0.238,4,8,1,3,0,1
+PLAYER,AP,14,"Bergstrom, Otgon",9,1,3,4,2,9,+0.222,2,6,1,1,3,1
+PLAYER,AP,13,"Ashworth, Sunita",11,1,3,7,1,15,+0.400,3,7,0,0,2,1
+PLAYER,AP,22,"Escobar, Nadia",12,1,3,3,1,10,+0.200,5,11,0,0,0,1
+PLAYER,AP,22,"Abioye, Sunita",10,1,3,7,1,16,+0.375,6,5,0,2,1,1
+PLAYER,AP,17,"Ferraro, Karim",10,0,3,3,3,10,+0.000,9,9,0,2,0,0
+PLAYER,AP,9,"Bhatt, Sven",9,0,3,4,1,11,+0.273,8,10,0,2,0,0
+TOTALS,AP,,,,,3,39,10,109,+0.266,41,59,2,10,7,7

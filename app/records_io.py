@@ -359,6 +359,8 @@ def _stat_line(s: StatLine) -> dict:
     d = {"competitor": _competitor(s.competitor), "stats": dict(s.stats)}
     if s.starter:
         d["starter"] = True
+    if s.section:
+        d["section"] = s.section
     return d
 
 
@@ -369,6 +371,7 @@ def _box(b: BoxScore) -> dict:
         "away": [_stat_line(s) for s in b.away],
         "homeTotals": dict(b.home_totals),
         "awayTotals": dict(b.away_totals),
+        **({"sections": {k: list(v) for k, v in b.sections.items()}} if b.sections else {}),
     }
 
 
@@ -386,6 +389,7 @@ def _box_from(d: dict | None) -> BoxScore | None:
                 ),
                 stats=s.get("stats", {}),
                 starter=s.get("starter", False),
+                section=s.get("section", ""),
             )
             for s in d.get(key, [])
         ]
@@ -396,6 +400,7 @@ def _box_from(d: dict | None) -> BoxScore | None:
         away=lines("away"),
         home_totals=d.get("homeTotals", {}),
         away_totals=d.get("awayTotals", {}),
+        sections=d.get("sections", {}),
     )
 
 

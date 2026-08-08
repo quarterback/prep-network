@@ -71,6 +71,10 @@ SPECIMENS = ROOT / "ingest" / "fixtures" / "specimens"
 #: a failure, and --demo says so rather than hiding it.
 DEMO = [
     ("hytek-mm-swimming-results.txt", "girls-swimming"),
+    ("scorebook-volleyball-boxscore.csv", "girls-volleyball"),
+    ("scorebook-hockey-boxscore.csv", "boys-ice-hockey"),
+    ("scorebook-football-boxscore.csv", "football"),
+    ("scorebook-baseball-boxscore.csv", "baseball"),
     ("scorebook-basketball-boxscore.csv", "boys-basketball"),
     ("scorebook-basketball-badtotals.csv", "boys-basketball"),
     ("dual-tennis-match-card.txt", "boys-tennis"),

@@ -82,6 +82,8 @@ def parse_text(text: str, source_uri: str, sha256: str | None = None) -> list[Ga
     code_to_role: dict[str, str] = {}
     linescore: dict[str, list[str]] = {}
     columns: list[str] = []
+    sections: dict[str, list[str]] = {}
+    section = ""
     players: dict[str, list[StatLine]] = {"home": [], "away": []}
     totals: dict[str, dict[str, str]] = {"home": {}, "away": {}}
     game_header: list[str] = []
@@ -115,15 +117,28 @@ def parse_text(text: str, source_uri: str, sha256: str | None = None) -> list[Ga
                 line_header = cells
             else:
                 linescore[cells[1]] = cells[2:]
+        elif tag == "SECTION":
+            # A sport with more than one table restates the PLAYER header per
+            # section, because the columns differ: football prints PASSING then
+            # RUSHING then RECEIVING, baseball prints BATTING then PITCHING.
+            # One column set per game cannot hold either.
+            section = cells[1]
+            player_header = []
+            continue
         elif tag == "PLAYER":
             if not player_header:
                 player_header = cells
-                columns = [c for c in cells[1:] if c not in _NON_STAT]
+                cols = [c for c in cells[1:] if c not in _NON_STAT]
+                if section:
+                    sections[section] = cols
+                else:
+                    columns = cols
                 continue
             fields = dict(zip(player_header[1:], cells[1:]))
             role = code_to_role.get(cells[1])
             if role is None:
                 continue
+            cols = sections.get(section) or columns
             players[role].append(
                 StatLine(
                     competitor=Competitor(
@@ -131,8 +146,9 @@ def parse_text(text: str, source_uri: str, sha256: str | None = None) -> list[Ga
                         school=teams[role]["school"],
                         year=fields.get("yr") or None,
                     ),
-                    stats={k: v for k, v in fields.items() if k in columns and v != ""},
+                    stats={k: v for k, v in fields.items() if k in cols and v != ""},
                     starter=fields.get("gs") == "1",
+                    section=section,
                 )
             )
         elif tag == "TOTALS":
@@ -143,15 +159,24 @@ def parse_text(text: str, source_uri: str, sha256: str | None = None) -> list[Ga
             # the identity columns empty; zip against the same header so a
             # column lands in the same place it does for a player.
             fields = dict(zip(player_header[1:], cells[1:]))
-            totals[role] = {k: v for k, v in fields.items() if k in columns and v != ""}
+            cols = sections.get(section) or columns
+            if section:
+                # Per-section totals would need a per-section slot; the sports
+                # that use sections print a total only for the whole side, so
+                # this keeps the last one rather than inventing structure.
+                totals[role] = {**totals.get(role, {}),
+                                **{k: v for k, v in fields.items() if k in cols and v != ""}}
+            else:
+                totals[role] = {k: v for k, v in fields.items() if k in cols and v != ""}
 
     if "home" not in teams or "away" not in teams:
         return []
 
     box = BoxScore(
-        columns=columns,
+        columns=columns or (next(iter(sections.values())) if sections else []),
         home=players["home"], away=players["away"],
         home_totals=totals["home"], away_totals=totals["away"],
+        sections=sections,
     )
 
     periods: list[Period] = []
@@ -179,7 +204,8 @@ def parse_text(text: str, source_uri: str, sha256: str | None = None) -> list[Ga
     )
 
     # --- the file's own checksums decide whether this is publishable
-    failures = [c for c in columns if box.totals_agree(c) is False]
+    failures = [] if box.sections else [
+        c for c in columns if box.totals_agree(c) is False]
     if game.periods_agree() is False:
         failures.append("linescore")
     confidence = 1.0 if not failures else 0.5

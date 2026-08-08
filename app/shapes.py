@@ -406,6 +406,12 @@ class StatLine:
     competitor: Competitor
     stats: dict[str, str] = field(default_factory=dict)
     starter: bool = False
+    #: Which table this row belongs to. Empty for a sport with one table
+    #: (basketball, volleyball); named for one with several — football prints
+    #: PASSING / RUSHING / RECEIVING and baseball prints BATTING / PITCHING,
+    #: each with its own columns, and the same player appears in more than one.
+    #: A model with a single column set per game cannot hold either.
+    section: str = ""
 
     def get(self, column: str) -> str:
         return self.stats.get(column, "")
@@ -425,15 +431,42 @@ class BoxScore:
     away: list[StatLine] = field(default_factory=list)
     home_totals: dict[str, str] = field(default_factory=dict)
     away_totals: dict[str, str] = field(default_factory=dict)
+    #: Per-section column lists, for sports that print more than one table.
+    #: Empty means the single ``columns`` list applies to every row.
+    sections: dict[str, list[str]] = field(default_factory=dict)
 
     def __bool__(self) -> bool:
         return bool(self.home or self.away)
 
+    def section_names(self) -> list[str]:
+        """Sections in the order the source printed them."""
+        if self.sections:
+            return list(self.sections)
+        return [""] if (self.home or self.away) else []
+
+    def columns_for(self, section: str) -> list[str]:
+        return self.sections.get(section) or self.columns
+
+    def rows(self, side: str, section: str) -> list[StatLine]:
+        lines = self.home if side == "home" else self.away
+        return [l for l in lines if l.section == section]
+
     def totals_agree(self, column: str) -> bool | None:
         """Does the printed total match the sum of the player rows?
 
-        ``None`` when the column isn't numeric or isn't totalled — plenty of
-        columns (a jersey number, a shooting line like ``7-14``) are neither.
+        ``None`` when the column isn't numeric, isn't totalled, or **isn't a
+        sum**. That last case is not an edge: a scorebook's totals row mixes
+        sums with aggregates, and only some of them add up.
+
+            pts  0…18 per player, total 65    a sum
+            sp   3 per player, total 3        sets played — not a sum
+            pct  −.100….400, total .290       hitting percentage — an average
+            avg / era / svpct                 likewise
+
+        The rule is sport-free: **a total that lands inside the range of its
+        own parts is not a sum of them.** Naming the exceptions instead would
+        put a list of sports in the model, and would be wrong the first time an
+        association sanctioned something not on the list.
         """
         out = []
         for lines, totals in ((self.home, self.home_totals), (self.away, self.away_totals)):
@@ -441,11 +474,16 @@ class BoxScore:
             if printed is None:
                 return None
             try:
-                summed = sum(float(l.stats[column]) for l in lines if l.stats.get(column))
-                out.append(abs(summed - float(printed)) < 0.01)
+                parts = [float(l.stats[column]) for l in lines if l.stats.get(column)]
+                value = float(printed)
             except ValueError:
                 return None
-        return all(out)
+            if not parts:
+                return None
+            if len(parts) > 1 and min(parts) <= value <= max(parts):
+                return None            # an aggregate, not a sum
+            out.append(abs(sum(parts) - value) < 0.01)
+        return all(out) if out else None
 
 
 @dataclass
@@ -470,13 +508,24 @@ class Game(Contest):
         return self.home if self.home_score > self.away_score else self.away
 
     def periods_agree(self) -> bool | None:
-        """Do the period splits add to the final score? A checksum, not a source."""
+        """Are the period splits consistent with the final score?
+
+        Two shapes are both legitimate and both common, so either satisfies it:
+
+            ADDED    football 7+6+0+7 = 20        the final is the sum
+            WON      volleyball 25-19, 25-22…     the final is sets WON, 3-0
+
+        Checking only the first reports every volleyball match in the state as
+        self-contradictory — the sets are right, the score is right, and the
+        arithmetic between them was never addition.
+        """
         if not self.periods or self.home_score is None or self.away_score is None:
             return None
-        return (
-            sum(p.home for p in self.periods) == self.home_score
-            and sum(p.away for p in self.periods) == self.away_score
-        )
+        added = (sum(p.home for p in self.periods) == self.home_score
+                 and sum(p.away for p in self.periods) == self.away_score)
+        won = (sum(1 for p in self.periods if p.home > p.away) == self.home_score
+               and sum(1 for p in self.periods if p.away > p.home) == self.away_score)
+        return added or won
 
 
 # ----------------------------------------------------------------- postseason

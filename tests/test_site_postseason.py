@@ -51,13 +51,15 @@ def _tournament(reg, tid):
 
 
 def _has_state_masthead(html):
+    """The FULL association masthead — the dominant global header."""
     return bool(re.search(r"<header class=[\"']fh-mast[\"']", html))
 
 
 def _has_org_masthead(html):
-    """The state mast replaced by the network utility strip, with the local
-    organisation's own header (`fh-orghead`) owning the page beneath it."""
-    return "fh-utility" in html and "fh-orghead" in html
+    """A member org's page: the state masthead collapses to a compact network
+    bar with a link back, and the organisation's own header owns the page."""
+    return ("fh-mast compact" in html and "fh-orghead" in html
+            and "fh-backassoc" in html)
 
 
 def test_a_school_page_is_the_schools_own_masthead(reg):

@@ -356,6 +356,15 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-mast-nav a:hover { color: var(--text-link); text-decoration: none; }
 .fh-season { font-size: var(--fs-small); color: var(--text-muted); }
 
+/* network utility bar — the compact mast on school/conference pages */
+.fh-mast.compact { border-top: none; border-bottom: var(--hairline); }
+.fh-mast.compact .wrap { padding-top: 7px; padding-bottom: 7px; }
+.fh-mast.compact .fh-wordmark { font-size: 15px; letter-spacing: 0.02em; }
+.fh-mast.compact .fh-mast-nav a {
+  font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted);
+}
+.fh-mast.compact .fh-mast-nav a:hover { color: var(--text-link); }
+
 /* ── toolbar: breadcrumb + back pill (entity pages) ─────────────────────── */
 
 .fh-toolbar {
@@ -1064,6 +1073,9 @@ main.wrap { padding-bottom: 10px; }
 .fh-feature .dk { font-family: var(--font-serif); font-size: var(--fs-small);
   margin-top: 7px; opacity: 0.92; position: relative; }
 .fh-feature a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+.fh-feature.photo { min-height: 240px; }
+.fh-feature .cr { position: absolute; right: 12px; bottom: 8px; font-size: 10px;
+  opacity: 0.6; }
 .fh-feature .hd a { text-decoration: none; }
 .fh-eventsrail { display: flex; flex-direction: column; border-top: var(--rule); }
 .fh-eventsrail > * { display: block; padding: 8px 0; border-bottom: var(--hairline);
@@ -1174,7 +1186,7 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
   font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.014em;
 }
 .fh-classblock > summary:hover .ttl { color: var(--brand-strong); }
-.fh-confgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px 26px; }
+.fh-confgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px 40px; }
 .fh-confgroup h4 {
   font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--text-muted); margin: 0 0 8px;
@@ -1184,9 +1196,14 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
 .fh-confgroup h4 a:hover { color: var(--text-link); }
 .fh-schoollinks { display: grid; gap: 3px; }
 .fh-schoollink, .fh-conflink {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
-  font-size: var(--fs-small); font-weight: 700; color: var(--text-primary); padding: 2px 0;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 2px 12px; flex-wrap: wrap;
+  font-size: var(--fs-small); font-weight: 700; color: var(--text-primary);
+  padding: 4px 0; border-bottom: var(--hairline); min-width: 0;
 }
+.fh-conflink .nm { flex: 1 1 auto; min-width: 0; }
+.fh-conflink .ct { flex: none; white-space: nowrap; font-weight: 600;
+  font-size: var(--fs-caption); color: var(--text-muted); }
 .fh-schoollink:hover, .fh-conflink:hover { color: var(--brand-strong); text-decoration: none; }
 .fh-schoollink .ct, .fh-conflink .ct {
   font-weight: 400; font-size: var(--fs-caption); color: var(--text-muted);
@@ -1553,65 +1570,11 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
   font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
   border: 2px solid var(--ink); background: var(--ink); color: var(--paper); }
 
-/* ═══════════════════════════════════════════════════ tenant mastheads
-   A school athletics page and a conference page are that organisation's own
-   home, not a subsection of the association's site. The state masthead is
-   replaced — not merely de-emphasised — by a utility strip carrying the
-   link-back and the network mark, and the organisation's identity becomes the
-   dominant header in its own colour.
-   Championship pages keep the association masthead on purpose: a state
-   tournament is an association property. */
 
-.fh-mast.tenant { display: none; }
 
-.fh-utility { border-bottom: var(--hairline); background: var(--surface-mast); }
-.fh-utility .wrap { display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; padding-top: 6px; padding-bottom: 6px; }
-.fh-utility .back { font-size: var(--fs-caption); font-weight: 700;
-  text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-secondary); }
-.fh-utility .net { font-size: 15px; color: var(--text-secondary); opacity: 0.85; }
-.fh-utility .net:hover { opacity: 1; text-decoration: none; }
-
-.fh-orgmast { border-bottom: 3px solid var(--org, var(--ink)); background: var(--surface-page); }
-.fh-orgmast .wrap { display: flex; align-items: center; gap: 16px;
-  padding-top: 16px; padding-bottom: 14px; flex-wrap: wrap; }
-.fh-orgmast .idn { display: flex; align-items: center; gap: 14px; color: inherit; flex: 1; }
-.fh-orgmast .idn:hover { text-decoration: none; }
-.fh-orgmast .idn .fh-crest.lg { width: 56px; height: 56px; font-size: 17px; }
-.fh-orgmast .nm { display: block; font-family: var(--font-display); font-weight: 800;
-  font-size: 30px; line-height: 1.02; letter-spacing: -0.01em;
-  text-transform: uppercase; }
-.fh-orgmast .kind { display: block; margin-top: 3px; font-size: var(--fs-caption);
-  font-weight: 700; text-transform: uppercase; letter-spacing: var(--ls-caps);
-  color: var(--text-muted); }
-.fh-orgmast .fh-orgnav { display: flex; gap: 18px; width: 100%;
-  padding-top: 12px; margin-top: 12px; border-top: var(--hairline); }
-.fh-orgmast .fh-orgnav a { font-family: var(--font-condensed); font-weight: 800;
-  font-size: var(--fs-small); text-transform: uppercase; letter-spacing: var(--ls-caps);
-  color: inherit; padding-bottom: 2px; border-bottom: 3px solid transparent; }
-.fh-orgmast .fh-orgnav a:hover { text-decoration: none;
-  border-bottom-color: var(--org, var(--ink)); }
-.fh-orgmast .fh-burger { display: none; }
-
-@media (max-width: 760px) {
-  .fh-orgmast .nm { font-size: 22px; }
-  .fh-orgmast .idn .fh-crest.lg { width: 42px; height: 42px; font-size: 13px; }
-  .fh-orgmast .fh-burger { display: flex; }
-  .fh-orgmast .fh-orgnav { gap: 14px; overflow-x: auto; scrollbar-width: none;
-    -webkit-overflow-scrolling: touch; }
-  .fh-orgmast .fh-orgnav::-webkit-scrollbar { display: none; }
-  .fh-orgmast .fh-orgnav a { flex: 0 0 auto; }
+/* The link back to the association from a member org's page. PR #7's compact
+   bar shrinks the state masthead; this is what makes it a NETWORK bar — a
+   school page should say where it sits without carrying the whole state nav. */
+.fh-mast.compact .fh-mast-nav .fh-backassoc {
+  font-weight: 800; color: var(--text-primary); margin-right: 4px;
 }
-
-.fh-drawersplit { margin: 14px 0 2px; padding-top: 10px; border-top: var(--hairline);
-  font-size: 10px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 0.08em; color: var(--text-muted); }
-.fh-drawer .top.org { font-weight: 800; }
-
-/* the thin detail line under a tenant masthead — mascot, city, league */
-.fh-orgsub { display: flex; align-items: center; flex-wrap: wrap; gap: 7px;
-  margin: 2px 0 14px; padding: 9px 0 10px; border-bottom: var(--hairline);
-  font-size: var(--fs-small); color: var(--text-secondary); }
-.fh-orgsub .mascot { font-weight: 700; color: var(--text-primary); }
-.fh-orgsub .dot { color: var(--text-muted); }
-.fh-orgsub .side { margin-left: auto; }

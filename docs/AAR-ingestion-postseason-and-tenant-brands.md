@@ -233,10 +233,50 @@ cancelled final that no longer exists. They are now written against the shape of
 the invariant instead of the fixture, so the next state regeneration does not
 fail them for the wrong reason.
 
+## Box scores across sports
+
+Five sports, five completely different column sets, and the renderer is told
+none of them:
+
+| Sport | Tables | Columns |
+| --- | --- | --- |
+| Basketball | 1 | MIN FG 3PT FT OREB DREB REB AST STL BLK TO PF PTS |
+| Volleyball | 1 | SP K E TA PCT AST DIG BS BA SA SE |
+| Ice hockey | 2 | SKATERS G A PTS +/− PIM SOG FOW · GOALTENDING MIN SA SV GA SV% |
+| Football | 4 | PASSING · RUSHING · RECEIVING · DEFENSE |
+| Baseball | 2 | BATTING AB R H RBI BB SO AVG · PITCHING IP H R ER BB SO ERA |
+
+Generating them forced two model corrections that the basketball fixture alone
+had hidden:
+
+**One column set per game is not enough.** Football prints four tables and
+baseball two, with different columns and the same player appearing in more than
+one. `StatLine.section` and `BoxScore.sections` carry that; a single `columns`
+list could represent neither, and would have quietly dropped three quarters of
+a football box score.
+
+**Not every number in a totals row is a sum.** Volleyball's `SP` (sets played)
+totals to 3, not to 24; `PCT` is an average. Both were reported as the source
+contradicting itself. The rule is now sport-free: *a total that lands inside
+the range of its own parts is not a sum of them* — which is true of `sp`,
+`pct`, `avg`, `era` and `svpct`, and false of `pts` and `min`. Naming the
+exceptions would have put a list of sports in the model.
+
+**A final score is not always the sum of the periods.** Volleyball's linescore
+is points per set (25-19, 25-22, 25-20) and its final is *sets won* (3-0).
+`periods_agree` accepts either shape; checking only addition reported every
+volleyball match in the state as broken.
+
+Baseball is a **parse-only** specimen. The season has not started at the demo
+date, so there is no played game to attach it to and importing it would stamp
+an April result onto a January state; `ingest.run --demo` shows its columns
+without writing a record.
+
 ## Commands
 
 ```sh
 python3 -m ingest.run --demo                      # every specimen, parsed and resolved
+python3 -m ingest.fixtures.make_boxscores         # regenerate the box-score specimens
 python3 -m ingest.run <file> [--sport KEY]        # import; re-imports update in place
 python3 -m generators.jefferson.postseason        # derive the championship layer
 python3 site/build.py                             # 14,122 pages
