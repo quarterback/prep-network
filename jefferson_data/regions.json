@@ -1,0 +1,72 @@
+[
+  {
+    "id": "R01",
+    "name": "Cascadia Central Valley",
+    "location": "Central-western Jefferson",
+    "description": "The heartland - broad interior valley containing the primary metro area",
+    "character": "Agricultural powerhouse, urban corridor, transportation hub"
+  },
+  {
+    "id": "R02",
+    "name": "Redwood Coast",
+    "location": "Northwestern Jefferson",
+    "description": "Northern Pacific coastline with ancient forests and fishing ports",
+    "character": "Rugged coastline, redwood forests, maritime economy"
+  },
+  {
+    "id": "R03",
+    "name": "Shasta Highlands",
+    "location": "South-central Jefferson",
+    "description": "Volcanic mountain region with peaks, lakes, and forested slopes",
+    "character": "Mountain recreation, forestry, volcanic landscapes"
+  },
+  {
+    "id": "R04",
+    "name": "Silver Basin",
+    "location": "Eastern Jefferson",
+    "description": "High desert basin with agricultural valleys fed by mountain runoff",
+    "character": "Irrigated agriculture, ranching, high desert communities"
+  },
+  {
+    "id": "R05",
+    "name": "Boise Frontier Corridor",
+    "location": "Northeastern Jefferson",
+    "description": "Northeastern edge facing Idaho, part of greater Boise metropolitan region",
+    "character": "Suburban growth, bedroom communities, interstate commerce"
+  },
+  {
+    "id": "R06",
+    "name": "Klamath Uplands",
+    "location": "South-central Jefferson",
+    "description": "Southern interior with mixed agriculture and mountain foothills",
+    "character": "Transition zone, orchards, cattle ranching"
+  },
+  {
+    "id": "R07",
+    "name": "Harney Expanse",
+    "location": "Southeastern Jefferson",
+    "description": "Vast high desert and Great Basin country with scattered settlements",
+    "character": "Frontier ranching, mining, isolated communities"
+  },
+  {
+    "id": "R08",
+    "name": "Trinity Mountains",
+    "location": "Southwestern Jefferson",
+    "description": "Rugged inland mountain range with mining history and forest resources",
+    "character": "Mining heritage, timber, mountain towns"
+  },
+  {
+    "id": "R09",
+    "name": "Humboldt Delta",
+    "location": "West-central Jefferson",
+    "description": "Coastal plain and river delta region with university and port",
+    "character": "Port economy, university town, coastal agriculture"
+  },
+  {
+    "id": "R10",
+    "name": "Owyhee Rim Country",
+    "location": "Far northeastern Jefferson",
+    "description": "Deep canyon country along the Snake River watershed edge",
+    "character": "Canyon ranching, irrigation projects, remote settlements"
+  }
+]

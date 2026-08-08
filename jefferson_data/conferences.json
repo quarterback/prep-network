@@ -1,0 +1,514 @@
+[
+  {
+    "id": "C01",
+    "name": "Cascadia Metro Conference",
+    "region": "Cascadia Central Valley",
+    "description": "Ashford metropolitan area schools",
+    "schools": [
+      "SCH001",
+      "SCH009",
+      "SCH017",
+      "SCH041",
+      "SCH073",
+      "SCH102",
+      "SCH155",
+      "SCH202",
+      "SCH234"
+    ]
+  },
+  {
+    "id": "C02",
+    "name": "Central Valley League",
+    "region": "Cascadia Central Valley",
+    "description": "Mid-valley agricultural communities",
+    "schools": [
+      "SCH002",
+      "SCH010",
+      "SCH018",
+      "SCH042",
+      "SCH074",
+      "SCH103",
+      "SCH157",
+      "SCH205",
+      "SCH235"
+    ]
+  },
+  {
+    "id": "C03",
+    "name": "Redwood Coast Conference",
+    "region": "Redwood Coast",
+    "description": "Northern coastal schools",
+    "schools": [
+      "SCH025",
+      "SCH029",
+      "SCH047",
+      "SCH051",
+      "SCH101",
+      "SCH120",
+      "SCH161",
+      "SCH181",
+      "SCH215",
+      "SCH250"
+    ]
+  },
+  {
+    "id": "C04",
+    "name": "Pacific Maritime League",
+    "region": "Redwood Coast",
+    "description": "Port Valdez metro area",
+    "schools": [
+      "SCH026",
+      "SCH030",
+      "SCH048",
+      "SCH076",
+      "SCH117",
+      "SCH122",
+      "SCH178",
+      "SCH183",
+      "SCH224",
+      "SCH251"
+    ]
+  },
+  {
+    "id": "C05",
+    "name": "Shasta Mountain Conference",
+    "region": "Shasta Highlands",
+    "description": "Volcanic highland schools",
+    "schools": [
+      "SCH052",
+      "SCH055",
+      "SCH095",
+      "SCH115",
+      "SCH156",
+      "SCH176",
+      "SCH216",
+      "SCH243"
+    ]
+  },
+  {
+    "id": "C06",
+    "name": "Silver Basin League",
+    "region": "Silver Basin",
+    "description": "Eastern basin agricultural schools",
+    "schools": [
+      "SCH056",
+      "SCH086",
+      "SCH105",
+      "SCH137",
+      "SCH162",
+      "SCH190",
+      "SCH220"
+    ]
+  },
+  {
+    "id": "C07",
+    "name": "Boise Frontier Conference",
+    "region": "Boise Frontier Corridor",
+    "description": "Newbridge metro and Boise-edge schools",
+    "schools": [
+      "SCH033",
+      "SCH036",
+      "SCH039",
+      "SCH060",
+      "SCH081",
+      "SCH158",
+      "SCH209"
+    ]
+  },
+  {
+    "id": "C08",
+    "name": "Snake River League",
+    "region": "Boise Frontier Corridor",
+    "description": "Snake River corridor schools",
+    "schools": [
+      "SCH034",
+      "SCH037",
+      "SCH040",
+      "SCH061",
+      "SCH138",
+      "SCH199",
+      "SCH217"
+    ]
+  },
+  {
+    "id": "C09",
+    "name": "Klamath Uplands Conference",
+    "region": "Klamath Uplands",
+    "description": "Southern upland agricultural schools",
+    "schools": [
+      "SCH062",
+      "SCH064",
+      "SCH093",
+      "SCH106",
+      "SCH133",
+      "SCH154",
+      "SCH166",
+      "SCH177",
+      "SCH210",
+      "SCH225",
+      "SCH238"
+    ]
+  },
+  {
+    "id": "C10",
+    "name": "Humboldt Delta League",
+    "region": "Humboldt Delta",
+    "description": "Delta and bay area schools",
+    "schools": [
+      "SCH065",
+      "SCH067",
+      "SCH121",
+      "SCH163",
+      "SCH211",
+      "SCH253"
+    ]
+  },
+  {
+    "id": "C11",
+    "name": "Harney Expanse Conference",
+    "region": "Harney Expanse",
+    "description": "High desert frontier schools",
+    "schools": [
+      "SCH068",
+      "SCH096",
+      "SCH123",
+      "SCH135",
+      "SCH150",
+      "SCH188",
+      "SCH200",
+      "SCH240"
+    ]
+  },
+  {
+    "id": "C12",
+    "name": "Trinity Mountain League",
+    "region": "Trinity Mountains",
+    "description": "Mountain mining heritage schools",
+    "schools": [
+      "SCH084",
+      "SCH112",
+      "SCH124",
+      "SCH136",
+      "SCH174",
+      "SCH185",
+      "SCH197",
+      "SCH244"
+    ]
+  },
+  {
+    "id": "C13",
+    "name": "Owyhee Rim Conference",
+    "region": "Owyhee Rim Country",
+    "description": "Canyon country ranching schools",
+    "schools": [
+      "SCH088",
+      "SCH110",
+      "SCH134",
+      "SCH171",
+      "SCH195",
+      "SCH242"
+    ]
+  },
+  {
+    "id": "C14",
+    "name": "Ashford City League",
+    "region": "Cascadia Central Valley",
+    "description": "Ashford inner city schools",
+    "schools": [
+      "SCH003",
+      "SCH011",
+      "SCH019",
+      "SCH043",
+      "SCH075",
+      "SCH107",
+      "SCH168",
+      "SCH213",
+      "SCH239"
+    ]
+  },
+  {
+    "id": "C15",
+    "name": "Timberlake Suburban Conference",
+    "region": "Cascadia Central Valley",
+    "description": "Timberlake area suburban schools",
+    "schools": [
+      "SCH004",
+      "SCH012",
+      "SCH020",
+      "SCH044",
+      "SCH082",
+      "SCH109",
+      "SCH169",
+      "SCH214",
+      "SCH241"
+    ]
+  },
+  {
+    "id": "C16",
+    "name": "North Valley League",
+    "region": "Cascadia Central Valley",
+    "description": "Northern valley communities",
+    "schools": [
+      "SCH005",
+      "SCH013",
+      "SCH021",
+      "SCH045",
+      "SCH083",
+      "SCH128",
+      "SCH170",
+      "SCH218",
+      "SCH255"
+    ]
+  },
+  {
+    "id": "C17",
+    "name": "South Valley Conference",
+    "region": "Cascadia Central Valley",
+    "description": "Southern valley agricultural schools",
+    "schools": [
+      "SCH006",
+      "SCH014",
+      "SCH022",
+      "SCH046",
+      "SCH091",
+      "SCH149",
+      "SCH189",
+      "SCH223"
+    ]
+  },
+  {
+    "id": "C18",
+    "name": "Coastal Redwoods League",
+    "region": "Redwood Coast",
+    "description": "Redwood forest coastal schools",
+    "schools": [
+      "SCH027",
+      "SCH031",
+      "SCH049",
+      "SCH077",
+      "SCH118",
+      "SCH145",
+      "SCH179",
+      "SCH203",
+      "SCH233",
+      "SCH252"
+    ]
+  },
+  {
+    "id": "C19",
+    "name": "Volcanic Peaks Conference",
+    "region": "Shasta Highlands",
+    "description": "High elevation mountain schools",
+    "schools": [
+      "SCH053",
+      "SCH078",
+      "SCH099",
+      "SCH131",
+      "SCH164",
+      "SCH192",
+      "SCH227",
+      "SCH247"
+    ]
+  },
+  {
+    "id": "C20",
+    "name": "Desert Springs League",
+    "region": "Harney Expanse",
+    "description": "Geothermal oasis schools",
+    "schools": [
+      "SCH069",
+      "SCH108",
+      "SCH127",
+      "SCH139",
+      "SCH165",
+      "SCH193",
+      "SCH212",
+      "SCH246"
+    ]
+  },
+  {
+    "id": "C21",
+    "name": "Frontier Interstate Conference",
+    "region": "Boise Frontier Corridor",
+    "description": "Interstate corridor schools",
+    "schools": [
+      "SCH035",
+      "SCH038",
+      "SCH059",
+      "SCH080",
+      "SCH148",
+      "SCH204"
+    ]
+  },
+  {
+    "id": "C22",
+    "name": "Orchard Belt League",
+    "region": "Klamath Uplands",
+    "description": "Fruit growing region schools",
+    "schools": [
+      "SCH063",
+      "SCH090",
+      "SCH104",
+      "SCH116",
+      "SCH144",
+      "SCH159",
+      "SCH167",
+      "SCH194",
+      "SCH222",
+      "SCH236",
+      "SCH248"
+    ]
+  },
+  {
+    "id": "C23",
+    "name": "Grain Belt Conference",
+    "region": "Cascadia Central Valley",
+    "description": "Wheat and barley farming schools",
+    "schools": [
+      "SCH007",
+      "SCH015",
+      "SCH023",
+      "SCH071",
+      "SCH098",
+      "SCH152",
+      "SCH200",
+      "SCH230"
+    ]
+  },
+  {
+    "id": "C24",
+    "name": "Ranch Country League",
+    "region": "Silver Basin",
+    "description": "Cattle ranching schools",
+    "schools": [
+      "SCH057",
+      "SCH087",
+      "SCH125",
+      "SCH141",
+      "SCH172",
+      "SCH198",
+      "SCH226"
+    ]
+  },
+  {
+    "id": "C25",
+    "name": "Mining Heritage Conference",
+    "region": "Trinity Mountains",
+    "description": "Historic mining town schools",
+    "schools": [
+      "SCH085",
+      "SCH113",
+      "SCH130",
+      "SCH142",
+      "SCH175",
+      "SCH191",
+      "SCH219",
+      "SCH245"
+    ]
+  },
+  {
+    "id": "C26",
+    "name": "Canyon Lands League",
+    "region": "Owyhee Rim Country",
+    "description": "Deep canyon ranching schools",
+    "schools": [
+      "SCH089",
+      "SCH126",
+      "SCH143",
+      "SCH187",
+      "SCH221"
+    ]
+  },
+  {
+    "id": "C27",
+    "name": "Bay Area Conference",
+    "region": "Humboldt Delta",
+    "description": "Humboldt Bay vicinity schools",
+    "schools": [
+      "SCH066",
+      "SCH097",
+      "SCH147",
+      "SCH182",
+      "SCH229"
+    ]
+  },
+  {
+    "id": "C28",
+    "name": "Resort Town League",
+    "region": "Shasta Highlands",
+    "description": "Mountain resort community schools",
+    "schools": [
+      "SCH054",
+      "SCH079",
+      "SCH111",
+      "SCH146",
+      "SCH173",
+      "SCH207",
+      "SCH231"
+    ]
+  },
+  {
+    "id": "C29",
+    "name": "Frontier Rural Conference",
+    "region": "Harney Expanse",
+    "description": "Isolated frontier schools",
+    "schools": [
+      "SCH070",
+      "SCH114",
+      "SCH132",
+      "SCH140",
+      "SCH184",
+      "SCH196",
+      "SCH228"
+    ]
+  },
+  {
+    "id": "C30",
+    "name": "Valley Floor League",
+    "region": "Cascadia Central Valley",
+    "description": "Central valley floor schools",
+    "schools": [
+      "SCH008",
+      "SCH016",
+      "SCH024",
+      "SCH072",
+      "SCH100",
+      "SCH153",
+      "SCH201",
+      "SCH232"
+    ]
+  },
+  {
+    "id": "C31",
+    "name": "Coastal Bluffs Conference",
+    "region": "Redwood Coast",
+    "description": "Coastal bluff community schools",
+    "schools": [
+      "SCH028",
+      "SCH032",
+      "SCH050",
+      "SCH092",
+      "SCH119",
+      "SCH160",
+      "SCH180",
+      "SCH206",
+      "SCH249",
+      "SCH254"
+    ]
+  },
+  {
+    "id": "C32",
+    "name": "High Desert League",
+    "region": "Silver Basin",
+    "description": "High desert farming schools",
+    "schools": [
+      "SCH058",
+      "SCH094",
+      "SCH129",
+      "SCH151",
+      "SCH186",
+      "SCH208",
+      "SCH237"
+    ]
+  }
+]
