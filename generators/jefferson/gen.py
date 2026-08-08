@@ -390,7 +390,38 @@ class Gen:
                         self.make_dual(sport, home, away, date, played)
                     else:
                         self.make_game(sport, home, away, date, played)
-        # non-conference / interstate openers
+        # Non-conference crossovers. Without these every game is a league game,
+        # so a team's overall record equals its conference record exactly and
+        # the standings carry two identical columns. Schools play whoever is
+        # geographically near but in another league — the way non-conference
+        # scheduling actually works, since travel is the constraint.
+        longest = max((len(self.round_robin(m)[: len(dates) - 1])
+                       for m in by_conf.values() if len(m) >= 2), default=0)
+        cross = [dates[0]] + dates[longest + 1:][:2]
+        for date in cross:
+            played = date <= TODAY
+            for area in sorted({self.by_name[n]["area"] for n in sponsors}):
+                local = sorted(n for n in sponsors if self.by_name[n]["area"] == area)
+                rng.shuffle(local)
+                # Bucket by league, then repeatedly draw from the two fullest.
+                # Walking a shuffled list and skipping same-league neighbours
+                # left most of the area unpaired, because an area's schools
+                # cluster into the same few leagues in the first place.
+                buckets: dict[str, list] = {}
+                for n in local:
+                    buckets.setdefault(self.by_name[n]["conference"], []).append(n)
+                while True:
+                    live = sorted((k for k in buckets if buckets[k]),
+                                  key=lambda k: (-len(buckets[k]), k))
+                    if len(live) < 2:
+                        break
+                    home, away = buckets[live[0]].pop(), buckets[live[1]].pop()
+                    if sport.shape.value == "dual":
+                        self.make_dual(sport, home, away, date, played)
+                    else:
+                        self.make_game(sport, home, away, date, played)
+
+        # interstate openers
         if sport.key in ("football", "boys-basketball", "girls-basketball"):
             metros = [n for n in sponsors if self.by_name[n]["area"] in ("Ashbury Metro", "Halbrook Basin")]
             for nm in metros[:4]:

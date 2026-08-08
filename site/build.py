@@ -39,6 +39,7 @@ stdsite = _ilu.module_from_spec(_sspec); _sspec.loader.exec_module(stdsite)
 
 RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
+FAVICON = "/favicon.svg"   # replaced in build() if site/favicon.* exists
 TODAY = "2027-01-16"          # the demo date the generator built around
 SEASON_LABEL = "2026–27"
 CREST_CLASSES = 12
@@ -397,7 +398,7 @@ def shell(title, body, crumb="", back="", story=None):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <link rel="stylesheet" href="/style.css">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">{stdsite.head_links(story)}
+{favicon_tag()}{stdsite.head_links(story)}
 <script>try{{var t=localStorage.getItem('fh-theme');if(t)document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}</script>
 </head>
 <body>
@@ -522,34 +523,56 @@ def contest_table(reg, contests, show_sport=True, fid=None):
 
 
 def standings_tables(reg, sport):
+    """Conference standings — one table per league.
+
+    The page used to rank every school in a classification against every other
+    and truncate at 16, with conference relegated to a trailing column. That is
+    a statewide power ranking, not standings: nothing in it is a competition
+    anyone is actually in. A league is the unit that plays a round robin and
+    produces a champion, so the league is the table. Conference record leads;
+    overall follows. Jefferson's conferences mix classifications by design, so
+    each row carries its school's class chip and the division facet keys on the
+    set of classes present in that league.
+    """
     rec = reg.records_for(sport.key)
     if not rec:
         return ""
-    by_group = defaultdict(list)
+    by_conf = defaultdict(list)
     for school, r in rec.items():
-        grp = sport.champ_group(reg.schools[school]["classification"])
-        by_group[grp].append((school, r))
+        conf = reg.conf_of.get(school)
+        if conf:
+            by_conf[conf].append((school, r))
+
+    cols = "26px 24px minmax(150px,1fr) 34px 62px 62px"
     blocks = []
-    for grp in sorted(by_group, key=lambda g: (len(g), g)):
-        rows = sorted(by_group[grp], key=lambda kv: (-(kv[1]["w"]), kv[1]["l"], kv[0]))
+    for conf in sorted(by_conf):
+        rows = sorted(by_conf[conf],
+                      key=lambda kv: (-kv[1]["cw"], kv[1]["cl"], -kv[1]["w"], kv[1]["l"], kv[0]))
+        divisions = sorted({sport.champ_group(reg.schools[s]["classification"])
+                            for s, _ in rows})
         body = "".join(
-            f"<div class='fh-row{' first' if i == 0 else ''}' style='--grid-cols:26px 24px minmax(150px,1fr) 56px 56px minmax(90px,1fr)'>"
+            f"<div class='fh-row{' first' if i == 0 else ''}' style='--grid-cols:{cols}'>"
             f"<span class='fh-rank'>{i+1}</span>{reg.crest(s,'xs')}"
             f"<span class='fh-name'>{reg.school_link(s)}</span>"
-            f"<span class='fh-num tnum'>{r['w']}-{r['l']}{('-'+str(r['t'])) if r.get('t') else ''}</span>"
-            f"<span class='fh-num tnum fh-dim'>{r['cw']}-{r['cl']}</span>"
-            f"<span class='fh-plain fh-dim'>{esc(reg.conf_of.get(s,''))}</span></div>"
-            for i, (s, r) in enumerate(rows[:16]))
+            f"<span class='fh-plain'>{class_chip(reg.schools[s]['classification'])}</span>"
+            f"<span class='fh-num tnum'>{r['cw']}-{r['cl']}</span>"
+            f"<span class='fh-num tnum fh-dim'>{_wlt(r)}</span></div>"
+            for i, (s, r) in enumerate(rows))
+        slug = reg.conf_slug.get(conf, "")
+        head = f"<a href='/conferences/{slug}/'>{esc(conf)}</a>" if slug else esc(conf)
         blocks.append(
-            f"<div class='fh-section' data-f-division='{esc(grp)}'>"
-            f"<div class='fh-group'><h3>{esc(grp)}</h3>{class_chip(grp) if grp[0].isdigit() else ''}</div>"
-            "<div class='fh-tablescroll'><div class='fh-table' "
-            "style='--grid-cols:26px 24px minmax(150px,1fr) 56px 56px minmax(90px,1fr)'>"
+            f"<div class='fh-section' data-f-division='{esc(' '.join(divisions))}'>"
+            f"<div class='fh-group'><h3>{head}</h3></div>"
+            f"<div class='fh-tablescroll'><div class='fh-table' style='--grid-cols:{cols}'>"
             "<div class='fh-thead'><span class='fh-th'></span><span class='fh-th'></span>"
-            "<span class='fh-th'>School</span><span class='fh-th'>Overall</span>"
-            "<span class='fh-th'>Conf</span><span class='fh-th'>Conference</span></div>"
+            "<span class='fh-th'>School</span><span class='fh-th'></span>"
+            "<span class='fh-th'>Conf</span><span class='fh-th'>Overall</span></div>"
             f"{body}</div></div></div>")
     return "".join(blocks)
+
+
+def _wlt(r):
+    return f"{r['w']}-{r['l']}" + (f"-{r['t']}" if r.get("t") else "")
 
 
 # ─────────────────────────────────────────────────────────────────── pages
@@ -1272,9 +1295,30 @@ def render_front(reg):
 # ──────────────────────────────────────────────────────────── write + verify
 
 
-def favicon() -> str:
-    """The wordmark's initial, so the mark follows a rename instead of going
-    stale. SVG rather than a raster: no font rasteriser here, and a tab icon
+def favicon_tag() -> str:
+    kind = ' type="image/svg+xml"' if FAVICON.endswith(".svg") else ""
+    return f'\n<link rel="icon" href="{FAVICON}"{kind}>'
+
+
+def pick_favicon() -> str:
+    """Drop any favicon.* into site/ and it wins; otherwise fall back to the
+    wordmark's initial so the tab is never blank mid-rename. Resolved before
+    the pages render (they carry the href) and written after the output tree is
+    cleared."""
+    found = sorted((ROOT / "site").glob("favicon.*"))
+    return "/" + found[0].name if found else "/favicon.svg"
+
+
+def write_favicon(out: pathlib.Path) -> None:
+    src = ROOT / "site" / FAVICON.lstrip("/")
+    if src.exists():
+        shutil.copy(src, out / src.name)
+    else:
+        (out / "favicon.svg").write_text(_letter_favicon())
+
+
+def _letter_favicon() -> str:
+    """SVG rather than a raster: there's no font rasteriser here, and a tab icon
     that's a letter has to stay crisp at 16px and on a retina bookmark bar."""
     return (
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
@@ -1287,7 +1331,7 @@ def favicon() -> str:
 
 
 def link_check(pages):
-    targets = set(pages) | {"/style.css", "/favicon.svg"}
+    targets = set(pages) | {"/style.css", FAVICON}
     broken = []
     for url, text in pages.items():
         for href in re.findall(r"href=['\"](/[^'\"#]*)", text):
@@ -1314,8 +1358,9 @@ def inline_preview(front):
 
 
 def build():
-    global RAIL
+    global RAIL, FAVICON
     reg = Registry()
+    FAVICON = pick_favicon()
     RAIL = build_rail(reg)
     build_menus(reg)
 
@@ -1359,11 +1404,12 @@ def build():
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(text)
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
-    (OUT / "favicon.svg").write_text(favicon())
+    write_favicon(OUT)
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
     shutil.copytree(ROOT / "report", OUT / "report")
     for f in (OUT / "report").glob("*.html"):
-        f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK).replace("{{NAME}}", NAME))
+        f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)
+                     .replace("{{NAME}}", NAME).replace("{{FAVICON}}", favicon_tag().strip()))
     n_rec = stdsite.write_records(ROOT, news.STORIES)
     wk = stdsite.write_well_known(OUT)
     (ROOT / "dist").mkdir(exist_ok=True)
