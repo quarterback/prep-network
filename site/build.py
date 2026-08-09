@@ -660,6 +660,7 @@ def shell(title, body, crumb="", back="", story=None, org=False,
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
 <title>{esc(title)}</title>
 {social_head(title, desc or SITE_DESC, image, kind, published)}
 <link rel="stylesheet" href="/style.css">
@@ -702,6 +703,7 @@ def shell(title, body, crumb="", back="", story=None, org=False,
   <a class="top" href="/news/">News</a>
   <a class="top" href="/schools/">Schools</a>
   <a class="top" href="/conferences/">Conferences</a>
+  <a class="top" href="/tour/">Tour</a>
   {DRAWER_SPORTS}
   {DRAWER_RES}
   {theme_menu(drawer=True)}
@@ -2444,7 +2446,7 @@ def render_tour(reg):
                    next(iter(reg.athletes.values()), None))
 
     SECTIONS = [
-        ("Results — what a contest page looks like", [
+        ("Results", [
             ("Game with a box score", game_where(
                 lambda c: has_box(c, "boys-basketball"),
                 "period scoring, full player box, team totals")),
@@ -2466,7 +2468,7 @@ def render_tour(reg):
                 reg, used, Meet, lambda c: len(c.events) > 8 and not imported(c),
                 "a full event card")),
         ]),
-        ("Ingestion — records that came from a source file", [
+        ("Ingestion", [
             ("Imported box score", game_where(
                 lambda c: imported(c) and getattr(c, "box", None),
                 "scorebook CSV — see the Source block at the foot")),
@@ -2475,7 +2477,7 @@ def render_tour(reg):
             ("Imported Hy-Tek meet", _first(reg, used, Meet, imported,
                                             "MEET MANAGER text report, with splits")),
         ]),
-        ("Postseason — the three bracket states", [
+        ("Postseason", [
             ("Championships hub", ("/championships/", "All championships",
                                    "sport, then classification")),
             ("Completed bracket", tour_of(
@@ -2491,7 +2493,7 @@ def render_tour(reg):
             ("Title decided by a meet", tour_of(
                 lambda t: t.format is TF.MEET and t.meet_key)),
         ]),
-        ("Organisations — who owns the page", [
+        ("Organisations", [
             ("School athletics site", (f"/schools/{school['slug']}/",
                                        f"{school['name']} Athletics",
                                        "school masthead; JHSAA collapses to a link-back")),
@@ -2525,9 +2527,7 @@ def render_tour(reg):
     body = f"""
 <div class="fh-idhdr">
   <div></div>
-  <div><div class="name">Product tour</div>
-  <div class="meta">One live example of every page type. Links are resolved from
-  the records at build time, so they cannot go stale.</div></div>
+  <div><div class="name">Product tour</div></div>
   <div class="side"></div>
 </div>
 {''.join(blocks)}

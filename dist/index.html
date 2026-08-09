@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
 <title>VarsityApex: the official site of the JHSAA</title>
 <meta name="description" content="Official results, schedules, standings and championships for the Jefferson High School Activities Association — 840 member schools, 45 sanctioned activities, published as open records.">
 <link rel="canonical" href="https://varsityapex.com__FH_PAGE_URL__">
@@ -209,10 +210,6 @@
 
   --rank-gold: hsl(45, 100%, 30%);
 
-  --surface-mast: var(--linen);
-  --on-mast: var(--ink);
-  --on-mast-dim: var(--text-secondary);
-  --mast-rule: var(--ink);
 
   --surface-subtle: hsl(49, 55%, 95%);
   --surface-zebra: hsla(166, 55%, 86%, 0.30);
@@ -223,6 +220,13 @@
   --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
   --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
   --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #0d090a;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(158, 24%, 80%);
+  --mast-rule: #ffcf00;
 }
 
 /* ── scheme: rally — sky-aqua / blue-bell / bright-lemon / tiger-flame /
@@ -314,6 +318,13 @@
   --crest-6: hsl(240, 10%, 38%); --crest-7: hsl(240, 8%, 48%);
   --crest-8: hsl(150, 25%, 34%); --crest-9: hsl(90, 20%, 38%);
   --crest-10: hsl(200, 20%, 36%); --crest-11: hsl(20, 25%, 42%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: hsl(176, 40%, 15%);
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(140, 30%, 80%);
+  --mast-rule: #ffbf46;
 }
 
 /* ── scheme: evergreen — evergreen / lavender-mist / amber-earth / deep-purple.
@@ -354,6 +365,13 @@
   --crest-6: hsl(33, 70%, 34%);  --crest-7: hsl(33, 55%, 42%);
   --crest-8: hsl(270, 30%, 36%); --crest-9: hsl(210, 30%, 32%);
   --crest-10: hsl(150, 25%, 30%); --crest-11: hsl(0, 25%, 38%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #012622;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(150, 22%, 78%);
+  --mast-rule: #e98a15;
 }
 
 /* ── scheme: harbor — ink-black / deep-ocean / jungle-teal / peach-glow /
@@ -394,6 +412,13 @@
   --crest-6: hsl(27, 50%, 38%);  --crest-7: hsl(27, 40%, 46%);
   --crest-8: hsl(200, 30%, 30%); --crest-9: hsl(150, 20%, 32%);
   --crest-10: hsl(220, 20%, 36%); --crest-11: hsl(0, 20%, 34%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #071e22;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(24, 55%, 82%);
+  --mast-rule: #ee2e31;
 }
 
 /* ── scheme: citrus — electric-aqua / pearl-aqua / beige / pumpkin-spice /
@@ -434,6 +459,13 @@
   --crest-6: hsl(74, 28%, 34%);  --crest-7: hsl(74, 22%, 44%);
   --crest-8: hsl(210, 30%, 34%); --crest-9: hsl(150, 22%, 36%);
   --crest-10: hsl(240, 15%, 38%); --crest-11: hsl(10, 40%, 42%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: hsl(188, 60%, 15%);
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(167, 40%, 80%);
+  --mast-rule: #f96900;
 }
 
 /* ── scheme: apex — prussian-blue / amber-honey / bright-snow / flag-red /
@@ -537,6 +569,14 @@
 }
 
 
+
+/* Every scheme here is a LIGHT scheme, and each one has had its contrast
+   measured against its own ground. Chromium's Auto Dark Theme (on by default
+   in Brave on mobile) re-inverts a page that never asked for it: the white
+   masthead type survived, the white burger bars did not, and the whole site
+   came out muddy grey. `only light` is the documented opt-out — plain
+   `light` is not enough, the UA still applies its own adjustment. */
+:root { color-scheme: only light; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
@@ -1741,10 +1781,22 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
    Desktop keeps the hover dropdowns; below 860px they are replaced entirely
    by the drawer, which carries the same material as open sections. */
 
-.fh-burger { display: none; cursor: pointer; padding: 6px 2px; margin-left: auto; }
+/* A boxed control, not three loose lines: on a dark masthead a bare glyph
+   reads as decoration, and 22x18px of hairline is under the 44px a thumb
+   expects. The box also guarantees the icon is visible whatever the bar
+   colour, because it carries the same ink as the type beside it. */
+.fh-burger {
+  display: none; cursor: pointer; margin-left: auto;
+  width: 44px; height: 38px; padding: 9px 10px;
+  border: 2px solid var(--on-mast); border-radius: 7px;
+}
 .fh-burger span {
-  display: block; width: 22px; height: 2px; background: var(--ink);
-  border-radius: 2px; margin: 4px 0;
+  display: block; width: 100%; height: 2.5px; background: var(--on-mast);
+  border-radius: 2px;
+}
+.fh-burger span + span { margin-top: 4px; }
+.fh-burger:hover, .fh-navtoggle:checked ~ .fh-mast .fh-burger {
+  background: color-mix(in srgb, var(--on-mast) 18%, transparent);
 }
 .fh-scrim, .fh-drawer { display: none; }
 
@@ -2059,6 +2111,7 @@ a.fh-tourrow:hover { background: var(--surface-hover); text-decoration: none; }
   <a class="top" href="/news/">News</a>
   <a class="top" href="/schools/">Schools</a>
   <a class="top" href="/conferences/">Conferences</a>
+  <a class="top" href="/tour/">Tour</a>
   <details><summary>Fall sports</summary><div class='items'><a href='/sports/boys-cross-country/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Boys Cross Country</a><a href='/sports/boys-golf/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-golf"/></svg>Boys Golf</a><a href='/sports/boys-soccer/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-football"/></svg>Boys Soccer</a><a href='/sports/boys-water-polo/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Boys Water Polo</a><a href='/sports/field-hockey/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-golf"/></svg>Field Hockey</a><a href='/sports/football/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-american-football"/></svg>Football</a><a href='/sports/girls-cross-country/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Girls Cross Country</a><a href='/sports/girls-soccer/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-football"/></svg>Girls Soccer</a><a href='/sports/girls-tennis/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-tennis"/></svg>Girls Tennis</a><a href='/sports/girls-volleyball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-volleyball"/></svg>Girls Volleyball</a><a href='/sports/girls-water-polo/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Girls Water Polo</a><a href='/sports/marching-band/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-music"/></svg>Marching Band</a><a href='/sports/mountain-biking/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-bike"/></svg>Mountain Biking</a></div></details><details><summary>Winter sports</summary><div class='items'><a href='/sports/bowling/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-bowling"/></svg>Bowling</a><a href='/sports/boys-alpine-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-mountain"/></svg>Boys Alpine Skiing</a><a href='/sports/boys-basketball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-basketball"/></svg>Boys Basketball</a><a href='/sports/boys-fencing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-sword"/></svg>Boys Fencing</a><a href='/sports/boys-ice-hockey/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ice-skating"/></svg>Boys Ice Hockey</a><a href='/sports/boys-nordic-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-snowflake"/></svg>Boys Nordic Skiing</a><a href='/sports/boys-swimming/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Boys Swimming &amp; Diving</a><a href='/sports/boys-wrestling/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-karate"/></svg>Boys Wrestling</a><a href='/sports/competitive-spirit/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-stretching"/></svg>Competitive Spirit</a><a href='/sports/debate/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-messages"/></svg>Debate</a><a href='/sports/girls-alpine-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-mountain"/></svg>Girls Alpine Skiing</a><a href='/sports/girls-basketball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-basketball"/></svg>Girls Basketball</a><a href='/sports/girls-fencing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-sword"/></svg>Girls Fencing</a><a href='/sports/girls-ice-hockey/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ice-skating"/></svg>Girls Ice Hockey</a><a href='/sports/girls-nordic-skiing/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-snowflake"/></svg>Girls Nordic Skiing</a><a href='/sports/girls-swimming/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-swimming"/></svg>Girls Swimming &amp; Diving</a><a href='/sports/girls-wrestling/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-karate"/></svg>Girls Wrestling</a><a href='/sports/gymnastics/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-yoga"/></svg>Gymnastics</a><a href='/sports/winter-track/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Winter Track</a></div></details><details><summary>Spring sports</summary><div class='items'><a href='/sports/baseball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-baseball"/></svg>Baseball</a><a href='/sports/boys-lacrosse/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-target-arrow"/></svg>Boys Lacrosse</a><a href='/sports/boys-tennis/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-tennis"/></svg>Boys Tennis</a><a href='/sports/boys-track/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Boys Track &amp; Field</a><a href='/sports/boys-volleyball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-volleyball"/></svg>Boys Volleyball</a><a href='/sports/choir/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-microphone"/></svg>Choir</a><a href='/sports/girls-badminton/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-tennis"/></svg>Girls Badminton</a><a href='/sports/girls-flag-football/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-play-football"/></svg>Girls Flag Football</a><a href='/sports/girls-golf/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-golf"/></svg>Girls Golf</a><a href='/sports/girls-lacrosse/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-target-arrow"/></svg>Girls Lacrosse</a><a href='/sports/girls-track/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-run"/></svg>Girls Track &amp; Field</a><a href='/sports/softball/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-ball-baseball"/></svg>Softball</a><a href='/sports/ultimate/'><svg class="fh-ic sm" aria-hidden="true"><use href="#i-disc"/></svg>Ultimate</a></div></details>
   <details><summary>Schools &amp; athletic directors</summary><div class='items'><a href='/schools/'>Member school directory</a><a href='/conferences/'>Conference assignments</a><span>Classification cycle</span><span>Cooperative program agreements</span><a href='/report/dual.html'>Report a result</a></div></details><details><summary>Coaches</summary><div class='items'><span>Rules meetings and clinics</span><span>Practice and contest limitations</span><span>Sport-by-sport manuals</span><span>Out-of-season contact rules</span></div></details><details><summary>Officials</summary><div class='items'><span>Register as an official</span><span>Conference assigners</span><span>Rules interpretations</span><span>Evaluation and ratings</span></div></details><details><summary>Students &amp; families</summary><div class='items'><span>Eligibility standards</span><span>Transfer and residency</span><span>Championship ticketing</span><span>Sportsmanship expectations</span></div></details>
   <details class='fh-themedrawer'><summary>Appearance</summary><div class='items fh-themelist'><button type='button' class='fh-themerow' data-theme-choice='default' aria-pressed='true'><span class='fh-swatch' data-theme-choice='default' aria-hidden='true'></span><span class='tn'>Ensign</span><span class='td'>Deep twilight · cobalt · white · red</span></button><button type='button' class='fh-themerow' data-theme-choice='banner' aria-pressed='false'><span class='fh-swatch' data-theme-choice='banner' aria-hidden='true'></span><span class='tn'>Banner</span><span class='td'>Indigo · ocean blue · flag red · amber</span></button><button type='button' class='fh-themerow' data-theme-choice='apex' aria-pressed='false'><span class='fh-swatch' data-theme-choice='apex' aria-hidden='true'></span><span class='tn'>Apex</span><span class='td'>Prussian · steel blue · amber · flag red</span></button><button type='button' class='fh-themerow' data-theme-choice='rally' aria-pressed='false'><span class='fh-swatch' data-theme-choice='rally' aria-hidden='true'></span><span class='tn'>Rally</span><span class='td'>Blue bell · aqua · lemon · racing red</span></button><button type='button' class='fh-themerow' data-theme-choice='meadow' aria-pressed='false'><span class='fh-swatch' data-theme-choice='meadow' aria-hidden='true'></span><span class='tn'>Meadow</span><span class='td'>Mint · teal · sunflower</span></button><button type='button' class='fh-themerow' data-theme-choice='evergreen' aria-pressed='false'><span class='fh-swatch' data-theme-choice='evergreen' aria-hidden='true'></span><span class='tn'>Evergreen</span><span class='td'>Deep green · orange</span></button><button type='button' class='fh-themerow' data-theme-choice='harbor' aria-pressed='false'><span class='fh-swatch' data-theme-choice='harbor' aria-hidden='true'></span><span class='tn'>Harbor</span><span class='td'>Dark teal · peach · red</span></button><button type='button' class='fh-themerow' data-theme-choice='citrus' aria-pressed='false'><span class='fh-swatch' data-theme-choice='citrus' aria-hidden='true'></span><span class='tn'>Citrus</span><span class='td'>Aqua · beige · pumpkin</span></button><button type='button' class='fh-themerow' data-theme-choice='pitch' aria-pressed='false'><span class='fh-swatch' data-theme-choice='pitch' aria-hidden='true'></span><span class='tn'>Pitch</span><span class='td'>Mint · sea green · amber · black</span></button></div></details>

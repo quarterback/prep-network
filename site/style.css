@@ -186,10 +186,6 @@
 
   --rank-gold: hsl(45, 100%, 30%);
 
-  --surface-mast: var(--linen);
-  --on-mast: var(--ink);
-  --on-mast-dim: var(--text-secondary);
-  --mast-rule: var(--ink);
 
   --surface-subtle: hsl(49, 55%, 95%);
   --surface-zebra: hsla(166, 55%, 86%, 0.30);
@@ -200,6 +196,13 @@
   --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
   --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
   --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #0d090a;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(158, 24%, 80%);
+  --mast-rule: #ffcf00;
 }
 
 /* ── scheme: rally — sky-aqua / blue-bell / bright-lemon / tiger-flame /
@@ -291,6 +294,13 @@
   --crest-6: hsl(240, 10%, 38%); --crest-7: hsl(240, 8%, 48%);
   --crest-8: hsl(150, 25%, 34%); --crest-9: hsl(90, 20%, 38%);
   --crest-10: hsl(200, 20%, 36%); --crest-11: hsl(20, 25%, 42%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: hsl(176, 40%, 15%);
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(140, 30%, 80%);
+  --mast-rule: #ffbf46;
 }
 
 /* ── scheme: evergreen — evergreen / lavender-mist / amber-earth / deep-purple.
@@ -331,6 +341,13 @@
   --crest-6: hsl(33, 70%, 34%);  --crest-7: hsl(33, 55%, 42%);
   --crest-8: hsl(270, 30%, 36%); --crest-9: hsl(210, 30%, 32%);
   --crest-10: hsl(150, 25%, 30%); --crest-11: hsl(0, 25%, 38%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #012622;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(150, 22%, 78%);
+  --mast-rule: #e98a15;
 }
 
 /* ── scheme: harbor — ink-black / deep-ocean / jungle-teal / peach-glow /
@@ -371,6 +388,13 @@
   --crest-6: hsl(27, 50%, 38%);  --crest-7: hsl(27, 40%, 46%);
   --crest-8: hsl(200, 30%, 30%); --crest-9: hsl(150, 20%, 32%);
   --crest-10: hsl(220, 20%, 36%); --crest-11: hsl(0, 20%, 34%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #071e22;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(24, 55%, 82%);
+  --mast-rule: #ee2e31;
 }
 
 /* ── scheme: citrus — electric-aqua / pearl-aqua / beige / pumpkin-spice /
@@ -411,6 +435,13 @@
   --crest-6: hsl(74, 28%, 34%);  --crest-7: hsl(74, 22%, 44%);
   --crest-8: hsl(210, 30%, 34%); --crest-9: hsl(150, 22%, 36%);
   --crest-10: hsl(240, 15%, 38%); --crest-11: hsl(10, 40%, 42%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: hsl(188, 60%, 15%);
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(167, 40%, 80%);
+  --mast-rule: #f96900;
 }
 
 /* ── scheme: apex — prussian-blue / amber-honey / bright-snow / flag-red /
@@ -514,6 +545,14 @@
 }
 
 
+
+/* Every scheme here is a LIGHT scheme, and each one has had its contrast
+   measured against its own ground. Chromium's Auto Dark Theme (on by default
+   in Brave on mobile) re-inverts a page that never asked for it: the white
+   masthead type survived, the white burger bars did not, and the whole site
+   came out muddy grey. `only light` is the documented opt-out — plain
+   `light` is not enough, the UA still applies its own adjustment. */
+:root { color-scheme: only light; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
@@ -1718,10 +1757,22 @@ a.fh-eventsrail, .fh-eventsrail a { text-decoration: none; }
    Desktop keeps the hover dropdowns; below 860px they are replaced entirely
    by the drawer, which carries the same material as open sections. */
 
-.fh-burger { display: none; cursor: pointer; padding: 6px 2px; margin-left: auto; }
+/* A boxed control, not three loose lines: on a dark masthead a bare glyph
+   reads as decoration, and 22x18px of hairline is under the 44px a thumb
+   expects. The box also guarantees the icon is visible whatever the bar
+   colour, because it carries the same ink as the type beside it. */
+.fh-burger {
+  display: none; cursor: pointer; margin-left: auto;
+  width: 44px; height: 38px; padding: 9px 10px;
+  border: 2px solid var(--on-mast); border-radius: 7px;
+}
 .fh-burger span {
-  display: block; width: 22px; height: 2px; background: var(--ink);
-  border-radius: 2px; margin: 4px 0;
+  display: block; width: 100%; height: 2.5px; background: var(--on-mast);
+  border-radius: 2px;
+}
+.fh-burger span + span { margin-top: 4px; }
+.fh-burger:hover, .fh-navtoggle:checked ~ .fh-mast .fh-burger {
+  background: color-mix(in srgb, var(--on-mast) 18%, transparent);
 }
 .fh-scrim, .fh-drawer { display: none; }
 
