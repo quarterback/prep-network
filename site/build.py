@@ -13,6 +13,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import html
+import os
 import pathlib
 import re
 import shutil
@@ -475,7 +476,112 @@ def sponsor_rail() -> str:
         for s in sponsors.SPONSORS)
 
 
-def shell(title, body, crumb="", back="", story=None, org=False):
+#: Where this build will be served. Social cards need ABSOLUTE urls — a
+#: relative og:image resolves to nothing when the link is pasted into Bluesky,
+#: Slack or iMessage, which is the entire point of having one. Override for a
+#: preview deployment with FH_SITE_URL.
+SITE_URL = os.environ.get("FH_SITE_URL", "https://varsityapex.com").rstrip("/")
+
+#: The default share image. An athletics site's card image is its photography
+#: — the platform draws the headline and description beside it, so the picture
+#: does not need to carry text. Drop site/img/og.jpg to override, the same way
+#: a favicon is overridden.
+OG_FALLBACK = "/img/sports/gym-generic.jpg"
+
+#: Replaced per page at write time in build(), which is the only place that
+#: knows a page's url. Threading a url through twenty-one shell() call sites
+#: to say the same thing would be twenty-one chances to say it wrong.
+OG_URL_TOKEN = "__FH_PAGE_URL__"
+
+
+def og_image() -> str:
+    return "/img/og.jpg" if (ROOT / "site/img/og.jpg").exists() else OG_FALLBACK
+
+
+_OG_DIMS: dict[str, tuple[int, int] | None] = {}
+
+
+def image_size(path: str) -> tuple[int, int] | None:
+    """(w, h) read out of the JPEG's own SOF marker.
+
+    og:image:width/height let a platform reserve the right box before the
+    image arrives, so a hard-coded 1200x630 over a 1024x593 photo is a lie
+    that shows up as a jumping card. Cheap enough to measure: the header is
+    the first few hundred bytes.
+    """
+    if path in _OG_DIMS:
+        return _OG_DIMS[path]
+    f = ROOT / "site" / path.lstrip("/")
+    dims = None
+    try:
+        d = f.read_bytes()
+        i = 2
+        while i < len(d) - 9 and dims is None:
+            if d[i] != 0xFF:
+                i += 1
+                continue
+            m = d[i + 1]
+            if m in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7,
+                     0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                dims = (int.from_bytes(d[i + 7:i + 9], "big"),
+                        int.from_bytes(d[i + 5:i + 7], "big"))
+            elif m == 0xD8 or 0xD0 <= m <= 0xD7:
+                i += 2
+                continue
+            else:
+                i += 2 + int.from_bytes(d[i + 2:i + 4], "big")
+                continue
+            break
+    except (OSError, IndexError, ValueError):
+        dims = None
+    _OG_DIMS[path] = dims
+    return dims
+
+
+def social_head(title, desc, image, kind, published=None) -> str:
+    """Meta description, Open Graph and Twitter card.
+
+    One block feeds all three surfaces: search results read `description`,
+    Bluesky/Slack/Discord/LinkedIn read Open Graph, Twitter reads its own
+    names and falls back to OG for the rest. `summary_large_image` is the
+    card a result or a bracket deserves — the small square variant crops a
+    team photo into abstraction.
+    """
+    url = SITE_URL + OG_URL_TOKEN
+    rel = image or og_image()
+    img = image if str(image).startswith("http") else SITE_URL + rel
+    dims = image_size(rel)
+    tags = [
+        f'<meta name="description" content="{esc(desc)}">',
+        f'<link rel="canonical" href="{url}">',
+        f'<meta property="og:site_name" content="{esc(NAME)}">',
+        f'<meta property="og:type" content="{kind}">',
+        f'<meta property="og:title" content="{esc(title)}">',
+        f'<meta property="og:description" content="{esc(desc)}">',
+        f'<meta property="og:url" content="{url}">',
+        f'<meta property="og:image" content="{img}">',
+        *([f'<meta property="og:image:width" content="{dims[0]}">',
+           f'<meta property="og:image:height" content="{dims[1]}">'] if dims else []),
+        f'<meta property="og:image:alt" content="{esc(title)}">',
+        '<meta property="og:locale" content="en_US">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{esc(title)}">',
+        f'<meta name="twitter:description" content="{esc(desc)}">',
+        f'<meta name="twitter:image" content="{img}">',
+    ]
+    if published:
+        tags.append(f'<meta property="article:published_time" content="{esc(published)}">')
+    return "\n".join(tags)
+
+
+#: What the site is, for any page that does not say something better.
+SITE_DESC = ("Official results, schedules, standings and championships for the "
+             "Jefferson High School Activities Association — 840 member schools, "
+             "45 sanctioned activities, published as open records.")
+
+
+def shell(title, body, crumb="", back="", story=None, org=False,
+          desc=None, image=None, kind="website", published=None):
     pill = ""
     if back:
         label, url = back.split("|")
@@ -487,6 +593,7 @@ def shell(title, body, crumb="", back="", story=None, org=False):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
+{social_head(title, desc or SITE_DESC, image, kind, published)}
 <link rel="stylesheet" href="/style.css">
 {favicon_tag()}{stdsite.head_links(story)}
 <script defer src="/_vercel/insights/script.js"></script>
@@ -637,6 +744,45 @@ def meet_line(reg, c):
     if top:
         return f"{esc(c.name)} — won by {reg.school_link(top.school)}"
     return esc(c.name)
+
+
+def share_desc(reg, c) -> str:
+    """What a pasted link should say about a contest, in plain text.
+
+    A share card is read as a sentence, not parsed as markup, so this is the
+    one description that cannot reuse `score_line` — the anchors and <b> would
+    ship verbatim into the Bluesky card. Says the result when there is one and
+    the fixture when there is not, because "Norview at Ashbrook, Friday" is a
+    useful card and "Norview at Ashbrook" alone is not.
+    """
+    sp = BY_KEY[c.sport].name
+    when = nice_date(c.date) if c.date else ""
+    if isinstance(c, Meet):
+        top = next((t for t in c.team_scores if t.rank == 1), None)
+        where = f" at {c.host}" if c.host else ""
+        if top:
+            unit = meet_scoring(c.sport)[2].lower()
+            return (f"{top.school} won the {c.name} with {top.points:g} {unit} — "
+                    f"{len(c.events)} events, {len(c.schools)} schools. {sp}, {when}.")
+        return f"{c.name}{where} — {sp}, {when}. Entries and results as they post."
+    scored = (isinstance(c, Game) and c.status == "final" and c.home_score is not None) \
+        or (isinstance(c, Dual) and c.home_points is not None)
+    if scored:
+        if isinstance(c, Game):
+            pairs = [(c.home, c.home_score), (c.away, c.away_score)]
+        else:
+            pairs = [(c.home, f"{c.home_points:g}"), (c.away, f"{c.away_points:g}")]
+        pairs.sort(key=lambda p: -float(p[1]))
+        tail = ""
+        ctx = reg.tournament_for(c)
+        if ctx:
+            t, r, _m = ctx
+            tail = f" {t.group} {sp} {(r.name if r else 'championship').lower()}."
+        elif getattr(c, "box", None):
+            tail = " Full box score and scoring by period."
+        return (f"Final: {pairs[0][0]} {pairs[0][1]}, {pairs[1][0]} {pairs[1][1]} "
+                f"— {sp}, {when}.{tail}")
+    return f"{c.away} at {c.home} — {sp}, {when}. Result posts when the contest is final."
 
 
 def matchup_line(reg, c, with_date=True):
@@ -912,7 +1058,9 @@ def render_game(reg, c: Game):
 {provenance_note(reg, c)}
 """
     crumb = (f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}")
-    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
+    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
+                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 published=c.date)
 
 
 def render_dual(reg, c: Dual):
@@ -944,7 +1092,9 @@ def render_dual(reg, c: Dual):
 {provenance_note(reg, c)}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
-    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
+    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
+                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 published=c.date)
 
 
 def meet_results_tables(reg, c: Meet, limit_events=None):
@@ -1029,7 +1179,9 @@ def render_meet(reg, c: Meet):
 {provenance_note(reg, c)}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
-    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
+    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
+                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 published=c.date)
 
 
 def sport_nav(sp, active):
@@ -1552,7 +1704,14 @@ def render_school(reg, s):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/schools/'>Schools</a> › {esc(name)}"
-    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True)
+    lead_sport = (lead_c.sport if lead_c is not None
+                  else (sorted(s.get("sports", ())) or ["football"])[0])
+    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True,
+                 desc=(f"{name} {s['mascot']} athletics — {s['city']}, "
+                       f"{s['classification']}{f', {conf}' if conf else ''}. Schedules, "
+                       f"results, standings and championship history across "
+                       f"{len(s.get('sports', ()))} sports."),
+                 image=sport_photo(lead_sport)[0])
 
 
 def render_conference(reg, conf):
@@ -1744,7 +1903,11 @@ def render_conference(reg, conf):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/#conferences'>Conferences</a> › {esc(conf['name'])}"
-    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences", org=True)
+    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences", org=True,
+                 desc=(f"{conf['name']} — {len(members)} member schools in "
+                       f"{conf['area']}. Standings, the composite schedule, league "
+                       f"champions and results across {len(conf_sports)} sports."),
+                 image=sport_photo(default_key or "football")[0])
 
 
 def render_athlete(reg, a):
@@ -1797,7 +1960,9 @@ def render_athlete(reg, a):
 {''.join(sections)}
 """
     crumb = f"<a href='/'>{NAME}</a> › {reg.school_link(school)} › {esc(name)}"
-    return shell(f"{name} — {school}", body, crumb, f"← {school}|{reg.school_url(school)}")
+    return shell(f"{name} — {school}", body, crumb, f"← {school}|{reg.school_url(school)}",
+                 desc=(f"{name}, {school} — every result, mark and box-score line "
+                       f"this season, with the contest each came from."))
 
 
 def _first(reg, used, kind, pred, note):
@@ -2003,7 +2168,9 @@ def render_scoreboard(reg):
 <div class="fh-filterable fh-scoredays" id="sb">{''.join(days)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Scoreboard"
-    return shell(page_title(f"Scoreboard"), body, crumb)
+    return shell(page_title(f"Scoreboard"), body, crumb,
+                 desc=("Every JHSAA result and fixture, all 45 activities on one "
+                       "board — filter by sport, classification, conference and day."))
 
 
 def champ_finals(reg):
@@ -2243,7 +2410,14 @@ def render_tournament(reg, t):
 """
     crumb = (f"<a href='/'>{NAME}</a> › <a href='/championships/'>Championships</a> › "
              f"<a href='/championships/{sp.key}/'>{esc(sp.name)}</a> › {esc(t.group)}")
-    return shell(page_title(t.name), body, crumb, f"← {sp.name} championships|/championships/{sp.key}/")
+    won = (f"{t.champion} are the champions." if t.champion else
+           "Bracket, seeds and results." if t.status.value == "in_progress" else
+           "The field is set.")
+    return shell(page_title(t.name), body, crumb, f"← {sp.name} championships|/championships/{sp.key}/",
+                 desc=(f"{t.name} — a {t.size}-team field"
+                       f"{f' at {t.final_venue}' if t.final_venue else ''}. {won} "
+                       f"Full bracket, seeds and every round's result."),
+                 image=sport_photo(t.sport)[0], kind="article", published=t.start_date)
 
 
 def render_champ_sport(reg, sport):
@@ -2276,7 +2450,10 @@ def render_champ_sport(reg, sport):
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/championships/'>Championships</a> › {esc(sport.name)}"
     return shell(page_title(f"{sport.name} Championships"), body, crumb,
-                 "← Championships|/championships/")
+                 "← Championships|/championships/",
+                 desc=(f"JHSAA {sport.name} state championships — brackets, seeds, "
+                       f"qualifiers and champions in every classification."),
+                 image=sport_photo(sport.key)[0])
 
 
 def render_championships(reg):
@@ -2346,7 +2523,10 @@ def render_championships(reg):
 <div class="fh-filterable fh-champbook" id="ch">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Championships"
-    return shell(page_title("Championships"), body, crumb)
+    return shell(page_title("Championships"), body, crumb,
+                 desc=(f"Every JHSAA state championship — {len(reg.tournaments)} "
+                       f"across {len(reg.tour_by_sport)} activities, by sport and "
+                       f"classification. Live brackets, results and champions."))
 
 
 def render_schools_index(reg):
@@ -2401,7 +2581,9 @@ def render_schools_index(reg):
 <div class="fh-filterable fh-areas" id="schools-map">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Schools"
-    return shell(page_title(f"Schools"), body, crumb)
+    return shell(page_title(f"Schools"), body, crumb,
+                 desc=(f"All {len(reg.schools)} JHSAA member schools by conference and "
+                       f"classification, each with its own athletics site."))
 
 
 def render_confs_index(reg):
@@ -2426,7 +2608,9 @@ def render_confs_index(reg):
 <div class="fh-confgrid">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Conferences"
-    return shell(page_title(f"Conferences"), body, crumb)
+    return shell(page_title(f"Conferences"), body, crumb,
+                 desc=(f"All {len(reg.confs)} JHSAA conferences — members, standings "
+                       f"and the composite schedule for each league."))
 
 
 SPORTS_IMG = ROOT / "site/img/sports"
@@ -2516,7 +2700,10 @@ def render_story(reg, st):
 </div>
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/news/'>News</a> › {esc(st['kicker'])}"
-    return shell(page_title(f"{st['head']}"), body, crumb, "← News|/news/", story=st)
+    return shell(page_title(f"{st['head']}"), body, crumb, "← News|/news/", story=st,
+                 desc=st["dek"], kind="article", published=st["date"],
+                 image=(f"/img/news/{st['slug']}.jpg"
+                        if (NEWS_IMG / f"{st['slug']}.jpg").exists() else None))
 
 
 def render_news_index(reg):
@@ -2549,7 +2736,10 @@ def render_news_index(reg):
 {BSKY_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › News"
-    return shell(page_title(f"News"), body, crumb)
+    return shell(page_title(f"News"), body, crumb,
+                 desc=("Competition coverage and association business from the "
+                       "JHSAA — championships, eligibility, officiating and "
+                       "participation."))
 
 
 SEASON_JS = """
@@ -2764,7 +2954,9 @@ def render_front(reg):
 }})();
 </script>
 """
-    return shell(TITLE, body)
+    return shell(TITLE, body, desc=SITE_DESC,
+                 image=(f"/img/news/{lead['slug']}.jpg"
+                        if (NEWS_IMG / f"{lead['slug']}.jpg").exists() else None))
 
 
 # ──────────────────────────────────────────────────────────── write + verify
@@ -2843,6 +3035,26 @@ def inline_preview(front):
     return front.replace('<link rel="stylesheet" href="/style.css">', f"<style>\n{css}\n</style>")
 
 
+def write_sitemap(out: pathlib.Path, pages: dict) -> None:
+    """A sitemap index plus shards, because 58,000 urls is past the 50,000 a
+    single sitemap may carry — a crawler drops the whole file when it is over,
+    so the limit is not advisory."""
+    urls = sorted(pages)
+    shards = [urls[i:i + 40000] for i in range(0, len(urls), 40000)]
+    for n, shard in enumerate(shards, 1):
+        body = "".join(f"<url><loc>{SITE_URL}{html.escape(u)}</loc></url>" for u in shard)
+        (out / f"sitemap-{n}.xml").write_text(
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            f"{body}</urlset>\n")
+    index = "".join(f"<sitemap><loc>{SITE_URL}/sitemap-{n}.xml</loc></sitemap>"
+                    for n in range(1, len(shards) + 1))
+    (out / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        f"{index}</sitemapindex>\n")
+
+
 def build():
     global RAIL, FAVICON
     reg = Registry()
@@ -2900,7 +3112,10 @@ def build():
         rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
         p = OUT / rel
         p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(text)
+        # og:url and rel=canonical are the one thing in the head only this
+        # loop knows. Substituted here rather than threaded through every
+        # renderer's signature.
+        p.write_text(text.replace(OG_URL_TOKEN, url))
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
     write_favicon(OUT)
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
@@ -2908,6 +3123,11 @@ def build():
         shutil.copytree(NEWS_IMG, OUT / "img/news", ignore=shutil.ignore_patterns("credits.json"))
     if SPORTS_IMG.exists():
         shutil.copytree(SPORTS_IMG, OUT / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
+    if (ROOT / "site/img/og.jpg").exists():
+        shutil.copy(ROOT / "site/img/og.jpg", OUT / "img/og.jpg")
+    (OUT / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+    write_sitemap(OUT, pages)
     shutil.copytree(ROOT / "report", OUT / "report")
     for f in (OUT / "report").glob("*.html"):
         f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)
