@@ -158,6 +158,56 @@
 }
 
 
+/* ── scheme: ensign — oxblood / pure-red / white / cobalt-blue /
+   deep-twilight (owner palette 2027-08e). The plain red-white-blue, and the
+   first palette here that needs no adjustment anywhere: deep-twilight is
+   18.7:1 on white, cobalt 8.6:1 and oxblood 9.1:1 as body text, and even
+   pure-red clears AA at 4.6:1. So every colour is used AT THE HEX GIVEN —
+   nothing is darkened to make it legible, because nothing has to be. ── */
+[data-theme="ensign"] {
+  --linen: hsl(219, 70%, 93%);   /* cobalt, laid down flat: bands and heads */
+  --ivory: #ffffff;              /* white, literally, takes the ground slot */
+  --cyan: hsl(219, 60%, 95%);    /* cobalt wash: hover, highlight */
+  --ice: #0c44ac;                /* cobalt-blue takes the accent-detail slot */
+  --prussian: #000052;
+
+  --brand-strong: #0c44ac;              /* cobalt at 8.6:1 — link text, as given */
+
+  --gray-150: hsl(219, 30%, 93%);
+  --gray-200: hsla(240, 100%, 16%, 0.13);
+  --gray-300: hsla(240, 100%, 16%, 0.22);
+  --gray-400: hsl(222, 14%, 62%);
+  --gray-500: hsl(222, 18%, 46%);
+  --gray-600: hsl(228, 34%, 30%);
+
+  /* chip backgrounds hold white text: 6.5:1 at the lightest */
+  --cat-7a: #000052;
+  --cat-6a: hsl(228, 90%, 22%);
+  --cat-5a: #0c44ac;
+  --cat-4a: hsl(219, 70%, 44%);
+  --cat-3a: #970005;
+  --cat-2a: hsl(358, 80%, 38%);
+  --cat-1a: hsl(0, 75%, 40%);
+
+  --rank-gold: #970005;
+  --accent-live: #ed0101;               /* pure-red: happening now */
+
+  --surface-mast: #000052;              /* deep-twilight bar, 18.7:1 on white */
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(219, 60%, 82%);
+  --mast-rule: #ed0101;
+
+  --surface-subtle: hsl(219, 60%, 97%);
+  --surface-zebra: hsla(219, 70%, 90%, 0.34);
+
+  --crest-0: #000052;            --crest-1: hsl(228, 90%, 22%);
+  --crest-2: #0c44ac;            --crest-3: hsl(219, 70%, 44%);
+  --crest-4: #970005;            --crest-5: hsl(358, 80%, 40%);
+  --crest-6: hsl(0, 75%, 42%);   --crest-7: hsl(219, 40%, 34%);
+  --crest-8: hsl(240, 60%, 26%); --crest-9: hsl(350, 50%, 34%);
+  --crest-10: hsl(210, 45%, 30%); --crest-11: hsl(228, 30%, 38%);
+}
+
 /* ── scheme: rally — sky-aqua / blue-bell / bright-lemon / tiger-flame /
    racing-red (owner palette 2027-08d). Five saturated colours and no dark or
    light value in the set, so the ink and the ground derive from the aqua and
@@ -606,6 +656,7 @@ a.fh-wordmark:hover { text-decoration: none; opacity: 0.78; color: var(--on-mast
 .fh-themedrawer[open] > summary::after { content: "–"; }
 .fh-themedrawer .fh-themelist { padding: 0 10px 12px; display: grid; gap: 2px; }
 .fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
+.fh-swatch[data-theme-choice="ensign"] { background: linear-gradient(135deg, #000052 0 25%, #0c44ac 0 45%, #ffffff 0 60%, #ed0101 0 80%, #970005 0); }
 .fh-swatch[data-theme-choice="rally"] { background: linear-gradient(135deg, #0a385c 0 20%, #19a5ff 0 40%, #13d1ff 0 60%, #fee719 0 80%, #f00c18 0); }
 .fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
 .fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }
