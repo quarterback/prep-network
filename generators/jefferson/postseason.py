@@ -21,12 +21,18 @@ stable across runs. A championship field whose seeding has no relationship to
 the season underneath it looks fine and reads as nonsense the moment anyone
 checks a 1-seed's record.
 
-**The three states are the calendar, not a flag.** Fall championships finished
-in November, winter runs through the demo date, spring has not started — so
-complete / in-progress / upcoming fall out of comparing round dates to ``TODAY``
-rather than being assigned. That is also why the winter window sits in January
-here: the demo date is 2027-01-16 and a bracket nobody can see mid-flight is
-the one state hardest to get right and most worth showing.
+**The three states are the calendar, not a flag.** At the demo date of
+2027-05-13 fall and winter are decided, the earlier spring championships are
+mid-bracket, and the late-spring ones have not drawn yet — so complete /
+in-progress / upcoming fall out of comparing round dates to ``TODAY`` rather
+than being assigned anywhere.
+
+That date is also why every season has results. The clock lives in
+``generators.jefferson.gen`` and scoring happens inline with scheduling, so
+moving it is not "the same season further along" — it is a different season,
+and everything derived from it has to be rebuilt. It is worth doing: parked in
+January, two thirds of the calendar had no results at all, and demonstrating a
+spring sport meant either fabricating a result or shipping a caveat.
 """
 
 from __future__ import annotations
@@ -57,11 +63,27 @@ from app.shapes import (                                            # noqa: E402
 )
 from app.sports import BY_KEY, CATALOG, Shape                       # noqa: E402
 
-TODAY = "2027-01-16"
+TODAY = "2027-05-13"
 SEASON = "2026-27"
 
-#: Championship weekend by season. Winter straddles the demo date on purpose.
-FINALS = {"fall": "2026-11-20", "winter": "2027-01-24", "spring": "2027-05-22"}
+#: Championship weekend by season, with per-sport overrides.
+#:
+#: Associations do not crown everything on one weekend, and the staggering is
+#: what keeps all three bracket states visible at a single demo date: with the
+#: clock at 2027-05-13, fall and winter are decided, the earlier spring
+#: championships are mid-bracket, and the later ones have not drawn yet. A
+#: single spring date would make every spring bracket the same state and the
+#: postseason surfaces would only ever demonstrate one of the three.
+FINALS = {"fall": "2026-11-20", "winter": "2027-02-27", "spring": "2027-05-22"}
+
+#: Sports whose championship runs late in the spring — still upcoming at the
+#: demo date, so "the bracket is drawn but nothing has been played" is a state
+#: the pages actually have to render.
+LATE_SPRING = {
+    "baseball", "softball", "boys-lacrosse", "girls-lacrosse",
+    "girls-flag-football", "boys-track", "girls-track",
+}
+LATE_SPRING_FINAL = "2027-06-12"
 
 #: Days between rounds, counting back from the final.
 ROUND_GAP = 7
@@ -362,7 +384,8 @@ def build(records_dir: pathlib.Path, today: str = TODAY) -> tuple[int, int]:
 
         for group, members in by_group.items():
             tid = f"{SEASON}-{sport.key}-{slugify(group)}"
-            final_date = FINALS[sport.season]
+            final_date = (LATE_SPRING_FINAL if sport.key in LATE_SPRING
+                          else FINALS[sport.season])
             t = Tournament(
                 id=tid,
                 name=f"{final_date[:4]} JHSAA {group} {sport.name} State Championship",

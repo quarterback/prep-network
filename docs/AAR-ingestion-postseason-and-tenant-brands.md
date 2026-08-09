@@ -267,10 +267,34 @@ is points per set (25-19, 25-22, 25-20) and its final is *sets won* (3-0).
 `periods_agree` accepts either shape; checking only addition reported every
 volleyball match in the state as broken.
 
-Baseball is a **parse-only** specimen. The season has not started at the demo
-date, so there is no played game to attach it to and importing it would stamp
-an April result onto a January state; `ingest.run --demo` shows its columns
-without writing a record.
+### The demo clock was the actual problem
+
+Baseball first shipped as a *parse-only* specimen: the season had not started at
+the demo date of 2027-01-16, so there was no played game to attach it to. That
+was a workaround for a fixable problem, and the fix was the obvious one —
+**move the clock**. It should have been the first move rather than the last.
+
+Two thirds of the calendar had no results at January: every game after
+2027-01-16 was scheduled and scoreless, so no spring sport could demonstrate
+anything. The clock is one constant in `generators.jefferson.gen`, but moving it
+is not "the same season further along" — scoring happens inline with
+scheduling, so a later date consumes different RNG draws and produces a
+*different* season. Everything derived from it has to be rebuilt, and anything
+pinned to a specific result stops being true.
+
+At **2027-05-13** all three seasons have results (fall 14,136 · winter 12,749 ·
+spring 3,324) and all 45 sports have at least one. Baseball imports like any
+other sport.
+
+Two things had to move with it. Championship weekends are now **staggered** —
+fall in November, winter in February, spring split between 05-22 and 06-12 —
+because a single spring date would put every spring bracket in the same state
+and the postseason pages would only ever demonstrate one of the three. And the
+tests that named specific schools had to stop: the 1A football champion is
+Greaves Junction now, not Mabryville, and an assertion naming Mabryville still
+passed because they remain in the 32-team field. Those are written against the
+invariant now — *the champion is the winner of the contest the final links to* —
+which is true at any clock.
 
 ## Commands
 

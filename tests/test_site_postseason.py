@@ -131,7 +131,9 @@ def test_football_1a_bracket_renders_the_whole_tree(reg):
     t = _tournament(reg, "2026-27-football-1a")
     html = build.render_tournament(reg, t)
     assert html.count("fh-brk-card") == sum(len(r.matchups) for r in t.rounds)
-    assert "Mabryville" in html and "Aspen Spur Union" in html
+    # Named finalists would only pass by accident once the state regenerates —
+    # they stay in the 32-team field long after they stop winning it.
+    assert t.champion in html and t.runner_up in html
     assert "State Champions" in html
     for name in ("First Round", "Quarterfinals", "Semifinals", "Championship"):
         assert name in html
@@ -168,13 +170,15 @@ def test_every_bracket_matchup_links_somewhere_that_exists(reg):
 
 
 def test_an_in_progress_bracket_shows_finals_and_fixtures(reg):
-    t = next(t for t in reg.tour_by_sport["boys-basketball"]
-             if t.status.value == "in_progress")
+    # WHICH sport is mid-bracket depends on the demo date — winter at one clock,
+    # spring at another. The state is what has to contain one, not basketball.
+    t = next(t for t in reg.tournaments
+             if t.status.value == "in_progress" and t.format.value == "bracket")
     html = build.render_tournament(reg, t)
-    assert "SEMIFINALS" in html.upper()
     assert "Final" in html                      # rounds already played
-    assert re.search(r"\d:\d\d [AP]M", html)    # and a tip-off time for one that is not
-    assert "fh-champbanner" not in html      # nobody has won it yet
+    assert re.search(r"\d:\d\d [AP]M", html)    # and a start time for one that is not
+    assert "fh-champbanner" not in html         # nobody has won it yet
+    assert any(r.complete for r in t.rounds) and any(not r.complete for r in t.rounds)
 
 
 def test_a_bye_is_drawn_as_a_bye_not_as_an_opponent(reg):

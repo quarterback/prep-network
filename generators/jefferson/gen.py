@@ -33,7 +33,12 @@ from generators.jefferson import names as N  # noqa: E402
 
 SEED = 5
 SEASON = "2026-27"
-TODAY = dt.date(2027, 1, 16)
+#: The demo clock. Everything on or before this date is PLAYED; everything
+#: after is scheduled. It is a single constant on purpose — the season is
+#: generated against it, so moving it and re-running is how the demo advances.
+#: Note that scoring happens inline with scheduling, so a different date is a
+#: different season, not the same season further along.
+TODAY = dt.date(2027, 5, 13)
 RECORDS = ROOT / "records"
 
 # The founding 256 keep their classes; 7A exists only via the expansion roster

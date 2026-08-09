@@ -44,15 +44,16 @@ is written against real structure instead of an invented one.
 | `ingest/resolve.py` — source names → member schools | working |
 | `app/shapes.py` — MEET / DUAL / GAME + postseason | working |
 | `app/postseason.py` — bracket geometry | working |
-| `generators/` — the fictional state, incl. 112 championships | working |
-| `site/build.py` — 14,122 pages, three tenant tiers | working |
+| `generators/` — the fictional state, incl. 165 championships | working |
+| `site/build.py` — 50,790 pages, three tenant tiers | working |
 | `atproto/` — lexicons, local repo store, relay, AppView | not started |
 
 ```sh
 python3 -m pytest -q                              # 202 tests
+python3 -m generators.jefferson.gen               # the state, at the demo clock
 python3 -m ingest.run --demo                      # every specimen, parsed and resolved
 python3 -m generators.jefferson.postseason        # derive the championship layer
-python3 site/build.py                             # writes dist/site/
+python3 site/build.py                             # writes dist/site/ (50,790 pages)
 ```
 
 ## Ingestion, end to end
@@ -63,7 +64,7 @@ checksums flagged:
 
 ```
 hytek-mm-swimming-results.txt      → hytek_swim
-  meet  2027 JHSAA 6A-5A Swimming & Diving …   7 events · 31 results · 10 schools
+  meet  2027 JHSAA 7A-5A Swimming & Diving …   7 events · 31 results · 10 schools
 scorebook-basketball-boxscore.csv  → scorebook_csv
   game  Copper Lake East at Ansotegui Siding   65–53 · 4 periods · box 15 players
 scorebook-basketball-badtotals.csv → scorebook_csv
@@ -95,6 +96,14 @@ server-side in `app/postseason.py` so cards and their connector elbows share one
 coordinate system — horizontally scrolling on desktop, one round at a time below
 900px. Titles decided by a meet rather than a bracket (cross country, golf,
 swimming, marching band) route to the meet renderer under the same navigation.
+
+The demo clock is **2027-05-13**, set in `generators/jefferson/gen.py`. It is
+late in the year on purpose: every season has results (fall 14,136 · winter
+12,749 · spring 3,324, and all 45 sports), and staggered championship weekends
+mean complete, in-progress and upcoming brackets all exist at that one date.
+Scoring happens inline with scheduling, so moving the clock produces a
+*different* season rather than the same one further along — everything derived
+from it has to be rebuilt.
 
 See [`docs/AAR-ingestion-postseason-and-tenant-brands.md`](docs/AAR-ingestion-postseason-and-tenant-brands.md).
 
