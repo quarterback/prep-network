@@ -406,7 +406,13 @@ def build(records_dir: pathlib.Path, today: str = TODAY) -> tuple[int, int]:
                 t.format = TournamentFormat.MEET
                 meet = meets_on_disk.get((sport.key, group))
                 if meet is not None:
-                    t.meet_key = contest_key(meet)
+                    # A meet-decided title is COMPLETE when it points at a
+                    # meet (`Tournament.status`), so only point at one that
+                    # was actually CONTESTED. The state schedules championship
+                    # meets ahead of the clock too, and linking those would
+                    # crown a champion for an event with no events in it.
+                    if meet.events:
+                        t.meet_key = contest_key(meet)
                     t.final_date = meet.date or final_date
                     t.final_venue = meet.venue or t.final_venue
                 t.entrants = _field(sport.key, group, members, table,

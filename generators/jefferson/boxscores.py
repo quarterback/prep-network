@@ -28,15 +28,16 @@ that matters beyond one page: a player who scores 18 in December is the same
 player on the same roster in February, so athlete pages accumulate a season
 instead of showing one disconnected line.
 
-* **Event cards for track meets.** The state's track meets carried exactly one
-  event each. A real one runs eighteen — six flat races, two hurdles, three
-  relays, and seven field events — and MEET is the shape this whole model was
-  designed around, so a one-event track meet is the flagship case failing
-  quietly. Cross country, golf and bowling legitimately have one event and are
-  left alone.
-
 Like the mascot pass, this is keyed on the record's own identity and never
 touches the state generator's RNG, so it cannot move a result.
+
+**Meets are not this module's business.** They were, briefly: track meets came
+out of the state generator with one event, so this pass rewrote the card. That
+left the team scores behind — they had been derived from the single event this
+pass then deleted, so every track meet in the state published eighteen events
+and a team score computed from a race that no longer appeared on the page. A
+meet's events and its team score are one derivation and belong to one owner,
+which is ``gen.make_meet``.
 """
 
 from __future__ import annotations
@@ -52,6 +53,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from app.sports import BY_KEY                   # noqa: E402
 from generators.jefferson import names as N     # noqa: E402
 
 RECORDS = ROOT / "records"
@@ -129,11 +131,19 @@ def roster(school: str, sport: str, size: int = 14) -> list[tuple[str, str, int]
 
     Keyed on the pair, so the same players appear in every one of that team's
     games and an athlete page accumulates a season rather than a single line.
+
+    Given names follow the sport's gender, the same rule the state generator's
+    pools follow. A shared name list put Vera and Imogen on a football roster
+    and Rafael on a softball one, which is the first thing a reader notices and
+    the last thing they forgive.
     """
+    gender = BY_KEY[sport].gender if sport in BY_KEY else "Coed"
+    firsts = {"Boys": N.BOYS_FIRST + N.UNISEX_FIRST,
+              "Girls": N.GIRLS_FIRST + N.UNISEX_FIRST}.get(gender, N.FIRST_NAMES)
     rng = random.Random(zlib.crc32(f"roster:{school}:{sport}".encode()))
     out, used, numbers = [], set(), set()
     while len(out) < size:
-        who = f"{rng.choice(N.LAST_NAMES)}, {rng.choice(N.FIRST_NAMES)}"
+        who = f"{rng.choice(firsts)} {rng.choice(N.LAST_NAMES)}"
         if who in used:
             continue
         used.add(who)
@@ -322,126 +332,15 @@ def box_for(sport: str, home: str, away: str, hs: int, as_: int, rng) -> dict | 
     return doc
 
 
-# ─────────────────────────────────────────────────────────── track meets
-
-#: The card a high-school track meet actually runs. (name, mark, low, high,
-#: relay) where the band is seconds for a race and INCHES for a field event.
-TRACK_EVENTS = [
-    ("100 Meter Dash", "time", 10.9, 12.6, False),
-    ("200 Meter Dash", "time", 22.1, 26.4, False),
-    ("400 Meter Dash", "time", 49.4, 59.8, False),
-    ("800 Meter Run", "time", 116.0, 142.0, False),
-    ("1600 Meter Run", "time", 258.0, 320.0, False),
-    ("3200 Meter Run", "time", 560.0, 700.0, False),
-    ("110 Meter Hurdles", "time", 14.6, 18.4, False),
-    ("300 Meter Hurdles", "time", 39.2, 48.6, False),
-    ("4x100 Meter Relay", "time", 43.1, 48.9, True),
-    ("4x400 Meter Relay", "time", 205.0, 232.0, True),
-    ("4x800 Meter Relay", "time", 490.0, 560.0, True),
-    ("Shot Put", "distance", 420.0, 660.0, False),
-    ("Discus", "distance", 1200.0, 2000.0, False),
-    ("Javelin", "distance", 1400.0, 2300.0, False),
-    ("High Jump", "height", 60.0, 78.0, False),
-    ("Long Jump", "distance", 232.0, 290.0, False),
-    ("Triple Jump", "distance", 460.0, 580.0, False),
-    ("Pole Vault", "height", 108.0, 174.0, False),
-]
-
-#: Girls' marks are slower and shorter; one factor per mark type beats keeping
-#: a second table that will drift out of step with the first.
-GIRLS_FACTOR = {"time": 1.12, "distance": 0.78, "height": 0.84}
-
-PLACE_POINTS = [10, 8, 6, 5, 4, 3, 2, 1]
-
-
-def _fmt(value: float, kind: str) -> str:
-    """A mark as the sport prints it: 12.44, 2:05.44, 16-11.75, 5-04.00."""
-    if kind == "time":
-        if value < 60:
-            return f"{value:.2f}"
-        return f"{int(value // 60)}:{value % 60:05.2f}"
-    feet, inches = int(value // 12), value % 12
-    return f"{feet}-{inches:05.2f}" if kind == "height" else f"{feet}-{inches:.2f}"
-
-
-def track_events(sport: str, schools: list[str], rng) -> list[dict]:
-    """A full event card, with entries drawn from each school's own roster."""
-    girls = sport.startswith("girls")
-    out = []
-    for number, (name, kind, lo, hi, relay) in enumerate(TRACK_EVENTS, start=1):
-        if girls:
-            f = GIRLS_FACTOR[kind]
-            lo, hi = lo * f, hi * f
-        field = []
-        for school in schools:
-            people = roster(school, sport, 18)
-            take = 1 if relay else 2
-            for who, yr, _no in rng.sample(people, min(take, len(people))):
-                field.append((rng.uniform(lo, hi), school, who, yr))
-        if not field:
-            continue
-        # A race is won by the LOW mark, a field event by the high one.
-        field.sort(key=lambda t: t[0], reverse=(kind != "time"))
-        entries = []
-        for place, (v, school, who, yr) in enumerate(field[:12], start=1):
-            if relay:
-                comps = [{"name": w, "school": school, "year": y}
-                         for w, y, _ in roster(school, sport, 18)[:4]]
-            else:
-                comps = [{"name": who, "school": school, "year": yr}]
-            entries.append({
-                "place": place, "school": school,
-                "mark": {"raw": _fmt(v, kind), "type": kind,
-                         "value": round(v, 2), "scored": True},
-                "competitors": comps,
-                "points": float(PLACE_POINTS[place - 1]) if place <= 8 else None,
-                "heat": None, "qualifier": None, "note": None,
-            })
-        out.append({
-            "number": number, "name": name,
-            "gender": "Girls" if girls else "Boys",
-            "division": None, "round": "Finals", "markType": kind,
-            "entries": entries, "records": [],
-        })
-    return out
-
-
 # ──────────────────────────────────────────────────────────────────── driver
 
 
-#: Meets whose one event is correct — a cross-country race, a golf round, a
-#: bowling series. Only track is expanded.
-def _expand_meet(d: dict) -> bool:
-    sport = d.get("sport", "")
-    if "track" not in sport or len(d.get("events") or []) > 1:
-        return False
-    if (d.get("provenance") or {}).get("adapter") in IMPORTED:
-        return False
-    schools = sorted({e["school"] for ev in (d.get("events") or [])
-                      for e in ev.get("entries", [])})
-    if len(schools) < 2:
-        schools = sorted({t["school"] for t in d.get("teamScores", [])})
-    if len(schools) < 2:
-        return False
-    rng = random.Random(zlib.crc32(f"meet:{sport}:{d.get('date')}:{d.get('name')}".encode()))
-    evs = track_events(sport, schools, rng)
-    if not evs:
-        return False
-    d["events"] = evs
-    return True
-
-
 def run(records_dir: pathlib.Path, write: bool = True) -> dict:
-    stats = {"games": 0, "periods": 0, "boxes": 0, "meets": 0}
+    stats = {"games": 0, "periods": 0, "boxes": 0}
     for path in sorted((records_dir / "contests").rglob("*.json")):
         try:
             d = json.loads(path.read_text())
         except (OSError, ValueError):
-            continue
-        if d.get("$type", "").endswith(".meet"):
-            if write and _expand_meet(d):
-                path.write_text(json.dumps(d, separators=(",", ":")) + "\n")
-                stats["meets"] += 1
             continue
         if not d.get("$type", "").endswith(".game"):
             continue
@@ -507,7 +406,6 @@ def main() -> int:
     print(f"{s['games']:,} played games")
     print(f"  period scoring: {s['periods']:,} ({s['periods']/g:.0%})")
     print(f"  box scores    : {s['boxes']:,} ({s['boxes']/g:.0%})")
-    print(f"  track meets expanded: {s['meets']:,}")
     return 0
 
 

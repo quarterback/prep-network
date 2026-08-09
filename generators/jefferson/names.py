@@ -272,17 +272,43 @@ MASCOTS = [
     "Marmots", "Firebirds", "Ridgerunners", "Salmonbacks", "Whalers", "Sagehens",
 ]
 
-FIRST_NAMES = [
-    "Aiden", "Alexis", "Amara", "Anders", "Annika", "Beau", "Bianca", "Bodie",
-    "Brynn", "Caleb", "Camila", "Carson", "Cecilia", "Colt", "Dahlia", "Dante",
-    "Delaney", "Diego", "Eleanor", "Elias", "Emery", "Esme", "Ezra", "Fiona",
-    "Gideon", "Gracelyn", "Harlan", "Hazel", "Hector", "Imogen", "Ira", "Isla",
-    "Jasper", "Joaquin", "Jubilee", "Kai", "Katriel", "Lachlan", "Lucia", "Magnus",
-    "Maren", "Mateo", "Mireya", "Nash", "Noelle", "Odessa", "Orion", "Paloma",
-    "Phoenix", "Priya", "Quinn", "Rafael", "Ramona", "Rhett", "Rosalind", "Rowan",
-    "Sable", "Santiago", "Saoirse", "Silas", "Sonora", "Tallulah", "Teodoro",
-    "Tessa", "Ulises", "Vera", "Waylon", "Willa", "Xiomara", "Yusuf", "Zadie", "Zeke",
+# Given names are split by gender because the rosters are. One shared list
+# put Vera and Imogen in a boys wrestling dual and Rafael and Hector in a
+# girls tennis lineup, on every page of the site at once — the single most
+# visible thing separating "a demo of a results system" from "a results
+# system". A sport's gender is already in the catalog; the roster just has to
+# honour it. UNISEX names are drawn for either, which is what keeps the split
+# from reading as two sealed name universes.
+BOYS_FIRST = [
+    "Aiden", "Anders", "Beau", "Bodie", "Caleb", "Colt", "Dante", "Diego",
+    "Elias", "Ezra", "Gideon", "Harlan", "Hector", "Jasper", "Joaquin",
+    "Lachlan", "Magnus", "Mateo", "Nash", "Orion", "Rafael", "Rhett",
+    "Santiago", "Silas", "Teodoro", "Ulises", "Waylon", "Yusuf", "Zeke",
+    "Abel", "Bennett", "Cormac", "Desmond", "Emiliano", "Ferris", "Gustav",
+    "Hollis", "Ignatius", "Jericho", "Kepler", "Leland", "Malachi", "Nikolai",
+    "Oskar", "Porter", "Quentin", "Ronan", "Soren", "Tobias", "Vicente",
+    "Wendell", "Xavier", "Yannick", "Zephyr", "Amos", "Cyrus", "Dashiell",
+    "Everett", "Gabriel", "Hamza", "Isandro", "Kofi", "Lucian", "Mikael",
 ]
+GIRLS_FIRST = [
+    "Amara", "Annika", "Bianca", "Brynn", "Camila", "Cecilia", "Dahlia",
+    "Delaney", "Eleanor", "Esme", "Fiona", "Gracelyn", "Hazel", "Imogen",
+    "Isla", "Jubilee", "Lucia", "Maren", "Mireya", "Noelle", "Odessa",
+    "Paloma", "Priya", "Ramona", "Rosalind", "Sable", "Saoirse", "Sonora",
+    "Tallulah", "Tessa", "Vera", "Willa", "Xiomara", "Zadie",
+    "Adaeze", "Beatriz", "Clementine", "Dagny", "Elowen", "Fernanda",
+    "Giselle", "Halina", "Ingrid", "Juniper", "Kalinda", "Linnea", "Marisol",
+    "Nadia", "Oriana", "Perpetua", "Rhiannon", "Siobhan", "Thandiwe",
+    "Ursula", "Valentina", "Wren", "Yasmin", "Zora", "Anneke", "Cordelia",
+    "Devorah", "Freya", "Ileana", "Magnolia", "Solveig",
+]
+#: Drawn for either roster.
+UNISEX_FIRST = [
+    "Alexis", "Carson", "Emery", "Ira", "Kai", "Katriel", "Phoenix", "Quinn",
+    "Rowan", "Aspen", "Blaise", "Ellis", "Marlowe", "Sasha", "Tatum",
+]
+#: Kept for anything that wants a name without caring whose it is.
+FIRST_NAMES = BOYS_FIRST + GIRLS_FIRST + UNISEX_FIRST
 LAST_NAMES = [
     "Abbott", "Acevedo", "Aldridge", "Barajas", "Beckett", "Bergstrom", "Blackwood",
     "Bravo", "Callahan", "Castellanos", "Chavarria", "Coombs", "Crowfoot", "Dahl",

@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 from app import postseason, records_io  # noqa: E402
 from app.shapes import Dual, Game, Meet, TournamentFormat, TournamentStatus  # noqa: E402
 from app.brand import ASSOC, NAME, TITLE, WORDMARK, page_title  # noqa: E402
-from app.sports import BY_KEY, CATALOG, CLASSES  # noqa: E402
+from app.sports import BY_KEY, CATALOG, CLASSES, meet_scoring  # noqa: E402
 
 import importlib.util as _ilu  # noqa: E402
 _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
@@ -978,14 +978,22 @@ def render_meet(reg, c: Meet):
     sport = BY_KEY[c.sport]
     scores = ""
     if c.team_scores:
+        cols = "26px minmax(150px,1fr) 66px"
+        # A team score is in the sport's OWN unit — 326 strokes, 2,290 pinfall,
+        # 77 points — so the column says which. Unlabelled, the same table
+        # reads as five different numbers meaning the same thing.
+        unit = meet_scoring(c.sport)[2] if c.sport in BY_KEY else "Points"
         rows = "".join(
-            f"<div class='fh-row{' first' if t.rank == 1 else ''}' style='--grid-cols:26px minmax(150px,1fr) 56px'>"
+            f"<div class='fh-row{' first' if t.rank == 1 else ''}' style='--grid-cols:{cols}'>"
             f"<span class='fh-rank'>{t.rank}</span><span class='fh-name'>{reg.school_link(t.school)}</span>"
             f"<span class='fh-num fh-mark'>{t.points:g}</span></div>"
             for t in sorted(c.team_scores, key=lambda t: t.rank or 99)[:14])
         scores = (f"<div class='fh-section'><h2>Team scores</h2>"
-                  "<div class='fh-panel' style='max-width:460px'><div class='fh-table narrow' "
-                  "style='--grid-cols:26px minmax(150px,1fr) 56px'>" + rows + "</div></div></div>")
+                  f"<div class='fh-panel' style='max-width:470px'><div class='fh-table narrow' "
+                  f"style='--grid-cols:{cols}'>"
+                  f"<div class='fh-thead'><span class='fh-th'></span>"
+                  f"<span class='fh-th'>School</span><span class='fh-th'>{esc(unit)}</span></div>"
+                  + rows + "</div></div></div>")
     blocks = [meet_results_tables(reg, c)]
     body = f"""
 <div class="fh-idhdr">
