@@ -109,6 +109,15 @@
   --surface-zebra: hsla(166, 55%, 86%, 0.30);
   --surface-hover: var(--cyan);
   --surface-mast: var(--linen);
+  /* Masthead ink. A scheme with a DARK masthead needs light type on it, and
+     without these aliases the only masthead any palette could have was a pale
+     wash — which is why two palettes built around navy and red came out
+     reading as beige: their loudest colours had nowhere to go but a 20px
+     chip. `--mast-rule` is the band under the bar, where an athletics site
+     traditionally puts its second colour. */
+  --on-mast: var(--ink);
+  --on-mast-dim: var(--text-secondary);
+  --mast-rule: var(--ink);
 
   --text-primary: var(--ink);
   --text-secondary: var(--gray-600);
@@ -148,45 +157,56 @@
   --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
 }
 
-/* ── scheme: bloom — ash-grey / petal-frost / soft-blossom / plum /
-   bright-lavender. No dark value in the palette, so ink and link are deep
-   tones of the lavender hue (276), same derivation rule as varsity's. ── */
-[data-theme="bloom"] {
-  --linen: #cfd4c5;            /* ash-grey takes the band slot */
-  --ivory: #eecfd4;            /* petal-frost takes the ground slot */
-  --cyan: #efb9cb;             /* soft-blossom takes the highlight slot */
-  --ice: #e6adec;              /* plum takes the accent-detail slot */
-  --prussian: hsl(276, 32%, 16%);
 
-  --brand-strong: hsl(276, 52%, 38%);
+/* ── scheme: rally — sky-aqua / blue-bell / bright-lemon / tiger-flame /
+   racing-red (owner palette 2027-08d). Five saturated colours and no dark or
+   light value in the set, so the ink and the ground derive from the aqua and
+   bell hues (192 / 205) the way bloom's and citrus's did. Every one of the
+   five is too bright to carry text on paper — lemon is 1.3:1 — so they take
+   the surfaces instead: a deep-bell bar under a racing-red rule, aqua as the
+   highlight wash, lemon as the band, flame and red as the accents. ── */
+[data-theme="rally"] {
+  --linen: hsl(54, 100%, 86%);   /* bright-lemon, laid down flat: bands, heads */
+  --ivory: hsl(192, 60%, 97%);   /* aqua at a whisper takes the ground slot */
+  --cyan: hsl(192, 90%, 91%);    /* sky-aqua wash: hover, highlight */
+  --ice: #19a5ff;                /* blue-bell takes the accent-detail slot */
+  --prussian: hsl(206, 62%, 12%);
 
-  --gray-150: hsl(294, 20%, 88%);
-  --gray-200: hsla(276, 32%, 16%, 0.14);
-  --gray-300: hsla(276, 32%, 16%, 0.24);
-  --gray-400: hsl(288, 12%, 62%);
-  --gray-500: hsl(288, 14%, 46%);
-  --gray-600: hsl(282, 20%, 33%);
+  --brand-strong: hsl(205, 90%, 32%);   /* blue-bell at 6.5:1 — link text */
 
-  --cat-7a: hsl(276, 48%, 16%);
-  --cat-6a: hsl(276, 40%, 26%);
-  --cat-5a: hsl(276, 40%, 38%);
-  --cat-4a: hsl(294, 45%, 36%);
-  --cat-3a: hsl(294, 40%, 48%);
-  --cat-2a: hsl(340, 48%, 44%);
-  --cat-1a: hsl(80, 18%, 38%);
+  --gray-150: hsl(192, 30%, 91%);
+  --gray-200: hsla(206, 62%, 10%, 0.14);
+  --gray-300: hsla(206, 62%, 10%, 0.24);
+  --gray-400: hsl(200, 14%, 60%);
+  --gray-500: hsl(202, 16%, 44%);
+  --gray-600: hsl(206, 30%, 28%);
 
-  --rank-gold: hsl(340, 55%, 42%);
-  --accent-live: hsl(340, 68%, 44%);
+  /* chip backgrounds hold white text: 5.3:1 at the lightest */
+  --cat-7a: hsl(206, 70%, 12%);
+  --cat-6a: hsl(206, 75%, 20%);
+  --cat-5a: hsl(205, 85%, 28%);
+  --cat-4a: hsl(196, 70%, 30%);
+  --cat-3a: hsl(16, 80%, 34%);
+  --cat-2a: hsl(16, 70%, 42%);
+  --cat-1a: hsl(356, 85%, 38%);
 
-  --surface-subtle: hsl(350, 40%, 92%);
-  --surface-zebra: hsla(294, 62%, 80%, 0.18);
+  --rank-gold: hsl(44, 95%, 32%);
+  --accent-live: #f00c18;               /* racing-red: happening now */
 
-  --crest-0: hsl(276, 40%, 28%); --crest-1: hsl(276, 34%, 40%);
-  --crest-2: hsl(294, 40%, 36%); --crest-3: hsl(294, 32%, 46%);
-  --crest-4: hsl(340, 42%, 40%); --crest-5: hsl(340, 34%, 50%);
-  --crest-6: hsl(80, 20%, 34%);  --crest-7: hsl(80, 16%, 44%);
-  --crest-8: hsl(320, 36%, 38%); --crest-9: hsl(260, 30%, 42%);
-  --crest-10: hsl(300, 26%, 30%); --crest-11: hsl(350, 30%, 44%);
+  --surface-mast: hsl(206, 80%, 20%);   /* deep blue-bell, 12.1:1 on white */
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(196, 60%, 80%);
+  --mast-rule: #f00c18;
+
+  --surface-subtle: hsl(54, 90%, 95%);
+  --surface-zebra: hsla(192, 90%, 86%, 0.30);
+
+  --crest-0: hsl(206, 75%, 18%); --crest-1: hsl(205, 85%, 28%);
+  --crest-2: hsl(196, 70%, 30%); --crest-3: hsl(192, 60%, 36%);
+  --crest-4: #b30f1a;            --crest-5: hsl(356, 70%, 46%);
+  --crest-6: hsl(16, 80%, 34%);  --crest-7: hsl(16, 70%, 44%);
+  --crest-8: hsl(44, 95%, 28%);  --crest-9: hsl(54, 70%, 30%);
+  --crest-10: hsl(206, 40%, 34%); --crest-11: hsl(192, 30%, 30%);
 }
 
 /* ── scheme: meadow — frosted-mint / willow-green / deep-teal / charcoal /
@@ -388,6 +408,14 @@
   --rank-gold: hsl(33, 83%, 34%);
   --accent-live: #db162f;               /* flag-red: in progress, happening now */
 
+  /* The bar IS the palette: indigo ground, white type, a flag-red rule under
+     it. Red-white-blue has to be red and blue on the biggest surface on the
+     page, not two chips beside a beige wash. */
+  --surface-mast: #1d3354;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(205, 45%, 84%);
+  --mast-rule: #db162f;
+
   --surface-subtle: hsl(90, 45%, 95%);
   --surface-zebra: hsla(205, 75%, 88%, 0.30);
 
@@ -427,6 +455,11 @@
   --rank-gold: hsl(43, 84%, 34%);
   --accent-live: #db162f;               /* flag-red: in progress, happening now */
 
+  --surface-mast: #0a122a;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(203, 40%, 82%);
+  --mast-rule: #db162f;
+
   --surface-subtle: hsl(43, 44%, 96%);
   --surface-zebra: hsla(203, 80%, 90%, 0.34);
 
@@ -455,31 +488,37 @@ a:hover { text-decoration: underline; }
 
 /* ── masthead — the 2px rules are the throwback cue ─────────────────────── */
 
-.fh-mast { background: var(--surface-mast); border-top: var(--rule); border-bottom: var(--rule); }
+.fh-mast { background: var(--surface-mast); border-top: 2px solid var(--mast-rule);
+  border-bottom: 3px solid var(--mast-rule); color: var(--on-mast); }
 .fh-mast .wrap {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 10px 24px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px;
 }
 .fh-wordmark {
   font-family: var(--font-wordmark); font-weight: 800; font-style: italic;
-  font-size: 27px; letter-spacing: 0.01em; color: var(--ink); line-height: 1;
+  font-size: 27px; letter-spacing: 0.01em; color: var(--on-mast); line-height: 1;
 }
-a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
+a.fh-wordmark:hover { text-decoration: none; opacity: 0.78; color: var(--on-mast); }
 .fh-mast-nav { display: flex; gap: 4px 18px; flex-wrap: wrap; align-items: baseline; }
 .fh-mast-nav a, .fh-mast-nav span {
-  font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary);
+  font-size: var(--fs-small); font-weight: 600; color: var(--on-mast-dim);
 }
-.fh-mast-nav a:hover { color: var(--text-link); text-decoration: none; }
-.fh-season { font-size: var(--fs-small); color: var(--text-muted); }
+.fh-mast-nav a:hover { color: var(--on-mast); text-decoration: none; }
+.fh-season { font-size: var(--fs-small); color: var(--on-mast-dim); }
+.fh-mast .fh-menu > button { color: var(--on-mast-dim); }
+.fh-mast .fh-menu > button:hover, .fh-mast .fh-menu:focus-within > button { color: var(--on-mast); }
+.fh-mast .fh-socialink { color: var(--on-mast-dim); }
+.fh-mast .fh-socialink:hover { color: var(--on-mast); }
+.fh-mast .fh-burger span { background: var(--on-mast); }
 
 /* network utility bar — the compact mast on school/conference pages */
 .fh-mast.compact { border-top: none; border-bottom: var(--hairline); }
 .fh-mast.compact .wrap { padding-top: 7px; padding-bottom: 7px; }
 .fh-mast.compact .fh-wordmark { font-size: 15px; letter-spacing: 0.02em; }
 .fh-mast.compact .fh-mast-nav a {
-  font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted);
+  font-size: var(--fs-caption); font-weight: 700; color: var(--on-mast-dim);
 }
-.fh-mast.compact .fh-mast-nav a:hover { color: var(--text-link); }
+.fh-mast.compact .fh-mast-nav a:hover { color: var(--on-mast); }
 
 /* ── toolbar: breadcrumb + back pill (entity pages) ─────────────────────── */
 
@@ -567,7 +606,7 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-themedrawer[open] > summary::after { content: "–"; }
 .fh-themedrawer .fh-themelist { padding: 0 10px 12px; display: grid; gap: 2px; }
 .fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
-.fh-swatch[data-theme-choice="bloom"] { background: linear-gradient(135deg, #c287e8 0 34%, #eecfd4 0 67%, #cfd4c5 0); }
+.fh-swatch[data-theme-choice="rally"] { background: linear-gradient(135deg, #0a385c 0 20%, #19a5ff 0 40%, #13d1ff 0 60%, #fee719 0 80%, #f00c18 0); }
 .fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
 .fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }
 .fh-swatch[data-theme-choice="harbor"] { background: linear-gradient(135deg, #071e22 0 34%, #f4c095 0 67%, #ee2e31 0); }
@@ -722,7 +761,11 @@ a.fh-row:hover { text-decoration: none; }
   margin-top: 18px;
 }
 
-footer.fh-foot { background: var(--surface-mast); border-top: var(--rule); margin-top: 40px; }
+footer.fh-foot { background: var(--surface-mast); border-top: 3px solid var(--mast-rule);
+  margin-top: 40px; color: var(--on-mast); }
+footer.fh-foot .fh-footmark, footer.fh-foot .fh-foottag,
+footer.fh-foot .fh-social a, footer.fh-foot .fh-logo { color: var(--on-mast-dim); }
+footer.fh-foot .fh-social a:hover { color: var(--on-mast); }
 footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 
 /* ── sponsor rail ──────────────────────────────────────────────────────────

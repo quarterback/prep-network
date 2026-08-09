@@ -615,7 +615,7 @@ SCHEMES = [
     ("varsity",   "Varsity",   "Mint · sea green · amber · black"),
     ("banner",    "Banner",    "Indigo · ocean blue · flag red · amber"),
     ("apex",      "Apex",      "Prussian · steel blue · amber · flag red"),
-    ("bloom",     "Bloom",     "Lavender · petal · plum"),
+    ("rally",     "Rally",     "Blue bell · aqua · lemon · racing red"),
     ("meadow",    "Meadow",    "Mint · teal · sunflower"),
     ("evergreen", "Evergreen", "Deep green · orange"),
     ("harbor",    "Harbor",    "Dark teal · peach · red"),
@@ -732,7 +732,7 @@ def shell(title, body, crumb="", back="", story=None, org=False,
   }});
   var t = null;
   try {{ t = localStorage.getItem("fh-theme"); }} catch (e) {{}}
-  if (t === "pitch") t = "";     // that palette became the default scheme
+  if (t === "pitch" || t === "bloom") t = "";   // retired or promoted to default
   if (t) apply(t);
 }})();
 </script>
