@@ -45,18 +45,23 @@ is written against real structure instead of an invented one.
 | `app/shapes.py` — MEET / DUAL / GAME + postseason | working |
 | `app/postseason.py` — bracket geometry | working |
 | `generators/` — the fictional state, incl. 165 championships | working |
-| `site/build.py` — 54,005 pages, three tenant tiers | working |
+| `site/build.py` — 58,497 pages, three tenant tiers | working |
 | `atproto/` — lexicons, local repo store, relay, AppView | not started |
 
 ```sh
 python3 -m pytest -q                              # 202 tests
 python3 -m generators.jefferson.gen               # the state, at the demo clock
 python3 -m generators.jefferson.mascots --check   # the mascot distribution
-python3 -m generators.jefferson.boxscores         # periods, box scores, track cards
-python3 -m ingest.run --demo                      # every specimen, parsed and resolved
+python3 -m ingest.run --demo --write              # replay the specimen imports
 python3 -m generators.jefferson.postseason        # derive the championship layer
-python3 site/build.py                             # writes dist/site/ (54,005 pages)
+python3 -m generators.jefferson.boxscores         # periods and box scores
+python3 site/build.py                             # writes dist/site/ (58,497 pages)
 ```
+
+That is also the REBUILD ORDER: `gen` clears the contest store, so the
+imports are replayed after it (`--demo --write` lands them on their existing
+records), the postseason derives from what is now on disk, and the box-score
+pass runs last.
 
 ## Ingestion, end to end
 
@@ -100,8 +105,8 @@ coordinate system — horizontally scrolling on desktop, one round at a time bel
 swimming, marching band) route to the meet renderer under the same navigation.
 
 The demo clock is **2027-05-13**, set in `generators/jefferson/gen.py`. It is
-late in the year on purpose: every season has results (fall 14,136 · winter
-12,749 · spring 3,324, and all 45 sports), and staggered championship weekends
+late in the year on purpose: every season has results (fall 14,150 · winter
+12,780 · spring 3,323, and all 45 sports), and staggered championship weekends
 mean complete, in-progress and upcoming brackets all exist at that one date.
 Scoring happens inline with scheduling, so moving the clock produces a
 *different* season rather than the same one further along — everything derived

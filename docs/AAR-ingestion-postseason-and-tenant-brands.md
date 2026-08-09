@@ -487,14 +487,77 @@ stale fact is worse than a red one. They are now written against invariants —
 *the champion is the winner of the contest the final links to* — which hold at
 any clock.
 
+## Every sport reads like its own sport (round 2027-08)
+
+The owner's next screenshot pass: *"golf, tennis and others, cross country and
+track don't make any sense… the championships only shows fall sports."* Both
+were right, and the second one had already fooled me once — I had verified the
+championships page *renders* all three season sections and concluded the
+complaint was about presentation. It wasn't. The winter meet championships
+were never **scheduled**: `meet_sport_season` took a `champ_date` for fall and
+`None` for everything else, so swimming, skiing, bowling, gymnastics, spirit,
+winter track and debate were all "upcoming" on a page dated May. The page was
+faithfully rendering a state in which half the winter postseason did not
+exist. The lesson is the same one the region-drift bug taught: when a page
+looks wrong, suspect the records before the renderer.
+
+The "don't make any sense" list decomposed into five distinct defects, every
+one of them the kind that is invisible in aggregate and obvious on the one
+page a person actually reads:
+
+* **One-event meets.** Twelve of twenty MEET families ran a single event — a
+  bowling meet was one line per school, a gymnastics meet had no apparatus, a
+  swim invitational ran six races and no diving. Every family now carries the
+  card its sport actually runs (`gen.MEET_EVENTS`), including derived combined
+  events: the all-around IS the sum of the four apparatus above it.
+* **Team scores in no unit.** Everything was "sum the places of everything you
+  entered", which put a golf team on 36. Scoring rules now live in the catalog
+  (`app.sports.MEET_SCORING`) — places for XC/ski, best-marks for
+  golf/bowling/gym/judged, place-points 10-8-6-5-4-3-2-1 with doubled relays
+  for swim/track — so a golf team totals 326 *strokes* and the renderer labels
+  the column from the same table. Computed and named by one authority.
+* **Girls badminton fenced.** The dual-card `else` branch handed every
+  non-tennis, non-wrestling dual the fencing card: foil, épée, sabre. Cards
+  are per sport now; wrestling runs the real fourteen weights; badminton plays
+  to 21.
+* **Scores contradicting their winners.** Line scores were generated
+  home-first and the winner drawn separately, so half the tennis lines in the
+  state read "6-3, 6-4" next to an away win. Scores are written from the
+  winner's side and flipped — the only construction that cannot disagree.
+* **Girls wrestling 106-pounder named Rafael.** One unisex name list fed every
+  roster. People now carry a gender in the school pools, sports draw the
+  gender they field, coed activities draw both.
+
+Ties were the quiet fifth: golf and bowling score in integers, so a
+three-way tie on 79 printing as 1-2-3 was wrong on every leaderboard.
+Standard competition ranking (1, 2, 2, 4) applies everywhere, individual and
+team, and marks snap to their printed precision *before* ranking so the
+order and the printed number cannot disagree.
+
+Regenerating exposed a workflow hole with a familiar shape: `gen.py` clears
+`records/contests`, so the state regeneration silently dropped all nine
+imported records — the ones the provenance surfaces exist to show — and the
+only way back was remembering which files to re-run. `ingest.run --demo
+--write` replays every committed specimen; re-imports land on their existing
+records, so it is idempotent. The rebuild order is now documented in the
+README because it is now real: gen → imports → postseason → boxscores → build.
+
+One deletion with the same moral as the additions: the box-score pass had been
+expanding track meets to eighteen events **after** the generator derived team
+scores from the original one — so every track meet published a team total
+computed from a race that no longer appeared on the page. A meet's events and
+its team score are one derivation with one owner, and the expansion moved into
+the generator where the scoring lives.
+
 ## Commands
 
 ```sh
 python3 -m ingest.run --demo                      # every specimen, parsed and resolved
+python3 -m ingest.run --demo --write              # …and land them in records/
 python3 -m ingest.fixtures.make_boxscores         # regenerate the box-score specimens
 python3 -m generators.jefferson.mascots --check   # the mascot distribution
 python3 -m ingest.run <file> [--sport KEY]        # import; re-imports update in place
 python3 -m generators.jefferson.postseason        # derive the championship layer
-python3 site/build.py                             # 14,122 pages
+python3 site/build.py                             # 58,497 pages
 python3 -m pytest -q                              # 202 tests
 ```
