@@ -194,6 +194,53 @@ def _field(sport_key, group, schools, table, size, anchor=()) -> list[Entrant]:
 # --------------------------------------------------------------- the bracket
 
 
+def _score(sport, rng: random.Random) -> tuple[int, int]:
+    """A final score in the sport's own currency, winner first.
+
+    One generic draw (38–72, basketball's band) used to fill every bracket:
+    a tennis quarterfinal shipped as 52–48 when a tennis dual is decided in
+    team points out of nine, a volleyball playoff carried a 60-point score
+    when volleyball is won in sets, and only the finals looked right because
+    those were adopted from the state generator, which has always known the
+    difference. The published pages' first screenful was fine and every
+    interior round was nonsense — which is exactly where a reader clicks next.
+    """
+    k = sport.key
+    if k == "football":
+        w, l = rng.randint(17, 49), rng.randint(0, 31)
+    elif k == "girls-flag-football":
+        w, l = rng.randint(13, 40), rng.randint(0, 26)
+    elif "soccer" in k or k == "field-hockey":
+        w, l = rng.randint(1, 5), rng.randint(0, 3)
+    elif "basketball" in k:
+        w, l = rng.randint(48, 82), rng.randint(35, 70)
+    elif "volleyball" in k:
+        return 3, rng.choice([0, 1, 1, 2])          # sets: 3-0 / 3-1 / 3-2
+    elif "tennis" in k or "fencing" in k:
+        w = rng.choice([5, 5, 6, 6, 7, 8, 9])       # nine lines, team points
+        return w, 9 - w
+    elif "badminton" in k:
+        w = rng.choice([3, 3, 4, 5])                # five lines
+        return w, 5 - w
+    elif "wrestling" in k:
+        return 3 * rng.randint(11, 18), 3 * rng.randint(3, 9)
+    elif "ice-hockey" in k:
+        w, l = rng.randint(2, 6), rng.randint(0, 4)
+    elif "water-polo" in k:
+        w, l = rng.randint(8, 16), rng.randint(4, 12)
+    elif "lacrosse" in k:
+        w, l = rng.randint(7, 16), rng.randint(3, 12)
+    elif k == "ultimate":
+        return 15, rng.randint(7, 13)               # game to 15
+    elif k in ("baseball", "softball"):
+        w, l = rng.randint(2, 10), rng.randint(0, 7)
+    else:
+        w, l = rng.randint(40, 70), rng.randint(30, 60)
+    if l >= w:
+        l = w - 1
+    return w, max(0, l)
+
+
 def _play(t: Tournament, today: str, rng: random.Random,
           existing_final, sport) -> list[Game]:
     """Walk the rounds, deciding each matchup whose date has passed.
@@ -256,13 +303,7 @@ def _play(t: Tournament, today: str, rng: random.Random,
                 # The better seed usually wins; the gap decides how usually.
                 edge = 0.5 + min(0.32, abs(hi - lo) * 0.035)
                 home_wins = rng.random() < (edge if hi < lo else 1 - edge)
-            a, b = sorted([rng.randint(38, 72), rng.randint(30, 64)], reverse=True)
-            if sport.key in ("football",):
-                a, b = sorted([rng.randint(14, 49), rng.randint(0, 35)], reverse=True)
-            elif sport.key in ("boys-soccer", "girls-soccer", "field-hockey"):
-                a, b = sorted([rng.randint(1, 5), rng.randint(0, 3)], reverse=True)
-            if a == b:
-                a += 1
+            a, b = _score(sport, rng)
             m.home_score, m.away_score = (a, b) if home_wins else (b, a)
             m.status = "final"
 

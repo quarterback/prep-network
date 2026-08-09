@@ -703,9 +703,44 @@ footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 }
 .fh-foottag { font-size: var(--fs-small); font-weight: 600; color: var(--text-muted); }
 
+/* ── social — the butterfly is a FILLED mark, unlike the stroked sport set ── */
+.fh-bf { width: 15px; height: 13px; fill: currentColor; stroke: none;
+  vertical-align: -1px; }
+.fh-socialink { display: inline-flex; align-items: center; align-self: center;
+  color: var(--text-secondary); padding: 2px 4px; }
+.fh-socialink:hover { color: var(--brand-strong); }
+.fh-social { margin-left: auto; }
+.fh-social a { display: inline-flex; align-items: center; gap: 6px;
+  font-size: var(--fs-small); font-weight: 600; color: var(--text-muted); }
+.fh-social a:hover { color: var(--brand-strong); text-decoration: none; }
+
+/* the feed module: a follow card that becomes the live feed when the
+   reader's browser can reach the public AppView API */
+.fh-bsky h2 { display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-condensed); font-weight: 800; font-size: var(--fs-caption);
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 8px; }
+.fh-bsky h2 .fh-bf { width: 17px; height: 15px; }
+.fh-bskyfollow { display: block; border: var(--rule); padding: 12px 14px;
+  background: var(--surface-card); color: inherit; }
+.fh-bskyfollow:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-bskyfollow .hd { display: block; font-weight: 700; font-size: var(--fs-small); }
+.fh-bskyfollow .dk { display: block; font-size: var(--fs-caption);
+  color: var(--text-secondary); margin: 3px 0 6px; }
+.fh-bskyfollow .fl { font-size: var(--fs-caption); font-weight: 700;
+  color: var(--brand-strong); }
+.fh-bskypost { display: block; border: var(--hairline); border-left: 3px solid var(--ice);
+  padding: 9px 12px; margin-bottom: 8px; background: var(--surface-card); color: inherit; }
+.fh-bskypost:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-bskypost .tx { display: block; font-size: var(--fs-small); line-height: 1.45;
+  white-space: pre-line; }
+.fh-bskypost .mt { display: block; margin-top: 5px; font-size: var(--fs-micro);
+  color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.fh-newsbsky { max-width: 420px; margin-top: 28px; }
+
 @media (max-width: 560px) {
   .fh-sponsors { gap: 14px 24px; }
   .fh-footmark { font-size: 26px; }
+  .fh-social { margin-left: 0; }
 }
 
 main.wrap { padding-bottom: 10px; }

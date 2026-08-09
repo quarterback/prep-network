@@ -45,6 +45,14 @@ OUT = ROOT / "dist/site"
 FAVICON = "/favicon.svg"   # replaced in build() if site/favicon.* exists
 TODAY = "2027-05-13"          # the demo date the generator built around
 SEASON_LABEL = "2026–27"
+
+#: The network's real Bluesky account. The site never fakes a feed: pages
+#: render a follow card, and a small script swaps in the live posts from the
+#: PUBLIC AppView API (no key, CORS-open) when the reader's browser can reach
+#: it. Empty account, failed fetch, JS off — all leave the honest card.
+BSKY_HANDLE = "varsityapex.com"
+BSKY_URL = f"https://bsky.app/profile/{BSKY_HANDLE}"
+BSKY_API = "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed"
 CREST_CLASSES = 12
 CLASS_LABEL = {"9": "Fr", "10": "So", "11": "Jr", "12": "Sr"}
 SEASON_ORDER = {"fall": 0, "winter": 1, "spring": 2}
@@ -503,13 +511,22 @@ def shell(title, body, crumb="", back="", story=None, org=False):
     <a href="/tour/">Tour</a>
     <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
     <span class="fh-season">{ASSOC} · {SEASON_LABEL}</span>
-    <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
-    <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
-    <button class="fh-swatch" data-theme-choice="meadow" aria-pressed="false" aria-label="Meadow scheme"></button>
-    <button class="fh-swatch" data-theme-choice="evergreen" aria-pressed="false" aria-label="Evergreen scheme"></button>
-    <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"></button>
-    <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"></button>
-    <button class="fh-swatch" data-theme-choice="pitch" aria-pressed="false" aria-label="Pitch scheme"></button>
+    <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"
+            title="Varsity — prussian · amber · flag red (default)"></button>
+    <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"
+            title="Bloom — lavender · petal · plum"></button>
+    <button class="fh-swatch" data-theme-choice="meadow" aria-pressed="false" aria-label="Meadow scheme"
+            title="Meadow — mint · teal · sunflower"></button>
+    <button class="fh-swatch" data-theme-choice="evergreen" aria-pressed="false" aria-label="Evergreen scheme"
+            title="Evergreen — deep green · orange"></button>
+    <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"
+            title="Harbor — dark teal · peach · red"></button>
+    <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"
+            title="Citrus — aqua · beige · pumpkin"></button>
+    <button class="fh-swatch" data-theme-choice="pitch" aria-pressed="false" aria-label="Pitch scheme"
+            title="Pitch — mint · sea green · amber · black"></button>
+    <a class="fh-socialink" href="{BSKY_URL}" target="_blank" rel="noopener"
+       aria-label="VarsityApex on Bluesky">{icons.bsky()}</a>
   </nav>
 </div></header><!--/M-->
 <label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
@@ -554,7 +571,9 @@ def shell(title, body, crumb="", back="", story=None, org=False):
 <footer class="fh-foot"><div class="wrap">
   <div class="fh-sponsors">{sponsor_rail()}</div>
   <div class="fh-footrow"><span class="fh-footmark">{WORDMARK}</span>
-    <span class="fh-foottag">The official site of the {ASSOC}</span></div>
+    <span class="fh-foottag">The official site of the {ASSOC}</span>
+    <span class="fh-social"><a href="{BSKY_URL}" target="_blank" rel="noopener">
+      {icons.bsky()} @{BSKY_HANDLE}</a></span></div>
 </div></footer>
 </body>
 </html>
@@ -2525,6 +2544,8 @@ def render_news_index(reg):
 {lane('activity', 'Activities & competition', 'Championships, schedules and student-athletes.')}
 {lane('association', 'Association business', 'Eligibility, officiating, participation and board decisions.')}
 </div>
+<div class="fh-newsbsky">{bsky_panel()}</div>
+{BSKY_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › News"
     return shell(page_title(f"News"), body, crumb)
@@ -2549,6 +2570,60 @@ SEASON_JS = """
     });
   });
 })();
+</script>"""
+
+
+def bsky_panel():
+    """The network's Bluesky feed, as a rail module.
+
+    What ships in the HTML is only what is TRUE without a network: the handle,
+    the link, and a follow card. The script asks the public AppView API for
+    the account's recent posts and swaps them in — reader-side, so a static
+    page shows a live feed without the build knowing anything about it. Every
+    failure mode (empty account, blocked fetch, JS off) leaves the card, which
+    is a working link rather than a broken feed.
+    """
+    return f"""
+<section class="fh-bsky">
+  <h2>{icons.bsky()} From the network</h2>
+  <div id="bsky-feed" data-actor="{BSKY_HANDLE}">
+    <a class="fh-bskyfollow" href="{BSKY_URL}" target="_blank" rel="noopener">
+      <span class="hd">@{BSKY_HANDLE}</span>
+      <span class="dk">Scores, championship nights and records news on Bluesky.</span>
+      <span class="fl">Follow →</span>
+    </a>
+  </div>
+</section>"""
+
+
+BSKY_JS = f"""
+<script>
+(function () {{
+  var box = document.getElementById("bsky-feed");
+  if (!box || !window.fetch) return;
+  var actor = box.getAttribute("data-actor");
+  fetch("{BSKY_API}?actor=" + encodeURIComponent(actor) +
+        "&limit=4&filter=posts_no_replies")
+    .then(function (r) {{ if (!r.ok) throw 0; return r.json(); }})
+    .then(function (data) {{
+      var posts = (data.feed || []).filter(function (it) {{ return !it.reason; }});
+      if (!posts.length) return;                 // empty feed: keep the card
+      box.innerHTML = posts.map(function (it) {{
+        var p = it.post, rec = p.record || {{}};
+        var url = "https://bsky.app/profile/" + actor + "/post/" + p.uri.split("/").pop();
+        var d = new Date(rec.createdAt || p.indexedAt);
+        var t = document.createElement("span");
+        t.textContent = rec.text || "";          // escape by assignment
+        return "<a class='fh-bskypost' href='" + url + "' target='_blank' rel='noopener'>" +
+          "<span class='tx'>" + t.innerHTML + "</span>" +
+          "<span class='mt'>" + d.toLocaleDateString(undefined, {{month: "short", day: "numeric"}}) +
+          " · " + (p.likeCount || 0) + " likes · " + (p.repostCount || 0) + " reposts</span></a>";
+      }}).join("") +
+      "<p class='fh-more'><a href='https://bsky.app/profile/" + actor +
+      "' target='_blank' rel='noopener'>Follow @" + actor + " →</a></p>";
+    }})
+    .catch(function () {{}});
+}})();
 </script>"""
 
 
@@ -2656,6 +2731,7 @@ def render_front(reg):
       <div class="fh-results">{''.join(finals)}</div>
       <p class="fh-more"><a href="/scoreboard/">Full scoreboard →</a></p>
     </section>
+    {bsky_panel()}
     <section class="fh-finder">
       <h2>Find your school</h2>
       <input id="school-q" type="search" placeholder="School, town or conference"
@@ -2667,6 +2743,7 @@ def render_front(reg):
 </div>
 
 {SEASON_JS}
+{BSKY_JS}
 <script>
 (function () {{
   var q = document.getElementById("school-q"), hits = document.getElementById("school-hits");
@@ -2697,16 +2774,27 @@ def favicon_tag() -> str:
     return f'\n<link rel="icon" href="{FAVICON}"{kind}>'
 
 
+#: The owner's mark (owner note 2027-08). When this file exists it IS the
+#: favicon, published as /favicon.png; until it lands the fallbacks below
+#: keep the tab from going blank.
+APEX_MARK = ROOT / "site/img/sports/apex-blue.png"
+
+
 def pick_favicon() -> str:
-    """Drop any favicon.* into site/ and it wins; otherwise fall back to the
-    wordmark's initial so the tab is never blank mid-rename. Resolved before
-    the pages render (they carry the href) and written after the output tree is
-    cleared."""
+    """The apex mark when present; else any favicon.* dropped into site/;
+    else the wordmark's initial so the tab is never blank mid-rename.
+    Resolved before the pages render (they carry the href) and written after
+    the output tree is cleared."""
+    if APEX_MARK.exists():
+        return "/favicon.png"
     found = sorted((ROOT / "site").glob("favicon.*"))
     return "/" + found[0].name if found else "/favicon.svg"
 
 
 def write_favicon(out: pathlib.Path) -> None:
+    if APEX_MARK.exists():
+        shutil.copy(APEX_MARK, out / "favicon.png")
+        return
     src = ROOT / "site" / FAVICON.lstrip("/")
     if src.exists():
         shutil.copy(src, out / src.name)
