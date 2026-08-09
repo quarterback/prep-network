@@ -97,7 +97,6 @@ COACH_LAST = ["Okafor", "Whitmore", "Salinas", "Beckett", "Rowe", "Iwata",
 KINDS = {
     # people, at a school
     "athlete-of-week":  ("Athlete of the Week", "school"),
-    "performance":      ("Performance", "school"),
     "all-conference":   ("All-Conference", "school"),
     "all-state":        ("All-State", "school"),
     "scholar-athlete":  ("Scholar-Athlete", "school"),
@@ -115,7 +114,6 @@ KINDS = {
     "conf-team-of-week":    ("Team of the Week", "conference"),
     "conf-player-of-year":  ("Player of the Year", "conference"),
     "conf-newcomer":        ("Newcomer of the Year", "conference"),
-    "conf-coach-of-year":   ("Coach of the Year", "conference"),
     "conf-all-conference":  ("All-Conference", "conference"),
     "conf-all-academic":    ("All-Academic", "conference"),
     "conf-sportsmanship":   ("Sportsmanship", "conference"),
@@ -140,6 +138,11 @@ def _rng(*parts) -> random.Random:
 def coach_for(school: str, sport_key: str) -> str:
     r = _rng("coach", school, sport_key)
     return f"{r.choice(COACH_FIRST)} {r.choice(COACH_LAST)}"
+
+
+def _an(n) -> str:
+    """"an 11-1 season", not "a 11-1 season"."""
+    return "an" if str(n)[0] in "8" or str(n)[:2] in ("11", "18") else "a"
 
 
 def _shift(day: str, days: int) -> str:
@@ -287,6 +290,50 @@ def best_lines(st: State, since: str) -> dict[str, tuple]:
     return best
 
 
+def best_efforts(st: State, since: str) -> dict[str, tuple]:
+    """The best performance each school produced, from whatever shape it has.
+
+    Box scores cover a quarter of games, so keyed on those alone the weekly
+    honour reached 86 of 840 schools and the module was blank almost
+    everywhere. A meet winner and a dual's top flight are performances too,
+    and every school has one of the three.
+    """
+    best = dict(best_lines(st, since))
+    for c in st.contests:
+        if not st.played(c) or (c.date or "") < since:
+            continue
+        if isinstance(c, Meet):
+            for ev in c.events:
+                if ev.name in ("All-Around", "Total Score"):
+                    continue
+                for e in ev.entries[:1]:
+                    if not e.competitors or e.mark is None:
+                        continue
+                    school = e.school
+                    if school not in st.schools or school in best:
+                        continue
+                    best[school] = (0, e.competitors[0].name,
+                                    e.competitors[0].year or "",
+                                    f"won the {ev.name.lower()} in {e.mark.raw}",
+                                    c.sport, c)
+        elif isinstance(c, Dual) and c.lines:
+            for side in ("home", "away"):
+                school = getattr(c, side)
+                if school not in st.schools or school in best:
+                    continue
+                won = [ln for ln in c.lines if ln.winner == side
+                       and getattr(ln, side)]
+                if not won:
+                    continue
+                ln = won[0]
+                who = getattr(ln, side)[0].name
+                flight = (f"at {ln.kind}" if str(ln.kind).isdigit()
+                          else f"at {ln.kind} {ln.slot}")
+                best[school] = (0, who, getattr(ln, side)[0].year or "",
+                                f"won {flight}, {ln.score}", c.sport, c)
+    return best
+
+
 def school_items(st: State, weekly: dict) -> list[dict]:
     """Everything a school's own front page can lead with."""
     out: list[dict] = []
@@ -326,12 +373,17 @@ def school_items(st: State, weekly: dict) -> list[dict]:
         w = weekly.get(school)
         if w:
             val, who, year, phrase, key, c = w
-            opp = c.away if c.home == school else c.home
-            won = ((c.home_score or 0) > (c.away_score or 0)) == (c.home == school)
+            opp = "" if isinstance(c, Meet) else (
+                c.away if c.home == school else c.home)
+            won = (isinstance(c, Game)
+                   and ((c.home_score or 0) > (c.away_score or 0)) == (c.home == school))
+            if val:                       # a box-score line: "28 points"
+                dek = f"{phrase} in the {'win over' if won else 'meeting with'} {opp}."
+            else:                         # a meet or dual effort: already a clause
+                dek = f"{who} {phrase} against {opp}." if opp else f"{who} {phrase}."
             out.append(item(
                 "athlete-of-week", c.date,
-                f"{who} named {school} athlete of the week",
-                f"{phrase} in the {'win over' if won else 'meeting with'} {opp}.",
+                f"{who} named {school} athlete of the week", dek,
                 school=school, sport=key, people=[who]))
 
         # ---- all-conference and all-state, off the standings
@@ -358,8 +410,9 @@ def school_items(st: State, weekly: dict) -> list[dict]:
                 who = roster[r.randrange(len(roster))][0]
                 out.append(item(
                     "all-state", _shift(today, -r.randrange(3, 20)),
-                    f"{who} named all-state in {sp.name.lower()}",
-                    f"The selection follows a {rec['w']}-{rec['l']} season for {school}.",
+                    f"{school}'s {who} named all-state in {sp.name.lower()}",
+                    f"The selection follows {_an(rec['w'])} {rec['w']}-{rec['l']} "
+                    f"season for the {s['mascot']}.",
                     school=school, sport=key, conference=conf, people=[who]))
 
             # ---- coach milestones: a real win count crossing a round number
@@ -377,8 +430,9 @@ def school_items(st: State, weekly: dict) -> list[dict]:
             if rank == 0 and rec["w"] >= 10:
                 out.append(item(
                     "coach-of-year", _shift(today, -r.randrange(2, 18)),
-                    f"{coach} named {conf} {sp.name.lower()} coach of the year",
-                    f"{school} finished {rec['cw']}-{rec['cl']} in league play.",
+                    f"{school}'s {coach} is the {conf} {sp.name.lower()} coach of the year",
+                    f"The {s['mascot']} finished {rec['cw']}-{rec['cl']} in league play, "
+                    f"{rec['w']}-{rec['l']} overall.",
                     school=school, sport=key, conference=conf, people=[coach]))
 
         # ---- the categories with no statistic behind them, still anchored
@@ -530,7 +584,7 @@ def conference_items(st: State, weekly: dict) -> list[dict]:
             out.append(item(
                 "conf-champion", _shift(today, -r.randrange(2, 30)),
                 f"{s0} wins the {conf} {sp.name.lower()} title",
-                f"The {s0} finished {r0['cw']}-{r0['cl']} in league play, "
+                f"{s0} finished {r0['cw']}-{r0['cl']} in league play, "
                 f"{r0['w']}-{r0['l']} overall.",
                 school=s0, conference=conf, sport=key))
             # player and newcomer of the year come off the champion's roster
@@ -540,7 +594,7 @@ def conference_items(st: State, weekly: dict) -> list[dict]:
                 out.append(item(
                     "conf-player-of-year", _shift(today, -r.randrange(2, 20)),
                     f"{who} is the {conf} {sp.name.lower()} player of the year",
-                    f"The {s0} selection led the league champion.",
+                    f"The selection led the league champion, {s0}.",
                     school=s0, conference=conf, sport=key, people=[who]))
                 frosh = [n for n, y in roster if y in ("9", "10")]
                 if frosh:
@@ -564,12 +618,27 @@ def conference_items(st: State, weekly: dict) -> list[dict]:
                     ", ".join(f"{n} ({s})" for n, s in named) + ".",
                     conference=conf, sport=key, people=[n for n, _s in named]))
 
+        # the league's own postseason — what a conference page must show
+        for t in st.tournaments:
+            field = [e.school for e in t.entrants if e.school in mset]
+            if len(field) < 2 or t.status.value == "complete":
+                continue
+            out.append(item(
+                "conf-tournament", t.start_date or today,
+                f"{len(field)} {conf} schools in the {t.group} "
+                f"{BY_KEY[t.sport].name} championship field",
+                ", ".join(field[:4])
+                + (f" and {len(field) - 4} more" if len(field) > 4 else "")
+                + f" qualified for the {t.size}-team bracket.",
+                conference=conf, sport=t.sport))
+            break
+
         if best_team:
             s0, r0, sp = best_team
             out.append(item(
                 "conf-team-of-week", _shift(today, -r.randrange(1, 7)),
                 f"{s0} {sp.name.lower()} is the {conf} team of the week",
-                f"The {s0} moved to {r0['cw']}-{r0['cl']} in conference play.",
+                f"{s0} moved to {r0['cw']}-{r0['cl']} in conference play.",
                 school=s0, conference=conf, sport=sp.key))
 
         # academic, sportsmanship, officials, announcements — the league's
@@ -661,7 +730,7 @@ def state_items(st: State) -> list[dict]:
 
 def build(records_dir: pathlib.Path, today: str) -> list[dict]:
     st = State(records_dir, today)
-    weekly = best_lines(st, _shift(today, -10))
+    weekly = best_efforts(st, _shift(today, -24))
     items = (school_items(st, weekly) + record_items(st)
              + conference_items(st, weekly) + state_items(st))
     # newest first, and stable inside a day so a rerun does not reshuffle

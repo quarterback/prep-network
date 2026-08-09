@@ -840,6 +840,111 @@ footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 
 main.wrap { padding-bottom: 10px; }
 
+/* ══════════════════════════════════════════ editorial homepage
+   Three simultaneous jobs above the fold — what just happened, what is
+   coming, who was recognised. Blank space is not breathing room on an
+   athletics front page; it reads as a site with nothing to report. */
+.fh-front {
+  display: grid; grid-template-columns: minmax(0, 48fr) minmax(0, 27fr) minmax(0, 25fr);
+  gap: 22px; align-items: start; margin-top: 16px;
+}
+@media (max-width: 1040px) { .fh-front { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .fh-front-lead { grid-column: 1 / -1; } }
+@media (max-width: 700px) { .fh-front { grid-template-columns: 1fr; } }
+.fh-front > section > h2, .fh-mod > h3 {
+  font-family: var(--font-condensed); font-weight: 800; font-size: var(--fs-caption);
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 8px;
+  padding-bottom: 6px; border-bottom: var(--rule);
+}
+.fh-front-lead .fh-feature { min-height: 330px; }
+
+/* HeadlineList — headlines, not cards */
+.fh-hl { display: block; padding: 9px 0; border-bottom: var(--hairline); color: inherit; }
+.fh-hl:last-of-type { border-bottom: none; }
+.fh-hl:hover { text-decoration: none; }
+.fh-hl:hover .hd { color: var(--text-link); }
+.fh-hl .kk {
+  display: flex; gap: 6px; font-family: var(--font-label); font-size: 10px;
+  font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--brand-strong);
+}
+.fh-hl .kk .wh { color: var(--text-faint); }
+.fh-hl .kk .wh::before { content: "· "; }
+.fh-hl .hd { display: block; font-weight: 700; font-size: var(--fs-small); line-height: 1.3; margin: 2px 0; }
+.fh-hl .dt { font-size: var(--fs-micro); color: var(--text-muted); }
+
+/* EventRow — three lines, not six */
+.fh-evrow { position: relative; padding: 8px 0; border-bottom: var(--hairline); }
+.fh-evrow:last-of-type { border-bottom: none; }
+.fh-evrow .m { position: absolute; inset: 0; }
+.fh-evrow:hover { background: var(--surface-hover); }
+.fh-evrow .kk {
+  display: block; font-family: var(--font-label); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted);
+}
+.fh-evrow.final .kk { color: var(--accent-live); }
+.fh-evrow .ln { display: block; font-size: var(--fs-small); font-weight: 600; line-height: 1.35; }
+.fh-evrow .ln a { position: relative; z-index: 1; }
+.fh-evrow .dt { font-size: var(--fs-micro); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+/* the dense band under the ribbon */
+.fh-modrow { display: grid; gap: 18px; margin-top: 26px; }
+/* the member strip is identity, not content: compress it so the league's
+   editorial front starts inside the first viewport rather than under it */
+.fh-memberstrip.tight { max-height: 96px; overflow: hidden; padding-bottom: 4px; }
+.fh-memberstrip.tight .fh-member span { font-size: var(--fs-micro); }
+.fh-modrow.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fh-modrow.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.fh-modrow.n4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 940px) { .fh-modrow.n3, .fh-modrow.n4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .fh-modrow { grid-template-columns: 1fr !important; } }
+
+.fh-stline {
+  display: grid; grid-template-columns: 24px auto minmax(0, 1fr) auto;
+  align-items: center; gap: 7px; padding: 5px 0; font-size: var(--fs-small);
+  border-bottom: var(--hairline);
+}
+.fh-stline:last-child { border-bottom: none; }
+.fh-stline .rk { font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.fh-stline.first .nm { font-weight: 700; }
+.fh-stline .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fh-stline .tnum { color: var(--text-secondary); }
+
+.fh-spotrow { display: grid; grid-template-columns: auto 1fr; gap: 2px 9px; align-items: center; color: inherit; }
+.fh-spotrow:hover { text-decoration: none; }
+.fh-spotrow:hover .who { color: var(--text-link); }
+.fh-spotrow .fh-crest { grid-row: span 2; }
+.fh-spot .who { font-family: var(--font-display); font-weight: 800; font-size: 17px; line-height: 1.1; }
+.fh-spot .wh { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-spot .dk { margin: 8px 0 0; font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.4; }
+
+.fh-award { display: block; padding: 7px 0; border-bottom: var(--hairline); color: inherit; }
+.fh-award:last-child { border-bottom: none; }
+.fh-award:hover { text-decoration: none; }
+.fh-award:hover .hd { color: var(--text-link); }
+.fh-award .lb {
+  font-family: var(--font-label); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--brand-strong);
+}
+.fh-award .hd { display: block; font-size: var(--fs-small); font-weight: 600; line-height: 1.32; }
+.fh-award .wh { font-size: var(--fs-micro); color: var(--text-muted); }
+
+.fh-chstat {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 8px;
+  align-items: center; padding: 7px 0; border-bottom: var(--hairline); color: inherit;
+}
+.fh-chstat:last-child { border-bottom: none; }
+.fh-chstat:hover { text-decoration: none; }
+.fh-chstat .fh-ic { grid-row: span 2; }
+.fh-chstat .nm { font-size: var(--fs-small); font-weight: 700; }
+.fh-chstat .st { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-chstat.in_progress .st { color: var(--accent-live); font-weight: 700; }
+
+.fh-ql { display: block; padding: 6px 0; border-bottom: var(--hairline); font-size: var(--fs-small); }
+.fh-ql:last-child { border-bottom: none; }
+.fh-ql b { display: block; font-size: var(--fs-micro); font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted); }
+
 /* ── persistent score rail ─────────────────────────────────────────────── */
 
 .fh-rail { border-bottom: var(--hairline); background: var(--surface-subtle); }
@@ -1869,6 +1974,11 @@ a.fh-tourrow:hover { background: var(--surface-hover); text-decoration: none; }
       <div class="fh-results"><div class='fh-scorerow'><a class='m' href='/games/2027-05-08-norview-at-pacific-friends-school-jhsaa-6a-quarterfinals/'></a><span class='who'><a href='/schools/pacific-friends-school/'>Pacific Friends School</a> <b class='tnum'>9</b>, <a href='/schools/norview/'>Norview</a> <b class='tnum'>0</b></span><span class='when'>Boys Tennis</span></div><div class='fh-scorerow'><a class='m' href='/games/2027-05-08-port-meridian-west-at-northside-christian-jhsaa-6a-quarterfinals/'></a><span class='who'><a href='/schools/northside-christian/'>Northside Christian</a> <b class='tnum'>6</b>, <a href='/schools/port-meridian-west/'>Port Meridian West</a> <b class='tnum'>3</b></span><span class='when'>Boys Tennis</span></div><div class='fh-scorerow'><a class='m' href='/games/2027-05-08-timberline-at-echevarria-foundry-high-jhsaa-6a-quarterfinals/'></a><span class='who'><a href='/schools/timberline/'>Timberline</a> <b class='tnum'>8</b>, <a href='/schools/echevarria-foundry-high/'>Echevarria Foundry High</a> <b class='tnum'>1</b></span><span class='when'>Boys Tennis</span></div><div class='fh-scorerow'><a class='m' href='/games/2027-05-08-clara-cross-at-holy-cross-jhsaa-6a-quarterfinals/'></a><span class='who'><a href='/schools/clara-cross/'>Clara Cross</a> <b class='tnum'>5</b>, <a href='/schools/holy-cross/'>Holy Cross</a> <b class='tnum'>4</b></span><span class='when'>Boys Tennis</span></div><div class='fh-scorerow'><a class='m' href='/games/2027-05-08-riverbend-at-orellana-school-of-commerce-jhsaa-5a-quarterfinals/'></a><span class='who'><a href='/schools/orellana-school-of-commerce/'>Orellana School of Commerce</a> <b class='tnum'>5</b>, <a href='/schools/riverbend/'>Riverbend</a> <b class='tnum'>4</b></span><span class='when'>Boys Tennis</span></div><div class='fh-scorerow'><a class='m' href='/games/2027-05-08-rafael-escobedo-at-aldecoa-depot-high-jhsaa-5a-quarterfinals/'></a><span class='who'><a href='/schools/rafael-escobedo/'>Rafael Escobedo</a> <b class='tnum'>5</b>, <a href='/schools/aldecoa-depot-high/'>Aldecoa Depot High</a> <b class='tnum'>4</b></span><span class='when'>Boys Tennis</span></div><div class='fh-scorerow'><a class='m' href='/games/2027-05-08-rye-at-redfork-west-jhsaa-5a-quarterfinals/'></a><span class='who'><a href='/schools/rye/'>Rye</a> <b class='tnum'>5</b>, <a href='/schools/redfork-west/'>Redfork West</a> <b class='tnum'>4</b></span><span class='when'>Boys Tennis</span></div></div>
       <p class="fh-more"><a href="/scoreboard/">Full scoreboard →</a></p>
     </section>
+    <section class="fh-latest">
+      <h2>Statewide honors</h2>
+      <a class='fh-hl' href='/sports/boys-ice-hockey/'><span class='kk'>Statewide Honor<span class='wh'>Daniel Gaines</span></span><span class='hd'>Leland Hutchins of Daniel Gaines named JHSAA boys ice hockey athlete of the year</span><span class='dt'>Sat May 8</span></a><a class='fh-hl' href='/sports/boys-water-polo/'><span class='kk'>Statewide Honor<span class='wh'>Caswell School of Science and Industry</span></span><span class='hd'>Carson Bravo of Caswell School of Science and Industry named JHSAA boys water polo athlete of the year</span><span class='dt'>Sat May 8</span></a><a class='fh-hl' href='/athletes/valentina-keller-garfield-park/'><span class='kk'>Statewide Honor<span class='wh'>Garfield Park</span></span><span class='hd'>Valentina Keller of Garfield Park named JHSAA girls tennis athlete of the year</span><span class='dt'>Thu May 6</span></a><a class='fh-hl' href='/athletes/ezra-ybarra-arrieta/'><span class='kk'>Statewide Honor<span class='wh'>Arrieta</span></span><span class='hd'>Ezra Ybarra of Arrieta named JHSAA boys wrestling athlete of the year</span><span class='dt'>Thu May 6</span></a>
+      <p class="fh-more"><a href="/championships/">Championships →</a></p>
+    </section>
     
 <section class="fh-bsky">
   <h2><svg class="fh-bf" aria-hidden="true"><use href="#i-bsky"/></svg> From the network</h2>
@@ -1890,6 +2000,7 @@ a.fh-tourrow:hover { background: var(--surface-hover); text-decoration: none; }
   </aside>
 </div>
 
+<div class='fh-modrow n4'><div class='fh-mod'><h3>State champions</h3><a class='fh-award' href='/championships/girls-basketball/'><span class='lb'>State Champion</span><span class='hd'>Zoya Orlov claims the 5A Girls Basketball state title</span><span class='wh'>Zoya Orlov</span></a><a class='fh-award' href='/championships/girls-wrestling/'><span class='lb'>State Champion</span><span class='hd'>Valley Christian claims the 2A-1A Girls Wrestling state title</span><span class='wh'>Valley Christian</span></a><a class='fh-award' href='/championships/girls-basketball/'><span class='lb'>State Champion</span><span class='hd'>Sofía Cordero claims the 4A Girls Basketball state title</span><span class='wh'>Sofía Cordero</span></a><a class='fh-award' href='/championships/boys-wrestling/'><span class='lb'>State Champion</span><span class='hd'>Serrano claims the 7A Boys Wrestling state title</span><span class='wh'>Serrano</span></a><a class='fh-award' href='/championships/boys-basketball/'><span class='lb'>State Champion</span><span class='hd'>San Tomás claims the 3A Boys Basketball state title</span><span class='wh'>San Tomás</span></a></div><div class='fh-mod'><h3>Athletes of the year</h3><a class='fh-award' href='/sports/boys-ice-hockey/'><span class='lb'>Statewide Honor</span><span class='hd'>Leland Hutchins of Daniel Gaines named JHSAA boys ice hockey athlete of the year</span><span class='wh'>Daniel Gaines</span></a><a class='fh-award' href='/sports/boys-water-polo/'><span class='lb'>Statewide Honor</span><span class='hd'>Carson Bravo of Caswell School of Science and Industry named JHSAA boys water polo athlete of the year</span><span class='wh'>Caswell School of Science and Industry</span></a><a class='fh-award' href='/athletes/valentina-keller-garfield-park/'><span class='lb'>Statewide Honor</span><span class='hd'>Valentina Keller of Garfield Park named JHSAA girls tennis athlete of the year</span><span class='wh'>Garfield Park</span></a><a class='fh-award' href='/athletes/ezra-ybarra-arrieta/'><span class='lb'>Statewide Honor</span><span class='hd'>Ezra Ybarra of Arrieta named JHSAA boys wrestling athlete of the year</span><span class='wh'>Arrieta</span></a><a class='fh-award' href='/sports/girls-soccer/'><span class='lb'>Statewide Honor</span><span class='hd'>Aspen Thibodeaux of Belmonte Classical Academy named JHSAA girls soccer athlete of the year</span><span class='wh'>Belmonte Classical Academy</span></a></div><div class='fh-mod'><h3>Record performances</h3><a class='fh-award' href='/athletes/willa-hutchins-st-norbert-abbey/'><span class='lb'>State Record</span><span class='hd'>Willa Hutchins sets the state standard in the slalom</span></a><a class='fh-award' href='/athletes/sonora-singh-steelbridge/'><span class='lb'>State Record</span><span class='hd'>Sonora Singh sets the state standard in the 200 yard im</span></a><a class='fh-award' href='/athletes/linnea-ledoux-san-cordero-school-of-co/'><span class='lb'>State Record</span><span class='hd'>Linnea Ledoux sets the state standard in the triple jump</span></a><a class='fh-award' href='/athletes/ira-ivanov-aspen-meadows/'><span class='lb'>State Record</span><span class='hd'>Ira Ivanov sets the state standard in the game 3</span></a></div><div class='fh-mod'><h3>Association recognition</h3><a class='fh-award' href='/news/'><span class='lb'>Academic Recognition</span><span class='hd'>JHSAA names 214 schools to the academic honor roll</span></a><a class='fh-award' href='/news/'><span class='lb'>Officials</span><span class='hd'>Association honors twelve officials for career service</span></a><a class='fh-award' href='/news/'><span class='lb'>Sportsmanship</span><span class='hd'>Six schools receive the JHSAA sportsmanship citation</span></a></div></div>
 
 <script>
 (function () {

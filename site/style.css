@@ -817,6 +817,111 @@ footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 
 main.wrap { padding-bottom: 10px; }
 
+/* ══════════════════════════════════════════ editorial homepage
+   Three simultaneous jobs above the fold — what just happened, what is
+   coming, who was recognised. Blank space is not breathing room on an
+   athletics front page; it reads as a site with nothing to report. */
+.fh-front {
+  display: grid; grid-template-columns: minmax(0, 48fr) minmax(0, 27fr) minmax(0, 25fr);
+  gap: 22px; align-items: start; margin-top: 16px;
+}
+@media (max-width: 1040px) { .fh-front { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .fh-front-lead { grid-column: 1 / -1; } }
+@media (max-width: 700px) { .fh-front { grid-template-columns: 1fr; } }
+.fh-front > section > h2, .fh-mod > h3 {
+  font-family: var(--font-condensed); font-weight: 800; font-size: var(--fs-caption);
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 8px;
+  padding-bottom: 6px; border-bottom: var(--rule);
+}
+.fh-front-lead .fh-feature { min-height: 330px; }
+
+/* HeadlineList — headlines, not cards */
+.fh-hl { display: block; padding: 9px 0; border-bottom: var(--hairline); color: inherit; }
+.fh-hl:last-of-type { border-bottom: none; }
+.fh-hl:hover { text-decoration: none; }
+.fh-hl:hover .hd { color: var(--text-link); }
+.fh-hl .kk {
+  display: flex; gap: 6px; font-family: var(--font-label); font-size: 10px;
+  font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--brand-strong);
+}
+.fh-hl .kk .wh { color: var(--text-faint); }
+.fh-hl .kk .wh::before { content: "· "; }
+.fh-hl .hd { display: block; font-weight: 700; font-size: var(--fs-small); line-height: 1.3; margin: 2px 0; }
+.fh-hl .dt { font-size: var(--fs-micro); color: var(--text-muted); }
+
+/* EventRow — three lines, not six */
+.fh-evrow { position: relative; padding: 8px 0; border-bottom: var(--hairline); }
+.fh-evrow:last-of-type { border-bottom: none; }
+.fh-evrow .m { position: absolute; inset: 0; }
+.fh-evrow:hover { background: var(--surface-hover); }
+.fh-evrow .kk {
+  display: block; font-family: var(--font-label); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted);
+}
+.fh-evrow.final .kk { color: var(--accent-live); }
+.fh-evrow .ln { display: block; font-size: var(--fs-small); font-weight: 600; line-height: 1.35; }
+.fh-evrow .ln a { position: relative; z-index: 1; }
+.fh-evrow .dt { font-size: var(--fs-micro); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+/* the dense band under the ribbon */
+.fh-modrow { display: grid; gap: 18px; margin-top: 26px; }
+/* the member strip is identity, not content: compress it so the league's
+   editorial front starts inside the first viewport rather than under it */
+.fh-memberstrip.tight { max-height: 96px; overflow: hidden; padding-bottom: 4px; }
+.fh-memberstrip.tight .fh-member span { font-size: var(--fs-micro); }
+.fh-modrow.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fh-modrow.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.fh-modrow.n4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 940px) { .fh-modrow.n3, .fh-modrow.n4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .fh-modrow { grid-template-columns: 1fr !important; } }
+
+.fh-stline {
+  display: grid; grid-template-columns: 24px auto minmax(0, 1fr) auto;
+  align-items: center; gap: 7px; padding: 5px 0; font-size: var(--fs-small);
+  border-bottom: var(--hairline);
+}
+.fh-stline:last-child { border-bottom: none; }
+.fh-stline .rk { font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.fh-stline.first .nm { font-weight: 700; }
+.fh-stline .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fh-stline .tnum { color: var(--text-secondary); }
+
+.fh-spotrow { display: grid; grid-template-columns: auto 1fr; gap: 2px 9px; align-items: center; color: inherit; }
+.fh-spotrow:hover { text-decoration: none; }
+.fh-spotrow:hover .who { color: var(--text-link); }
+.fh-spotrow .fh-crest { grid-row: span 2; }
+.fh-spot .who { font-family: var(--font-display); font-weight: 800; font-size: 17px; line-height: 1.1; }
+.fh-spot .wh { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-spot .dk { margin: 8px 0 0; font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.4; }
+
+.fh-award { display: block; padding: 7px 0; border-bottom: var(--hairline); color: inherit; }
+.fh-award:last-child { border-bottom: none; }
+.fh-award:hover { text-decoration: none; }
+.fh-award:hover .hd { color: var(--text-link); }
+.fh-award .lb {
+  font-family: var(--font-label); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--brand-strong);
+}
+.fh-award .hd { display: block; font-size: var(--fs-small); font-weight: 600; line-height: 1.32; }
+.fh-award .wh { font-size: var(--fs-micro); color: var(--text-muted); }
+
+.fh-chstat {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 8px;
+  align-items: center; padding: 7px 0; border-bottom: var(--hairline); color: inherit;
+}
+.fh-chstat:last-child { border-bottom: none; }
+.fh-chstat:hover { text-decoration: none; }
+.fh-chstat .fh-ic { grid-row: span 2; }
+.fh-chstat .nm { font-size: var(--fs-small); font-weight: 700; }
+.fh-chstat .st { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-chstat.in_progress .st { color: var(--accent-live); font-weight: 700; }
+
+.fh-ql { display: block; padding: 6px 0; border-bottom: var(--hairline); font-size: var(--fs-small); }
+.fh-ql:last-child { border-bottom: none; }
+.fh-ql b { display: block; font-size: var(--fs-micro); font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted); }
+
 /* ── persistent score rail ─────────────────────────────────────────────── */
 
 .fh-rail { border-bottom: var(--hairline); background: var(--surface-subtle); }
