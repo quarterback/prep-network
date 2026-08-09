@@ -3496,21 +3496,6 @@ def _letter_favicon() -> str:
     )
 
 
-def link_check(pages):
-    targets = set(pages) | {"/style.css", FAVICON}
-    broken = []
-    for url, text in pages.items():
-        for href in re.findall(r"href=['\"](/[^'\"#]*)", text):
-            if href.startswith("/fonts/"):
-                if not (ROOT / "site/fonts" / href.split("/")[-1]).exists():
-                    broken.append(f"{url} -> {href}")
-            elif href.startswith("/report/"):
-                if not (ROOT / href.lstrip("/")).exists():
-                    broken.append(f"{url} -> {href}")
-            elif href not in targets:
-                broken.append(f"{url} -> {href}")
-    return broken
-
 
 def inline_preview(front):
     css = (ROOT / "site/style.css").read_text()
@@ -3523,11 +3508,11 @@ def inline_preview(front):
     return front.replace('<link rel="stylesheet" href="/style.css">', f"<style>\n{css}\n</style>")
 
 
-def write_sitemap(out: pathlib.Path, pages: dict) -> None:
+def write_sitemap(out: pathlib.Path, page_urls: list) -> None:
     """A sitemap index plus shards, because 58,000 urls is past the 50,000 a
     single sitemap may carry — a crawler drops the whole file when it is over,
     so the limit is not advisory."""
-    urls = sorted(pages)
+    urls = sorted(page_urls)
     shards = [urls[i:i + 40000] for i in range(0, len(urls), 40000)]
     for n, shard in enumerate(shards, 1):
         body = "".join(f"<url><loc>{SITE_URL}{html.escape(u)}</loc></url>" for u in shard)
@@ -3543,6 +3528,65 @@ def write_sitemap(out: pathlib.Path, pages: dict) -> None:
         f"{index}</sitemapindex>\n")
 
 
+def page_plan(reg):
+    """Every url the site will publish, paired with how to render it.
+
+    Deferred as (url, thunk) rather than rendered here, so `build` can hold
+    the URL SET — which link checking and the sitemap need in full — without
+    holding 58,000 rendered pages at the same time.
+    """
+    plan = [("/", lambda: render_front(reg)),
+            ("/scoreboard/", lambda: render_scoreboard(reg)),
+            ("/tour/", lambda: render_tour(reg)),
+            ("/schools/", lambda: render_schools_index(reg)),
+            ("/conferences/", lambda: render_confs_index(reg)),
+            ("/championships/", lambda: render_championships(reg)),
+            ("/news/", lambda: render_news_index(reg))]
+    for st in news.STORIES:
+        plan.append((f"/news/{st['slug']}/", lambda st=st: render_story(reg, st)))
+    for c in reg.contests:
+        render = (render_meet if isinstance(c, Meet) else
+                  render_dual if isinstance(c, Dual) else render_game)
+        plan.append((reg.url(c), lambda c=c, r=render: r(reg, c)))
+    for sp in CATALOG:
+        # A hub exists for every activity somebody sponsors, even with no
+        # contests yet — school pages link to it, and an empty season is a
+        # state a real association site has to show anyway.
+        if reg.by_sport.get(sp.key) or any(sp.key in s.get("sports", ())
+                                           for s in reg.schools.values()):
+            plan += [(f"/sports/{sp.key}/", lambda sp=sp: render_sport(reg, sp)),
+                     (f"/sports/{sp.key}/standings/", lambda sp=sp: render_sport_standings(reg, sp)),
+                     (f"/sports/{sp.key}/schedule/", lambda sp=sp: render_sport_schedule(reg, sp)),
+                     (f"/sports/{sp.key}/champions/", lambda sp=sp: render_sport_champs(reg, sp))]
+            if sp.shape.value != "meet":
+                plan.append((f"/sports/{sp.key}/rankings/",
+                             lambda sp=sp: render_sport_rankings(reg, sp)))
+    for sp in CATALOG:
+        if reg.tour_by_sport.get(sp.key):
+            plan.append((f"/championships/{sp.key}/", lambda sp=sp: render_champ_sport(reg, sp)))
+    for t in reg.tournaments:
+        plan.append((reg.tour_url[t.id], lambda t=t: render_tournament(reg, t)))
+    for sc in reg.schools.values():
+        plan.append((f"/schools/{sc['slug']}/", lambda sc=sc: render_school(reg, sc)))
+    for slug, conf in reg.confs.items():
+        plan.append((f"/conferences/{slug}/", lambda conf=conf: render_conference(reg, conf)))
+    for a in reg.athletes.values():
+        plan.append((f"/athletes/{a['slug']}/", lambda a=a: render_athlete(reg, a)))
+    return plan
+
+
+def check_links(url, text, targets, broken):
+    for href in re.findall(r"href=['\"](/[^'\"#]*)", text):
+        if href.startswith("/fonts/"):
+            if not (ROOT / "site/fonts" / href.split("/")[-1]).exists():
+                broken.append(f"{url} -> {href}")
+        elif href.startswith("/report/"):
+            if not (ROOT / href.lstrip("/")).exists():
+                broken.append(f"{url} -> {href}")
+        elif href not in targets:
+            broken.append(f"{url} -> {href}")
+
+
 def build():
     global RAIL, FAVICON
     reg = Registry()
@@ -3550,62 +3594,39 @@ def build():
     RAIL = build_rail(reg)
     build_menus(reg)
 
-    pages = {"/": render_front(reg), "/scoreboard/": render_scoreboard(reg),
-             "/tour/": render_tour(reg),
-             "/schools/": render_schools_index(reg), "/conferences/": render_confs_index(reg),
-             "/championships/": render_championships(reg),
-             "/news/": render_news_index(reg)}
-    for st in news.STORIES:
-        pages[f"/news/{st['slug']}/"] = render_story(reg, st)
-    for c in reg.contests:
-        u = reg.url(c)
-        if isinstance(c, Meet):
-            pages[u] = render_meet(reg, c)
-        elif isinstance(c, Dual):
-            pages[u] = render_dual(reg, c)
-        else:
-            pages[u] = render_game(reg, c)
-    for sp in CATALOG:
-        # A hub exists for every activity somebody sponsors, even with no
-        # contests yet — school pages link to it, and an empty season is a
-        # state a real association site has to show anyway.
-        if reg.by_sport.get(sp.key) or any(sp.key in s.get("sports", ())
-                                           for s in reg.schools.values()):
-            pages[f"/sports/{sp.key}/"] = render_sport(reg, sp)
-            pages[f"/sports/{sp.key}/standings/"] = render_sport_standings(reg, sp)
-            if sp.shape.value != "meet":
-                pages[f"/sports/{sp.key}/rankings/"] = render_sport_rankings(reg, sp)
-            pages[f"/sports/{sp.key}/schedule/"] = render_sport_schedule(reg, sp)
-            pages[f"/sports/{sp.key}/champions/"] = render_sport_champs(reg, sp)
-    for sp in CATALOG:
-        if reg.tour_by_sport.get(sp.key):
-            pages[f"/championships/{sp.key}/"] = render_champ_sport(reg, sp)
-    for t in reg.tournaments:
-        pages[reg.tour_url[t.id]] = render_tournament(reg, t)
-    for s in reg.schools.values():
-        pages[f"/schools/{s['slug']}/"] = render_school(reg, s)
-    for slug, conf in reg.confs.items():
-        pages[f"/conferences/{slug}/"] = render_conference(reg, conf)
-    for a in reg.athletes.values():
-        pages[f"/athletes/{a['slug']}/"] = render_athlete(reg, a)
+    plan = page_plan(reg)
+    urls = [u for u, _ in plan]
+    targets = set(urls) | {"/style.css", FAVICON}
 
-    broken = link_check(pages)
+    shutil.rmtree(OUT, ignore_errors=True)
+    # RENDER, CHECK AND WRITE ONE PAGE AT A TIME. Accumulating all 58,000 in a
+    # dict first cost ~3GB of HTML strings on top of the records already in
+    # memory, and the whole build peaked at 7.1GB — inside an 8GB build
+    # container, which is how a deploy starts failing silently and the live
+    # site quietly serves the previous commit.
+    broken, front = [], None
+    for url, render in plan:
+        text = render()
+        check_links(url, text, targets, broken)
+        if len(broken) > 40:
+            break
+        rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
+        out = OUT / rel
+        out.parent.mkdir(parents=True, exist_ok=True)
+        # og:url and rel=canonical are the one thing in the head only this
+        # loop knows. Substituted here rather than threaded through every
+        # renderer's signature.
+        page = text.replace(OG_URL_TOKEN, url)
+        out.write_text(page)
+        if url == "/":
+            front = page
     if broken:
         for b in broken[:20]:
             print("BROKEN:", b)
         raise SystemExit(f"{len(broken)} broken internal links")
 
-    shutil.rmtree(OUT, ignore_errors=True)
-    for url, text in pages.items():
-        rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
-        p = OUT / rel
-        p.parent.mkdir(parents=True, exist_ok=True)
-        # og:url and rel=canonical are the one thing in the head only this
-        # loop knows. Substituted here rather than threaded through every
-        # renderer's signature.
-        p.write_text(text.replace(OG_URL_TOKEN, url))
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
-    # Not in `pages`: it must land at 404.html, not 404/index.html, and it
+    # Not in the plan: it must land at 404.html, not 404/index.html, and it
     # must stay out of the sitemap.
     (OUT / "404.html").write_text(render_404(reg).replace(OG_URL_TOKEN, "/404"))
     write_favicon(OUT)
@@ -3618,7 +3639,7 @@ def build():
         shutil.copy(ROOT / "site/img/og.jpg", OUT / "img/og.jpg")
     (OUT / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
-    write_sitemap(OUT, pages)
+    write_sitemap(OUT, urls)
     shutil.copytree(ROOT / "report", OUT / "report")
     for f in (OUT / "report").glob("*.html"):
         f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)
@@ -3626,11 +3647,10 @@ def build():
     n_rec = stdsite.write_records(ROOT, news.STORIES)
     wk = stdsite.write_well_known(OUT)
     (ROOT / "dist").mkdir(exist_ok=True)
-    (ROOT / "dist/index.html").write_text(inline_preview(pages["/"]))
-    print(f"{len(pages):,} pages · {len(reg.schools)} schools · {len(reg.athletes):,} athletes · links OK")
+    (ROOT / "dist/index.html").write_text(inline_preview(front))
+    print(f"{len(urls):,} pages · {len(reg.schools)} schools · {len(reg.athletes):,} athletes · links OK")
     print(f"standard.site: {n_rec} records"
           + (f" · published as {stdsite.PUB_URI}" if wk else " · unpublished (FH_PUB_URI unset)"))
-
 
 if __name__ == "__main__":
     build()
