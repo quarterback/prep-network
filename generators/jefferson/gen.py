@@ -286,6 +286,10 @@ class Gen:
                 schools.append(dict(
                     name=s["name"], city=s["city"], area=s["area"], private=s["private"],
                     classification=cls, enrollment=rng.randint(lo, hi),
+                    # Overwritten by generators.jefferson.mascots at the end of
+                    # the run. The draw STAYS so the RNG stream is unchanged —
+                    # removing it would shift every subsequent result in the
+                    # sport and quietly regenerate the season.
                     mascot=rng.choice(N.MASCOTS), quality=rng.gauss(0, 1),
                 ))
         return schools
@@ -947,6 +951,11 @@ class Gen:
              for s in self.schools],
             self.confs,
         )
+        # Mascots are a post-pass: keyed on the school's own name, so they cost
+        # no RNG draws and cannot move a result. See that module for why the
+        # frequency curve and the regional tail matter.
+        from generators.jefferson import mascots as _mascots
+        _mascots.apply(RECORDS)
         self.write_gazetteer()
         games = sum(1 for c in self.contests if isinstance(c, Game))
         duals = sum(1 for c in self.contests if isinstance(c, Dual))

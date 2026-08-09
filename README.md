@@ -51,6 +51,7 @@ is written against real structure instead of an invented one.
 ```sh
 python3 -m pytest -q                              # 202 tests
 python3 -m generators.jefferson.gen               # the state, at the demo clock
+python3 -m generators.jefferson.mascots --check   # the mascot distribution
 python3 -m ingest.run --demo                      # every specimen, parsed and resolved
 python3 -m generators.jefferson.postseason        # derive the championship layer
 python3 site/build.py                             # writes dist/site/ (50,790 pages)
