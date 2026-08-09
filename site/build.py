@@ -3083,6 +3083,20 @@ except Exception:
     NEWS_CREDITS = {}
 
 
+def story_photo(st):
+    """(url, credit) for a story — its own photograph, or its sport's.
+
+    Only eleven of the stories have a picture of their own. Without a
+    fallback the ones that do not lead the front page as a flat colour
+    block, which reads as a bug rather than a choice.
+    """
+    if (NEWS_IMG / f"{st['slug']}.jpg").exists():
+        c = NEWS_CREDITS.get(st["slug"], {})
+        credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
+        return f"/img/news/{st['slug']}.jpg", credit
+    return sport_photo(st.get("sport") or "gym-generic")
+
+
 def story_img(st, cls=""):
     """The story's photograph, when one exists on disk. Every credit renders —
     the licenses require it, and a real newsroom would print it anyway."""
@@ -3265,10 +3279,35 @@ def season_ribbon(sport_keys, current="winter", link=None, tail=""):
 </section>"""
 
 
-def season_chooser(reg, current="winter"):
+def season_of(day: str) -> str:
+    """Which season a date falls in, by the calendar this state keeps."""
+    m = int(day[5:7])
+    return "fall" if 8 <= m <= 11 else "winter" if m == 12 or m <= 2 else "spring"
+
+
+def season_chooser(reg, current=None):
+    current = current or season_of(TODAY)
     keys = [sp.key for sp in CATALOG if reg.by_sport.get(sp.key)]
     return season_ribbon(keys, current,
                          tail="<a class='all' href='/scoreboard/'>Scoreboard →</a>")
+
+
+#: The season tabs already sit above the fold; this moves the newsroom with
+#: them. Kept separate from SEASON_JS because those panes are scoped inside
+#: the ribbon and the news column is not.
+NEWS_SEASON_JS = """
+<script>
+(function () {
+  var panes = document.querySelectorAll("[data-news-season]");
+  var tabs = document.querySelectorAll(".fh-seasontabs button");
+  if (!panes.length || !tabs.length) return;
+  tabs.forEach(function (b) {
+    b.addEventListener("click", function () {
+      panes.forEach(function (p) { p.hidden = p.dataset.newsSeason !== b.dataset.season; });
+    });
+  });
+})();
+</script>"""
 
 
 def render_404(reg):
@@ -3324,30 +3363,45 @@ def render_front(reg):
     import datetime as dt
     t = dt.date.fromisoformat(TODAY)
 
+    # ---- ONE NEWS COLUMN PER SEASON, switched by the season tabs.
+    #      Every story in this file was dated the same January week, so at a
+    #      May clock the front page led with a four-month-old fencing result
+    #      and had nothing to say about fall or spring at all. Season is now
+    #      a property of a story, and the tabs that already sit above the
+    #      fold move the newsroom with them.
     stories = sorted(news.STORIES, key=lambda s: s["date"], reverse=True)
-    lead, second = stories[0], stories[1:3]
-    briefs = stories[3:9]
+    now = season_of(TODAY)
 
-    lead_img = ""
-    if (NEWS_IMG / f"{lead['slug']}.jpg").exists():
-        lead_img = f"<span class='ph'><img src='/img/news/{lead['slug']}.jpg' alt=''></span>"
-    lead_html = (
-        f"<a class='fh-hero' href='/news/{lead['slug']}/'>{lead_img}"
-        f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
-        f"<span class='hd'>{esc(lead['head'])}</span>"
-        f"<span class='dk'>{esc(lead['dek'])}</span></a>")
-    second_html = "".join(
-        f"<a class='fh-second' href='/news/{st['slug']}/'>"
-        f"<span class='kk'>{esc(st['kicker'])}</span>"
-        f"<span class='hd'>{esc(st['head'])}</span>"
-        f"<span class='dk'>{esc(st['dek'])}</span></a>"
-        for st in second)
-    briefs_html = "".join(
-        f"<a class='fh-brief' href='/news/{st['slug']}/'>"
-        f"<span class='kk'>{esc(st['kicker'])}</span>"
-        f"<span class='hd'>{esc(st['head'])}</span>"
-        f"<span class='dt'>{esc(nice_date(st['date']))}</span></a>"
-        for st in briefs)
+    def news_column(season):
+        pool = [st for st in stories if st.get("season") == season] or stories
+        lead, second, briefs = pool[0], pool[1:3], pool[3:9]
+        img, _credit = story_photo(lead)
+        lead_html = (
+            f"<a class='fh-hero' href='/news/{lead['slug']}/'>"
+            f"<span class='ph'><img src='{img}' alt=''></span>"
+            f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
+            f"<span class='hd'>{esc(lead['head'])}</span>"
+            f"<span class='dk'>{esc(lead['dek'])}</span></a>")
+        second_html = "".join(
+            f"<a class='fh-second' href='/news/{st['slug']}/'>"
+            f"<span class='kk'>{esc(st['kicker'])}</span>"
+            f"<span class='hd'>{esc(st['head'])}</span>"
+            f"<span class='dk'>{esc(st['dek'])}</span></a>"
+            for st in second)
+        briefs_html = "".join(
+            f"<a class='fh-brief' href='/news/{st['slug']}/'>"
+            f"<span class='kk'>{esc(st['kicker'])}</span>"
+            f"<span class='hd'>{esc(st['head'])}</span>"
+            f"<span class='dt'>{esc(nice_date(st['date']))}</span></a>"
+            for st in briefs)
+        return (f"<div data-news-season='{season}'{'' if season == now else ' hidden'}>"
+                f"{lead_html}<div class='fh-seconds'>{second_html}</div>"
+                f"<div class='fh-briefs'><h2>{season.title()} from the JHSAA</h2>"
+                f"{briefs_html}"
+                f"<p class='fh-more'><a href='/news/'>All news →</a></p></div></div>")
+
+    lead = next((st for st in stories if st.get("season") == now), stories[0])
+    news_cols = "".join(news_column(sn) for sn in ("fall", "winter", "spring"))
 
     # Latest — the most recent finals, winner first, both scores. Recency is
     # relative to the calendar the season actually kept, not a fixed window.
@@ -3389,15 +3443,7 @@ def render_front(reg):
 {season_chooser(reg)}
 
 <div class="fh-top">
-  <div class="fh-newscol">
-    {lead_html}
-    <div class="fh-seconds">{second_html}</div>
-    <div class="fh-briefs">
-      <h2>Latest from the JHSAA</h2>
-      {briefs_html}
-      <p class="fh-more"><a href="/news/">All news →</a></p>
-    </div>
-  </div>
+  <div class="fh-newscol">{news_cols}</div>
   <aside class="fh-side">
     <section class="fh-latest">
       <h2>Latest scores</h2>
@@ -3422,6 +3468,7 @@ def render_front(reg):
 
 {state_mods}
 {SEASON_JS}
+{NEWS_SEASON_JS}
 {BSKY_JS}
 <script>
 (function () {{
