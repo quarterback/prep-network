@@ -1,0 +1,40 @@
+# JHSAA Electronic Scorebook — Game Export v2.4
+# Generated for Alejandro Zamora at Claudette Cole
+GAME,gameId,date,sport,level,venue,attendance,status
+GAME,JHSAA-BOY-20261201,2026-12-01,Boys Ice Hockey,Varsity,Claudette Cole Community Ice Arena,762,Final
+TEAM,role,school,schoolCode,conference,final
+TEAM,home,Claudette Cole,CC,—,5
+TEAM,away,Alejandro Zamora,AZ,—,0
+LINESCORE,teamCode,P1,P2,P3,OT,FINAL
+LINESCORE,CC,2,1,2,,5
+LINESCORE,AZ,0,0,0,,0
+SECTION,SKATERS
+PLAYER,teamCode,no,name,yr,gs,g,a,pts,pm,pim,sog,fow
+PLAYER,CC,8,"Petrov, Nnamdi",10,1,1,2,3,-1,0,4,1
+PLAYER,CC,5,"Bergstrom, Luca",10,1,0,2,2,+1,1,4,3
+PLAYER,CC,27,"Pham, Kyle",9,1,0,0,0,+1,0,1,2
+PLAYER,CC,5,"Gundersen, Luca",11,1,0,1,1,-1,1,2,2
+PLAYER,CC,21,"Bhatt, Anya",11,1,0,0,0,+2,0,3,2
+PLAYER,CC,29,"Duarte, Dmitri",11,1,0,1,1,+2,1,2,2
+PLAYER,CC,27,"Escobar, Danae",12,0,1,0,1,+0,2,7,4
+PLAYER,CC,21,"Whitlock, Danae",11,0,0,1,1,+1,0,2,2
+PLAYER,CC,17,"Whitlock, Devin",11,0,2,0,2,-1,0,4,2
+PLAYER,CC,27,"Doyle, Joana",12,0,0,1,1,-1,1,1,3
+PLAYER,CC,17,"Petrov, Fintan",12,0,1,2,3,+0,0,1,3
+TOTALS,CC,,,,,5,10,15,,6,31,26
+PLAYER,AZ,20,"Diallo, Erik",12,1,0,0,0,+3,0,6,2
+PLAYER,AZ,11,"Kowalski, Zainab",9,1,0,0,0,+1,0,3,2
+PLAYER,AZ,22,"Mwangi, Rosa",10,1,0,0,0,+0,1,2,5
+PLAYER,AZ,9,"Nkemelu, Tobias",12,1,0,0,0,+3,3,3,4
+PLAYER,AZ,8,"Bergstrom, Danae",10,1,0,0,0,-2,0,4,1
+PLAYER,AZ,10,"Ferraro, Sunita",9,1,0,0,0,+0,1,5,6
+PLAYER,AZ,28,"Doyle, Cade",9,0,0,0,0,+1,1,1,2
+PLAYER,AZ,28,"Kowalski, Fintan",12,0,0,0,0,+1,0,3,3
+PLAYER,AZ,29,"Castellanos, Rosa",10,0,0,0,0,+3,2,2,1
+PLAYER,AZ,17,"Ferraro, Zainab",12,0,0,0,0,+2,1,1,0
+PLAYER,AZ,24,"Abioye, Tobias",9,0,0,0,0,+3,1,2,1
+TOTALS,AZ,,,,,0,0,0,,10,32,27
+SECTION,GOALTENDING
+PLAYER,teamCode,no,name,yr,gs,min,sa,sv,ga,svpct
+PLAYER,CC,31,"Pham, Luca",10,1,51:00,32,32,0,1.000
+PLAYER,AZ,34,"Escobar, Otgon",12,1,51:00,38,33,5,0.868

@@ -1,0 +1,33 @@
+# JHSAA Electronic Scorebook — Game Export v2.4
+# Generated 2027-01-12 21:47 by scorer terminal ANS-GYM-1
+# Row types: GAME / TEAM / LINESCORE / PLAYER / TOTALS / OFFICIAL
+GAME,gameId,date,sport,level,venue,attendance,status
+GAME,JHSAA-BB-2027-05422,2027-01-12,Boys Basketball,Varsity,Ansotegui Siding HS Main Gymnasium,1120,Final
+TEAM,role,school,schoolCode,conference,final
+TEAM,home,Ansotegui Siding,ANS,Cascade Valley League,53
+TEAM,away,Copper Lake East,CLE,Copper Lake Athletic Conference,65
+LINESCORE,teamCode,Q1,Q2,Q3,Q4,OT,FINAL
+LINESCORE,ANS,12,15,13,13,,53
+LINESCORE,CLE,18,14,17,16,,65
+PLAYER,teamCode,no,name,yr,gs,min,fg,3pt,ft,oreb,dreb,reb,ast,stl,blk,to,pf,pts
+PLAYER,CLE,3,"Ashworth, Devin",12,1,31,7-14,2-5,2-2,1,6,7,4,2,1,2,2,18
+PLAYER,CLE,11,"Bhatt, Rohan",11,1,29,5-11,3-6,1-2,0,5,5,6,1,0,3,1,14
+PLAYER,CLE,24,"Castellanos, Mateo",12,1,30,4-9,1-3,2-2,3,6,9,2,1,2,1,3,11
+PLAYER,CLE,5,"Doyle, Fintan",10,1,27,4-8,1-2,0-0,1,3,4,3,0,0,2,2,9
+PLAYER,CLE,32,"Ferraro, Luca",11,1,22,3-7,0-1,0-0,2,1,3,1,1,0,1,1,6
+PLAYER,CLE,10,"Gundersen, Erik",12,0,14,2-4,0-0,0-0,1,1,2,1,0,0,0,1,4
+PLAYER,CLE,21,"Haddad, Karim",10,0,4,1-2,1-2,0-0,0,1,1,0,0,0,1,0,3
+PLAYER,CLE,44,"Ivanov, Dmitri",12,0,3,0-3,0-2,0-1,1,0,1,0,0,0,0,0,0
+TOTALS,CLE,,,,,160,26-58,8-21,5-7,9,23,32,17,5,3,10,10,65
+PLAYER,ANS,4,"Whitlock, Cade",12,1,32,6-15,2-6,2-3,2,6,8,3,1,2,3,3,16
+PLAYER,ANS,12,"Ramos, Tobias",11,1,30,5-12,1-4,1-2,1,3,4,5,2,0,2,2,12
+PLAYER,ANS,33,"Nkemelu, Obi",12,1,28,4-10,0-1,1-2,3,3,6,1,0,1,2,2,9
+PLAYER,ANS,7,"Sandberg, Kyle",10,1,25,3-8,1-3,0-0,0,3,3,2,1,0,1,1,7
+PLAYER,ANS,15,"Duarte, Felipe",11,1,24,2-6,0-2,1-2,1,1,2,2,0,0,2,3,5
+PLAYER,ANS,22,"Harlow, Bryce",12,0,17,2-5,0-1,0-0,1,1,2,0,0,0,1,2,4
+PLAYER,ANS,8,"Pham, Long",9,0,4,0-1,0-0,0-0,0,0,0,0,0,0,1,0,0
+TOTALS,ANS,,,,,160,22-57,4-17,5-9,8,17,25,13,4,3,12,13,53
+OFFICIAL,role,name
+OFFICIAL,referee,"Okonjo, Daniel"
+OFFICIAL,umpire,"Sallinen, Marja"
+OFFICIAL,umpire,"Trevino, Hector"

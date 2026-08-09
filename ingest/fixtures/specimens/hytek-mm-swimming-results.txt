@@ -1,0 +1,107 @@
+Licensed to Jefferson High School Activities Association        HY-TEK's MEET MANAGER 8.0 - 8:14 PM  2/20/2027  Page 1
+                        2027 JHSAA 7A-5A Swimming & Diving State Championships
+                                    Ashbury Aquatic Center - 2/19/2027 to 2/20/2027
+                                                  Results
+
+Event 1  Girls 200 Yard Medley Relay
+    State: ! 1:44.32  2/16/2019 Ashbury Central
+                                A Chen, M Ruiz, K Patel, S Long
+    7A-5A: % 1:45.90  2/18/2023 Vista Terrace
+    Team                              Relay                    Seed Time  Finals Time  Points
+=================================================================================================
+  1 Vista Terrace                     A                          1:48.22    1:47.05       40
+     1) Harkness, Elle 12                  2) Ojeda, Marisol 11
+     3) Whitfield, Danae 10                4) Sutter, Priya 12
+     25.11        53.44 (28.33)      1:21.02 (27.58)     1:47.05 (26.03)
+  2 Copper Lake East                  A                          1:49.10    1:48.63       34
+     1) Brandt, Nadia 12                   2) Iyer, Sunita 10
+     3) Kowalczyk, Ava 11                  4) Nakamura, Rin 12
+     25.88        54.72 (28.84)      1:22.41 (27.69)     1:48.63 (26.22)
+  3 Port Meridian South               A                          1:50.44    1:49.77       32
+     1) Escobar, Talia 11                  2) Ferreira, Joana 12
+     3) Lindqvist, Mira 9                  4) Abioye, Zainab 11
+  4 Norview                           A                          1:51.02    1:50.18       30
+     1) Petrov, Anya 12                    2) Delacroix, Simone 10
+     3) Havili, Tui 11                     4) Grimaldi, Rosa 12
+ -- Sage Summit                       A                          1:52.66         DQ
+     1) Okonkwo, Ifeoma 11                 2) Vasquez, Lucia 12
+     3) Bergstrom, Elsa 10                 4) Mwangi, Grace 11
+
+Event 2  Boys 200 Yard Medley Relay
+    Team                              Relay                    Seed Time  Finals Time  Points
+=================================================================================================
+  1 Copper Lake East                  A                          1:34.80    1:33.92       40
+     1) Ashworth, Devin 12                 2) Bhatt, Rohan 11
+     3) Castellanos, Mateo 12              4) Doyle, Fintan 10
+     23.02        49.11 (26.09)      1:11.55 (22.44)     1:33.92 (22.37)
+  2 Vista Terrace                     A                          1:35.44    1:34.71       34
+     1) Ferraro, Luca 11                   2) Gundersen, Erik 12
+     3) Haddad, Karim 10                   4) Ivanov, Dmitri 12
+
+Event 3  Girls 200 Yard Freestyle
+    State: ! 1:47.11  2/17/2018 Marisol Prieto, Halbrook
+    Name                    Yr School                           Seed Time  Finals Time  Points
+=================================================================================================
+  1 Calloway, Jenna         11 Vista Terrace                      1:52.44    1:51.08       20
+     26.02        54.11 (28.09)      1:22.55 (28.44)     1:51.08 (28.53)
+  2 Rasmussen, Ingrid       12 Norview                            1:53.10    1:52.44       17
+     26.44        55.02 (28.58)      1:23.91 (28.89)     1:52.44 (28.53)
+  3 Adeyemi, Folake         10 Copper Lake East                   1:54.22    1:53.06       16
+  4 Sorensen, Liv           12 Port Meridian South                1:54.90    1:53.88       15
+  5 Trujillo, Camila         9 Sage Summit                        1:56.02    1:55.41       14
+  6 Novak, Petra            11 Halbrook                           1:56.44    1:55.90       13
+  7 Whitcombe, Delia        12 Mabryville                         1:57.33    1:57.02       12
+  8 Yamashita, Hana         10 Elk Crossing                       1:58.10    1:57.66       11
+  9 Beaumont, Claire        11 Farleymere                         1:58.44    1:58.20        9
+ 10 Okafor, Chidinma        12 Wickbrook                          1:59.02         NS
+
+Event 4  Boys 200 Yard Freestyle
+    Name                    Yr School                           Seed Time  Finals Time  Points
+=================================================================================================
+  1 Marchetti, Enzo         12 Copper Lake East                   1:39.44    1:38.02       20
+     22.90        48.11 (25.21)      1:13.44 (25.33)     1:38.02 (24.58)
+  2 Lindgren, Anders        11 Vista Terrace                      1:40.22    1:39.55       17
+  3 Osei, Kwame             12 Norview                            1:41.08    1:40.66       16
+  4 Petrenko, Vadym         10 Sage Summit                        1:42.44    1:41.90       15
+
+Event 11 Girls 1 mtr Diving
+    Name                    Yr School                           Seed Score Finals Score Points
+=================================================================================================
+  1 Dunphy, Saoirse         12 Norview                             412.55     438.90       20
+  2 Villanueva, Rosa        11 Vista Terrace                       405.10     421.35       17
+  3 Kaur, Simran            10 Copper Lake East                    398.44     410.05       16
+  4 Bjornstad, Freya        12 Halbrook                            390.22     402.70       15
+  5 Montoya, Alejandra       9 Port Meridian South                 385.66     396.15       14
+
+Event 12 Boys 1 mtr Diving
+    Name                    Yr School                           Seed Score Finals Score Points
+=================================================================================================
+  1 Rahimi, Cyrus           12 Copper Lake East                    455.10     471.25       20
+  2 Sandoval, Emiliano      11 Norview                             448.22     460.80       17
+
+Event 21 Girls 400 Yard Freestyle Relay
+    Team                              Relay                    Seed Time  Finals Time  Points
+=================================================================================================
+  1 Vista Terrace                     A                          3:32.11    3:30.02       40
+     1) Calloway, Jenna 11                 2) Harkness, Elle 12
+     3) Villanueva, Rosa 11                4) Sutter, Priya 12
+     51.44       1:45.10 (53.66)     2:38.22 (53.12)     3:30.02 (51.80)
+  2 Copper Lake East                  A                          3:33.44    3:31.90       34
+     1) Adeyemi, Folake 10                 2) Brandt, Nadia 12
+     3) Iyer, Sunita 10                    4) Nakamura, Rin 12
+  3 Norview                           A                          3:35.02    3:34.11       32
+     1) Rasmussen, Ingrid 12               2) Petrov, Anya 12
+     3) Delacroix, Simone 10               4) Grimaldi, Rosa 12
+
+Girls - 7A-5A - Team Rankings - Through Event 22
+=================================================================================================
+    1) Vista Terrace                 331     2) Copper Lake East             298
+    3) Norview                       266     4) Port Meridian South          185
+    5) Halbrook                      142     6) Sage Summit                  121
+    7) Mabryville                     88     8) Elk Crossing                  74
+    9) Farleymere                     51    10) Wickbrook                     33
+
+Boys - 7A-5A - Team Rankings - Through Event 22
+=================================================================================================
+    1) Copper Lake East              344     2) Vista Terrace                311
+    3) Norview                       240     4) Sage Summit                  166

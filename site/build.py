@@ -23,8 +23,8 @@ from collections import defaultdict
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from app import records_io  # noqa: E402
-from app.shapes import Dual, Game, Meet  # noqa: E402
+from app import postseason, records_io  # noqa: E402
+from app.shapes import Dual, Game, Meet, TournamentFormat, TournamentStatus  # noqa: E402
 from app.brand import ASSOC, NAME, TITLE, WORDMARK, page_title  # noqa: E402
 from app.sports import BY_KEY, CATALOG, CLASSES  # noqa: E402
 
@@ -43,7 +43,7 @@ stdsite = _ilu.module_from_spec(_sspec); _sspec.loader.exec_module(stdsite)
 RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
 FAVICON = "/favicon.svg"   # replaced in build() if site/favicon.* exists
-TODAY = "2027-01-16"          # the demo date the generator built around
+TODAY = "2027-05-13"          # the demo date the generator built around
 SEASON_LABEL = "2026–27"
 CREST_CLASSES = 12
 CLASS_LABEL = {"9": "Fr", "10": "So", "11": "Jr", "12": "Sr"}
@@ -58,6 +58,12 @@ ATHLETIC_LAST = ["Okafor", "Whitmore", "Salinas", "Beckett", "Rowe", "Iwata",
 
 def esc(t): return html.escape(re.sub(r"\s{2,}", " ", (t or "")).strip(), quote=True)
 def slugify(t): return re.sub(r"[^a-z0-9]+", "-", (t or "").lower()).strip("-") or "x"
+
+
+def contest_key(c):
+    """Must agree with generators.jefferson.postseason.contest_key — it is the
+    join between a matchup and the page its result lives on."""
+    return f"{c.sport}:{c.date}:{c.name}"
 
 
 def crest_class(name):
@@ -120,6 +126,38 @@ class Registry:
             aused[a["slug"]] = n + 1
             if n:
                 a["slug"] = f"{a['slug']}-{n+1}"
+
+        # ---- the postseason layer
+        self.by_key = {contest_key(c): c for c in self.contests}
+        self.tournaments = records_io.load_tournaments(RECORDS)
+        self.tour_url: dict[str, str] = {}
+        self.tour_by_sport: dict[str, list] = defaultdict(list)
+        self.tour_of_contest: dict[str, tuple] = {}
+        self.titles: dict[str, list] = defaultdict(list)
+        for t in self.tournaments:
+            self.tour_url[t.id] = f"/championships/{t.sport}/{slugify(t.group)}/"
+            self.tour_by_sport[t.sport].append(t)
+            for r in t.rounds:
+                for m in r.matchups:
+                    if m.contest_key:
+                        self.tour_of_contest[m.contest_key] = (t, r, m)
+            if t.meet_key:
+                self.tour_of_contest[t.meet_key] = (t, None, None)
+            if t.champion:
+                self.titles[t.champion].append(t)
+        for lst in self.tour_by_sport.values():
+            lst.sort(key=lambda t: postseason._group_order(t.group))
+
+    def tournament_for(self, contest):
+        """The championship a contest belongs to, if any."""
+        return self.tour_of_contest.get(contest_key(contest))
+
+    def contest_for(self, key):
+        return self.by_key.get(key or "")
+
+    def contest_href(self, key):
+        c = self.by_key.get(key or "")
+        return self.contest_url.get(id(c)) if c is not None else None
 
     def contest_schools(self, c):
         if isinstance(c, Meet):
@@ -529,6 +567,7 @@ def shell(title, body, crumb="", back="", story=None, org=False):
     <span></span><span></span><span></span>
   </label>
   <nav class="fh-mast-nav">
+    <a class="fh-backassoc" href="/">← {ASSOC}</a>
     <a href="/scoreboard/">Scores</a>
     <a href="/schools/">Schools</a>
     <a href="/conferences/">Conferences</a>
@@ -689,6 +728,137 @@ def _wlt(r):
 # ─────────────────────────────────────────────────────────────────── pages
 
 
+def tournament_context(reg, c):
+    """The postseason banner above a contest that belongs to a championship.
+
+    This is what turns a result page into a record: the same 26-17 means one
+    thing on a Friday in October and another as a state final, and until the
+    tournament layer existed the page could not tell you which.
+    """
+    found = reg.tournament_for(c)
+    if not found:
+        return "", ""
+    t, rnd, m = found
+    href = reg.tour_url[t.id]
+    label = rnd.name if rnd is not None else "Championship meet"
+    kicker = (f"<div class='fh-tourbar'>"
+              f"<a class='tn' href='{href}'>{esc(t.name)}</a>"
+              f"<span class='rd'>{esc(label.upper())}</span>"
+              f"<a class='bk' href='{href}'>View full bracket →</a></div>"
+              if t.format is TournamentFormat.BRACKET else
+              f"<div class='fh-tourbar'><a class='tn' href='{href}'>{esc(t.name)}</a>"
+              f"<span class='rd'>{esc(label.upper())}</span></div>")
+
+    # After the result: who this crowned, and the neighbouring rounds.
+    after = ""
+    if rnd is not None and m is not None and m.decided:
+        is_final = rnd.index == len(t.rounds) - 1
+        if is_final and t.champion:
+            after += (f"<div class='fh-champbanner'>{reg.crest(t.champion,'lg')}"
+                      f"<div><span class='kk'>{esc(t.group)} State Champions</span>"
+                      f"<span class='hd'>{reg.school_link(t.champion)}</span></div></div>")
+        links = []
+        if rnd.index > 0:
+            prev = [f for f in t.rounds[rnd.index - 1].matchups
+                    if f.slot // 2 == m.slot and f.winner in (m.home, m.away)]
+            for f in prev:
+                h = reg.contest_href(f.contest_key)
+                if h:
+                    links.append(f"<a href='{h}'>← {esc(t.rounds[rnd.index-1].name)} result</a>")
+        links.append(f"<a href='{href}'>Full bracket</a>")
+        links.append(f"<a href='/sports/{c.sport}/champions/'>Championship history</a>")
+        after += f"<nav class='fh-tourlinks'>{' · '.join(links)}</nav>"
+    return kicker, after
+
+
+def provenance_note(reg, c):
+    """Where this record came from, on the record's own page.
+
+    Provenance that only exists in the JSON is a promise; provenance a reader
+    can see is a property of the product. Imported contests say so.
+    """
+    p = getattr(c, "provenance", None)
+    if p is None or p.adapter.startswith("jefferson."):
+        return ""
+    bits = [f"<b>{esc(p.source_name)}</b>",
+            f"{esc(p.source_type.value)} via <code>{esc(p.adapter)}</code> "
+            f"v{esc(p.adapter_version)}"]
+    if p.external_ids:
+        bits.append(" · ".join(f"{esc(k)} {esc(v)}" for k, v in p.external_ids.items()))
+    if p.source_sha256:
+        bits.append(f"sha256 {esc(p.source_sha256[:16])}…")
+    bits.append(f"imported {esc((p.extracted_at or '')[:10])}")
+    flag = ""
+    if p.review_state.value != "published":
+        flag = (f"<span class='fh-reviewflag'>Needs review"
+                + (f" — {esc(p.notes)}" if p.notes else "") + "</span>")
+    return (f"<div class='fh-section'><h2>Source</h2>"
+            f"<div class='fh-prov'>{flag}<p>{' · '.join(bits)}</p>"
+            f"<p class='fh-dim'>Imported from the file the source system produced. "
+            f"Nothing on this page was retyped.</p></div></div>")
+
+
+def box_score_tables(reg, c: Game):
+    """The box score as the source printed it — its columns, its order.
+
+    The renderer does not know what "3pt" means and does not need to. Team
+    totals are the source's own row, shown as printed; where they disagree with
+    the player lines the import is already flagged.
+    """
+    box = c.box
+    if not box:
+        return ""
+
+    def table(school, side, section, totals):
+        cols = box.columns_for(section)
+        lines = box.rows(side, section)
+        if not lines:
+            return ""
+        grid = f"minmax(150px,1.6fr) 30px repeat({len(cols)},minmax(44px,1fr))"
+        head = "".join(f"<span class='fh-th'>{esc(k.upper())}</span>" for k in cols)
+        rows = []
+        for s in lines:
+            cells = "".join(
+                f"<span class='fh-num tnum'>{esc(s.get(k))}</span>" for k in cols)
+            rows.append(
+                f"<div class='fh-row'><span class='fh-name'>"
+                f"{reg.athlete_link(s.competitor.name, school)}</span>"
+                f"<span class='fh-dim'>{esc(CLASS_LABEL.get(s.competitor.year or '', ''))}</span>"
+                f"{cells}</div>")
+        # A section's totals only make sense when the source printed them for
+        # that section's columns; a shared totals row is shown once, on the
+        # single-table sports.
+        if totals and any(k in totals for k in cols):
+            cells = "".join(
+                f"<span class='fh-num tnum'>{esc(totals.get(k, ''))}</span>" for k in cols)
+            rows.append(f"<div class='fh-row totals'><span class='fh-name'>Team totals</span>"
+                        f"<span class='fh-dim'></span>{cells}</div>")
+        label = f"<h5 class='fh-boxsec'>{esc(section)}</h5>" if section else ""
+        return (f"{label}<div class='fh-tablescroll'><div class='fh-table narrow' "
+                f"style='--grid-cols:{grid}'>"
+                f"<div class='fh-thead'><span class='fh-th'>Player</span>"
+                f"<span class='fh-th'></span>{head}</div>{''.join(rows)}</div></div>")
+
+    tables = []
+    for school, side, totals in ((c.away, "away", box.away_totals),
+                                 (c.home, "home", box.home_totals)):
+        parts = [table(school, side, sec, totals) for sec in box.section_names()]
+        parts = [p for p in parts if p]
+        if parts:
+            tables.append(
+                f"<h4 class='fh-boxhd'>{reg.crest(school,'xs')} {esc(school)}</h4>"
+                + "".join(parts))
+    starters = sum(1 for s in box.home + box.away if s.starter)
+    bits = [f"{len(box.home) + len(box.away)} rows"]
+    if box.sections:
+        bits.append(f"{len(box.sections)} tables: {', '.join(box.sections)}")
+    elif starters:
+        bits.append(f"{starters} starters")
+    bits.append("columns as printed by the source scorebook")
+    note = f"<p class='fh-dim'>{esc(' · '.join(bits))}.</p>"
+    return (f"<div class='fh-section'><h2>Box score</h2>{''.join(tables)}{note}</div>")
+
+
 def render_game(reg, c: Game):
     periods = ""
     if c.periods:
@@ -705,14 +875,19 @@ def render_game(reg, c: Game):
     status = {"scheduled": "Scheduled", "cancelled": "Cancelled", "postponed": "Postponed"}.get(c.status, "Final")
     score = f"{c.away_score}&nbsp;–&nbsp;{c.home_score}" if c.home_score is not None else "—"
     sport = BY_KEY[c.sport]
+    kicker, after = tournament_context(reg, c)
     body = f"""
+{kicker}
 <div class="fh-score">
   <div class="side">{reg.crest(c.away,'lg')}<div class="tn">{reg.school_link(c.away)}</div></div>
   <div class="mid"><div class="big tnum">{score}</div>
   <div class="st">{esc(status)} · {esc(nice_date(c.date))}</div></div>
   <div class="side">{reg.crest(c.home,'lg')}<div class="tn">{reg.school_link(c.home)}</div></div>
 </div>
+{after}
 {periods}
+{box_score_tables(reg, c)}
+{provenance_note(reg, c)}
 """
     crumb = (f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}")
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
@@ -744,9 +919,58 @@ def render_dual(reg, c: Dual):
 <div class="fh-thead"><span class="fh-th"></span><span class="fh-th">{esc(c.away)}</span>
 <span class="fh-th">{esc(c.home)}</span><span class="fh-th">Score</span></div>
 {''.join(rows)}</div></div></div>
+{provenance_note(reg, c)}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
+
+
+def meet_results_tables(reg, c: Meet, limit_events=None):
+    """A meet's events as result tables.
+
+    Shared by the meet page and the championship page, so a meet-decided title
+    shows the same results in both places rather than a summary in one and the
+    real thing in the other.
+
+    Relays and doubles print every competitor: an entry whose competitor list is
+    truncated to the first name silently turns a relay into an individual.
+    """
+    grouped = c.events if limit_events is None else c.events[:limit_events]
+    cols = "34px minmax(150px,1.2fr) 36px minmax(130px,1fr) 90px"
+    blocks = []
+    for ev in grouped:
+        rows = []
+        for e in ev.entries[:30]:
+            if e.competitors:
+                who = ", ".join(reg.athlete_link(p.name, e.school) for p in e.competitors)
+                yr = CLASS_LABEL.get(e.competitors[0].year or "", "") if len(e.competitors) == 1 else ""
+            else:
+                who, yr = "—", ""
+            mark = esc(e.mark.raw) if e.mark and e.mark.raw else ""
+            note = f"<span class='fh-splits'>{esc(e.note)}</span>" if e.note else ""
+            rows.append(
+                f"<div class='fh-row{' first' if e.place == 1 else ''}' "
+                f"style='--grid-cols:{cols}'>"
+                f"<span class='fh-rank'>{e.place or ''}</span>"
+                f"<span class='fh-name'>{who}{note}</span>"
+                f"<span class='fh-dim'>{yr}</span>"
+                f"<span class='fh-plain'>{reg.school_link(e.school)}</span>"
+                f"<span class='fh-mark'>{mark}</span></div>")
+        head = esc(ev.name)
+        if ev.gender:
+            head = f"{esc(ev.gender)} {head}"
+        if ev.round and ev.round != "Finals":
+            head += f" <span class='rnd'>{esc(ev.round)}</span>"
+        blocks.append(
+            f"<div class='fh-evhead'><h4>{head}</h4></div>"
+            f"<div class='fh-tablescroll'><div class='fh-table' style='--grid-cols:{cols}'>"
+            "<div class='fh-thead'><span class='fh-th'>Pl</span><span class='fh-th'>Athlete</span>"
+            "<span class='fh-th'>Yr</span><span class='fh-th'>School</span><span class='fh-th'>Mark</span></div>"
+            f"{''.join(rows)}</div></div>")
+    if limit_events is not None and len(c.events) > limit_events:
+        blocks.append(f"<p class='fh-more'><a href='{reg.url(c)}'>"
+                      f"All {len(c.events)} events →</a></p>")
+    return "".join(blocks)
 
 
 def render_meet(reg, c: Meet):
@@ -761,27 +985,7 @@ def render_meet(reg, c: Meet):
         scores = (f"<div class='fh-section'><h2>Team scores</h2>"
                   "<div class='fh-panel' style='max-width:460px'><div class='fh-table narrow' "
                   "style='--grid-cols:26px minmax(150px,1fr) 56px'>" + rows + "</div></div></div>")
-    blocks = []
-    for ev in c.events:
-        rows = []
-        for e in ev.entries[:30]:
-            who = reg.athlete_link(e.competitors[0].name, e.school) if e.competitors else "—"
-            yr = CLASS_LABEL.get((e.competitors[0].year or "") if e.competitors else "", "")
-            mark = esc(e.mark.raw) if e.mark and e.mark.raw else ""
-            rows.append(
-                f"<div class='fh-row{' first' if e.place == 1 else ''}' "
-                f"style='--grid-cols:34px minmax(150px,1.2fr) 36px minmax(130px,1fr) 90px'>"
-                f"<span class='fh-rank'>{e.place or ''}</span><span class='fh-name'>{who}</span>"
-                f"<span class='fh-dim'>{yr}</span>"
-                f"<span class='fh-plain'>{reg.school_link(e.school)}</span>"
-                f"<span class='fh-mark'>{mark}</span></div>")
-        blocks.append(
-            f"<div class='fh-evhead'><h4>{esc(ev.name)}</h4></div>"
-            "<div class='fh-tablescroll'><div class='fh-table' "
-            "style='--grid-cols:34px minmax(150px,1.2fr) 36px minmax(130px,1fr) 90px'>"
-            "<div class='fh-thead'><span class='fh-th'>Pl</span><span class='fh-th'>Athlete</span>"
-            "<span class='fh-th'>Yr</span><span class='fh-th'>School</span><span class='fh-th'>Mark</span></div>"
-            f"{''.join(rows)}</div></div>")
+    blocks = [meet_results_tables(reg, c)]
     body = f"""
 <div class="fh-idhdr">
   <div></div>
@@ -789,8 +993,10 @@ def render_meet(reg, c: Meet):
   <div class="meta">{esc(nice_date(c.date))} · {esc(c.host or '')} · <a href='/sports/{sport.key}/'>{esc(sport.name)}</a></div></div>
   <div class="side"></div>
 </div>
+{tournament_context(reg, c)[0]}
 {scores}
 <div class="fh-section"><h2>{'Results' if c.events else 'Scheduled'}</h2>{''.join(blocks) or ''}</div>
+{provenance_note(reg, c)}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
@@ -1637,37 +1843,309 @@ def grp_chip(grp):
     return f"<span class='fh-tag'>{esc(grp or 'Open')}</span>"
 
 
+def _seed_chip(n):
+    return f"<span class='sd'>{n}</span>" if n else "<span class='sd'></span>"
+
+
+def bracket_side(reg, school, seed, score, won, decided):
+    """One team's row inside a bracket card."""
+    if not school:
+        return ("<span class='tm tbd'><span class='sd'></span>"
+                "<span class='nm'>TBD</span><span class='sc'></span></span>")
+    cls = "tm" + (" won" if decided and won else "") + (" out" if decided and not won else "")
+    return (f"<span class='{cls}'>{_seed_chip(seed)}{reg.crest(school,'xs')}"
+            f"<span class='nm'>{esc(school)}</span>"
+            f"<span class='sc tnum'>{'' if score is None else score}</span></span>")
+
+
+def bracket_card(reg, m, final=False):
+    """A matchup as a card. Clicking it opens the contest record.
+
+    A bye is drawn as the team advancing on its own — no opponent row, because
+    there was no opponent. Inventing one would put a school that does not exist
+    into a page that links schools.
+    """
+    if m.bye:
+        return (f"<div class='fh-brk-card bye' style='--y:{m._y:.0f}px'>"
+                f"{bracket_side(reg, m.home, m.home_seed, None, True, False)}"
+                f"<span class='mt'>Bye</span></div>")
+
+    decided = m.decided
+    top = bracket_side(reg, m.home, m.home_seed, m.home_score, m.winner == m.home, decided)
+    bot = bracket_side(reg, m.away, m.away_seed, m.away_score, m.winner == m.away, decided)
+
+    if decided:
+        meta = "Final"
+    elif m.ready:
+        meta = " · ".join(x for x in (nice_date(m.date), m.time) if x)
+    else:
+        meta = nice_date(m.date) if m.date else "TBD"
+
+    href = reg.contest_href(m.contest_key)
+    cls = "fh-brk-card" + (" final" if final else "")
+    inner = f"{top}{bot}<span class='mt'>{esc(meta)}</span>"
+    if href:
+        return f"<a class='{cls}' href='{href}' style='--y:{m._y:.0f}px'>{inner}</a>"
+    return f"<div class='{cls}' style='--y:{m._y:.0f}px'>{inner}</div>"
+
+
+def render_bracket(reg, t):
+    """The elimination tree, positioned server-side.
+
+    Cards and the SVG elbows are placed from ONE layout pass in
+    ``app.postseason``, so they cannot drift apart. Desktop scrolls the canvas
+    horizontally when the tree is wider than the viewport; below the breakpoint
+    the columns become a round-at-a-time list driven by the radio tabs, because
+    a 32-team tree has no honest small-screen layout as a tree.
+    """
+    canvas = postseason.layout(t)
+    if canvas is None:
+        return ""
+
+    # Hand each matchup its y so the card markup stays a pure function of it.
+    for card in canvas.cards:
+        card.matchup._y = card.y
+
+    last = len(canvas.columns) - 1
+    # The radios are siblings of BOTH the tab strip and the canvas, not children
+    # of the tab strip: `#brkr0:checked ~ .fh-brk-scroll .c0` only reaches a
+    # later sibling, so nesting them inside the strip leaves every column hidden
+    # on mobile with the tabs still rendering — a bracket page with no bracket.
+    radios, tabs, cols = [], [], []
+    for col in canvas.columns:
+        checked = " checked" if col.index == 0 else ""
+        radios.append(
+            f"<input type='radio' name='brkr' id='brkr{col.index}'{checked}>")
+        tabs.append(f"<label for='brkr{col.index}'>{esc(col.name)}</label>")
+        cards = "".join(
+            bracket_card(reg, c.matchup, final=(col.index == last))
+            for c in canvas.cards if c.col == col.index)
+        cols.append(
+            f"<div class='fh-brk-col c{col.index}' style='--x:{col.x:.0f}px'>"
+            f"<div class='fh-brk-hd'>{esc(col.name)}</div>{cards}</div>")
+
+    paths = "".join(
+        f"<path d='{l.d}' class='lk{' on' if l.live else ''}'/>" for l in canvas.links)
+    svg = (f"<svg class='fh-brk-links' width='{canvas.width:.0f}' "
+           f"height='{canvas.height:.0f}' viewBox='0 0 {canvas.width:.0f} "
+           f"{canvas.height:.0f}' aria-hidden='true'>{paths}</svg>")
+
+    return (f"<div class='fh-brk' style='--bw:{canvas.width:.0f}px;"
+            f"--bh:{canvas.height:.0f}px;--cw:{canvas.card_w}px;--ch:{canvas.card_h}px'>"
+            f"{''.join(radios)}"
+            f"<div class='fh-brk-tabs'>{''.join(tabs)}</div>"
+            f"<div class='fh-brk-scroll'><div class='fh-brk-canvas'>{svg}"
+            f"{''.join(cols)}</div></div></div>")
+
+
+def render_qualifiers(reg, t):
+    """The field, as the committee set it."""
+    if not t.entrants:
+        return ""
+    rows = "".join(
+        f"<div class='fh-row' style='--grid-cols:34px minmax(150px,1fr) 90px 110px'>"
+        f"<span class='fh-rank'>{e.seed or ''}</span>"
+        f"<span class='fh-name'>{reg.crest(e.school,'xs')} {reg.school_link(e.school)}</span>"
+        f"<span class='fh-num tnum'>{esc(e.record or '')}</span>"
+        f"<span class='fh-dim'>{esc(e.qualifier or '')}</span></div>"
+        for e in sorted(t.entrants, key=lambda e: e.seed or 99))
+    return (f"<div class='fh-section' id='qualifiers'><h2>Qualifiers</h2>"
+            "<div class='fh-tablescroll'><div class='fh-table' "
+            "style='--grid-cols:34px minmax(150px,1fr) 90px 110px'>"
+            "<div class='fh-thead'><span class='fh-th'>Seed</span>"
+            "<span class='fh-th'>School</span><span class='fh-th'>Record</span>"
+            f"<span class='fh-th'>Qualified</span></div>{rows}</div></div></div>")
+
+
+def render_champ_schedule(reg, t):
+    """Every matchup by round — the same records the bracket draws, as a list.
+    A bracket is a picture; this is the part you can scan on a phone."""
+    blocks = []
+    for r in t.rounds:
+        rows = []
+        for m in r.matchups:
+            if m.bye:
+                rows.append(score_row("", f"{reg.school_link(m.home)} — bye", "No contest"))
+                continue
+            if not m.ready:
+                continue
+            href = reg.contest_href(m.contest_key) or ""
+            if m.decided:
+                who = (f"{reg.crest(m.away,'xs')} {reg.school_link(m.away)} "
+                       f"<b class='tnum'>{m.away_score}</b> at "
+                       f"{reg.crest(m.home,'xs')} {reg.school_link(m.home)} "
+                       f"<b class='tnum'>{m.home_score}</b>")
+                when = "Final"
+            else:
+                who = (f"{reg.crest(m.away,'xs')} {reg.school_link(m.away)} at "
+                       f"{reg.crest(m.home,'xs')} {reg.school_link(m.home)}")
+                when = " · ".join(x for x in (nice_date(m.date), m.time) if x)
+            rows.append(score_row(href, who, esc(when)))
+        if rows:
+            blocks.append(f"<h4 class='fh-rndhd'>{esc(r.name)}</h4>"
+                          f"<div class='fh-results'>{''.join(rows)}</div>")
+    if not blocks:
+        return ""
+    return (f"<div class='fh-section' id='schedule'><h2>Schedule &amp; results</h2>"
+            f"{''.join(blocks)}</div>")
+
+
+def champ_state_chip(t):
+    label = {
+        TournamentStatus.COMPLETE: "Complete",
+        TournamentStatus.IN_PROGRESS: postseason.live_label(t) or "In progress",
+        TournamentStatus.UPCOMING: "Upcoming",
+    }[t.status]
+    return f"<span class='fh-state {t.status.value}'>{esc(label)}</span>"
+
+
+def render_tournament(reg, t):
+    """One championship: the tournament IS the page, not a game with a label."""
+    sp = BY_KEY[t.sport]
+    champ = ""
+    if t.champion:
+        champ = (f"<div class='fh-champbanner'>{reg.crest(t.champion,'lg')}"
+                 f"<div><span class='kk'>{esc(t.group)} State Champions</span>"
+                 f"<span class='hd'>{reg.school_link(t.champion)}</span>"
+                 + (f"<span class='dk'>def. {reg.school_link(t.runner_up)} "
+                    f"{max(t.final.home_score or 0, t.final.away_score or 0)}–"
+                    f"{min(t.final.home_score or 0, t.final.away_score or 0)}</span>"
+                    if t.runner_up and t.final and t.final.home_score is not None else "")
+                 + "</div></div>")
+
+    facts = []
+    if t.final_date:
+        facts.append(("Championship", nice_date(t.final_date)))
+    if t.final_venue:
+        facts.append(("Site", t.final_venue))
+    if t.format is TournamentFormat.BRACKET and t.entrants:
+        byes = f" · {t.byes} byes" if t.byes else ""
+        facts.append(("Field", f"{t.size} teams{byes}"))
+    if t.start_date and t.format is TournamentFormat.BRACKET:
+        facts.append(("Opens", nice_date(t.start_date)))
+    info = "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(str(v))}</dd></div>" for k, v in facts)
+
+    # A meet-decided title hands off to the meet renderer instead of a bracket.
+    if t.format is not TournamentFormat.BRACKET:
+        meet = reg.contest_for(t.meet_key)
+        if meet is not None:
+            body_main = (
+                f"<div class='fh-section'><h2>Championship meet</h2>"
+                f"<p class='fh-lede'>This title is decided at a single meet, not a "
+                f"bracket. <a href='{reg.contest_href(t.meet_key)}'>"
+                f"{esc(meet.name)} →</a></p>"
+                + meet_results_tables(reg, meet, limit_events=6) + "</div>")
+        else:
+            body_main = (f"<div class='fh-section'><h2>Championship meet</h2>"
+                         f"<p class='fh-empty'>Results post when the meet is "
+                         f"contested.</p></div>")
+        nav = "Meet results · Qualifiers"
+    else:
+        body_main = render_bracket(reg, t) + render_champ_schedule(reg, t)
+        nav = "Bracket · Schedule · Qualifiers"
+
+    body = f"""
+<div class="fh-idhdr champ">
+  <div>{icons.icon(sp.key,'fh-ic lg')}</div>
+  <div><div class="name">{esc(t.name)}</div>
+  <div class="meta">{champ_state_chip(t)} · <a href='/sports/{sp.key}/'>{esc(sp.name)}</a>
+  · <a href='/championships/'>All championships</a></div></div>
+  <div class="side"></div>
+</div>
+{champ}
+{f'<dl class="fh-facts">{info}</dl>' if info else ''}
+<nav class="fh-champnav">{esc(nav)}</nav>
+{body_main}
+{render_qualifiers(reg, t)}
+"""
+    crumb = (f"<a href='/'>{NAME}</a> › <a href='/championships/'>Championships</a> › "
+             f"<a href='/championships/{sp.key}/'>{esc(sp.name)}</a> › {esc(t.group)}")
+    return shell(page_title(t.name), body, crumb, f"← {sp.name} championships|/championships/{sp.key}/")
+
+
+def render_champ_sport(reg, sport):
+    """Every classification's championship for one sport."""
+    tours = reg.tour_by_sport.get(sport.key, [])
+    cards = []
+    for t in tours:
+        line = ""
+        if t.champion:
+            line = (f"<span class='ch'>{reg.crest(t.champion,'xs')} "
+                    f"{esc(t.champion)}</span>")
+        elif t.format is TournamentFormat.BRACKET:
+            rnd = t.current_round()
+            if rnd is not None:
+                ready = [m for m in rnd.matchups if m.ready]
+                line = f"<span class='ch dim'>{len(ready)} in {esc(rnd.name.lower())}</span>"
+        cards.append(
+            f"<a class='fh-champcard' href='{reg.tour_url[t.id]}'>"
+            f"<span class='dv'>{grp_chip(t.group)}</span>{champ_state_chip(t)}"
+            f"{line}</a>")
+    body = f"""
+<div class="fh-idhdr">
+  <div>{icons.icon(sport.key,'fh-ic lg')}</div>
+  <div><div class="name">{esc(sport.name)} Championships</div>
+  <div class="meta">{SEASON_LABEL} · {esc(sport.season.title())} ·
+  <a href='/sports/{sport.key}/'>Season page</a></div></div>
+  <div class="side"></div>
+</div>
+<div class="fh-champgrid">{''.join(cards) or "<p class='fh-empty'>No championship is scheduled.</p>"}</div>
+"""
+    crumb = f"<a href='/'>{NAME}</a> › <a href='/championships/'>Championships</a> › {esc(sport.name)}"
+    return shell(page_title(f"{sport.name} Championships"), body, crumb,
+                 "← Championships|/championships/")
+
+
 def render_championships(reg):
-    """A championship record book: sports as headings, divisions as lines.
-    One striped mega-table read as a query response; this reads as the page an
-    association would print."""
-    by_sport = defaultdict(list)
-    for sp, grp, c in champ_finals(reg):
-        by_sport[sp].append((grp, c))
+    """The postseason hub: what is happening, and where the bracket is.
+
+    Organised by sport and championship division, because that is what a reader
+    is navigating to — "football, 1A, bracket". The page this replaces was a
+    season filter over a list of finals, which can only answer "who won" and
+    only after it is over. Live championships lead, since during February the
+    thing a state association's front door is for is telling you that the
+    semifinals are tonight.
+
+    Divisions come from `Sport.groups` — a sport that consolidates 3A-1A into
+    one championship shows one bracket there, not three empty ones.
+    """
+    live = [t for t in reg.tournaments if t.status is TournamentStatus.IN_PROGRESS]
+    live.sort(key=lambda t: (SEASON_ORDER.get(BY_KEY[t.sport].season, 3), t.sport, t.group))
+
+    lead = ""
+    if live:
+        seen, chips = set(), []
+        for t in live:
+            if t.sport in seen:
+                continue
+            seen.add(t.sport)
+            chips.append(
+                f"<a class='fh-livechip' href='/championships/{t.sport}/'>"
+                f"{icons.icon(t.sport,'fh-ic sm')}<span class='sp'>{esc(BY_KEY[t.sport].name)}</span>"
+                f"<span class='rd'>{esc(postseason.live_label(t) or 'In progress')}</span></a>")
+        lead = (f"<section class='fh-livebar'><h2>Happening now</h2>"
+                f"<div class='fh-liverow'>{''.join(chips)}</div></section>")
 
     blocks = []
-    for sp in sorted(by_sport, key=lambda s: (SEASON_ORDER.get(s.season, 3), s.name)):
-        lines = []
-        for grp, c in sorted(by_sport[sp], key=lambda t: t[0]):
-            if isinstance(c, Game):
-                winner, detail = c.winner, f"{c.home_score}\u2013{c.away_score}"
-            else:
-                top = next((t2 for t2 in c.team_scores if t2.rank == 1), None)
-                winner, detail = (top.school if top else None), "Results"
-            if not winner:
-                continue
-            lines.append(
-                f"<div class='fh-champline' data-f-division='{esc(grp)}'>"
-                f"<span class='dv'>{grp_chip(grp)}</span>"
-                f"{reg.crest(winner,'xs')}"
-                f"<span class='ch'>{reg.school_link(winner)}</span>"
-                f"<a class='rs' href='{reg.url(c)}'>{esc(detail)}</a></div>")
-        if lines:
-            blocks.append(
-                f"<section class='fh-champblock' data-f-season='{esc(sp.season)}'>"
-                f"<h2>{icons.icon(sp.key, 'fh-ic sm')} <a href='/sports/{sp.key}/champions/'>{esc(sp.name)}</a>"
-                f"<span class='ssn'>{esc(sp.season.title())}</span></h2>"
-                f"{''.join(lines)}</section>")
+    for season in ("fall", "winter", "spring"):
+        sports = [sp for sp in CATALOG
+                  if sp.season == season and reg.tour_by_sport.get(sp.key)]
+        if not sports:
+            continue
+        rows = []
+        for sp in sports:
+            tours = reg.tour_by_sport[sp.key]
+            chips = "".join(
+                f"<a class='dvchip {t.status.value}' href='{reg.tour_url[t.id]}' "
+                f"title='{esc(t.name)}'>{esc(t.group)}</a>" for t in tours)
+            rows.append(
+                f"<div class='fh-champrow'>"
+                f"<a class='sp' href='/championships/{sp.key}/'>"
+                f"{icons.icon(sp.key,'fh-ic sm')} {esc(sp.name)}</a>"
+                f"<div class='dvs'>{chips}</div></div>")
+        blocks.append(
+            f"<section class='fh-champseason' data-f-season='{season}'>"
+            f"<h2>{season.title()}</h2>{''.join(rows)}</section>")
 
     bar = facet_bar("ch", [
         ("season", "Season", [("fall", "Fall"), ("winter", "Winter"), ("spring", "Spring")]),
@@ -1676,14 +2154,16 @@ def render_championships(reg):
 <div class="fh-idhdr">
   <div></div>
   <div><div class="name">Championships</div>
-  <div class="meta">{SEASON_LABEL} · winter and spring titles decide as those seasons end</div></div>
+  <div class="meta">{SEASON_LABEL} · {len(reg.tournaments)} state championships across
+  {len(reg.tour_by_sport)} activities</div></div>
   <div class="side"></div>
 </div>
+{lead}
 {bar}
 <div class="fh-filterable fh-champbook" id="ch">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Championships"
-    return shell(page_title(f"Championships"), body, crumb)
+    return shell(page_title("Championships"), body, crumb)
 
 
 def render_schools_index(reg):
@@ -2144,6 +2624,11 @@ def build():
                 pages[f"/sports/{sp.key}/rankings/"] = render_sport_rankings(reg, sp)
             pages[f"/sports/{sp.key}/schedule/"] = render_sport_schedule(reg, sp)
             pages[f"/sports/{sp.key}/champions/"] = render_sport_champs(reg, sp)
+    for sp in CATALOG:
+        if reg.tour_by_sport.get(sp.key):
+            pages[f"/championships/{sp.key}/"] = render_champ_sport(reg, sp)
+    for t in reg.tournaments:
+        pages[reg.tour_url[t.id]] = render_tournament(reg, t)
     for s in reg.schools.values():
         pages[f"/schools/{s['slug']}/"] = render_school(reg, s)
     for slug, conf in reg.confs.items():

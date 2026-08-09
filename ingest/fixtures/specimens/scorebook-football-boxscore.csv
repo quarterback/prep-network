@@ -1,0 +1,44 @@
+# JHSAA Electronic Scorebook — Game Export v2.4
+# Generated for Abbey Prep at Port Veles Agricultural Sciences Academy
+GAME,gameId,date,sport,level,venue,attendance,status
+GAME,JHSAA-FOO-20260828,2026-08-28,Football,Varsity,Port Veles Agricultural Sciences Academy Memorial Field,379,Final
+TEAM,role,school,schoolCode,conference,final
+TEAM,home,Port Veles Agricultural Sciences Academy,PVA,—,20
+TEAM,away,Abbey Prep,AP,—,16
+LINESCORE,teamCode,Q1,Q2,Q3,Q4,OT,FINAL
+LINESCORE,PVA,7,6,0,7,,20
+LINESCORE,AP,3,7,3,3,,16
+SECTION,PASSING
+PLAYER,teamCode,no,name,yr,cp,att,yds,td,int,lg
+PLAYER,PVA,40,"Harlow, Rohan",12,20,20,191,0,2,43
+PLAYER,AP,64,"Okonkwo, Nnamdi",12,23,28,218,2,0,35
+SECTION,RUSHING
+PLAYER,teamCode,no,name,yr,car,yds,avg,td,lg
+PLAYER,PVA,40,"Sandberg, Devin",10,3,40,13.3,1,44
+PLAYER,PVA,11,"Diallo, Otgon",10,18,37,2.1,2,29
+PLAYER,PVA,53,"Nkemelu, Devin",9,19,108,5.7,0,37
+PLAYER,AP,79,"Halvorsen, Sven",11,10,44,4.4,1,26
+PLAYER,AP,7,"Escobar, Priya",12,7,61,8.7,2,29
+PLAYER,AP,11,"Harlow, Bryce",11,22,11,0.5,0,14
+SECTION,RECEIVING
+PLAYER,teamCode,no,name,yr,rec,yds,avg,td,lg
+PLAYER,PVA,63,"Ferreira, Ava",10,15,17,1.1,0,12
+PLAYER,PVA,27,"Whitlock, Marek",9,21,119,5.7,1,32
+PLAYER,PVA,54,"Achebe, Tobias",10,11,72,6.5,2,34
+PLAYER,PVA,79,"Ferreira, Marek",12,9,124,13.8,1,37
+PLAYER,AP,55,"Haddad, Sven",11,13,41,3.2,0,17
+PLAYER,AP,10,"Doyle, Erik",9,15,69,4.6,2,36
+PLAYER,AP,49,"Bhatt, Priya",11,9,16,1.8,0,39
+PLAYER,AP,75,"Whitlock, Simone",10,15,141,9.4,2,24
+SECTION,DEFENSE
+PLAYER,teamCode,no,name,yr,tkl,ast,tfl,sack,int,pd
+PLAYER,PVA,47,"Reyes, Talia",9,6,5,3,2,0,0
+PLAYER,PVA,38,"Moreau, Marek",10,4,4,3,1,1,2
+PLAYER,PVA,80,"Castellanos, Simone",11,11,1,0,1,1,3
+PLAYER,PVA,82,"Halvorsen, Santiago",9,10,2,3,0,0,1
+PLAYER,PVA,86,"Petrov, Obi",11,7,3,1,0,0,0
+PLAYER,AP,88,"Pham, Sven",11,7,3,2,2,1,0
+PLAYER,AP,59,"Whitlock, Nadia",11,2,6,0,2,1,1
+PLAYER,AP,40,"Harlow, Talia",12,8,1,1,0,0,1
+PLAYER,AP,80,"Sandberg, Tobias",9,8,1,1,1,1,2
+PLAYER,AP,25,"Harlow, Simone",10,2,2,2,2,0,3

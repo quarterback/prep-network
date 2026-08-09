@@ -37,15 +37,76 @@ is written against real structure instead of an invented one.
 | Piece | State |
 | --- | --- |
 | `ingest/pdftext.py` — positioned PDF text, stdlib only | working |
-| `ingest/adapters/hytek_pdf.py` — Hy-Tek printout → `Meet` | working, 22 tests |
-| `app/shapes.py` — MEET / DUAL / GAME contest model | working |
+| `ingest/adapters/hytek_pdf.py` — Hy-Tek printout → `Meet` | working, real specimen |
+| `ingest/adapters/hytek_swim.py` — MM text results → `Meet` | working |
+| `ingest/adapters/scorebook_csv.py` — scorebook → `Game` + box score | working |
+| `ingest/adapters/dual_card.py` — match card → `Dual` | working |
+| `ingest/resolve.py` — source names → member schools | working |
+| `app/shapes.py` — MEET / DUAL / GAME + postseason | working |
+| `app/postseason.py` — bracket geometry | working |
+| `generators/` — the fictional state, incl. 165 championships | working |
+| `site/build.py` — 50,790 pages, three tenant tiers | working |
 | `atproto/` — lexicons, local repo store, relay, AppView | not started |
-| `app/web/` — the three tenant tiers | not started |
-| `generators/` — the fictional state | not started |
 
 ```sh
-python3 -m pytest -q
+python3 -m pytest -q                              # 202 tests
+python3 -m generators.jefferson.gen               # the state, at the demo clock
+python3 -m generators.jefferson.mascots --check   # the mascot distribution
+python3 -m ingest.run --demo                      # every specimen, parsed and resolved
+python3 -m generators.jefferson.postseason        # derive the championship layer
+python3 site/build.py                             # writes dist/site/ (50,790 pages)
 ```
+
+## Ingestion, end to end
+
+`python3 -m ingest.run --demo` parses every committed specimen and prints what
+it produced — contests, resolution report, and anything the source's own
+checksums flagged:
+
+```
+hytek-mm-swimming-results.txt      → hytek_swim
+  meet  2027 JHSAA 7A-5A Swimming & Diving …   7 events · 31 results · 10 schools
+scorebook-basketball-boxscore.csv  → scorebook_csv
+  game  Copper Lake East at Ansotegui Siding   65–53 · 4 periods · box 15 players
+scorebook-basketball-badtotals.csv → scorebook_csv
+  game  Sage Summit at Norview                 [needs review: totals disagree]
+dual-tennis-match-card.txt         → dual_card
+  dual  Academy of Arts … at Vista Terrace     9 lines · 5.0–4.0
+hytek-meetmanager8-track.pdf       → hytek_pdf
+  meet  WHSAA State Track & Field Championships  141 events · 2,427 results
+```
+
+The flow is `file → parser → normalization → resolution → contest record →
+page`, and the source stays attached: every imported record carries its
+filename, format family, content hash, the source's own ids, and the adapter
+version that read it, shown on the page itself.
+
+Two rules that are load-bearing rather than decorative. **Ambiguity is refused**
+— `Copper Lak` matches three schools, so it fails and reports all three instead
+of guessing, because a wrongly resolved school is invisible and wrong where an
+unresolved one is a visible gap. And **a source is checked against itself** — a
+scorebook whose TOTALS row disagrees with its player rows lands as
+`needs_review`, which `scorebook-basketball-badtotals.csv` exists to prove.
+
+## The postseason
+
+Championships are first-class records, not text on a game. A `Tournament` holds
+the field, the seeds and the tree and *points at* the contest record for each
+matchup; byes are structural rather than a fake opponent. Brackets are laid out
+server-side in `app/postseason.py` so cards and their connector elbows share one
+coordinate system — horizontally scrolling on desktop, one round at a time below
+900px. Titles decided by a meet rather than a bracket (cross country, golf,
+swimming, marching band) route to the meet renderer under the same navigation.
+
+The demo clock is **2027-05-13**, set in `generators/jefferson/gen.py`. It is
+late in the year on purpose: every season has results (fall 14,136 · winter
+12,749 · spring 3,324, and all 45 sports), and staggered championship weekends
+mean complete, in-progress and upcoming brackets all exist at that one date.
+Scoring happens inline with scheduling, so moving the clock produces a
+*different* season rather than the same one further along — everything derived
+from it has to be rebuilt.
+
+See [`docs/AAR-ingestion-postseason-and-tenant-brands.md`](docs/AAR-ingestion-postseason-and-tenant-brands.md).
 
 ## The model
 

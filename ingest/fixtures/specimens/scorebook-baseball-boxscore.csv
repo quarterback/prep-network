@@ -1,0 +1,38 @@
+# JHSAA Electronic Scorebook — Game Export v2.4
+# Generated for Adela Villaseñor at Jon Etxeberria
+GAME,gameId,date,sport,level,venue,attendance,status
+GAME,JHSAA-BAS-20270319,2027-03-19,Baseball,Varsity,Jon Etxeberria Legion Park,1967,Final
+TEAM,role,school,schoolCode,conference,final
+TEAM,home,Jon Etxeberria,JE,—,6
+TEAM,away,Adela Villaseñor,AV,—,4
+LINESCORE,teamCode,1,2,3,4,5,6,7,FINAL
+LINESCORE,JE,0,2,0,1,0,3,0,6
+LINESCORE,AV,1,0,0,2,0,0,1,4
+SECTION,BATTING
+PLAYER,teamCode,no,name,yr,gs,ab,r,h,rbi,bb,so,lob,avg
+PLAYER,JE,1,"Ivanov, Bryce",12,1,3,0,2,0,1,2,1,.667
+PLAYER,JE,6,"Duarte, Sunita",11,1,3,2,3,1,0,0,3,1.000
+PLAYER,JE,11,"Okonkwo, Mateo",10,1,2,0,0,0,0,0,2,.000
+PLAYER,JE,30,"Okonkwo, Nnamdi",11,1,2,0,0,0,0,1,1,.000
+PLAYER,JE,17,"Gundersen, Danae",10,1,2,0,0,2,0,1,1,.000
+PLAYER,JE,1,"Reyes, Nadia",12,1,2,1,2,0,0,3,1,1.000
+PLAYER,JE,6,"Reyes, Santiago",10,1,4,1,0,1,0,0,2,.000
+PLAYER,JE,43,"Nkemelu, Cade",11,1,3,0,1,1,2,0,1,.333
+PLAYER,JE,1,"Ivanov, Kyle",11,1,3,2,1,1,1,1,0,.333
+TOTALS,JE,,,,,24,6,9,6,4,8,,.375
+PLAYER,AV,5,"Sandberg, Elle",11,1,4,0,2,0,0,1,4,.500
+PLAYER,AV,38,"Whitlock, Danae",10,1,2,0,0,0,0,1,2,.000
+PLAYER,AV,5,"Sandberg, Anders",10,1,2,0,0,1,0,0,2,.000
+PLAYER,AV,21,"Ferraro, Felipe",11,1,4,1,1,0,0,2,1,.250
+PLAYER,AV,33,"Petrov, Danae",9,1,3,1,0,0,0,0,4,.000
+PLAYER,AV,9,"Okonkwo, Erik",12,1,4,1,1,1,1,0,4,.250
+PLAYER,AV,17,"Petrov, Nadia",11,1,3,0,1,0,0,0,4,.333
+PLAYER,AV,26,"Ramos, Anya",11,1,4,0,1,1,0,1,2,.250
+PLAYER,AV,1,"Nkemelu, Rosa",10,1,4,1,0,1,0,1,4,.000
+TOTALS,AV,,,,,30,4,6,4,1,6,,.200
+SECTION,PITCHING
+PLAYER,teamCode,no,name,yr,gs,ip,h,r,er,bb,so,hr,era
+PLAYER,JE,13,"Abioye, Felipe",10,1,2.1,3,2,2,3,4,1,4.16
+PLAYER,JE,19,"Haddad, Priya",11,0,4.2,7,2,2,2,3,1,3.15
+PLAYER,AV,21,"Reyes, Danae",10,1,2.1,6,3,3,4,5,1,3.47
+PLAYER,AV,37,"Vasquez, Devin",10,0,4.2,3,4,4,4,6,1,2.59
