@@ -584,7 +584,8 @@ SITE_DESC = ("Official results, schedules, standings and championships for the "
 #: `varsity` is the default and carries no data-theme attribute.
 SCHEMES = [
     ("varsity",   "Varsity",   "Mint · sea green · amber · black"),
-    ("apex",      "Apex",      "Prussian · amber · flag red"),
+    ("banner",    "Banner",    "Indigo · ocean blue · flag red · amber"),
+    ("apex",      "Apex",      "Prussian · steel blue · amber · flag red"),
     ("bloom",     "Bloom",     "Lavender · petal · plum"),
     ("meadow",    "Meadow",    "Mint · teal · sunflower"),
     ("evergreen", "Evergreen", "Deep green · orange"),
