@@ -3271,6 +3271,52 @@ def season_chooser(reg, current="winter"):
                          tail="<a class='all' href='/scoreboard/'>Scoreboard →</a>")
 
 
+def render_404(reg):
+    """The not-found page.
+
+    Written to ``404.html`` at the root rather than through the page map:
+    Vercel serves that file for any unmatched path on a static deployment,
+    and a page at ``/404/`` would be a real url that answers 200. It is kept
+    out of the sitemap for the same reason, and carries `noindex` so a
+    crawler that reaches it anyway does not file it as content.
+
+    An athletics site's 404 gets traffic from stale bookmarks and old
+    brackets, so it offers the four places that are almost always the answer
+    instead of only apologising.
+    """
+    links = [("Scores & schedule", "/scoreboard/"), ("Championships", "/championships/"),
+             ("Member schools", "/schools/"), ("Product tour", "/tour/")]
+    body = f"""
+<div class="fh-404">
+  <div class="num" aria-hidden="true">404</div>
+  <h1>You made a wrong turn, go back?</h1>
+  <p class="dk">That page isn't here. It may have moved when the season
+     rolled over, or the link may have been mistyped.</p>
+  <div class="fh-404links">
+    <button type="button" class="fh-pill back" id="go-back">← Go back</button>
+    {''.join(f"<a class='fh-pill' href='{u}'>{esc(t)}</a>" for t, u in links)}
+  </div>
+</div>
+<script>
+(function () {{
+  var b = document.getElementById("go-back");
+  if (!b) return;
+  // No history to go back to means the reader arrived here cold — send them
+  // home rather than nowhere.
+  b.addEventListener("click", function () {{
+    if (document.referrer && history.length > 1) history.back();
+    else location.href = "/";
+  }});
+}})();
+</script>
+"""
+    page = shell(page_title("Page not found"), body,
+                 desc="That page isn't here. Scores, schedules, championships "
+                      "and every member school's athletics site are one link away.")
+    return page.replace('<meta charset="utf-8">',
+                        '<meta charset="utf-8">\n<meta name="robots" content="noindex">', 1)
+
+
 def render_front(reg):
     """The front is a publication: one lead, secondaries at half its weight,
     briefs at a line each — then the structured material (scores, finder) in
@@ -3559,6 +3605,9 @@ def build():
         # renderer's signature.
         p.write_text(text.replace(OG_URL_TOKEN, url))
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
+    # Not in `pages`: it must land at 404.html, not 404/index.html, and it
+    # must stay out of the sitemap.
+    (OUT / "404.html").write_text(render_404(reg).replace(OG_URL_TOKEN, "/404"))
     write_favicon(OUT)
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
     if NEWS_IMG.exists():
