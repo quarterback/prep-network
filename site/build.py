@@ -509,6 +509,7 @@ def shell(title, body, crumb="", back="", story=None, org=False):
     <button class="fh-swatch" data-theme-choice="evergreen" aria-pressed="false" aria-label="Evergreen scheme"></button>
     <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"></button>
     <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"></button>
+    <button class="fh-swatch" data-theme-choice="pitch" aria-pressed="false" aria-label="Pitch scheme"></button>
   </nav>
 </div></header><!--/M-->
 <label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>

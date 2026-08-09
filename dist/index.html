@@ -355,6 +355,51 @@
   --crest-10: hsl(240, 15%, 38%); --crest-11: hsl(10, 40%, 42%);
 }
 
+/* ── scheme: pitch — mint-cream / olive-wood / sea-green / bright-amber /
+   pitch-black (owner palette 2027-08b). Same contrast discipline as varsity:
+   pitch is the ink (17.4:1 on mint); olive-wood (4.8:1) is the one accent
+   that can carry body-size text and takes the secondary-text role; sea-green
+   is 3.5:1 at full strength so LINKS take it darkened to 24% (4.7:1);
+   bright-amber is 1.3:1 — fill and border only, never text on mint. ── */
+[data-theme="pitch"] {
+  --linen: hsl(49, 90%, 88%);   /* amber, laid down flat: bands and heads */
+  --ivory: #eaf2ef;             /* mint-cream takes the ground slot */
+  --cyan: hsl(166, 45%, 89%);   /* sea-green, laid down flat: hover, highlight */
+  --ice: #00916e;               /* sea-green takes the accent-detail slot */
+  --prussian: #0d090a;
+
+  --brand-strong: hsl(166, 100%, 24%);   /* sea-green at 4.7:1 — link text */
+
+  --gray-150: hsl(158, 16%, 90%);
+  --gray-200: hsla(345, 18%, 4%, 0.14);
+  --gray-300: hsla(345, 18%, 4%, 0.24);
+  --gray-400: hsl(160, 8%, 58%);
+  --gray-500: hsl(160, 10%, 43%);
+  --gray-600: hsl(27, 22%, 34%);         /* olive-wood, the readable accent */
+
+  /* chip backgrounds hold white text: 5.4:1 at the lightest */
+  --cat-7a: hsl(345, 18%, 6%);
+  --cat-6a: hsl(166, 60%, 16%);
+  --cat-5a: hsl(166, 100%, 22%);
+  --cat-4a: hsl(166, 55%, 30%);
+  --cat-3a: hsl(27, 30%, 30%);
+  --cat-2a: hsl(27, 26%, 38%);
+  --cat-1a: hsl(45, 100%, 24%);
+
+  --rank-gold: hsl(45, 100%, 30%);
+  --accent-live: hsl(27, 65%, 38%);      /* olive-wood hue, burnt: 4.8:1 white */
+
+  --surface-subtle: hsl(49, 55%, 95%);
+  --surface-zebra: hsla(166, 55%, 86%, 0.30);
+
+  --crest-0: hsl(345, 18%, 8%);  --crest-1: hsl(166, 65%, 18%);
+  --crest-2: hsl(166, 100%, 26%); --crest-3: hsl(166, 45%, 34%);
+  --crest-4: hsl(27, 30%, 30%);  --crest-5: hsl(27, 24%, 42%);
+  --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
+  --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
+  --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
+}
+
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
 body { overflow-x: clip; }
@@ -462,6 +507,7 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }
 .fh-swatch[data-theme-choice="harbor"] { background: linear-gradient(135deg, #071e22 0 34%, #f4c095 0 67%, #ee2e31 0); }
 .fh-swatch[data-theme-choice="citrus"] { background: linear-gradient(135deg, #1d4e57 0 34%, #dce2c8 0 67%, #f96900 0); }
+.fh-swatch[data-theme-choice="pitch"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
 .fh-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* chips */
@@ -1658,6 +1704,7 @@ a.fh-tourrow:hover { background: var(--surface-hover); text-decoration: none; }
     <button class="fh-swatch" data-theme-choice="evergreen" aria-pressed="false" aria-label="Evergreen scheme"></button>
     <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"></button>
     <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"></button>
+    <button class="fh-swatch" data-theme-choice="pitch" aria-pressed="false" aria-label="Pitch scheme"></button>
   </nav>
 </div></header>
 <label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
