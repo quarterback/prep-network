@@ -488,12 +488,39 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-crest.c8 { background: var(--crest-8); }  .fh-crest.c9 { background: var(--crest-9); }
 .fh-crest.c10 { background: var(--crest-10); } .fh-crest.c11 { background: var(--crest-11); }
 
-/* scheme picker — each chip shows its own scheme in literal colors, so a
-   chip keeps advertising its palette whichever scheme is applied */
+/* scheme picker — a NAMED menu. Each chip shows its own scheme in literal
+   colors, so a chip keeps advertising its palette whichever scheme is
+   applied; the name beside it is what makes the chip legible at all. */
 .fh-swatch {
   width: 20px; height: 20px; padding: 0; border: 2px solid var(--ink);
-  border-radius: 4px; cursor: pointer; align-self: center;
+  border-radius: 4px; flex: none;
 }
+.fh-thememenu > button { white-space: nowrap; }
+.fh-drop.fh-themelist { min-width: 262px; padding: 10px; }
+.fh-themerow {
+  display: grid; grid-template-columns: 20px 1fr; gap: 3px 10px;
+  width: 100%; text-align: left; appearance: none; background: none;
+  border: none; cursor: pointer; padding: 7px 8px; font-family: var(--font-text);
+}
+.fh-themerow:hover { background: var(--surface-hover); }
+.fh-themerow .fh-swatch { grid-row: span 2; align-self: center; }
+.fh-themerow .tn { font-size: var(--fs-small); font-weight: 700; color: var(--text-primary); }
+.fh-themerow .td { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-themerow[aria-pressed="true"] { background: var(--surface-th); }
+.fh-themerow[aria-pressed="true"] .tn::after {
+  content: " ✓"; color: var(--brand-strong);
+}
+/* in the drawer it is the only way to reach a scheme below 860px */
+.fh-themedrawer { border-bottom: var(--hairline); }
+.fh-themedrawer > summary {
+  list-style: none; cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; padding: 13px 18px; font-family: var(--font-display);
+  font-weight: 700; font-size: var(--fs-body);
+}
+.fh-themedrawer > summary::-webkit-details-marker { display: none; }
+.fh-themedrawer > summary::after { content: "+"; font-size: 20px; color: var(--text-muted); }
+.fh-themedrawer[open] > summary::after { content: "–"; }
+.fh-themedrawer .fh-themelist { padding: 0 10px 12px; display: grid; gap: 2px; }
 .fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
 .fh-swatch[data-theme-choice="bloom"] { background: linear-gradient(135deg, #c287e8 0 34%, #eecfd4 0 67%, #cfd4c5 0); }
 .fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
@@ -501,7 +528,6 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-swatch[data-theme-choice="harbor"] { background: linear-gradient(135deg, #071e22 0 34%, #f4c095 0 67%, #ee2e31 0); }
 .fh-swatch[data-theme-choice="citrus"] { background: linear-gradient(135deg, #1d4e57 0 34%, #dce2c8 0 67%, #f96900 0); }
 .fh-swatch[data-theme-choice="apex"] { background: linear-gradient(135deg, #0a122a 0 34%, #e8aa14 0 67%, #db162f 0); }
-.fh-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* chips */
 .fh-badge {

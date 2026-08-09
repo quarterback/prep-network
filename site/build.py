@@ -580,6 +580,43 @@ SITE_DESC = ("Official results, schedules, standings and championships for the "
              "45 sanctioned activities, published as open records.")
 
 
+#: The colour schemes, in picker order: (key, name, what it is made of).
+#: `varsity` is the default and carries no data-theme attribute.
+SCHEMES = [
+    ("varsity",   "Varsity",   "Mint · sea green · amber · black"),
+    ("apex",      "Apex",      "Prussian · amber · flag red"),
+    ("bloom",     "Bloom",     "Lavender · petal · plum"),
+    ("meadow",    "Meadow",    "Mint · teal · sunflower"),
+    ("evergreen", "Evergreen", "Deep green · orange"),
+    ("harbor",    "Harbor",    "Dark teal · peach · red"),
+    ("citrus",    "Citrus",    "Aqua · beige · pumpkin"),
+]
+
+
+def theme_menu(drawer=False) -> str:
+    """The scheme picker, NAMED.
+
+    It was seven unlabelled 20px squares in a row, which failed twice over:
+    nobody could tell which square was which palette, and the whole row lived
+    in `.fh-mast-nav`, which is `display:none` below 860px — so on a phone
+    there was no way to reach any scheme at all, and on a school or conference
+    page (whose compact masthead never carried the row) there was none at any
+    width. A named menu in the site's own dropdown grammar fixes all three.
+    """
+    rows = "".join(
+        f"<button type='button' class='fh-themerow' data-theme-choice='{k}' "
+        f"aria-pressed='{'true' if k == 'varsity' else 'false'}'>"
+        f"<span class='fh-swatch' data-theme-choice='{k}' aria-hidden='true'></span>"
+        f"<span class='tn'>{esc(name)}</span><span class='td'>{esc(desc)}</span>"
+        f"</button>" for k, name, desc in SCHEMES)
+    if drawer:
+        return (f"<details class='fh-themedrawer'><summary>Appearance</summary>"
+                f"<div class='items fh-themelist'>{rows}</div></details>")
+    return (f"<div class='fh-menu fh-thememenu'>"
+            f"<button type='button' aria-label='Colour scheme'>Theme ▾</button>"
+            f"<div class='fh-drop fh-themelist'>{rows}</div></div>")
+
+
 def shell(title, body, crumb="", back="", story=None, org=False,
           desc=None, image=None, kind="website", published=None):
     pill = ""
@@ -618,20 +655,7 @@ def shell(title, body, crumb="", back="", story=None, org=False,
     <a href="/tour/">Tour</a>
     <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
     <span class="fh-season">{ASSOC} · {SEASON_LABEL}</span>
-    <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"
-            title="Varsity — mint · sea green · amber · pitch black (default)"></button>
-    <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"
-            title="Bloom — lavender · petal · plum"></button>
-    <button class="fh-swatch" data-theme-choice="meadow" aria-pressed="false" aria-label="Meadow scheme"
-            title="Meadow — mint · teal · sunflower"></button>
-    <button class="fh-swatch" data-theme-choice="evergreen" aria-pressed="false" aria-label="Evergreen scheme"
-            title="Evergreen — deep green · orange"></button>
-    <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"
-            title="Harbor — dark teal · peach · red"></button>
-    <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"
-            title="Citrus — aqua · beige · pumpkin"></button>
-    <button class="fh-swatch" data-theme-choice="apex" aria-pressed="false" aria-label="Apex scheme"
-            title="Apex — prussian · amber · flag red"></button>
+    {theme_menu()}
     <a class="fh-socialink" href="{BSKY_URL}" target="_blank" rel="noopener"
        aria-label="VarsityApex on Bluesky">{icons.bsky()}</a>
   </nav>
@@ -649,6 +673,9 @@ def shell(title, body, crumb="", back="", story=None, org=False,
   <a class="top" href="/conferences/">Conferences</a>
   {DRAWER_SPORTS}
   {DRAWER_RES}
+  {theme_menu(drawer=True)}
+  <a class="top" href="{BSKY_URL}" target="_blank" rel="noopener">
+    {icons.bsky()} @{BSKY_HANDLE}</a>
 </nav>
 {RAIL}
 <main class="wrap">
@@ -658,16 +685,19 @@ def shell(title, body, crumb="", back="", story=None, org=False,
 <script>{FACET_JS}{CONF_PICKER_JS}</script>
 <script>
 (function () {{
-  var chips = document.querySelectorAll(".fh-swatch");
+  // The row is the control now; the swatch inside it is decoration. There
+  // are two of these on a page (masthead menu + mobile drawer), so both get
+  // their pressed state updated from one apply().
+  var rows = document.querySelectorAll(".fh-themerow");
   function apply(name) {{
     if (name === "varsity") document.documentElement.removeAttribute("data-theme");
     else document.documentElement.setAttribute("data-theme", name);
-    chips.forEach(function (c) {{
+    rows.forEach(function (c) {{
       c.setAttribute("aria-pressed", c.getAttribute("data-theme-choice") === name ? "true" : "false");
     }});
     try {{ localStorage.setItem("fh-theme", name === "varsity" ? "" : name); }} catch (e) {{}}
   }}
-  chips.forEach(function (c) {{
+  rows.forEach(function (c) {{
     c.addEventListener("click", function () {{ apply(c.getAttribute("data-theme-choice")); }});
   }});
   var t = null;
@@ -702,6 +732,9 @@ def shell(title, body, crumb="", back="", story=None, org=False,
     <a href="/conferences/">Conferences</a>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
+    {theme_menu()}
+    <a class="fh-socialink" href="{BSKY_URL}" target="_blank" rel="noopener"
+       aria-label="VarsityApex on Bluesky">{icons.bsky()}</a>
   </nav>
 </div></header>"""
         import re as _re
