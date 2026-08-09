@@ -660,6 +660,7 @@ def shell(title, body, crumb="", back="", story=None, org=False,
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
 <title>{esc(title)}</title>
 {social_head(title, desc or SITE_DESC, image, kind, published)}
 <link rel="stylesheet" href="/style.css">
