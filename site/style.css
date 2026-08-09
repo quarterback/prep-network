@@ -46,78 +46,74 @@
   font-display: swap; src: url('fonts/azeret-mono-variable.woff2') format('woff2'); }
 
 :root {
-  /* ---- palette slots (owner scheme 2027-08b — "this one i think") ----
-     mint-cream #eaf2ef · olive-wood #7e6551 · sea-green #00916e ·
-     bright-amber #ffcf00 · pitch-black #0d090a.
-     Derived tones stay on the palette's hues (158 / 27 / 166 / 49 / 345).
+  /* ---- palette slots (owner scheme 2027-08e — the site default) ----
+     oxblood #970005 · pure-red #ed0101 · white #ffffff ·
+     cobalt-blue #0c44ac · deep-twilight #000052.
 
-     Measured against mint-cream, which decides where each may be used:
-       pitch    17.4:1  body copy, rules, mastheads — the ink
-       olive     4.8:1  the ONE accent that passes AA at body size, so it
-                        takes the secondary-text role
-       sea       3.5:1  accent details at full strength; LINKS take it
-                        darkened to 24% lightness (4.7:1)
-       amber     1.3:1  FILL AND BORDER ONLY. Amber is never text on mint.
-                        On pitch it is 13.4:1 and can be read.
-     A palette applied without that table is a palette applied to a page
-     nobody can read the middle of. */
-  --mint: #eaf2ef;
-  --olive: #7e6551;
-  --sea: #00916e;
-  --amber: #ffcf00;
-  --pitch: #0d090a;
+     The plain red-white-blue, and the only palette here that needed no
+     adjustment anywhere. Measured on white:
+       deep-twilight 18.7:1  the ink, and the masthead bar
+       oxblood        9.1:1  body-safe text; chips and the rank colour
+       cobalt         8.6:1  LINK TEXT AT THE HEX GIVEN — nothing darkened
+       pure-red       4.6:1  clears AA body; the live accent and mast rule
+     Every other scheme in this file has at least one colour pushed darker to
+     be legible. This one uses all five as sent. */
+  --oxblood: #970005;
+  --pure-red: #ed0101;
+  --cobalt: #0c44ac;
+  --twilight: #000052;
 
   /* the structural slots the components were built against */
-  --linen: hsl(49, 90%, 88%);      /* amber, laid down flat: bands and heads */
-  --ivory: var(--mint);            /* the ground */
-  --cyan: hsl(166, 45%, 89%);      /* sea-green, laid down flat: hover, highlight */
-  --ice: var(--sea);               /* accent detail */
-  --prussian: var(--pitch);        /* the ink slot keeps its historical name */
+  --linen: hsl(219, 70%, 93%);     /* cobalt, laid down flat: bands and heads */
+  --ivory: #ffffff;                /* white, literally, is the ground */
+  --cyan: hsl(219, 60%, 95%);      /* cobalt wash: hover, highlight */
+  --ice: var(--cobalt);            /* accent detail */
+  --prussian: var(--twilight);     /* the ink slot keeps its historical name */
 
   --ink: var(--prussian);
   --paper: var(--ivory);
   --brand: var(--prussian);
-  --brand-strong: hsl(166, 100%, 24%);  /* sea-green at 4.7:1 — link text */
+  --brand-strong: var(--cobalt);        /* 8.6:1 — link text, unmodified */
   --brand-tint: var(--cyan);
-  --accent-live: hsl(27, 65%, 38%);     /* olive hue, burnt: in progress, happening now */
+  --accent-live: var(--pure-red);       /* in progress, happening now */
 
-  /* neutrals — pitch and sage at falling strength */
-  --gray-150: hsl(158, 16%, 90%);
-  --gray-200: hsla(345, 18%, 4%, 0.14);
-  --gray-300: hsla(345, 18%, 4%, 0.24);
-  --gray-400: hsl(160, 8%, 58%);
-  --gray-500: hsl(160, 10%, 43%);
-  --gray-600: hsl(27, 22%, 34%);        /* olive-wood, the readable accent */
+  /* neutrals — twilight at falling strength */
+  --gray-150: hsl(219, 30%, 93%);
+  --gray-200: hsla(240, 100%, 16%, 0.13);
+  --gray-300: hsla(240, 100%, 16%, 0.22);
+  --gray-400: hsl(222, 14%, 62%);
+  --gray-500: hsl(222, 18%, 46%);
+  --gray-600: hsl(228, 34%, 30%);
 
   /* classification chips — chip BACKGROUNDS carrying white text, so every
-     one of these is dark enough to hold it (5.4:1 at the lightest). */
-  --cat-7a: hsl(345, 18%, 6%);
-  --cat-6a: hsl(166, 60%, 16%);
-  --cat-5a: hsl(166, 100%, 22%);
-  --cat-4a: hsl(166, 55%, 30%);
-  --cat-3a: hsl(27, 30%, 30%);
-  --cat-2a: hsl(27, 26%, 38%);
-  --cat-1a: hsl(45, 100%, 24%);
+     one of these is dark enough to hold it (6.5:1 at the lightest). */
+  --cat-7a: var(--twilight);
+  --cat-6a: hsl(228, 90%, 22%);
+  --cat-5a: var(--cobalt);
+  --cat-4a: hsl(219, 70%, 44%);
+  --cat-3a: var(--oxblood);
+  --cat-2a: hsl(358, 80%, 38%);
+  --cat-1a: hsl(0, 75%, 40%);
 
-  --rank-gold: hsl(45, 100%, 30%);
+  --rank-gold: var(--oxblood);
 
   /* ---- semantic aliases — components read these only ---- */
   --surface-page: var(--paper);
   --surface-card: var(--paper);
-  --surface-subtle: hsl(49, 55%, 95%);
+  --surface-subtle: hsl(219, 60%, 97%);
   --surface-th: var(--linen);
-  --surface-zebra: hsla(166, 55%, 86%, 0.30);
+  --surface-zebra: hsla(219, 70%, 90%, 0.34);
   --surface-hover: var(--cyan);
-  --surface-mast: var(--linen);
+  --surface-mast: var(--twilight);   /* the bar IS the palette */
   /* Masthead ink. A scheme with a DARK masthead needs light type on it, and
      without these aliases the only masthead any palette could have was a pale
      wash — which is why two palettes built around navy and red came out
      reading as beige: their loudest colours had nowhere to go but a 20px
      chip. `--mast-rule` is the band under the bar, where an athletics site
      traditionally puts its second colour. */
-  --on-mast: var(--ink);
-  --on-mast-dim: var(--text-secondary);
-  --mast-rule: var(--ink);
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(219, 60%, 82%);
+  --mast-rule: var(--pure-red);
 
   --text-primary: var(--ink);
   --text-secondary: var(--gray-600);
@@ -149,63 +145,61 @@
   --container: 1180px; --gutter: 20px;
 
   /* crest tones — hash-assigned per school, themed with the scheme */
-  --crest-0: hsl(345, 18%, 8%);  --crest-1: hsl(166, 65%, 18%);
-  --crest-2: hsl(166, 100%, 26%); --crest-3: hsl(166, 45%, 34%);
-  --crest-4: hsl(27, 30%, 30%);  --crest-5: hsl(27, 24%, 42%);
-  --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
-  --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
-  --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
-}
-
-
-/* ── scheme: ensign — oxblood / pure-red / white / cobalt-blue /
-   deep-twilight (owner palette 2027-08e). The plain red-white-blue, and the
-   first palette here that needs no adjustment anywhere: deep-twilight is
-   18.7:1 on white, cobalt 8.6:1 and oxblood 9.1:1 as body text, and even
-   pure-red clears AA at 4.6:1. So every colour is used AT THE HEX GIVEN —
-   nothing is darkened to make it legible, because nothing has to be. ── */
-[data-theme="ensign"] {
-  --linen: hsl(219, 70%, 93%);   /* cobalt, laid down flat: bands and heads */
-  --ivory: #ffffff;              /* white, literally, takes the ground slot */
-  --cyan: hsl(219, 60%, 95%);    /* cobalt wash: hover, highlight */
-  --ice: #0c44ac;                /* cobalt-blue takes the accent-detail slot */
-  --prussian: #000052;
-
-  --brand-strong: #0c44ac;              /* cobalt at 8.6:1 — link text, as given */
-
-  --gray-150: hsl(219, 30%, 93%);
-  --gray-200: hsla(240, 100%, 16%, 0.13);
-  --gray-300: hsla(240, 100%, 16%, 0.22);
-  --gray-400: hsl(222, 14%, 62%);
-  --gray-500: hsl(222, 18%, 46%);
-  --gray-600: hsl(228, 34%, 30%);
-
-  /* chip backgrounds hold white text: 6.5:1 at the lightest */
-  --cat-7a: #000052;
-  --cat-6a: hsl(228, 90%, 22%);
-  --cat-5a: #0c44ac;
-  --cat-4a: hsl(219, 70%, 44%);
-  --cat-3a: #970005;
-  --cat-2a: hsl(358, 80%, 38%);
-  --cat-1a: hsl(0, 75%, 40%);
-
-  --rank-gold: #970005;
-  --accent-live: #ed0101;               /* pure-red: happening now */
-
-  --surface-mast: #000052;              /* deep-twilight bar, 18.7:1 on white */
-  --on-mast: #ffffff;
-  --on-mast-dim: hsl(219, 60%, 82%);
-  --mast-rule: #ed0101;
-
-  --surface-subtle: hsl(219, 60%, 97%);
-  --surface-zebra: hsla(219, 70%, 90%, 0.34);
-
   --crest-0: #000052;            --crest-1: hsl(228, 90%, 22%);
   --crest-2: #0c44ac;            --crest-3: hsl(219, 70%, 44%);
   --crest-4: #970005;            --crest-5: hsl(358, 80%, 40%);
   --crest-6: hsl(0, 75%, 42%);   --crest-7: hsl(219, 40%, 34%);
   --crest-8: hsl(240, 60%, 26%); --crest-9: hsl(350, 50%, 34%);
   --crest-10: hsl(210, 45%, 30%); --crest-11: hsl(228, 30%, 38%);
+}
+
+
+/* ── scheme: pitch — mint-cream / olive-wood / sea-green / bright-amber /
+   pitch-black (owner palette 2027-08b). Pitch is the ink at 17.4:1 on mint;
+   olive-wood (4.8:1) is the one accent that carries body-size text and takes
+   the secondary-text role; sea-green is 3.5:1 at full strength so links take
+   it at 24% (4.7:1); bright-amber is 1.3:1 — fill and border only. ── */
+[data-theme="pitch"] {
+  --linen: hsl(49, 90%, 88%);
+  --ivory: #eaf2ef;
+  --cyan: hsl(166, 45%, 89%);
+  --ice: #00916e;
+  --prussian: #0d090a;
+
+  --brand-strong: hsl(166, 100%, 24%);
+  --accent-live: hsl(27, 65%, 38%);
+
+  --gray-150: hsl(158, 16%, 90%);
+  --gray-200: hsla(345, 18%, 4%, 0.14);
+  --gray-300: hsla(345, 18%, 4%, 0.24);
+  --gray-400: hsl(160, 8%, 58%);
+  --gray-500: hsl(160, 10%, 43%);
+  --gray-600: hsl(27, 22%, 34%);
+
+  --cat-7a: hsl(345, 18%, 6%);
+  --cat-6a: hsl(166, 60%, 16%);
+  --cat-5a: hsl(166, 100%, 22%);
+  --cat-4a: hsl(166, 55%, 30%);
+  --cat-3a: hsl(27, 30%, 30%);
+  --cat-2a: hsl(27, 26%, 38%);
+  --cat-1a: hsl(45, 100%, 24%);
+
+  --rank-gold: hsl(45, 100%, 30%);
+
+  --surface-mast: var(--linen);
+  --on-mast: var(--ink);
+  --on-mast-dim: var(--text-secondary);
+  --mast-rule: var(--ink);
+
+  --surface-subtle: hsl(49, 55%, 95%);
+  --surface-zebra: hsla(166, 55%, 86%, 0.30);
+
+  --crest-0: hsl(345, 18%, 8%);  --crest-1: hsl(166, 65%, 18%);
+  --crest-2: hsl(166, 100%, 26%); --crest-3: hsl(166, 45%, 34%);
+  --crest-4: hsl(27, 30%, 30%);  --crest-5: hsl(27, 24%, 42%);
+  --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
+  --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
+  --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
 }
 
 /* ── scheme: rally — sky-aqua / blue-bell / bright-lemon / tiger-flame /
@@ -655,8 +649,8 @@ a.fh-wordmark:hover { text-decoration: none; opacity: 0.78; color: var(--on-mast
 .fh-themedrawer > summary::after { content: "+"; font-size: 20px; color: var(--text-muted); }
 .fh-themedrawer[open] > summary::after { content: "–"; }
 .fh-themedrawer .fh-themelist { padding: 0 10px 12px; display: grid; gap: 2px; }
-.fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
-.fh-swatch[data-theme-choice="ensign"] { background: linear-gradient(135deg, #000052 0 25%, #0c44ac 0 45%, #ffffff 0 60%, #ed0101 0 80%, #970005 0); }
+.fh-swatch[data-theme-choice="default"] { background: linear-gradient(135deg, #000052 0 25%, #0c44ac 0 45%, #ffffff 0 60%, #ed0101 0 80%, #970005 0); }
+.fh-swatch[data-theme-choice="pitch"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
 .fh-swatch[data-theme-choice="rally"] { background: linear-gradient(135deg, #0a385c 0 20%, #19a5ff 0 40%, #13d1ff 0 60%, #fee719 0 80%, #f00c18 0); }
 .fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
 .fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }

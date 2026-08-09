@@ -612,8 +612,7 @@ SITE_DESC = ("Official results, schedules, standings and championships for the "
 #: The colour schemes, in picker order: (key, name, what it is made of).
 #: `varsity` is the default and carries no data-theme attribute.
 SCHEMES = [
-    ("varsity",   "Varsity",   "Mint · sea green · amber · black"),
-    ("ensign",    "Ensign",    "Deep twilight · cobalt · white · red"),
+    ("default",   "Ensign",    "Deep twilight · cobalt · white · red"),
     ("banner",    "Banner",    "Indigo · ocean blue · flag red · amber"),
     ("apex",      "Apex",      "Prussian · steel blue · amber · flag red"),
     ("rally",     "Rally",     "Blue bell · aqua · lemon · racing red"),
@@ -621,6 +620,7 @@ SCHEMES = [
     ("evergreen", "Evergreen", "Deep green · orange"),
     ("harbor",    "Harbor",    "Dark teal · peach · red"),
     ("citrus",    "Citrus",    "Aqua · beige · pumpkin"),
+    ("pitch",     "Pitch",     "Mint · sea green · amber · black"),
 ]
 
 
@@ -636,7 +636,7 @@ def theme_menu(drawer=False) -> str:
     """
     rows = "".join(
         f"<button type='button' class='fh-themerow' data-theme-choice='{k}' "
-        f"aria-pressed='{'true' if k == 'varsity' else 'false'}'>"
+        f"aria-pressed='{'true' if k == 'default' else 'false'}'>"
         f"<span class='fh-swatch' data-theme-choice='{k}' aria-hidden='true'></span>"
         f"<span class='tn'>{esc(name)}</span><span class='td'>{esc(desc)}</span>"
         f"</button>" for k, name, desc in SCHEMES)
@@ -721,19 +721,21 @@ def shell(title, body, crumb="", back="", story=None, org=False,
   // their pressed state updated from one apply().
   var rows = document.querySelectorAll(".fh-themerow");
   function apply(name) {{
-    if (name === "varsity") document.documentElement.removeAttribute("data-theme");
+    if (name === "default") document.documentElement.removeAttribute("data-theme");
     else document.documentElement.setAttribute("data-theme", name);
     rows.forEach(function (c) {{
       c.setAttribute("aria-pressed", c.getAttribute("data-theme-choice") === name ? "true" : "false");
     }});
-    try {{ localStorage.setItem("fh-theme", name === "varsity" ? "" : name); }} catch (e) {{}}
+    try {{ localStorage.setItem("fh-theme", name === "default" ? "" : name); }} catch (e) {{}}
   }}
   rows.forEach(function (c) {{
     c.addEventListener("click", function () {{ apply(c.getAttribute("data-theme-choice")); }});
   }});
   var t = null;
   try {{ t = localStorage.getItem("fh-theme"); }} catch (e) {{}}
-  if (t === "pitch" || t === "bloom") t = "";   // retired or promoted to default
+  // "ensign" was an alternate before it became the site default; "varsity"
+  // and "bloom" are retired names. All three resolve to the default now.
+  if (t === "ensign" || t === "varsity" || t === "bloom") t = "";
   if (t) apply(t);
 }})();
 </script>
