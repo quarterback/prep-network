@@ -581,6 +581,35 @@ a.fh-wordmark:hover { text-decoration: none; opacity: 0.78; color: var(--on-mast
 }
 .fh-pill:hover { background: var(--surface-hover); color: var(--text-link); text-decoration: none; }
 
+/* ── 404 ────────────────────────────────────────────────────────────────
+   The number is set in the WORDMARK face — the one type on the site nobody
+   sees anywhere but the masthead — and sits over the same coloured rule the
+   masthead carries, so a wrong turn still lands somewhere that looks like
+   this association. */
+.fh-404 { padding: 46px 0 70px; max-width: 720px; }
+.fh-404 .num {
+  font-family: var(--font-wordmark); font-weight: 800; font-style: italic;
+  font-size: clamp(116px, 27vw, 300px); line-height: 0.78;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-left: -0.035em;                 /* optical: the 4 has a light left edge */
+}
+.fh-404 .num + h1 { margin-top: 22px; padding-top: 22px; border-top: 5px solid var(--mast-rule); }
+.fh-404 h1 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(22px, 4.2vw, 34px); line-height: 1.12; margin: 0 0 10px;
+}
+.fh-404 .dk {
+  font-size: var(--fs-body); color: var(--text-secondary);
+  max-width: 46ch; margin: 0 0 22px; line-height: 1.5;
+}
+.fh-404links { display: flex; flex-wrap: wrap; gap: 8px; }
+.fh-404links .fh-pill { margin-left: 0; height: 32px; padding: 0 14px; }
+.fh-404links .fh-pill.back {
+  font-family: var(--font-text); cursor: pointer;
+  background: var(--ink); border-color: var(--ink); color: var(--paper);
+}
+.fh-404links .fh-pill.back:hover { background: var(--brand-strong); border-color: var(--brand-strong); }
+
 /* ── identity header ────────────────────────────────────────────────────── */
 
 .fh-idhdr {
