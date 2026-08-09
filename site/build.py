@@ -12,7 +12,9 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import json
 import html
+import os
 import pathlib
 import re
 import shutil
@@ -26,7 +28,7 @@ sys.path.insert(0, str(ROOT))
 from app import postseason, records_io  # noqa: E402
 from app.shapes import Dual, Game, Meet, TournamentFormat, TournamentStatus  # noqa: E402
 from app.brand import ASSOC, NAME, TITLE, WORDMARK, page_title  # noqa: E402
-from app.sports import BY_KEY, CATALOG, CLASSES  # noqa: E402
+from app.sports import BY_KEY, CATALOG, CLASSES, meet_scoring  # noqa: E402
 
 import importlib.util as _ilu  # noqa: E402
 _spec = _ilu.spec_from_file_location("fh_news", ROOT / "site/news.py")
@@ -44,7 +46,16 @@ RECORDS = ROOT / "records"
 OUT = ROOT / "dist/site"
 FAVICON = "/favicon.svg"   # replaced in build() if site/favicon.* exists
 TODAY = "2027-05-13"          # the demo date the generator built around
+SEASON_ID = "2026-27"
 SEASON_LABEL = "2026–27"
+
+#: The network's real Bluesky account. The site never fakes a feed: pages
+#: render a follow card, and a small script swaps in the live posts from the
+#: PUBLIC AppView API (no key, CORS-open) when the reader's browser can reach
+#: it. Empty account, failed fetch, JS off — all leave the honest card.
+BSKY_HANDLE = "varsityapex.com"
+BSKY_URL = f"https://bsky.app/profile/{BSKY_HANDLE}"
+BSKY_API = "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed"
 CREST_CLASSES = 12
 CLASS_LABEL = {"9": "Fr", "10": "So", "11": "Jr", "12": "Sr"}
 SEASON_ORDER = {"fall": 0, "winter": 1, "spring": 2}
@@ -126,6 +137,33 @@ class Registry:
             aused[a["slug"]] = n + 1
             if n:
                 a["slug"] = f"{a['slug']}-{n+1}"
+
+        # ---- the editorial layer: honors, milestones, announcements.
+        #      Indexed three ways because the same item is a school headline,
+        #      a league honor roll entry and a statewide award — one record,
+        #      three tenants, which is the whole point of the scope field.
+        self.items: list[dict] = []
+        ed = RECORDS / "editorial" / SEASON_ID / "items.json"
+        if ed.exists():
+            self.items = json.loads(ed.read_text())
+        self.items_by_school: dict[str, list] = defaultdict(list)
+        self.items_by_conf: dict[str, list] = defaultdict(list)
+        self.items_state: list[dict] = []
+        for it in self.items:
+            if it["scope"] == "state":
+                self.items_state.append(it)
+            elif it["scope"] == "conference":
+                if it["conference"]:
+                    self.items_by_conf[it["conference"]].append(it)
+            elif it["school"]:
+                self.items_by_school[it["school"]].append(it)
+        # A conference's own page shows its schools' honors too — that is what
+        # makes it the shared newsroom rather than a standings table.
+        for it in self.items:
+            if it["scope"] == "school" and it.get("conference"):
+                self.items_by_conf[it["conference"]].append(it)
+        for lst in list(self.items_by_conf.values()) + list(self.items_by_school.values()):
+            lst.sort(key=lambda d: d["date"], reverse=True)
 
         # ---- the postseason layer
         self.by_key = {contest_key(c): c for c in self.contests}
@@ -467,7 +505,151 @@ def sponsor_rail() -> str:
         for s in sponsors.SPONSORS)
 
 
-def shell(title, body, crumb="", back="", story=None, org=False):
+#: Where this build will be served. Social cards need ABSOLUTE urls — a
+#: relative og:image resolves to nothing when the link is pasted into Bluesky,
+#: Slack or iMessage, which is the entire point of having one. Override for a
+#: preview deployment with FH_SITE_URL.
+SITE_URL = os.environ.get("FH_SITE_URL", "https://varsityapex.com").rstrip("/")
+
+#: The default share image. An athletics site's card image is its photography
+#: — the platform draws the headline and description beside it, so the picture
+#: does not need to carry text. Drop site/img/og.jpg to override, the same way
+#: a favicon is overridden.
+OG_FALLBACK = "/img/sports/gym-generic.jpg"
+
+#: Replaced per page at write time in build(), which is the only place that
+#: knows a page's url. Threading a url through twenty-one shell() call sites
+#: to say the same thing would be twenty-one chances to say it wrong.
+OG_URL_TOKEN = "__FH_PAGE_URL__"
+
+
+def og_image() -> str:
+    return "/img/og.jpg" if (ROOT / "site/img/og.jpg").exists() else OG_FALLBACK
+
+
+_OG_DIMS: dict[str, tuple[int, int] | None] = {}
+
+
+def image_size(path: str) -> tuple[int, int] | None:
+    """(w, h) read out of the JPEG's own SOF marker.
+
+    og:image:width/height let a platform reserve the right box before the
+    image arrives, so a hard-coded 1200x630 over a 1024x593 photo is a lie
+    that shows up as a jumping card. Cheap enough to measure: the header is
+    the first few hundred bytes.
+    """
+    if path in _OG_DIMS:
+        return _OG_DIMS[path]
+    f = ROOT / "site" / path.lstrip("/")
+    dims = None
+    try:
+        d = f.read_bytes()
+        i = 2
+        while i < len(d) - 9 and dims is None:
+            if d[i] != 0xFF:
+                i += 1
+                continue
+            m = d[i + 1]
+            if m in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7,
+                     0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                dims = (int.from_bytes(d[i + 7:i + 9], "big"),
+                        int.from_bytes(d[i + 5:i + 7], "big"))
+            elif m == 0xD8 or 0xD0 <= m <= 0xD7:
+                i += 2
+                continue
+            else:
+                i += 2 + int.from_bytes(d[i + 2:i + 4], "big")
+                continue
+            break
+    except (OSError, IndexError, ValueError):
+        dims = None
+    _OG_DIMS[path] = dims
+    return dims
+
+
+def social_head(title, desc, image, kind, published=None) -> str:
+    """Meta description, Open Graph and Twitter card.
+
+    One block feeds all three surfaces: search results read `description`,
+    Bluesky/Slack/Discord/LinkedIn read Open Graph, Twitter reads its own
+    names and falls back to OG for the rest. `summary_large_image` is the
+    card a result or a bracket deserves — the small square variant crops a
+    team photo into abstraction.
+    """
+    url = SITE_URL + OG_URL_TOKEN
+    rel = image or og_image()
+    img = image if str(image).startswith("http") else SITE_URL + rel
+    dims = image_size(rel)
+    tags = [
+        f'<meta name="description" content="{esc(desc)}">',
+        f'<link rel="canonical" href="{url}">',
+        f'<meta property="og:site_name" content="{esc(NAME)}">',
+        f'<meta property="og:type" content="{kind}">',
+        f'<meta property="og:title" content="{esc(title)}">',
+        f'<meta property="og:description" content="{esc(desc)}">',
+        f'<meta property="og:url" content="{url}">',
+        f'<meta property="og:image" content="{img}">',
+        *([f'<meta property="og:image:width" content="{dims[0]}">',
+           f'<meta property="og:image:height" content="{dims[1]}">'] if dims else []),
+        f'<meta property="og:image:alt" content="{esc(title)}">',
+        '<meta property="og:locale" content="en_US">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{esc(title)}">',
+        f'<meta name="twitter:description" content="{esc(desc)}">',
+        f'<meta name="twitter:image" content="{img}">',
+    ]
+    if published:
+        tags.append(f'<meta property="article:published_time" content="{esc(published)}">')
+    return "\n".join(tags)
+
+
+#: What the site is, for any page that does not say something better.
+SITE_DESC = ("Official results, schedules, standings and championships for the "
+             "Jefferson High School Activities Association — 840 member schools, "
+             "45 sanctioned activities, published as open records.")
+
+
+#: The colour schemes, in picker order: (key, name, what it is made of).
+#: `varsity` is the default and carries no data-theme attribute.
+SCHEMES = [
+    ("default",   "Ensign",    "Deep twilight · cobalt · white · red"),
+    ("banner",    "Banner",    "Indigo · ocean blue · flag red · amber"),
+    ("apex",      "Apex",      "Prussian · steel blue · amber · flag red"),
+    ("rally",     "Rally",     "Blue bell · aqua · lemon · racing red"),
+    ("meadow",    "Meadow",    "Mint · teal · sunflower"),
+    ("evergreen", "Evergreen", "Deep green · orange"),
+    ("harbor",    "Harbor",    "Dark teal · peach · red"),
+    ("citrus",    "Citrus",    "Aqua · beige · pumpkin"),
+    ("pitch",     "Pitch",     "Mint · sea green · amber · black"),
+]
+
+
+def theme_menu(drawer=False) -> str:
+    """The scheme picker, NAMED.
+
+    It was seven unlabelled 20px squares in a row, which failed twice over:
+    nobody could tell which square was which palette, and the whole row lived
+    in `.fh-mast-nav`, which is `display:none` below 860px — so on a phone
+    there was no way to reach any scheme at all, and on a school or conference
+    page (whose compact masthead never carried the row) there was none at any
+    width. A named menu in the site's own dropdown grammar fixes all three.
+    """
+    rows = "".join(
+        f"<button type='button' class='fh-themerow' data-theme-choice='{k}' "
+        f"aria-pressed='{'true' if k == 'default' else 'false'}'>"
+        f"<span class='fh-swatch' data-theme-choice='{k}' aria-hidden='true'></span>"
+        f"<span class='tn'>{esc(name)}</span><span class='td'>{esc(desc)}</span>"
+        f"</button>" for k, name, desc in SCHEMES)
+    if drawer:
+        return (f"<details class='fh-themedrawer'><summary>Appearance</summary>"
+                f"<div class='items fh-themelist'>{rows}</div></details>")
+    return (f"<div class='fh-menu fh-thememenu'>"
+            f"<button type='button' aria-label='Colour scheme'>Theme ▾</button>"
+            f"<div class='fh-drop fh-themelist'>{rows}</div></div>")
+
+
+def shell(title, body, crumb="", back="", story=None, org=False,
+          desc=None, image=None, kind="website", published=None):
     pill = ""
     if back:
         label, url = back.split("|")
@@ -479,6 +661,7 @@ def shell(title, body, crumb="", back="", story=None, org=False):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
+{social_head(title, desc or SITE_DESC, image, kind, published)}
 <link rel="stylesheet" href="/style.css">
 {favicon_tag()}{stdsite.head_links(story)}
 <script defer src="/_vercel/insights/script.js"></script>
@@ -500,14 +683,12 @@ def shell(title, body, crumb="", back="", story=None, org=False):
       {''.join(f"<a href='/schools/#{c}'>{c}</a>" for c in CLASSES)}</div></div>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
+    <a href="/tour/">Tour</a>
     <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
     <span class="fh-season">{ASSOC} · {SEASON_LABEL}</span>
-    <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
-    <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"></button>
-    <button class="fh-swatch" data-theme-choice="meadow" aria-pressed="false" aria-label="Meadow scheme"></button>
-    <button class="fh-swatch" data-theme-choice="evergreen" aria-pressed="false" aria-label="Evergreen scheme"></button>
-    <button class="fh-swatch" data-theme-choice="harbor" aria-pressed="false" aria-label="Harbor scheme"></button>
-    <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"></button>
+    {theme_menu()}
+    <a class="fh-socialink" href="{BSKY_URL}" target="_blank" rel="noopener"
+       aria-label="VarsityApex on Bluesky">{icons.bsky()}</a>
   </nav>
 </div></header><!--/M-->
 <label class="fh-scrim" for="fh-navtoggle" aria-hidden="true"></label>
@@ -523,6 +704,9 @@ def shell(title, body, crumb="", back="", story=None, org=False):
   <a class="top" href="/conferences/">Conferences</a>
   {DRAWER_SPORTS}
   {DRAWER_RES}
+  {theme_menu(drawer=True)}
+  <a class="top" href="{BSKY_URL}" target="_blank" rel="noopener">
+    {icons.bsky()} @{BSKY_HANDLE}</a>
 </nav>
 {RAIL}
 <main class="wrap">
@@ -532,27 +716,35 @@ def shell(title, body, crumb="", back="", story=None, org=False):
 <script>{FACET_JS}{CONF_PICKER_JS}</script>
 <script>
 (function () {{
-  var chips = document.querySelectorAll(".fh-swatch");
+  // The row is the control now; the swatch inside it is decoration. There
+  // are two of these on a page (masthead menu + mobile drawer), so both get
+  // their pressed state updated from one apply().
+  var rows = document.querySelectorAll(".fh-themerow");
   function apply(name) {{
-    if (name === "varsity") document.documentElement.removeAttribute("data-theme");
+    if (name === "default") document.documentElement.removeAttribute("data-theme");
     else document.documentElement.setAttribute("data-theme", name);
-    chips.forEach(function (c) {{
+    rows.forEach(function (c) {{
       c.setAttribute("aria-pressed", c.getAttribute("data-theme-choice") === name ? "true" : "false");
     }});
-    try {{ localStorage.setItem("fh-theme", name === "varsity" ? "" : name); }} catch (e) {{}}
+    try {{ localStorage.setItem("fh-theme", name === "default" ? "" : name); }} catch (e) {{}}
   }}
-  chips.forEach(function (c) {{
+  rows.forEach(function (c) {{
     c.addEventListener("click", function () {{ apply(c.getAttribute("data-theme-choice")); }});
   }});
   var t = null;
   try {{ t = localStorage.getItem("fh-theme"); }} catch (e) {{}}
+  // "ensign" was an alternate before it became the site default; "varsity"
+  // and "bloom" are retired names. All three resolve to the default now.
+  if (t === "ensign" || t === "varsity" || t === "bloom") t = "";
   if (t) apply(t);
 }})();
 </script>
 <footer class="fh-foot"><div class="wrap">
   <div class="fh-sponsors">{sponsor_rail()}</div>
   <div class="fh-footrow"><span class="fh-footmark">{WORDMARK}</span>
-    <span class="fh-foottag">The official site of the {ASSOC}</span></div>
+    <span class="fh-foottag">The official site of the {ASSOC}</span>
+    <span class="fh-social"><a href="{BSKY_URL}" target="_blank" rel="noopener">
+      {icons.bsky()} @{BSKY_HANDLE}</a></span></div>
 </div></footer>
 </body>
 </html>
@@ -573,6 +765,9 @@ def shell(title, body, crumb="", back="", story=None, org=False):
     <a href="/conferences/">Conferences</a>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
+    {theme_menu()}
+    <a class="fh-socialink" href="{BSKY_URL}" target="_blank" rel="noopener"
+       aria-label="VarsityApex on Bluesky">{icons.bsky()}</a>
   </nav>
 </div></header>"""
         import re as _re
@@ -615,6 +810,45 @@ def meet_line(reg, c):
     if top:
         return f"{esc(c.name)} — won by {reg.school_link(top.school)}"
     return esc(c.name)
+
+
+def share_desc(reg, c) -> str:
+    """What a pasted link should say about a contest, in plain text.
+
+    A share card is read as a sentence, not parsed as markup, so this is the
+    one description that cannot reuse `score_line` — the anchors and <b> would
+    ship verbatim into the Bluesky card. Says the result when there is one and
+    the fixture when there is not, because "Norview at Ashbrook, Friday" is a
+    useful card and "Norview at Ashbrook" alone is not.
+    """
+    sp = BY_KEY[c.sport].name
+    when = nice_date(c.date) if c.date else ""
+    if isinstance(c, Meet):
+        top = next((t for t in c.team_scores if t.rank == 1), None)
+        where = f" at {c.host}" if c.host else ""
+        if top:
+            unit = meet_scoring(c.sport)[2].lower()
+            return (f"{top.school} won the {c.name} with {top.points:g} {unit} — "
+                    f"{len(c.events)} events, {len(c.schools)} schools. {sp}, {when}.")
+        return f"{c.name}{where} — {sp}, {when}. Entries and results as they post."
+    scored = (isinstance(c, Game) and c.status == "final" and c.home_score is not None) \
+        or (isinstance(c, Dual) and c.home_points is not None)
+    if scored:
+        if isinstance(c, Game):
+            pairs = [(c.home, c.home_score), (c.away, c.away_score)]
+        else:
+            pairs = [(c.home, f"{c.home_points:g}"), (c.away, f"{c.away_points:g}")]
+        pairs.sort(key=lambda p: -float(p[1]))
+        tail = ""
+        ctx = reg.tournament_for(c)
+        if ctx:
+            t, r, _m = ctx
+            tail = f" {t.group} {sp} {(r.name if r else 'championship').lower()}."
+        elif getattr(c, "box", None):
+            tail = " Full box score and scoring by period."
+        return (f"Final: {pairs[0][0]} {pairs[0][1]}, {pairs[1][0]} {pairs[1][1]} "
+                f"— {sp}, {when}.{tail}")
+    return f"{c.away} at {c.home} — {sp}, {when}. Result posts when the contest is final."
 
 
 def matchup_line(reg, c, with_date=True):
@@ -890,7 +1124,9 @@ def render_game(reg, c: Game):
 {provenance_note(reg, c)}
 """
     crumb = (f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}")
-    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
+    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
+                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 published=c.date)
 
 
 def render_dual(reg, c: Dual):
@@ -922,7 +1158,9 @@ def render_dual(reg, c: Dual):
 {provenance_note(reg, c)}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
-    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
+    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
+                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 published=c.date)
 
 
 def meet_results_tables(reg, c: Meet, limit_events=None):
@@ -977,14 +1215,22 @@ def render_meet(reg, c: Meet):
     sport = BY_KEY[c.sport]
     scores = ""
     if c.team_scores:
+        cols = "26px minmax(150px,1fr) 66px"
+        # A team score is in the sport's OWN unit — 326 strokes, 2,290 pinfall,
+        # 77 points — so the column says which. Unlabelled, the same table
+        # reads as five different numbers meaning the same thing.
+        unit = meet_scoring(c.sport)[2] if c.sport in BY_KEY else "Points"
         rows = "".join(
-            f"<div class='fh-row{' first' if t.rank == 1 else ''}' style='--grid-cols:26px minmax(150px,1fr) 56px'>"
+            f"<div class='fh-row{' first' if t.rank == 1 else ''}' style='--grid-cols:{cols}'>"
             f"<span class='fh-rank'>{t.rank}</span><span class='fh-name'>{reg.school_link(t.school)}</span>"
             f"<span class='fh-num fh-mark'>{t.points:g}</span></div>"
             for t in sorted(c.team_scores, key=lambda t: t.rank or 99)[:14])
         scores = (f"<div class='fh-section'><h2>Team scores</h2>"
-                  "<div class='fh-panel' style='max-width:460px'><div class='fh-table narrow' "
-                  "style='--grid-cols:26px minmax(150px,1fr) 56px'>" + rows + "</div></div></div>")
+                  f"<div class='fh-panel' style='max-width:470px'><div class='fh-table narrow' "
+                  f"style='--grid-cols:{cols}'>"
+                  f"<div class='fh-thead'><span class='fh-th'></span>"
+                  f"<span class='fh-th'>School</span><span class='fh-th'>{esc(unit)}</span></div>"
+                  + rows + "</div></div></div>")
     blocks = [meet_results_tables(reg, c)]
     body = f"""
 <div class="fh-idhdr">
@@ -999,7 +1245,9 @@ def render_meet(reg, c: Meet):
 {provenance_note(reg, c)}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
-    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/")
+    return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
+                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 published=c.date)
 
 
 def sport_nav(sp, active):
@@ -1333,6 +1581,238 @@ def feature_panel(kicker, hd, dk, colors, watermark="", photo=None):
             f"<span class='dk'>{dk}</span></div>")
 
 
+# ══════════════════════════════════════════════ homepage components
+#
+# One set, three tenants. What changes between a school front, a conference
+# front and the association front is the DATA SCOPE passed in, not the
+# component — school -> its own items, conference -> its members', state ->
+# everything. Composition differs by tenant; the pieces do not.
+
+
+def item_href(reg, it):
+    """Where an editorial item points.
+
+    Honors are about people, so an item naming one athlete links to that
+    athlete's page — the season behind the honor, which is the thing worth
+    reading. Otherwise the sport, the school or nothing.
+    """
+    if it.get("href"):
+        return it["href"]
+    if len(it.get("people") or ()) == 1 and it.get("school"):
+        a = reg.athletes.get((it["people"][0], it["school"]))
+        if a:
+            return f"/athletes/{a['slug']}/"
+    if it.get("sport") and it["kind"] in ("title", "qualified", "state-title",
+                                          "conf-tournament", "conf-champion"):
+        return f"/championships/{it['sport']}/"
+    if it.get("sport"):
+        return f"/sports/{it['sport']}/"
+    return reg.school_url(it["school"]) if it.get("school") else "/news/"
+
+
+def headline_list(reg, items, limit=5, show_school=False):
+    """HeadlineList — compact editorial rows. Headlines, not cards.
+
+    Five of these occupy the space one news card used to, which is the whole
+    argument: an athletics front page is information-dense by nature, and a
+    department that recognises somebody every week has more to say than one
+    story's worth.
+    """
+    rows = []
+    for it in items[:limit]:
+        where = ""
+        if show_school and it.get("school"):
+            where = f"<span class='wh'>{esc(it['school'])}</span>"
+        rows.append(
+            f"<a class='fh-hl' href='{item_href(reg, it)}'>"
+            f"<span class='kk'>{esc(it['label'])}{where}</span>"
+            f"<span class='hd'>{esc(it['headline'])}</span>"
+            f"<span class='dt'>{esc(nice_date(it['date']))}</span></a>")
+    return "".join(rows)
+
+
+def event_row(reg, c):
+    """EventRow — one contest in three compact lines, not the six a card took.
+
+    Sport, the matchup or the result, then when. Five to seven of these fit
+    where four cards did, and a schedule column that shows two events is not
+    a schedule column.
+    """
+    sp = BY_KEY[c.sport]
+    final = ((isinstance(c, Game) and c.status == "final" and c.home_score is not None)
+             or (isinstance(c, Dual) and c.home_points is not None)
+             or (isinstance(c, Meet) and bool(c.events)))
+    kicker = f"{esc(sp.name)}{' · FINAL' if final else ''}"
+    if isinstance(c, Meet):
+        line = meet_line(reg, c) if final else esc(c.name)
+    elif final:
+        line = score_line(reg, c)
+    else:
+        line = f"{reg.school_link(c.away)} at {reg.school_link(c.home)}"
+    when = nice_date(c.date) if c.date else ""
+    if not final and getattr(c, "time", None):
+        when += f" · {c.time}"
+    return (f"<div class='fh-evrow{' final' if final else ''}'>"
+            f"<a class='m' href='{reg.url(c)}'></a>"
+            f"<span class='kk'>{kicker}</span>"
+            f"<span class='ln'>{line}</span>"
+            f"<span class='dt'>{esc(when)}</span></div>")
+
+
+def standings_preview(reg, sport_key, scope=None, limit=5, heading=None):
+    """StandingsPreview — the top of one table, not the table.
+
+    `scope` is the set of schools that count: a conference's members at league
+    scale, everybody at state scale. A school's own position is a different
+    component (`standing_lines`) because "where do we sit" is a different
+    question from "who is leading".
+    """
+    rec = reg.records_for(sport_key)
+    rows = sorted(((s, r) for s, r in rec.items() if scope is None or s in scope),
+                  key=lambda kv: (-kv[1]["cw"], kv[1]["cl"], -kv[1]["w"], kv[1]["l"], kv[0]))[:limit]
+    if not rows:
+        return ""
+    sp = BY_KEY[sport_key]
+    body = "".join(
+        f"<div class='fh-stline{' first' if i == 0 else ''}'>"
+        f"<span class='rk'>{i + 1}</span>{reg.crest(s, 'xs')}"
+        f"<span class='nm'>{reg.school_link(s)}</span>"
+        f"<span class='tnum'>{r['cw']}-{r['cl']}</span></div>"
+        for i, (s, r) in enumerate(rows))
+    head = heading or sp.name
+    return (f"<div class='fh-mod'><h3>{esc(head)}</h3>{body}"
+            f"<p class='fh-more'><a href='/sports/{sport_key}/standings/'>"
+            f"Full standings →</a></p></div>")
+
+
+def standing_lines(reg, school, sports, limit=4):
+    """Where this school sits, across its teams — the school-scope standings."""
+    rows = []
+    for key in sports:
+        if BY_KEY[key].shape.value == "meet":
+            continue
+        pos = conf_position(reg, key, school)
+        if not pos:
+            continue
+        rank, r, size = pos
+        if r["cw"] + r["cl"] == 0:
+            continue
+        rows.append((rank, key,
+                     f"<div class='fh-stline'>"
+                     f"<span class='rk'>{_ordinal(rank)}</span>"
+                     f"{icons.icon(key, 'fh-ic sm')}"
+                     f"<span class='nm'>{esc(BY_KEY[key].name)}</span>"
+                     f"<span class='tnum'>{r['cw']}-{r['cl']}</span></div>"))
+    rows.sort(key=lambda t: (t[0], BY_KEY[t[1]].name))
+    return "".join(h for _r, _k, h in rows[:limit])
+
+
+def honor_spotlight(reg, items):
+    """HonorSpotlight — one person, named and pictured by their mark.
+
+    The recognition module a department leads with. Falls back to nothing
+    rather than to a placeholder: a spotlight with nobody in it is worse than
+    a column that ends early.
+    """
+    it = next((i for i in items if i.get("people")), None)
+    if not it:
+        return ""
+    who = it["people"][0]
+    crest = reg.crest(it["school"], "sm") if it.get("school") else ""
+    where = it.get("school") or ""
+    if it.get("sport") in BY_KEY:
+        where = f"{where} · {BY_KEY[it['sport']].name}" if where else BY_KEY[it["sport"]].name
+    return (f"<div class='fh-mod fh-spot'><h3>{esc(it['label'])}</h3>"
+            f"<a class='fh-spotrow' href='{item_href(reg, it)}'>{crest}"
+            f"<span class='who'>{esc(who)}</span>"
+            f"<span class='wh'>{esc(where)}</span></a>"
+            f"<p class='dk'>{esc(it['dek'])}</p></div>")
+
+
+def awards_list(reg, items, limit=4, heading="Awards & honors", show_school=False):
+    """AwardsList — recognitions as a list, with what each one is."""
+    if not items:
+        return ""
+    rows = []
+    for it in items[:limit]:
+        where = (f"<span class='wh'>{esc(it['school'])}</span>"
+                 if show_school and it.get("school") else "")
+        rows.append(f"<a class='fh-award' href='{item_href(reg, it)}'>"
+                    f"<span class='lb'>{esc(it['label'])}</span>"
+                    f"<span class='hd'>{esc(it['headline'])}</span>{where}</a>")
+    return f"<div class='fh-mod'><h3>{esc(heading)}</h3>{''.join(rows)}</div>"
+
+
+def championship_status(reg, tours, limit=4, heading="Postseason"):
+    """ChampionshipStatus — where each bracket stands, in one line apiece."""
+    if not tours:
+        return ""
+    rows = []
+    for t in tours[:limit]:
+        state = (t.champion and f"Won by {t.champion}") or \
+            (postseason.live_label(t) if t.status is TournamentStatus.IN_PROGRESS else None) or \
+            (f"Opens {nice_date(t.start_date)}" if t.start_date else "Field set")
+        rows.append(
+            f"<a class='fh-chstat {t.status.value}' href='{reg.tour_url[t.id]}'>"
+            f"{icons.icon(t.sport, 'fh-ic sm')}"
+            f"<span class='nm'>{esc(t.group)} {esc(BY_KEY[t.sport].name)}</span>"
+            f"<span class='st'>{esc(state)}</span></a>")
+    return f"<div class='fh-mod'><h3>{esc(heading)}</h3>{''.join(rows)}</div>"
+
+
+def record_performance(reg, items, heading="Record performances", limit=3):
+    """RecordPerformance — marks, as marks. The number is the point."""
+    recs = [i for i in items if i["kind"] in ("school-record", "state-record",
+                                              "conf-record")]
+    if not recs:
+        return ""
+    rows = "".join(
+        f"<a class='fh-award' href='{item_href(reg, it)}'>"
+        f"<span class='lb'>{esc(it['label'])}</span>"
+        f"<span class='hd'>{esc(it['headline'])}</span></a>"
+        for it in recs[:limit])
+    return f"<div class='fh-mod'><h3>{esc(heading)}</h3>{rows}</div>"
+
+
+def quick_links(links, heading="Athletics information"):
+    """QuickLinks — the utility layer, compact. Tickets, forms, contacts."""
+    rows = "".join(f"<span class='fh-ql'><b>{esc(k)}</b>{v}</span>"
+                   for k, v in links)
+    return f"<div class='fh-mod'><h3>{esc(heading)}</h3>{rows}</div>"
+
+
+def editorial_front(feature, headlines, events, head_more, ev_more,
+                    head_title="News & honors", ev_title="Schedule & results"):
+    """The first viewport: feature ~48%, headlines ~27%, events ~25%.
+
+    Three simultaneous jobs — what just happened, what is coming, who was
+    recognised — visible before a scroll. The page this replaces gave the
+    whole width to one feature and a four-item rail, which is why it read as
+    empty on any day nobody played.
+    """
+    return f"""
+<div class="fh-front">
+  <div class="fh-front-lead">{feature}</div>
+  <section class="fh-front-news">
+    <h2>{esc(head_title)}</h2>
+    {headlines}
+    {head_more}
+  </section>
+  <section class="fh-front-events">
+    <h2>{esc(ev_title)}</h2>
+    {events}
+    {ev_more}
+  </section>
+</div>"""
+
+
+def module_row(*mods):
+    """The dense band under the ribbon. Empty modules drop out rather than
+    printing a heading over nothing."""
+    live = [m for m in mods if m]
+    return f"<div class='fh-modrow n{min(len(live), 4)}'>{''.join(live)}</div>" if live else ""
+
+
 def conf_position(reg, sport_key, school):
     """(rank, w, l, size) of `school` inside its conference for one sport."""
     rec = reg.records_for(sport_key)
@@ -1368,12 +1848,33 @@ def render_school(reg, s):
     played = [c for c in reversed(contests) if (c.date or "") <= TODAY]
     upcoming = [c for c in contests if (c.date or "") > TODAY]
 
-    # ---- lead: the most recent championship result if there is one,
-    #      otherwise the latest final. Templated from records, never invented.
+    # ---- the school's own editorial layer, newest first ----
+    my_items = reg.items_by_school.get(name, [])
+
+    # ---- lead: a story, which is USUALLY NOT A SCORE. A department leads
+    #      with a title, a milestone, a signing, a record — and a score only
+    #      when nothing bigger happened. The old page always led with the last
+    #      final, which is why every school front read the same.
+    LEAD_KINDS = ("title", "state-record", "coach-milestone", "school-record",
+                  "all-state", "qualified", "hall-of-fame", "signing",
+                  "coach-of-year", "athlete-of-week")
+    lead_item = min(
+        (i for i in my_items if i["kind"] in LEAD_KINDS),
+        key=lambda i: (LEAD_KINDS.index(i["kind"]), -int(i["date"].replace("-", ""))),
+        default=None)
     lead_c = next((c for c in played if "Championship" in (c.name or "")), None) or \
              (played[0] if played else None)
     lead = ""
-    if lead_c is not None:
+    if lead_item is not None:
+        photo = sport_photo(lead_item["sport"]) if lead_item.get("sport") in BY_KEY \
+            else sport_photo("football")
+        lead = feature_panel(
+            f"{esc(lead_item['label'])} · {esc(nice_date(lead_item['date']))}",
+            esc(lead_item["headline"]),
+            f"{esc(lead_item['dek'])} <a href='{item_href(reg, lead_item)}'>More →</a>",
+            s.get("colors") or ["#14294e", "#c8ccd4"],
+            watermark=reg.mark(name, 200), photo=photo)
+    elif lead_c is not None:
         kicker = f"{BY_KEY[lead_c.sport].name} · {nice_date(lead_c.date)}"
         # a div, not an anchor: the line helpers carry school links, and an
         # anchor inside an anchor splits the markup
@@ -1480,21 +1981,54 @@ def render_school(reg, s):
   <div><h4>Contact</h4><span>athletics@{esc(s['slug'])}.jhsaa.example</span></div>
   <div><h4>Resources</h4><span>Tickets · Forms · Eligibility · Sportsmanship</span></div>
 </div></div>"""
+    # `ad` is read by the module row above, which is assembled after this.
 
     ribbon = season_ribbon(sorted(s.get("sports", [])), link=lambda k: f"#t-{k}")
 
-    rail_items = []
-    for c in upcoming[:3]:
-        rail_items.append(f"<a href='{reg.url(c)}'><span class='kk'>{esc(BY_KEY[c.sport].name)}</span>"
-                          f"{matchup_line(reg, c)}</a>")
-    for c in played[:3]:
-        line = meet_line(reg, c) if isinstance(c, Meet) else score_line(reg, c)
-        if line:
-            rail_items.append(f"<div><span class='kk'>{esc(BY_KEY[c.sport].name)} · Final</span>{line}</div>")
-    feature_grid = ""
-    if lead or rail_items:
-        feature_grid = (f"<div class='fh-orgtop'>{lead}"
-                        f"<aside class='fh-eventsrail'>{''.join(rail_items[:4])}</aside></div>")
+    # ---- the editorial front: feature, headlines, events, all above the fold
+    others = [i for i in my_items if i is not lead_item]
+    # the next three fixtures then the last four finals: what is coming and
+    # what just happened, in the same column, which is how a reader reads it
+    ev = [event_row(reg, c) for c in upcoming[:3]] + \
+         [event_row(reg, c) for c in played[:4]]
+    feature_grid = editorial_front(
+        lead, headline_list(reg, others, 5), "".join(ev[:7]),
+        "<p class='fh-more'><a href='#honors'>All honors →</a></p>" if others else "",
+        "<p class='fh-more'><a href='#schedule'>Full schedule →</a></p>")
+
+    # ---- the dense band: standing, recognition, postseason, utility
+    my_tours = sorted(
+        (t for t in reg.tournaments if any(e.school == name for e in t.entrants)),
+        key=lambda t: (t.status is not TournamentStatus.IN_PROGRESS, t.final_date or ""))
+    st_lines = standing_lines(reg, name, sorted(s.get("sports", [])))
+    mods = module_row(
+        (f"<div class='fh-mod'><h3>{esc(conf) or 'Standing'}</h3>{st_lines}"
+         f"<p class='fh-more'><a href='/conferences/{reg.conf_slug.get(conf,'')}/#standings'>"
+         f"League standings →</a></p></div>") if st_lines else "",
+        honor_spotlight(reg, others),
+        championship_status(reg, my_tours),
+        quick_links([("Athletic director", esc(ad)),
+                     ("Home facilities", f"{esc(name)} Gymnasium"),
+                     ("Contact", f"athletics@{esc(s['slug'])}.jhsaa.example"),
+                     ("Resources", "Tickets · Forms · Eligibility")]))
+
+    # ---- the honors section proper, below the fold
+    honors_sec = ""
+    if others:
+        honors_sec = (
+            f"<div class='fh-section' id='honors'><div class='fh-group'>"
+            f"<h2>Awards &amp; honors</h2></div>"
+            + module_row(awards_list(reg, [i for i in others if i["kind"] not in
+                                           ("school-record", "state-record")], 5),
+                         awards_list(reg, [i for i in others if i["kind"] in
+                                           ("all-conference", "all-state",
+                                            "scholar-athlete", "academic-team")],
+                                     5, heading="Academic & all-league"),
+                         record_performance(reg, others),
+                         awards_list(reg, [i for i in others if i["kind"] in
+                                           ("staff", "hall-of-fame", "signing")],
+                                     5, heading="Department & alumni"))
+            + "</div>")
 
     body = f"""
 <header class="fh-orghead" style="border-color:{primary}">
@@ -1506,12 +2040,15 @@ def render_school(reg, s):
   </div>
 </header>
 {org_nav([("Home", "#"), ("Teams", "#teams"), ("Schedule", "#schedule"),
-          ("Results", "#results"), ("Championships", "#championships" if champs else "#schedule"),
+          ("Results", "#results"), ("Honors", "#honors"),
+          ("Championships", "#championships" if champs else "#schedule"),
           ("Athletics Info", "#info")])}
 {feature_grid}
+{mods}
 {ribbon}
 <div id="results"></div>
 {strip}
+{honors_sec}
 <div class="fh-section" id="teams"><div class="fh-group"><h2>Teams</h2></div>
 <div class="fh-teamgrid">{seasons}</div></div>
 {standings_prev}
@@ -1522,7 +2059,14 @@ def render_school(reg, s):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/schools/'>Schools</a> › {esc(name)}"
-    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True)
+    lead_sport = (lead_c.sport if lead_c is not None
+                  else (sorted(s.get("sports", ())) or ["football"])[0])
+    return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True,
+                 desc=(f"{name} {s['mascot']} athletics — {s['city']}, "
+                       f"{s['classification']}{f', {conf}' if conf else ''}. Schedules, "
+                       f"results, standings and championship history across "
+                       f"{len(s.get('sports', ()))} sports."),
+                 image=sport_photo(lead_sport)[0])
 
 
 def render_conference(reg, conf):
@@ -1601,9 +2145,29 @@ def render_conference(reg, conf):
 }})();
 </script>"""
 
-    # ---- lead: the standings race in the marquee sport, stated from data ----
+    # ---- the league's newsroom: its own honors plus its members' ----
+    conf_items = reg.items_by_conf.get(conf["name"], [])
+
+    # ---- lead: the league's biggest story. A conference publishes about
+    #      champions, players of the year and its own tournaments; the
+    #      standings race is the fallback, not the default.
+    LEAD_KINDS = ("conf-champion", "conf-player-of-year", "conf-tournament",
+                  "conf-record", "conf-coach-of-year", "conf-team-of-week",
+                  "conf-athlete-of-week", "conf-all-conference")
+    lead_item = min(
+        (i for i in conf_items if i["kind"] in LEAD_KINDS),
+        key=lambda i: (LEAD_KINDS.index(i["kind"]), -int(i["date"].replace("-", ""))),
+        default=None)
     lead = ""
-    if default_key:
+    if lead_item is not None:
+        lead = feature_panel(
+            f"{esc(lead_item['label'])} · {esc(nice_date(lead_item['date']))}",
+            esc(lead_item["headline"]),
+            f"{esc(lead_item['dek'])} <a href='{item_href(reg, lead_item)}'>More →</a>",
+            marks.conf_colors(conf["name"]),
+            watermark=marks.conf_mark(conf["name"], 200),
+            photo=sport_photo(lead_item.get("sport") or default_key or "football"))
+    elif default_key:
         rec = reg.records_for(default_key)
         rows = sorted(((s, r) for s, r in rec.items() if s in mset),
                       key=lambda kv: (-kv[1]["cw"], kv[1]["cl"], kv[0]))
@@ -1681,18 +2245,58 @@ def render_conference(reg, conf):
                   f"<div class='fh-teamseason'>{''.join(champ_rows)}</div></div></div>")
 
     cc1, _cc2 = marks.conf_colors(conf["name"])
-    rail_items = []
-    for c in week[:3]:
-        rail_items.append(f"<a href='{reg.url(c)}'><span class='kk'>{esc(BY_KEY[c.sport].name)}</span>"
-                          f"{matchup_line(reg, c)}</a>")
-    for c in finals[:2]:
-        line = meet_line(reg, c) if isinstance(c, Meet) else score_line(reg, c)
-        if line:
-            rail_items.append(f"<div><span class='kk'>{esc(BY_KEY[c.sport].name)} · Final</span>{line}</div>")
-    feature_grid = ""
-    if lead or rail_items:
-        feature_grid = (f"<div class='fh-orgtop'>{lead}"
-                        f"<aside class='fh-eventsrail'>{''.join(rail_items[:4])}</aside></div>")
+
+    # ---- the editorial front: league story, league newsroom, composite week
+    others = [i for i in conf_items if i is not lead_item]
+    composite = [event_row(reg, c) for c in week[:4]] + \
+                [event_row(reg, c) for c in finals[:4]]
+    feature_grid = editorial_front(
+        lead, headline_list(reg, others, 6, show_school=True),
+        "".join(composite[:7]),
+        "<p class='fh-more'><a href='#honors'>All league honors →</a></p>" if others else "",
+        "<p class='fh-more'><a href='#schedule'>Composite schedule →</a></p>",
+        head_title="League news & honors", ev_title="Composite schedule")
+
+    # ---- the dense band: the race, this week's honoree, the postseason,
+    #      and what the league has handed out lately
+    conf_tours = sorted(
+        (t for t in reg.tournaments
+         if any(e.school in mset for e in t.entrants)),
+        key=lambda t: (t.status is not TournamentStatus.IN_PROGRESS, t.final_date or ""))
+    weekly = [i for i in conf_items
+              if i["kind"] in ("conf-athlete-of-week", "conf-team-of-week")]
+    admin = [i for i in conf_items
+             if i["kind"] in ("conf-all-academic", "conf-sportsmanship",
+                              "conf-announcement", "conf-record")]
+    mods = module_row(
+        standings_preview(reg, default_key, mset, 5,
+                          heading=f"{BY_KEY[default_key].name} race") if default_key else "",
+        honor_spotlight(reg, weekly or others),
+        championship_status(reg, conf_tours, heading="Championships"),
+        awards_list(reg, admin, 4, heading="League business"))
+
+    honors_sec = ""
+    if others:
+        honors_sec = (
+            f"<div class='fh-section' id='honors'><div class='fh-group'>"
+            f"<h2>Honors &amp; recognition</h2></div>"
+            + module_row(
+                awards_list(reg, [i for i in others if i["kind"] in
+                                  ("conf-player-of-year", "conf-newcomer",
+                                   "conf-athlete-of-week", "all-state")],
+                            5, heading="Athletes", show_school=True),
+                awards_list(reg, [i for i in others if i["kind"] in
+                                  ("conf-all-conference", "all-conference")],
+                            5, heading="All-conference", show_school=True),
+                awards_list(reg, [i for i in others if i["kind"] in
+                                  ("conf-all-academic", "scholar-athlete",
+                                   "academic-team")],
+                            5, heading="Academic", show_school=True),
+                awards_list(reg, [i for i in others if i["kind"] in
+                                  ("coach-of-year", "coach-milestone",
+                                   "conf-sportsmanship")],
+                            5, heading="Coaches & sportsmanship", show_school=True))
+            + "</div>")
 
     body = f"""
 <header class="fh-orghead" style="border-color:{cc1}">
@@ -1703,10 +2307,13 @@ def render_conference(reg, conf):
   </div>
 </header>
 {org_nav([("Home", "#"), ("Schools", "#schools"), ("Standings", "#standings"),
-          ("Schedule", "#schedule"), ("Championships", "#championships" if champs else "#standings")])}
-<div class="fh-memberstrip" id="schools">{strip}</div>
+          ("Schedule", "#schedule"), ("Honors", "#honors"),
+          ("Championships", "#championships" if champs else "#standings")])}
+<div class="fh-memberstrip tight" id="schools">{strip}</div>
 {feature_grid}
+{mods}
 {ribbon}
+{honors_sec}
 {standings}
 {this_week}
 {recent}
@@ -1714,7 +2321,11 @@ def render_conference(reg, conf):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/#conferences'>Conferences</a> › {esc(conf['name'])}"
-    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences", org=True)
+    return shell(page_title(f"{conf['name']}"), body, crumb, "← Conferences|/#conferences", org=True,
+                 desc=(f"{conf['name']} — {len(members)} member schools in "
+                       f"{conf['area']}. Standings, the composite schedule, league "
+                       f"champions and results across {len(conf_sports)} sports."),
+                 image=sport_photo(default_key or "football")[0])
 
 
 def render_athlete(reg, a):
@@ -1767,7 +2378,162 @@ def render_athlete(reg, a):
 {''.join(sections)}
 """
     crumb = f"<a href='/'>{NAME}</a> › {reg.school_link(school)} › {esc(name)}"
-    return shell(f"{name} — {school}", body, crumb, f"← {school}|{reg.school_url(school)}")
+    return shell(f"{name} — {school}", body, crumb, f"← {school}|{reg.school_url(school)}",
+                 desc=(f"{name}, {school} — every result, mark and box-score line "
+                       f"this season, with the contest each came from."))
+
+
+def _first(reg, used, kind, pred, note):
+    """The first contest of `kind` matching `pred` that the tour has not used."""
+    for c in reg.contests:
+        if isinstance(c, kind) and pred(c) and reg.url(c) not in used:
+            used.add(reg.url(c))
+            extra = f"{len(c.events)} events · " if isinstance(c, Meet) else ""
+            return (reg.url(c), c.name, extra + note)
+    return None
+
+
+def render_tour(reg):
+    """`/tour/` — one live link to every page type the site can produce.
+
+    A build of 50,000 pages hides its own range. Every capability here is real
+    and reachable, but "reachable" is not the same as findable: a box score
+    exists on a quarter of games, a bye only appears in brackets with an odd
+    field, and a needs-review import is one record in thirty thousand. Without
+    an index you learn what the product does by hunting for it.
+
+    Every link is RESOLVED FROM THE RECORDS at build time, not hard-coded, so
+    the page cannot rot into a list of 404s the next time the state is
+    regenerated. If a category has no example, it says so instead of linking
+    nowhere — which is itself the useful signal.
+    """
+    from app.shapes import TournamentFormat as TF, TournamentStatus as TS
+
+    # Each row should send you somewhere you have not already been: several
+    # predicates legitimately match the same record (the smallest bracket is
+    # often also the first upcoming one), and two rows pointing at one page
+    # spends a line of the index proving nothing.
+    used: set[str] = set()
+
+    def game_where(pred, note=""):
+        for c in reg.contests:
+            if isinstance(c, Game) and pred(c) and reg.url(c) not in used:
+                used.add(reg.url(c))
+                return (reg.url(c), f"{c.away} {c.away_score}–{c.home_score} {c.home}", note)
+        return None
+
+    def tour_of(pred):
+        for t in reg.tournaments:
+            href = reg.tour_url[t.id]
+            if pred(t) and href not in used:
+                used.add(href)
+                return (href, t.name, "")
+        return None
+
+    def has_box(c, family=None):
+        if not getattr(c, "box", None):
+            return False
+        return family is None or c.sport == family
+
+    imported = lambda c: c.provenance and c.provenance.adapter in (  # noqa: E731
+        "scorebook_csv", "dual_card", "hytek_swim", "hytek_pdf")
+
+    school = reg.schools.get("Ashbrook") or next(iter(reg.schools.values()))
+    conf_slug = next(iter(sorted(reg.confs)))
+    athlete = next((a for a in reg.athletes.values() if len(a["rows"]) > 3),
+                   next(iter(reg.athletes.values()), None))
+
+    SECTIONS = [
+        ("Results — what a contest page looks like", [
+            ("Game with a box score", game_where(
+                lambda c: has_box(c, "boys-basketball"),
+                "period scoring, full player box, team totals")),
+            ("Football — four stat tables", game_where(
+                lambda c: has_box(c, "football"),
+                "passing, rushing, receiving, defense: different columns each")),
+            ("Hockey — skaters and goaltending", game_where(
+                lambda c: has_box(c, "boys-ice-hockey"),
+                "two tables, the second all rate stats")),
+            ("Baseball — batting and pitching", game_where(
+                lambda c: has_box(c, "baseball"), "two tables")),
+            ("Volleyball — sets, not points", game_where(
+                lambda c: has_box(c, "girls-volleyball"),
+                "the final is sets won; the linescore is points")),
+            ("Dual match", _first(
+                reg, used, Dual, lambda c: bool(c.lines) and not imported(c),
+                "line-by-line, singles and doubles")),
+            ("Meet", _first(
+                reg, used, Meet, lambda c: len(c.events) > 8 and not imported(c),
+                "a full event card")),
+        ]),
+        ("Ingestion — records that came from a source file", [
+            ("Imported box score", game_where(
+                lambda c: imported(c) and getattr(c, "box", None),
+                "scorebook CSV — see the Source block at the foot")),
+            ("Imported dual", _first(reg, used, Dual, imported,
+                                     "fixed-width match card")),
+            ("Imported Hy-Tek meet", _first(reg, used, Meet, imported,
+                                            "MEET MANAGER text report, with splits")),
+        ]),
+        ("Postseason — the three bracket states", [
+            ("Championships hub", ("/championships/", "All championships",
+                                   "sport, then classification")),
+            ("Completed bracket", tour_of(
+                lambda t: t.status is TS.COMPLETE and t.format is TF.BRACKET
+                and t.size >= 16)),
+            ("In-progress bracket", tour_of(lambda t: t.status is TS.IN_PROGRESS)),
+            ("Upcoming bracket", tour_of(lambda t: t.status is TS.UPCOMING
+                                         and t.format is TF.BRACKET)),
+            ("Bracket with byes", tour_of(
+                lambda t: t.format is TF.BRACKET and t.byes and t.size >= 24)),
+            ("Smallest bracket", tour_of(
+                lambda t: t.format is TF.BRACKET and t.size == 4)),
+            ("Title decided by a meet", tour_of(
+                lambda t: t.format is TF.MEET and t.meet_key)),
+        ]),
+        ("Organisations — who owns the page", [
+            ("School athletics site", (f"/schools/{school['slug']}/",
+                                       f"{school['name']} Athletics",
+                                       "school masthead; JHSAA collapses to a link-back")),
+            ("Conference site", (f"/conferences/{conf_slug}/",
+                                 reg.confs[conf_slug]["name"], "same treatment")),
+            ("Athlete", (f"/athletes/{athlete['slug']}/", athlete["name"],
+                         "results across the season") if athlete else None),
+            ("Sport hub", ("/sports/boys-basketball/", "Boys Basketball", "")),
+            ("Standings", ("/sports/boys-basketball/standings/", "League tables", "")),
+            ("Scoreboard", ("/scoreboard/", "Every result, filterable", "")),
+        ]),
+    ]
+
+    blocks = []
+    for title, rows in SECTIONS:
+        items = []
+        for label, found in rows:
+            if not found:
+                items.append(f"<div class='fh-tourrow none'><span class='lb'>{esc(label)}</span>"
+                             f"<span class='ex'>no example in the current state</span></div>")
+                continue
+            href, what, note = found
+            items.append(
+                f"<a class='fh-tourrow' href='{href}'>"
+                f"<span class='lb'>{esc(label)}</span>"
+                f"<span class='ex'>{esc(what)}</span>"
+                f"<span class='nt'>{esc(note)}</span></a>")
+        blocks.append(f"<section class='fh-toursec'><h2>{esc(title)}</h2>"
+                      f"{''.join(items)}</section>")
+
+    body = f"""
+<div class="fh-idhdr">
+  <div></div>
+  <div><div class="name">Product tour</div>
+  <div class="meta">One live example of every page type. Links are resolved from
+  the records at build time, so they cannot go stale.</div></div>
+  <div class="side"></div>
+</div>
+{''.join(blocks)}
+"""
+    crumb = f"<a href='/'>{NAME}</a> › Tour"
+    return shell(page_title("Product tour"), body, crumb)
 
 
 def render_scoreboard(reg):
@@ -1820,7 +2586,9 @@ def render_scoreboard(reg):
 <div class="fh-filterable fh-scoredays" id="sb">{''.join(days)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Scoreboard"
-    return shell(page_title(f"Scoreboard"), body, crumb)
+    return shell(page_title(f"Scoreboard"), body, crumb,
+                 desc=("Every JHSAA result and fixture, all 45 activities on one "
+                       "board — filter by sport, classification, conference and day."))
 
 
 def champ_finals(reg):
@@ -2060,7 +2828,14 @@ def render_tournament(reg, t):
 """
     crumb = (f"<a href='/'>{NAME}</a> › <a href='/championships/'>Championships</a> › "
              f"<a href='/championships/{sp.key}/'>{esc(sp.name)}</a> › {esc(t.group)}")
-    return shell(page_title(t.name), body, crumb, f"← {sp.name} championships|/championships/{sp.key}/")
+    won = (f"{t.champion} are the champions." if t.champion else
+           "Bracket, seeds and results." if t.status.value == "in_progress" else
+           "The field is set.")
+    return shell(page_title(t.name), body, crumb, f"← {sp.name} championships|/championships/{sp.key}/",
+                 desc=(f"{t.name} — a {t.size}-team field"
+                       f"{f' at {t.final_venue}' if t.final_venue else ''}. {won} "
+                       f"Full bracket, seeds and every round's result."),
+                 image=sport_photo(t.sport)[0], kind="article", published=t.start_date)
 
 
 def render_champ_sport(reg, sport):
@@ -2093,7 +2868,10 @@ def render_champ_sport(reg, sport):
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/championships/'>Championships</a> › {esc(sport.name)}"
     return shell(page_title(f"{sport.name} Championships"), body, crumb,
-                 "← Championships|/championships/")
+                 "← Championships|/championships/",
+                 desc=(f"JHSAA {sport.name} state championships — brackets, seeds, "
+                       f"qualifiers and champions in every classification."),
+                 image=sport_photo(sport.key)[0])
 
 
 def render_championships(reg):
@@ -2163,7 +2941,10 @@ def render_championships(reg):
 <div class="fh-filterable fh-champbook" id="ch">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Championships"
-    return shell(page_title("Championships"), body, crumb)
+    return shell(page_title("Championships"), body, crumb,
+                 desc=(f"Every JHSAA state championship — {len(reg.tournaments)} "
+                       f"across {len(reg.tour_by_sport)} activities, by sport and "
+                       f"classification. Live brackets, results and champions."))
 
 
 def render_schools_index(reg):
@@ -2218,7 +2999,9 @@ def render_schools_index(reg):
 <div class="fh-filterable fh-areas" id="schools-map">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Schools"
-    return shell(page_title(f"Schools"), body, crumb)
+    return shell(page_title(f"Schools"), body, crumb,
+                 desc=(f"All {len(reg.schools)} JHSAA member schools by conference and "
+                       f"classification, each with its own athletics site."))
 
 
 def render_confs_index(reg):
@@ -2243,7 +3026,9 @@ def render_confs_index(reg):
 <div class="fh-confgrid">{''.join(blocks)}</div>
 """
     crumb = f"<a href='/'>{NAME}</a> › Conferences"
-    return shell(page_title(f"Conferences"), body, crumb)
+    return shell(page_title(f"Conferences"), body, crumb,
+                 desc=(f"All {len(reg.confs)} JHSAA conferences — members, standings "
+                       f"and the composite schedule for each league."))
 
 
 SPORTS_IMG = ROOT / "site/img/sports"
@@ -2333,7 +3118,10 @@ def render_story(reg, st):
 </div>
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/news/'>News</a> › {esc(st['kicker'])}"
-    return shell(page_title(f"{st['head']}"), body, crumb, "← News|/news/", story=st)
+    return shell(page_title(f"{st['head']}"), body, crumb, "← News|/news/", story=st,
+                 desc=st["dek"], kind="article", published=st["date"],
+                 image=(f"/img/news/{st['slug']}.jpg"
+                        if (NEWS_IMG / f"{st['slug']}.jpg").exists() else None))
 
 
 def render_news_index(reg):
@@ -2362,9 +3150,14 @@ def render_news_index(reg):
 {lane('activity', 'Activities & competition', 'Championships, schedules and student-athletes.')}
 {lane('association', 'Association business', 'Eligibility, officiating, participation and board decisions.')}
 </div>
+<div class="fh-newsbsky">{bsky_panel()}</div>
+{BSKY_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › News"
-    return shell(page_title(f"News"), body, crumb)
+    return shell(page_title(f"News"), body, crumb,
+                 desc=("Competition coverage and association business from the "
+                       "JHSAA — championships, eligibility, officiating and "
+                       "participation."))
 
 
 SEASON_JS = """
@@ -2386,6 +3179,60 @@ SEASON_JS = """
     });
   });
 })();
+</script>"""
+
+
+def bsky_panel():
+    """The network's Bluesky feed, as a rail module.
+
+    What ships in the HTML is only what is TRUE without a network: the handle,
+    the link, and a follow card. The script asks the public AppView API for
+    the account's recent posts and swaps them in — reader-side, so a static
+    page shows a live feed without the build knowing anything about it. Every
+    failure mode (empty account, blocked fetch, JS off) leaves the card, which
+    is a working link rather than a broken feed.
+    """
+    return f"""
+<section class="fh-bsky">
+  <h2>{icons.bsky()} From the network</h2>
+  <div id="bsky-feed" data-actor="{BSKY_HANDLE}">
+    <a class="fh-bskyfollow" href="{BSKY_URL}" target="_blank" rel="noopener">
+      <span class="hd">@{BSKY_HANDLE}</span>
+      <span class="dk">Scores, championship nights and records news on Bluesky.</span>
+      <span class="fl">Follow →</span>
+    </a>
+  </div>
+</section>"""
+
+
+BSKY_JS = f"""
+<script>
+(function () {{
+  var box = document.getElementById("bsky-feed");
+  if (!box || !window.fetch) return;
+  var actor = box.getAttribute("data-actor");
+  fetch("{BSKY_API}?actor=" + encodeURIComponent(actor) +
+        "&limit=4&filter=posts_no_replies")
+    .then(function (r) {{ if (!r.ok) throw 0; return r.json(); }})
+    .then(function (data) {{
+      var posts = (data.feed || []).filter(function (it) {{ return !it.reason; }});
+      if (!posts.length) return;                 // empty feed: keep the card
+      box.innerHTML = posts.map(function (it) {{
+        var p = it.post, rec = p.record || {{}};
+        var url = "https://bsky.app/profile/" + actor + "/post/" + p.uri.split("/").pop();
+        var d = new Date(rec.createdAt || p.indexedAt);
+        var t = document.createElement("span");
+        t.textContent = rec.text || "";          // escape by assignment
+        return "<a class='fh-bskypost' href='" + url + "' target='_blank' rel='noopener'>" +
+          "<span class='tx'>" + t.innerHTML + "</span>" +
+          "<span class='mt'>" + d.toLocaleDateString(undefined, {{month: "short", day: "numeric"}}) +
+          " · " + (p.likeCount || 0) + " likes · " + (p.repostCount || 0) + " reposts</span></a>";
+      }}).join("") +
+      "<p class='fh-more'><a href='https://bsky.app/profile/" + actor +
+      "' target='_blank' rel='noopener'>Follow @" + actor + " →</a></p>";
+    }})
+    .catch(function () {{}});
+}})();
 </script>"""
 
 
@@ -2467,6 +3314,24 @@ def render_front(reg):
         if len(finals) >= 7:
             break
 
+    # ---- the association's editorial layer at statewide scope ----
+    state_honors = reg.items_state
+    live_tours = sorted(
+        (t for t in reg.tournaments if t.status is TournamentStatus.IN_PROGRESS),
+        key=lambda t: t.final_date or "") or sorted(
+        (t for t in reg.tournaments if t.champion),
+        key=lambda t: t.final_date or "", reverse=True)
+    state_mods = module_row(
+        awards_list(reg, [i for i in state_honors if i["kind"] == "state-title"],
+                    5, heading="State champions", show_school=True),
+        awards_list(reg, [i for i in state_honors if i["kind"] == "state-honor"],
+                    5, heading="Athletes of the year", show_school=True),
+        record_performance(reg, state_honors, heading="Record performances", limit=4),
+        awards_list(reg, [i for i in state_honors if i["kind"] in
+                          ("state-academic", "state-official",
+                           "state-sportsmanship")],
+                    4, heading="Association recognition"))
+
     opts = "".join(
         f"<a class='fh-schoolhit' href='/schools/{s['slug']}/' "
         f"data-n='{esc((s['name'] + ' ' + s['city'] + ' ' + s['conference']).lower())}'>"
@@ -2493,6 +3358,12 @@ def render_front(reg):
       <div class="fh-results">{''.join(finals)}</div>
       <p class="fh-more"><a href="/scoreboard/">Full scoreboard →</a></p>
     </section>
+    <section class="fh-latest">
+      <h2>Statewide honors</h2>
+      {headline_list(reg, state_honors, 4, show_school=True)}
+      <p class="fh-more"><a href="/championships/">Championships →</a></p>
+    </section>
+    {bsky_panel()}
     <section class="fh-finder">
       <h2>Find your school</h2>
       <input id="school-q" type="search" placeholder="School, town or conference"
@@ -2503,7 +3374,9 @@ def render_front(reg):
   </aside>
 </div>
 
+{state_mods}
 {SEASON_JS}
+{BSKY_JS}
 <script>
 (function () {{
   var q = document.getElementById("school-q"), hits = document.getElementById("school-hits");
@@ -2523,7 +3396,9 @@ def render_front(reg):
 }})();
 </script>
 """
-    return shell(TITLE, body)
+    return shell(TITLE, body, desc=SITE_DESC,
+                 image=(f"/img/news/{lead['slug']}.jpg"
+                        if (NEWS_IMG / f"{lead['slug']}.jpg").exists() else None))
 
 
 # ──────────────────────────────────────────────────────────── write + verify
@@ -2534,16 +3409,27 @@ def favicon_tag() -> str:
     return f'\n<link rel="icon" href="{FAVICON}"{kind}>'
 
 
+#: The owner's mark (owner note 2027-08). When this file exists it IS the
+#: favicon, published as /favicon.png; until it lands the fallbacks below
+#: keep the tab from going blank.
+APEX_MARK = ROOT / "site/img/sports/apex-blue.png"
+
+
 def pick_favicon() -> str:
-    """Drop any favicon.* into site/ and it wins; otherwise fall back to the
-    wordmark's initial so the tab is never blank mid-rename. Resolved before
-    the pages render (they carry the href) and written after the output tree is
-    cleared."""
+    """The apex mark when present; else any favicon.* dropped into site/;
+    else the wordmark's initial so the tab is never blank mid-rename.
+    Resolved before the pages render (they carry the href) and written after
+    the output tree is cleared."""
+    if APEX_MARK.exists():
+        return "/favicon.png"
     found = sorted((ROOT / "site").glob("favicon.*"))
     return "/" + found[0].name if found else "/favicon.svg"
 
 
 def write_favicon(out: pathlib.Path) -> None:
+    if APEX_MARK.exists():
+        shutil.copy(APEX_MARK, out / "favicon.png")
+        return
     src = ROOT / "site" / FAVICON.lstrip("/")
     if src.exists():
         shutil.copy(src, out / src.name)
@@ -2591,6 +3477,26 @@ def inline_preview(front):
     return front.replace('<link rel="stylesheet" href="/style.css">', f"<style>\n{css}\n</style>")
 
 
+def write_sitemap(out: pathlib.Path, pages: dict) -> None:
+    """A sitemap index plus shards, because 58,000 urls is past the 50,000 a
+    single sitemap may carry — a crawler drops the whole file when it is over,
+    so the limit is not advisory."""
+    urls = sorted(pages)
+    shards = [urls[i:i + 40000] for i in range(0, len(urls), 40000)]
+    for n, shard in enumerate(shards, 1):
+        body = "".join(f"<url><loc>{SITE_URL}{html.escape(u)}</loc></url>" for u in shard)
+        (out / f"sitemap-{n}.xml").write_text(
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            f"{body}</urlset>\n")
+    index = "".join(f"<sitemap><loc>{SITE_URL}/sitemap-{n}.xml</loc></sitemap>"
+                    for n in range(1, len(shards) + 1))
+    (out / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        f"{index}</sitemapindex>\n")
+
+
 def build():
     global RAIL, FAVICON
     reg = Registry()
@@ -2599,6 +3505,7 @@ def build():
     build_menus(reg)
 
     pages = {"/": render_front(reg), "/scoreboard/": render_scoreboard(reg),
+             "/tour/": render_tour(reg),
              "/schools/": render_schools_index(reg), "/conferences/": render_confs_index(reg),
              "/championships/": render_championships(reg),
              "/news/": render_news_index(reg)}
@@ -2647,7 +3554,10 @@ def build():
         rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
         p = OUT / rel
         p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(text)
+        # og:url and rel=canonical are the one thing in the head only this
+        # loop knows. Substituted here rather than threaded through every
+        # renderer's signature.
+        p.write_text(text.replace(OG_URL_TOKEN, url))
     shutil.copy(ROOT / "site/style.css", OUT / "style.css")
     write_favicon(OUT)
     shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
@@ -2655,6 +3565,11 @@ def build():
         shutil.copytree(NEWS_IMG, OUT / "img/news", ignore=shutil.ignore_patterns("credits.json"))
     if SPORTS_IMG.exists():
         shutil.copytree(SPORTS_IMG, OUT / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
+    if (ROOT / "site/img/og.jpg").exists():
+        shutil.copy(ROOT / "site/img/og.jpg", OUT / "img/og.jpg")
+    (OUT / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
+    write_sitemap(OUT, pages)
     shutil.copytree(ROOT / "report", OUT / "report")
     for f in (OUT / "report").glob("*.html"):
         f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)

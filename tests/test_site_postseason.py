@@ -202,8 +202,12 @@ def test_a_meet_championship_renders_results_not_an_empty_bracket(reg):
 
 
 def test_an_imported_box_score_renders_under_the_score(reg):
+    # Select on PROVENANCE, not on "has a box score": box scores are now
+    # generated across a quarter of the state, so "the game with a box" no
+    # longer identifies the imported one.
     game = next(c for c in reg.contests
-                if getattr(c, "box", None) and c.home == "Ansotegui Siding")
+                if c.provenance and c.provenance.adapter == "scorebook_csv"
+                and c.home == "Ansotegui Siding")
     html = build.render_game(reg, game)
     assert "Box score" in html
     assert "Team totals" in html
@@ -214,8 +218,12 @@ def test_an_imported_box_score_renders_under_the_score(reg):
 
 
 def test_an_imported_record_shows_where_it_came_from(reg):
+    # Select on PROVENANCE, not on "has a box score": box scores are now
+    # generated across a quarter of the state, so "the game with a box" no
+    # longer identifies the imported one.
     game = next(c for c in reg.contests
-                if getattr(c, "box", None) and c.home == "Ansotegui Siding")
+                if c.provenance and c.provenance.adapter == "scorebook_csv"
+                and c.home == "Ansotegui Siding")
     html = build.render_game(reg, game)
     assert "scorebook-basketball-boxscore.csv" in html
     assert "scorebook_csv" in html

@@ -8,7 +8,8 @@ contests, the records written, the names it could not resolve, and anything the
 source's own checksums flagged. An import you cannot inspect is an import you
 have to trust.
 
-    python3 -m ingest.run --demo        # every committed specimen, dry run
+    python3 -m ingest.run --demo           # every committed specimen, dry run
+    python3 -m ingest.run --demo --write   # …and land them in records/
 
 This is the write path the upload surface calls; run by hand it is the same
 pipeline. It never touches the site — publishing is a rebuild after the records
@@ -65,20 +66,23 @@ def detect(path: pathlib.Path) -> str | None:
 
 SPECIMENS = ROOT / "ingest" / "fixtures" / "specimens"
 
-#: The committed specimens, with the sport each should be filed under. The
-#: track PDF is a FORMAT specimen from another association's meet, so it is
+#: The committed specimens: (file, sport, does it LAND in the state?).
+#:
+#: The track PDF is a FORMAT specimen from another association's meet, so it is
 #: expected to resolve to no Jefferson school — that is the honest result, not
-#: a failure, and --demo says so rather than hiding it.
+#: a failure, and --demo says so rather than hiding it. It parses on every demo
+#: run and is never written: importing it would file sixty-seven Wyoming
+#: schools into the Jefferson gazetteer.
 DEMO = [
-    ("hytek-mm-swimming-results.txt", "girls-swimming"),
-    ("scorebook-volleyball-boxscore.csv", "girls-volleyball"),
-    ("scorebook-hockey-boxscore.csv", "boys-ice-hockey"),
-    ("scorebook-football-boxscore.csv", "football"),
-    ("scorebook-baseball-boxscore.csv", "baseball"),
-    ("scorebook-basketball-boxscore.csv", "boys-basketball"),
-    ("scorebook-basketball-badtotals.csv", "boys-basketball"),
-    ("dual-tennis-match-card.txt", "boys-tennis"),
-    ("hytek-meetmanager8-track.pdf", "girls-track"),
+    ("hytek-mm-swimming-results.txt", "girls-swimming", True),
+    ("scorebook-volleyball-boxscore.csv", "girls-volleyball", True),
+    ("scorebook-hockey-boxscore.csv", "boys-ice-hockey", True),
+    ("scorebook-football-boxscore.csv", "football", True),
+    ("scorebook-baseball-boxscore.csv", "baseball", True),
+    ("scorebook-basketball-boxscore.csv", "boys-basketball", True),
+    ("scorebook-basketball-badtotals.csv", "boys-basketball", True),
+    ("dual-tennis-match-card.txt", "boys-tennis", True),
+    ("hytek-meetmanager8-track.pdf", "girls-track", False),
 ]
 
 
@@ -239,13 +243,25 @@ def main(argv: list[str] | None = None) -> int:
                     help="parse and report, write nothing")
     ap.add_argument("--demo", action="store_true",
                     help="run every committed specimen as a dry run")
+    ap.add_argument("--write", action="store_true",
+                    help="with --demo: actually import the specimens that land "
+                         "in the state (re-imports update in place)")
     args = ap.parse_args(argv)
 
     records_dir = pathlib.Path(args.records)
 
     if args.demo:
-        print("Every committed specimen, parsed and resolved. Nothing is written.")
-        for filename, sport in DEMO:
+        # --demo --write is how the imported records get back after the state
+        # is regenerated. `gen.py` clears records/contests, so a regeneration
+        # silently drops every import; without one command to replay them the
+        # only route back is remembering which four files to re-run by hand,
+        # and the site quietly loses the records its provenance pages exist to
+        # show. Re-imports land on the existing record (see `_existing_path`),
+        # so running this twice is not running it twice.
+        print("Every committed specimen, parsed and resolved."
+              + ("" if args.write else " Nothing is written."))
+        total = 0
+        for filename, sport, lands in DEMO:
             path = SPECIMENS / filename
             if not path.exists():
                 print(f"\n{filename}: missing")
@@ -254,10 +270,13 @@ def main(argv: list[str] | None = None) -> int:
             if adapter is None:
                 print(f"\n{filename}: no adapter detected")
                 continue
-            run_one(path, adapter, sport, records_dir, args.season, dry_run=True)
+            total += run_one(path, adapter, sport, records_dir, args.season,
+                             dry_run=not (args.write and lands))
         print("\nThe track PDF is a format specimen from another association's meet;")
         print("its schools are not Jefferson schools, so they do not resolve. That is")
         print("the correct result — the parse is sound, the field is foreign.")
+        if args.write:
+            print(f"\n{total} record(s) written.")
         return 0
 
     if not args.source:

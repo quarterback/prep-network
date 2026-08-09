@@ -46,49 +46,74 @@
   font-display: swap; src: url('fonts/azeret-mono-variable.woff2') format('woff2'); }
 
 :root {
-  /* ---- palette slots (owner scheme 2026-08) ----
-     linen #ffede1 · ivory #f9fbf2 · light-cyan #d7f9ff ·
-     baby-blue-ice #afcbff · prussian-blue #0e1c36.
-     Derived tones stay on the palette's three hues (24 / 189 / 219). */
-  --linen: #ffede1;
-  --ivory: #f9fbf2;
-  --cyan: #d7f9ff;
-  --ice: #afcbff;
-  --prussian: #0e1c36;
+  /* ---- palette slots (owner scheme 2027-08e — the site default) ----
+     oxblood #970005 · pure-red #ed0101 · white #ffffff ·
+     cobalt-blue #0c44ac · deep-twilight #000052.
+
+     The plain red-white-blue, and the only palette here that needed no
+     adjustment anywhere. Measured on white:
+       deep-twilight 18.7:1  the ink, and the masthead bar
+       oxblood        9.1:1  body-safe text; chips and the rank colour
+       cobalt         8.6:1  LINK TEXT AT THE HEX GIVEN — nothing darkened
+       pure-red       4.6:1  clears AA body; the live accent and mast rule
+     Every other scheme in this file has at least one colour pushed darker to
+     be legible. This one uses all five as sent. */
+  --oxblood: #970005;
+  --pure-red: #ed0101;
+  --cobalt: #0c44ac;
+  --twilight: #000052;
+
+  /* the structural slots the components were built against */
+  --linen: hsl(219, 70%, 93%);     /* cobalt, laid down flat: bands and heads */
+  --ivory: #ffffff;                /* white, literally, is the ground */
+  --cyan: hsl(219, 60%, 95%);      /* cobalt wash: hover, highlight */
+  --ice: var(--cobalt);            /* accent detail */
+  --prussian: var(--twilight);     /* the ink slot keeps its historical name */
 
   --ink: var(--prussian);
   --paper: var(--ivory);
   --brand: var(--prussian);
-  --brand-strong: hsl(219, 62%, 38%);          /* link blue, 219 hue */
+  --brand-strong: var(--cobalt);        /* 8.6:1 — link text, unmodified */
   --brand-tint: var(--cyan);
+  --accent-live: var(--pure-red);       /* in progress, happening now */
 
-  /* neutrals — prussian at falling strength */
-  --gray-150: hsl(219, 24%, 92%);
-  --gray-200: hsla(219, 59%, 13%, 0.13);
-  --gray-300: hsla(219, 59%, 13%, 0.22);
-  --gray-400: hsl(219, 16%, 64%);
-  --gray-500: hsl(219, 18%, 50%);
-  --gray-600: hsl(219, 24%, 36%);
+  /* neutrals — twilight at falling strength */
+  --gray-150: hsl(219, 30%, 93%);
+  --gray-200: hsla(240, 100%, 16%, 0.13);
+  --gray-300: hsla(240, 100%, 16%, 0.22);
+  --gray-400: hsl(222, 14%, 62%);
+  --gray-500: hsl(222, 18%, 46%);
+  --gray-600: hsl(228, 34%, 30%);
 
-  /* classification chips — tones of the palette hues */
-  --cat-7a: hsl(219, 70%, 10%);
-  --cat-6a: var(--prussian);
-  --cat-5a: hsl(219, 58%, 38%);
-  --cat-4a: hsl(219, 45%, 50%);
-  --cat-3a: hsl(189, 62%, 30%);
-  --cat-2a: hsl(189, 45%, 42%);
-  --cat-1a: hsl(24, 42%, 42%);
+  /* classification chips — chip BACKGROUNDS carrying white text, so every
+     one of these is dark enough to hold it (6.5:1 at the lightest). */
+  --cat-7a: var(--twilight);
+  --cat-6a: hsl(228, 90%, 22%);
+  --cat-5a: var(--cobalt);
+  --cat-4a: hsl(219, 70%, 44%);
+  --cat-3a: var(--oxblood);
+  --cat-2a: hsl(358, 80%, 38%);
+  --cat-1a: hsl(0, 75%, 40%);
 
-  --rank-gold: hsl(24, 70%, 44%);
+  --rank-gold: var(--oxblood);
 
   /* ---- semantic aliases — components read these only ---- */
   --surface-page: var(--paper);
   --surface-card: var(--paper);
-  --surface-subtle: hsl(73, 40%, 96%);
+  --surface-subtle: hsl(219, 60%, 97%);
   --surface-th: var(--linen);
-  --surface-zebra: hsla(189, 100%, 92%, 0.32);
+  --surface-zebra: hsla(219, 70%, 90%, 0.34);
   --surface-hover: var(--cyan);
-  --surface-mast: var(--linen);
+  --surface-mast: var(--twilight);   /* the bar IS the palette */
+  /* Masthead ink. A scheme with a DARK masthead needs light type on it, and
+     without these aliases the only masthead any palette could have was a pale
+     wash — which is why two palettes built around navy and red came out
+     reading as beige: their loudest colours had nowhere to go but a 20px
+     chip. `--mast-rule` is the band under the bar, where an athletics site
+     traditionally puts its second colour. */
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(219, 60%, 82%);
+  --mast-rule: var(--pure-red);
 
   --text-primary: var(--ink);
   --text-secondary: var(--gray-600);
@@ -120,50 +145,112 @@
   --container: 1180px; --gutter: 20px;
 
   /* crest tones — hash-assigned per school, themed with the scheme */
-  --crest-0: #0e1c36; --crest-1: #27447c; --crest-2: #3a5fa8;
-  --crest-3: #14506b; --crest-4: #1b6f8c; --crest-5: #0e6377;
-  --crest-6: #8a4d2b; --crest-7: #6b3d1f; --crest-8: #a05a2e;
-  --crest-9: #2c3e66; --crest-10: #40699e; --crest-11: #575047;
+  --crest-0: #000052;            --crest-1: hsl(228, 90%, 22%);
+  --crest-2: #0c44ac;            --crest-3: hsl(219, 70%, 44%);
+  --crest-4: #970005;            --crest-5: hsl(358, 80%, 40%);
+  --crest-6: hsl(0, 75%, 42%);   --crest-7: hsl(219, 40%, 34%);
+  --crest-8: hsl(240, 60%, 26%); --crest-9: hsl(350, 50%, 34%);
+  --crest-10: hsl(210, 45%, 30%); --crest-11: hsl(228, 30%, 38%);
 }
 
-/* ── scheme: bloom — ash-grey / petal-frost / soft-blossom / plum /
-   bright-lavender. No dark value in the palette, so ink and link are deep
-   tones of the lavender hue (276), same derivation rule as varsity's. ── */
-[data-theme="bloom"] {
-  --linen: #cfd4c5;            /* ash-grey takes the band slot */
-  --ivory: #eecfd4;            /* petal-frost takes the ground slot */
-  --cyan: #efb9cb;             /* soft-blossom takes the highlight slot */
-  --ice: #e6adec;              /* plum takes the accent-detail slot */
-  --prussian: hsl(276, 32%, 16%);
 
-  --brand-strong: hsl(276, 52%, 38%);
+/* ── scheme: pitch — mint-cream / olive-wood / sea-green / bright-amber /
+   pitch-black (owner palette 2027-08b). Pitch is the ink at 17.4:1 on mint;
+   olive-wood (4.8:1) is the one accent that carries body-size text and takes
+   the secondary-text role; sea-green is 3.5:1 at full strength so links take
+   it at 24% (4.7:1); bright-amber is 1.3:1 — fill and border only. ── */
+[data-theme="pitch"] {
+  --linen: hsl(49, 90%, 88%);
+  --ivory: #eaf2ef;
+  --cyan: hsl(166, 45%, 89%);
+  --ice: #00916e;
+  --prussian: #0d090a;
 
-  --gray-150: hsl(294, 20%, 88%);
-  --gray-200: hsla(276, 32%, 16%, 0.14);
-  --gray-300: hsla(276, 32%, 16%, 0.24);
-  --gray-400: hsl(288, 12%, 62%);
-  --gray-500: hsl(288, 14%, 46%);
-  --gray-600: hsl(282, 20%, 33%);
+  --brand-strong: hsl(166, 100%, 24%);
+  --accent-live: hsl(27, 65%, 38%);
 
-  --cat-7a: hsl(276, 48%, 16%);
-  --cat-6a: hsl(276, 40%, 26%);
-  --cat-5a: hsl(276, 40%, 38%);
-  --cat-4a: hsl(294, 45%, 36%);
-  --cat-3a: hsl(294, 40%, 48%);
-  --cat-2a: hsl(340, 48%, 44%);
-  --cat-1a: hsl(80, 18%, 38%);
+  --gray-150: hsl(158, 16%, 90%);
+  --gray-200: hsla(345, 18%, 4%, 0.14);
+  --gray-300: hsla(345, 18%, 4%, 0.24);
+  --gray-400: hsl(160, 8%, 58%);
+  --gray-500: hsl(160, 10%, 43%);
+  --gray-600: hsl(27, 22%, 34%);
 
-  --rank-gold: hsl(340, 55%, 42%);
+  --cat-7a: hsl(345, 18%, 6%);
+  --cat-6a: hsl(166, 60%, 16%);
+  --cat-5a: hsl(166, 100%, 22%);
+  --cat-4a: hsl(166, 55%, 30%);
+  --cat-3a: hsl(27, 30%, 30%);
+  --cat-2a: hsl(27, 26%, 38%);
+  --cat-1a: hsl(45, 100%, 24%);
 
-  --surface-subtle: hsl(350, 40%, 92%);
-  --surface-zebra: hsla(294, 62%, 80%, 0.18);
+  --rank-gold: hsl(45, 100%, 30%);
 
-  --crest-0: hsl(276, 40%, 28%); --crest-1: hsl(276, 34%, 40%);
-  --crest-2: hsl(294, 40%, 36%); --crest-3: hsl(294, 32%, 46%);
-  --crest-4: hsl(340, 42%, 40%); --crest-5: hsl(340, 34%, 50%);
-  --crest-6: hsl(80, 20%, 34%);  --crest-7: hsl(80, 16%, 44%);
-  --crest-8: hsl(320, 36%, 38%); --crest-9: hsl(260, 30%, 42%);
-  --crest-10: hsl(300, 26%, 30%); --crest-11: hsl(350, 30%, 44%);
+  --surface-mast: var(--linen);
+  --on-mast: var(--ink);
+  --on-mast-dim: var(--text-secondary);
+  --mast-rule: var(--ink);
+
+  --surface-subtle: hsl(49, 55%, 95%);
+  --surface-zebra: hsla(166, 55%, 86%, 0.30);
+
+  --crest-0: hsl(345, 18%, 8%);  --crest-1: hsl(166, 65%, 18%);
+  --crest-2: hsl(166, 100%, 26%); --crest-3: hsl(166, 45%, 34%);
+  --crest-4: hsl(27, 30%, 30%);  --crest-5: hsl(27, 24%, 42%);
+  --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
+  --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
+  --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
+}
+
+/* ── scheme: rally — sky-aqua / blue-bell / bright-lemon / tiger-flame /
+   racing-red (owner palette 2027-08d). Five saturated colours and no dark or
+   light value in the set, so the ink and the ground derive from the aqua and
+   bell hues (192 / 205) the way bloom's and citrus's did. Every one of the
+   five is too bright to carry text on paper — lemon is 1.3:1 — so they take
+   the surfaces instead: a deep-bell bar under a racing-red rule, aqua as the
+   highlight wash, lemon as the band, flame and red as the accents. ── */
+[data-theme="rally"] {
+  --linen: hsl(54, 100%, 86%);   /* bright-lemon, laid down flat: bands, heads */
+  --ivory: hsl(192, 60%, 97%);   /* aqua at a whisper takes the ground slot */
+  --cyan: hsl(192, 90%, 91%);    /* sky-aqua wash: hover, highlight */
+  --ice: #19a5ff;                /* blue-bell takes the accent-detail slot */
+  --prussian: hsl(206, 62%, 12%);
+
+  --brand-strong: hsl(205, 90%, 32%);   /* blue-bell at 6.5:1 — link text */
+
+  --gray-150: hsl(192, 30%, 91%);
+  --gray-200: hsla(206, 62%, 10%, 0.14);
+  --gray-300: hsla(206, 62%, 10%, 0.24);
+  --gray-400: hsl(200, 14%, 60%);
+  --gray-500: hsl(202, 16%, 44%);
+  --gray-600: hsl(206, 30%, 28%);
+
+  /* chip backgrounds hold white text: 5.3:1 at the lightest */
+  --cat-7a: hsl(206, 70%, 12%);
+  --cat-6a: hsl(206, 75%, 20%);
+  --cat-5a: hsl(205, 85%, 28%);
+  --cat-4a: hsl(196, 70%, 30%);
+  --cat-3a: hsl(16, 80%, 34%);
+  --cat-2a: hsl(16, 70%, 42%);
+  --cat-1a: hsl(356, 85%, 38%);
+
+  --rank-gold: hsl(44, 95%, 32%);
+  --accent-live: #f00c18;               /* racing-red: happening now */
+
+  --surface-mast: hsl(206, 80%, 20%);   /* deep blue-bell, 12.1:1 on white */
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(196, 60%, 80%);
+  --mast-rule: #f00c18;
+
+  --surface-subtle: hsl(54, 90%, 95%);
+  --surface-zebra: hsla(192, 90%, 86%, 0.30);
+
+  --crest-0: hsl(206, 75%, 18%); --crest-1: hsl(205, 85%, 28%);
+  --crest-2: hsl(196, 70%, 30%); --crest-3: hsl(192, 60%, 36%);
+  --crest-4: #b30f1a;            --crest-5: hsl(356, 70%, 46%);
+  --crest-6: hsl(16, 80%, 34%);  --crest-7: hsl(16, 70%, 44%);
+  --crest-8: hsl(44, 95%, 28%);  --crest-9: hsl(54, 70%, 30%);
+  --crest-10: hsl(206, 40%, 34%); --crest-11: hsl(192, 30%, 30%);
 }
 
 /* ── scheme: meadow — frosted-mint / willow-green / deep-teal / charcoal /
@@ -193,6 +280,7 @@
   --cat-1a: hsl(240, 8%, 42%);
 
   --rank-gold: hsl(39, 85%, 40%);
+  --accent-live: hsl(14, 72%, 44%);
 
   --surface-subtle: hsl(114, 45%, 94%);
   --surface-zebra: hsla(118, 39%, 66%, 0.14);
@@ -232,6 +320,7 @@
   --cat-1a: hsl(33, 75%, 36%);
 
   --rank-gold: hsl(33, 83%, 42%);
+  --accent-live: hsl(10, 68%, 43%);
 
   --surface-subtle: hsl(278, 30%, 94%);
   --surface-zebra: hsla(175, 40%, 60%, 0.14);
@@ -271,6 +360,7 @@
   --cat-1a: hsl(27, 45%, 40%);
 
   --rank-gold: hsl(359, 70%, 44%);
+  --accent-live: hsl(359, 74%, 44%);
 
   --surface-subtle: hsl(27, 55%, 93%);
   --surface-zebra: hsla(167, 17%, 49%, 0.12);
@@ -310,6 +400,7 @@
   --cat-1a: hsl(74, 25%, 36%);
 
   --rank-gold: hsl(25, 95%, 42%);
+  --accent-live: hsl(8, 82%, 46%);
 
   --surface-subtle: hsl(167, 35%, 92%);
   --surface-zebra: hsla(188, 83%, 67%, 0.14);
@@ -321,6 +412,108 @@
   --crest-8: hsl(210, 30%, 34%); --crest-9: hsl(150, 22%, 36%);
   --crest-10: hsl(240, 15%, 38%); --crest-11: hsl(10, 40%, 42%);
 }
+
+/* ── scheme: apex — prussian-blue / amber-honey / bright-snow / flag-red /
+   steel-blue (owner palette 2027-08a; the default until the mint palette
+   took that slot). Contrast against snow: prussian 17.8:1 is the ink;
+   flag-red 4.8:1 is the live accent; steel is 4.1:1 so LINKS take it a
+   shade darker (5.2:1); amber is 2.0:1 — fill and border only. ── */
+/* ── scheme: banner — twilight-indigo / bright-ocean / flag-red / amber-earth
+   / ivory (owner palette 2027-08c). The red-white-blue one. Indigo ink is
+   12.1:1 on ivory; bright-ocean is 3.3:1 at full strength, so it keeps the
+   accent-detail slot and LINKS take it at 36% (5.6:1); flag-red 4.8:1 is the
+   live accent and reads at body size; amber-earth 2.5:1 is fill and border
+   only, and 4.9:1 on indigo where it can be read. ── */
+[data-theme="banner"] {
+  --linen: hsl(33, 85%, 89%);   /* amber, laid down flat: bands and heads */
+  --ivory: #f5fbef;             /* ivory takes the ground slot */
+  --cyan: hsl(205, 72%, 91%);   /* ocean, laid down flat: hover, highlight */
+  --ice: #1a8fe3;               /* bright-ocean takes the accent-detail slot */
+  --prussian: #1d3354;
+
+  --brand-strong: hsl(205, 79%, 36%);   /* ocean at 5.6:1 — link text */
+
+  --gray-150: hsl(90, 22%, 91%);
+  --gray-200: hsla(216, 49%, 18%, 0.14);
+  --gray-300: hsla(216, 49%, 18%, 0.24);
+  --gray-400: hsl(212, 12%, 60%);
+  --gray-500: hsl(212, 14%, 45%);
+  --gray-600: hsl(216, 30%, 30%);
+
+  /* chip backgrounds hold white text: 5.0:1 at the lightest */
+  --cat-7a: hsl(216, 49%, 14%);
+  --cat-6a: #1d3354;
+  --cat-5a: hsl(205, 60%, 30%);
+  --cat-4a: hsl(205, 55%, 38%);
+  --cat-3a: hsl(33, 83%, 30%);
+  --cat-2a: hsl(33, 70%, 36%);
+  --cat-1a: hsl(352, 72%, 38%);
+
+  --rank-gold: hsl(33, 83%, 34%);
+  --accent-live: #db162f;               /* flag-red: in progress, happening now */
+
+  /* The bar IS the palette: indigo ground, white type, a flag-red rule under
+     it. Red-white-blue has to be red and blue on the biggest surface on the
+     page, not two chips beside a beige wash. */
+  --surface-mast: #1d3354;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(205, 45%, 84%);
+  --mast-rule: #db162f;
+
+  --surface-subtle: hsl(90, 45%, 95%);
+  --surface-zebra: hsla(205, 75%, 88%, 0.30);
+
+  --crest-0: #1d3354;            --crest-1: hsl(216, 45%, 32%);
+  --crest-2: hsl(205, 70%, 34%); --crest-3: hsl(205, 60%, 44%);
+  --crest-4: hsl(352, 72%, 38%); --crest-5: hsl(352, 55%, 48%);
+  --crest-6: hsl(33, 83%, 32%);  --crest-7: hsl(33, 68%, 42%);
+  --crest-8: hsl(190, 45%, 30%); --crest-9: hsl(216, 30%, 40%);
+  --crest-10: hsl(12, 50%, 38%); --crest-11: hsl(90, 20%, 34%);
+}
+
+[data-theme="apex"] {
+  --linen: hsl(43, 78%, 92%);   /* amber, laid down flat: bands and heads */
+  --ivory: #fbfaf8;             /* bright-snow takes the ground slot */
+  --cyan: hsl(203, 66%, 93%);   /* steel, laid down flat: hover, highlight */
+  --ice: #2c80b5;               /* steel takes the accent-detail slot */
+  --prussian: #0a122a;
+
+  --brand-strong: hsl(203, 61%, 38%);   /* steel at 5.2:1 — link text */
+
+  --gray-150: hsl(216, 22%, 92%);
+  --gray-200: hsla(216, 61%, 10%, 0.13);
+  --gray-300: hsla(216, 61%, 10%, 0.22);
+  --gray-400: hsl(216, 14%, 62%);
+  --gray-500: hsl(216, 16%, 48%);
+  --gray-600: hsl(216, 22%, 34%);
+
+  /* chip backgrounds hold white text: 4.7:1 at the lightest */
+  --cat-7a: #0a122a;
+  --cat-6a: hsl(216, 50%, 25%);
+  --cat-5a: hsl(203, 60%, 32%);
+  --cat-4a: hsl(203, 55%, 40%);
+  --cat-3a: hsl(43, 84%, 26%);
+  --cat-2a: hsl(43, 80%, 32%);
+  --cat-1a: hsl(353, 72%, 38%);
+
+  --rank-gold: hsl(43, 84%, 34%);
+  --accent-live: #db162f;               /* flag-red: in progress, happening now */
+
+  --surface-mast: #0a122a;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(203, 40%, 82%);
+  --mast-rule: #db162f;
+
+  --surface-subtle: hsl(43, 44%, 96%);
+  --surface-zebra: hsla(203, 80%, 90%, 0.34);
+
+  --crest-0: #0a122a; --crest-1: #1c3157; --crest-2: #2c80b5;
+  --crest-3: #1d5f88; --crest-4: #14496b; --crest-5: #3f7fa3;
+  --crest-6: #8a6410; --crest-7: #a8791a; --crest-8: #6b4d0d;
+  --crest-9: #a71b2b; --crest-10: #7d1622; --crest-11: #435063;
+}
+
+
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
@@ -339,31 +532,37 @@ a:hover { text-decoration: underline; }
 
 /* ── masthead — the 2px rules are the throwback cue ─────────────────────── */
 
-.fh-mast { background: var(--surface-mast); border-top: var(--rule); border-bottom: var(--rule); }
+.fh-mast { background: var(--surface-mast); border-top: 2px solid var(--mast-rule);
+  border-bottom: 3px solid var(--mast-rule); color: var(--on-mast); }
 .fh-mast .wrap {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 10px 24px; flex-wrap: wrap; padding-top: 12px; padding-bottom: 12px;
 }
 .fh-wordmark {
   font-family: var(--font-wordmark); font-weight: 800; font-style: italic;
-  font-size: 27px; letter-spacing: 0.01em; color: var(--ink); line-height: 1;
+  font-size: 27px; letter-spacing: 0.01em; color: var(--on-mast); line-height: 1;
 }
-a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
+a.fh-wordmark:hover { text-decoration: none; opacity: 0.78; color: var(--on-mast); }
 .fh-mast-nav { display: flex; gap: 4px 18px; flex-wrap: wrap; align-items: baseline; }
 .fh-mast-nav a, .fh-mast-nav span {
-  font-size: var(--fs-small); font-weight: 600; color: var(--text-secondary);
+  font-size: var(--fs-small); font-weight: 600; color: var(--on-mast-dim);
 }
-.fh-mast-nav a:hover { color: var(--text-link); text-decoration: none; }
-.fh-season { font-size: var(--fs-small); color: var(--text-muted); }
+.fh-mast-nav a:hover { color: var(--on-mast); text-decoration: none; }
+.fh-season { font-size: var(--fs-small); color: var(--on-mast-dim); }
+.fh-mast .fh-menu > button { color: var(--on-mast-dim); }
+.fh-mast .fh-menu > button:hover, .fh-mast .fh-menu:focus-within > button { color: var(--on-mast); }
+.fh-mast .fh-socialink { color: var(--on-mast-dim); }
+.fh-mast .fh-socialink:hover { color: var(--on-mast); }
+.fh-mast .fh-burger span { background: var(--on-mast); }
 
 /* network utility bar — the compact mast on school/conference pages */
 .fh-mast.compact { border-top: none; border-bottom: var(--hairline); }
 .fh-mast.compact .wrap { padding-top: 7px; padding-bottom: 7px; }
 .fh-mast.compact .fh-wordmark { font-size: 15px; letter-spacing: 0.02em; }
 .fh-mast.compact .fh-mast-nav a {
-  font-size: var(--fs-caption); font-weight: 700; color: var(--text-muted);
+  font-size: var(--fs-caption); font-weight: 700; color: var(--on-mast-dim);
 }
-.fh-mast.compact .fh-mast-nav a:hover { color: var(--text-link); }
+.fh-mast.compact .fh-mast-nav a:hover { color: var(--on-mast); }
 
 /* ── toolbar: breadcrumb + back pill (entity pages) ─────────────────────── */
 
@@ -417,19 +616,48 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
 .fh-crest.c8 { background: var(--crest-8); }  .fh-crest.c9 { background: var(--crest-9); }
 .fh-crest.c10 { background: var(--crest-10); } .fh-crest.c11 { background: var(--crest-11); }
 
-/* scheme picker — each chip shows its own scheme in literal colors, so a
-   chip keeps advertising its palette whichever scheme is applied */
+/* scheme picker — a NAMED menu. Each chip shows its own scheme in literal
+   colors, so a chip keeps advertising its palette whichever scheme is
+   applied; the name beside it is what makes the chip legible at all. */
 .fh-swatch {
   width: 20px; height: 20px; padding: 0; border: 2px solid var(--ink);
-  border-radius: 4px; cursor: pointer; align-self: center;
+  border-radius: 4px; flex: none;
 }
-.fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0e1c36 0 34%, #ffede1 0 67%, #d7f9ff 0); }
-.fh-swatch[data-theme-choice="bloom"] { background: linear-gradient(135deg, #c287e8 0 34%, #eecfd4 0 67%, #cfd4c5 0); }
+.fh-thememenu > button { white-space: nowrap; }
+.fh-drop.fh-themelist { min-width: 262px; padding: 10px; }
+.fh-themerow {
+  display: grid; grid-template-columns: 20px 1fr; gap: 3px 10px;
+  width: 100%; text-align: left; appearance: none; background: none;
+  border: none; cursor: pointer; padding: 7px 8px; font-family: var(--font-text);
+}
+.fh-themerow:hover { background: var(--surface-hover); }
+.fh-themerow .fh-swatch { grid-row: span 2; align-self: center; }
+.fh-themerow .tn { font-size: var(--fs-small); font-weight: 700; color: var(--text-primary); }
+.fh-themerow .td { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-themerow[aria-pressed="true"] { background: var(--surface-th); }
+.fh-themerow[aria-pressed="true"] .tn::after {
+  content: " ✓"; color: var(--brand-strong);
+}
+/* in the drawer it is the only way to reach a scheme below 860px */
+.fh-themedrawer { border-bottom: var(--hairline); }
+.fh-themedrawer > summary {
+  list-style: none; cursor: pointer; display: flex; justify-content: space-between;
+  align-items: center; padding: 13px 18px; font-family: var(--font-display);
+  font-weight: 700; font-size: var(--fs-body);
+}
+.fh-themedrawer > summary::-webkit-details-marker { display: none; }
+.fh-themedrawer > summary::after { content: "+"; font-size: 20px; color: var(--text-muted); }
+.fh-themedrawer[open] > summary::after { content: "–"; }
+.fh-themedrawer .fh-themelist { padding: 0 10px 12px; display: grid; gap: 2px; }
+.fh-swatch[data-theme-choice="default"] { background: linear-gradient(135deg, #000052 0 25%, #0c44ac 0 45%, #ffffff 0 60%, #ed0101 0 80%, #970005 0); }
+.fh-swatch[data-theme-choice="pitch"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
+.fh-swatch[data-theme-choice="rally"] { background: linear-gradient(135deg, #0a385c 0 20%, #19a5ff 0 40%, #13d1ff 0 60%, #fee719 0 80%, #f00c18 0); }
 .fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
 .fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }
 .fh-swatch[data-theme-choice="harbor"] { background: linear-gradient(135deg, #071e22 0 34%, #f4c095 0 67%, #ee2e31 0); }
 .fh-swatch[data-theme-choice="citrus"] { background: linear-gradient(135deg, #1d4e57 0 34%, #dce2c8 0 67%, #f96900 0); }
-.fh-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
+.fh-swatch[data-theme-choice="apex"] { background: linear-gradient(135deg, #0a122a 0 34%, #e8aa14 0 67%, #db162f 0); }
+.fh-swatch[data-theme-choice="banner"] { background: linear-gradient(135deg, #1d3354 0 25%, #1a8fe3 0 50%, #db162f 0 75%, #e98a15 0); }
 
 /* chips */
 .fh-badge {
@@ -578,7 +806,11 @@ a.fh-row:hover { text-decoration: none; }
   margin-top: 18px;
 }
 
-footer.fh-foot { background: var(--surface-mast); border-top: var(--rule); margin-top: 40px; }
+footer.fh-foot { background: var(--surface-mast); border-top: 3px solid var(--mast-rule);
+  margin-top: 40px; color: var(--on-mast); }
+footer.fh-foot .fh-footmark, footer.fh-foot .fh-foottag,
+footer.fh-foot .fh-social a, footer.fh-foot .fh-logo { color: var(--on-mast-dim); }
+footer.fh-foot .fh-social a:hover { color: var(--on-mast); }
 footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 
 /* ── sponsor rail ──────────────────────────────────────────────────────────
@@ -631,12 +863,152 @@ footer.fh-foot .wrap { padding-top: 26px; padding-bottom: 34px; }
 }
 .fh-foottag { font-size: var(--fs-small); font-weight: 600; color: var(--text-muted); }
 
+/* ── social — the butterfly is a FILLED mark, unlike the stroked sport set ── */
+.fh-bf { width: 15px; height: 13px; fill: currentColor; stroke: none;
+  vertical-align: -1px; }
+.fh-socialink { display: inline-flex; align-items: center; align-self: center;
+  color: var(--text-secondary); padding: 2px 4px; }
+.fh-socialink:hover { color: var(--brand-strong); }
+.fh-social { margin-left: auto; }
+.fh-social a { display: inline-flex; align-items: center; gap: 6px;
+  font-size: var(--fs-small); font-weight: 600; color: var(--text-muted); }
+.fh-social a:hover { color: var(--brand-strong); text-decoration: none; }
+
+/* the feed module: a follow card that becomes the live feed when the
+   reader's browser can reach the public AppView API */
+.fh-bsky h2 { display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-condensed); font-weight: 800; font-size: var(--fs-caption);
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 8px; }
+.fh-bsky h2 .fh-bf { width: 17px; height: 15px; }
+.fh-bskyfollow { display: block; border: var(--rule); padding: 12px 14px;
+  background: var(--surface-card); color: inherit; }
+.fh-bskyfollow:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-bskyfollow .hd { display: block; font-weight: 700; font-size: var(--fs-small); }
+.fh-bskyfollow .dk { display: block; font-size: var(--fs-caption);
+  color: var(--text-secondary); margin: 3px 0 6px; }
+.fh-bskyfollow .fl { font-size: var(--fs-caption); font-weight: 700;
+  color: var(--brand-strong); }
+.fh-bskypost { display: block; border: var(--hairline); border-left: 3px solid var(--ice);
+  padding: 9px 12px; margin-bottom: 8px; background: var(--surface-card); color: inherit; }
+.fh-bskypost:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-bskypost .tx { display: block; font-size: var(--fs-small); line-height: 1.45;
+  white-space: pre-line; }
+.fh-bskypost .mt { display: block; margin-top: 5px; font-size: var(--fs-micro);
+  color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.fh-newsbsky { max-width: 420px; margin-top: 28px; }
+
 @media (max-width: 560px) {
   .fh-sponsors { gap: 14px 24px; }
   .fh-footmark { font-size: 26px; }
+  .fh-social { margin-left: 0; }
 }
 
 main.wrap { padding-bottom: 10px; }
+
+/* ══════════════════════════════════════════ editorial homepage
+   Three simultaneous jobs above the fold — what just happened, what is
+   coming, who was recognised. Blank space is not breathing room on an
+   athletics front page; it reads as a site with nothing to report. */
+.fh-front {
+  display: grid; grid-template-columns: minmax(0, 48fr) minmax(0, 27fr) minmax(0, 25fr);
+  gap: 22px; align-items: start; margin-top: 16px;
+}
+@media (max-width: 1040px) { .fh-front { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .fh-front-lead { grid-column: 1 / -1; } }
+@media (max-width: 700px) { .fh-front { grid-template-columns: 1fr; } }
+.fh-front > section > h2, .fh-mod > h3 {
+  font-family: var(--font-condensed); font-weight: 800; font-size: var(--fs-caption);
+  text-transform: uppercase; letter-spacing: var(--ls-caps); margin: 0 0 8px;
+  padding-bottom: 6px; border-bottom: var(--rule);
+}
+.fh-front-lead .fh-feature { min-height: 330px; }
+
+/* HeadlineList — headlines, not cards */
+.fh-hl { display: block; padding: 9px 0; border-bottom: var(--hairline); color: inherit; }
+.fh-hl:last-of-type { border-bottom: none; }
+.fh-hl:hover { text-decoration: none; }
+.fh-hl:hover .hd { color: var(--text-link); }
+.fh-hl .kk {
+  display: flex; gap: 6px; font-family: var(--font-label); font-size: 10px;
+  font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--brand-strong);
+}
+.fh-hl .kk .wh { color: var(--text-faint); }
+.fh-hl .kk .wh::before { content: "· "; }
+.fh-hl .hd { display: block; font-weight: 700; font-size: var(--fs-small); line-height: 1.3; margin: 2px 0; }
+.fh-hl .dt { font-size: var(--fs-micro); color: var(--text-muted); }
+
+/* EventRow — three lines, not six */
+.fh-evrow { position: relative; padding: 8px 0; border-bottom: var(--hairline); }
+.fh-evrow:last-of-type { border-bottom: none; }
+.fh-evrow .m { position: absolute; inset: 0; }
+.fh-evrow:hover { background: var(--surface-hover); }
+.fh-evrow .kk {
+  display: block; font-family: var(--font-label); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted);
+}
+.fh-evrow.final .kk { color: var(--accent-live); }
+.fh-evrow .ln { display: block; font-size: var(--fs-small); font-weight: 600; line-height: 1.35; }
+.fh-evrow .ln a { position: relative; z-index: 1; }
+.fh-evrow .dt { font-size: var(--fs-micro); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+/* the dense band under the ribbon */
+.fh-modrow { display: grid; gap: 18px; margin-top: 26px; }
+/* the member strip is identity, not content: compress it so the league's
+   editorial front starts inside the first viewport rather than under it */
+.fh-memberstrip.tight { max-height: 96px; overflow: hidden; padding-bottom: 4px; }
+.fh-memberstrip.tight .fh-member span { font-size: var(--fs-micro); }
+.fh-modrow.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fh-modrow.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.fh-modrow.n4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 940px) { .fh-modrow.n3, .fh-modrow.n4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .fh-modrow { grid-template-columns: 1fr !important; } }
+
+.fh-stline {
+  display: grid; grid-template-columns: 24px auto minmax(0, 1fr) auto;
+  align-items: center; gap: 7px; padding: 5px 0; font-size: var(--fs-small);
+  border-bottom: var(--hairline);
+}
+.fh-stline:last-child { border-bottom: none; }
+.fh-stline .rk { font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.fh-stline.first .nm { font-weight: 700; }
+.fh-stline .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fh-stline .tnum { color: var(--text-secondary); }
+
+.fh-spotrow { display: grid; grid-template-columns: auto 1fr; gap: 2px 9px; align-items: center; color: inherit; }
+.fh-spotrow:hover { text-decoration: none; }
+.fh-spotrow:hover .who { color: var(--text-link); }
+.fh-spotrow .fh-crest { grid-row: span 2; }
+.fh-spot .who { font-family: var(--font-display); font-weight: 800; font-size: 17px; line-height: 1.1; }
+.fh-spot .wh { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-spot .dk { margin: 8px 0 0; font-size: var(--fs-small); color: var(--text-secondary); line-height: 1.4; }
+
+.fh-award { display: block; padding: 7px 0; border-bottom: var(--hairline); color: inherit; }
+.fh-award:last-child { border-bottom: none; }
+.fh-award:hover { text-decoration: none; }
+.fh-award:hover .hd { color: var(--text-link); }
+.fh-award .lb {
+  font-family: var(--font-label); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--brand-strong);
+}
+.fh-award .hd { display: block; font-size: var(--fs-small); font-weight: 600; line-height: 1.32; }
+.fh-award .wh { font-size: var(--fs-micro); color: var(--text-muted); }
+
+.fh-chstat {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 8px;
+  align-items: center; padding: 7px 0; border-bottom: var(--hairline); color: inherit;
+}
+.fh-chstat:last-child { border-bottom: none; }
+.fh-chstat:hover { text-decoration: none; }
+.fh-chstat .fh-ic { grid-row: span 2; }
+.fh-chstat .nm { font-size: var(--fs-small); font-weight: 700; }
+.fh-chstat .st { font-size: var(--fs-micro); color: var(--text-muted); }
+.fh-chstat.in_progress .st { color: var(--accent-live); font-weight: 700; }
+
+.fh-ql { display: block; padding: 6px 0; border-bottom: var(--hairline); font-size: var(--fs-small); }
+.fh-ql:last-child { border-bottom: none; }
+.fh-ql b { display: block; font-size: var(--fs-micro); font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted); }
 
 /* ── persistent score rail ─────────────────────────────────────────────── */
 
@@ -1488,7 +1860,7 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
 .fh-livechip:hover { background: var(--surface-hover); text-decoration: none; }
 .fh-livechip .sp { font-weight: 700; font-size: var(--fs-small); }
 .fh-livechip .rd { font-size: 10px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 0.05em; color: var(--text-muted); }
+  letter-spacing: 0.05em; color: var(--accent-live); }
 
 .fh-champseason { margin-top: 30px; }
 .fh-champseason h2 { font-family: var(--font-display); font-weight: 800; font-size: 19px;
@@ -1504,7 +1876,8 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
   font-size: var(--fs-caption); letter-spacing: 0.02em; color: inherit;
   background: var(--surface-card); }
 .dvchip:hover { background: var(--surface-hover); text-decoration: none; }
-.dvchip.in_progress { background: var(--ink); color: var(--paper); }
+.dvchip.in_progress { background: var(--accent-live); border-color: var(--accent-live);
+  color: #fff; }
 .dvchip.upcoming { border-style: dashed; color: var(--text-secondary); }
 
 /* one sport's championships */
@@ -1578,3 +1951,17 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
 .fh-mast.compact .fh-mast-nav .fh-backassoc {
   font-weight: 800; color: var(--text-primary); margin-right: 4px;
 }
+
+/* product tour — one live link per page type */
+.fh-toursec { margin-top: 28px; }
+.fh-toursec h2 { font-family: var(--font-display); font-weight: 800; font-size: 18px;
+  margin: 0 0 4px; padding-bottom: 7px; border-bottom: var(--rule); }
+.fh-tourrow { display: grid; grid-template-columns: minmax(160px,240px) minmax(0,1fr) minmax(0,1.1fr);
+  gap: 4px 16px; align-items: baseline; padding: 9px 2px;
+  border-bottom: var(--hairline); color: inherit; }
+a.fh-tourrow:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-tourrow .lb { font-weight: 700; font-size: var(--fs-small); }
+.fh-tourrow .ex { color: var(--text-link); font-weight: 600; font-size: var(--fs-small); }
+.fh-tourrow .nt { color: var(--text-muted); font-size: var(--fs-caption); }
+.fh-tourrow.none .ex { color: var(--text-muted); font-style: italic; }
+@media (max-width: 700px) { .fh-tourrow { grid-template-columns: 1fr; } }

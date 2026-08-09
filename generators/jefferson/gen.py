@@ -26,9 +26,12 @@ sys.path.insert(0, str(ROOT))
 
 from app import records_io  # noqa: E402
 from app.shapes import (  # noqa: E402
-    Competitor, Dual, Entry, Event, Game, Line, Meet, Period, TeamScore, parse_mark,
+    LOWER_IS_BETTER, Competitor, Dual, Entry, Event, Game, Line, MarkType, Meet,
+    Period, TeamScore, parse_mark,
 )
-from app.sports import BY_KEY, CATALOG, CLASSES, Sport  # noqa: E402
+from app.sports import (  # noqa: E402
+    BY_KEY, CATALOG, CLASSES, Sport, meet_family, meet_scoring,
+)
 from generators.jefferson import names as N  # noqa: E402
 
 SEED = 5
@@ -49,6 +52,28 @@ OFFER_RANGE = {"7A": (24, 32), "6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
                "3A": (11, 15), "2A": (8, 12), "1A": (6, 10)}
 POOL = {"7A": 84, "6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
 
+#: State championship weekend for the MEET sports, by season. These mirror the
+#: bracket sports' finals in ``generators.jefferson.postseason``, so a title
+#: decided by a meet and one decided by a final are crowned the same weekend.
+#:
+#: Only fall used to get a championship date at all, which is why every winter
+#: meet title — swimming, skiing, bowling, gymnastics, spirit, winter track,
+#: debate — read as "upcoming" on a page dated the following MAY. Half the
+#: postseason was permanently pending because half of it was never scheduled.
+MEET_FINALS = {"fall": dt.date(2026, 11, 14), "winter": dt.date(2027, 2, 27),
+               "spring": dt.date(2027, 5, 22)}
+#: …and the late-spring exception, which keeps an unplayed championship in the
+#: state at the demo clock so "the field is set, nothing is contested" is a
+#: page the site actually has to render.
+LATE_SPRING_MEETS = {"boys-track", "girls-track"}
+LATE_SPRING_FINAL = dt.date(2027, 6, 12)
+
+
+def champ_date(sport) -> dt.date:
+    if sport.key in LATE_SPRING_MEETS:
+        return LATE_SPRING_FINAL
+    return MEET_FINALS[sport.season]
+
 AREAS = [
     ("Ashbury Metro", "metro"), ("Harborline", "coast"), ("South Coast", "coast"),
     ("Halbrook Basin", "metro"), ("Cascade Divide", "mountain"),
@@ -61,6 +86,36 @@ OUT_OF_STATE = ["Boise Vista (ID)", "Silver Sage (NV)", "Bidwell Grove (CA)",
 
 def slugify(t: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-") or "x"
+
+
+def _competition_ranks(values: list[float]) -> list[int]:
+    """Standard competition ranking over an already-sorted list: 1, 2, 2, 4.
+
+    Golf and bowling are scored in whole strokes and pinfall, so ties are not
+    an edge case — a 3A field of eighty had three golfers on 79 and printed
+    them as first, second and third. Equal marks share a place and the next
+    one skips, which is how every results sheet in the sport prints it.
+    """
+    out, last, place = [], None, 0
+    for i, v in enumerate(values, 1):
+        if v != last:
+            place, last = i, v
+        out.append(place)
+    return out
+
+
+def _flip_set(score: str) -> str:
+    """Turn a scoreline round: ``6-3, 7-6 (5)`` -> ``3-6, 6-7 (5)``.
+
+    A dual line is generated from the winner's point of view and then flipped
+    for the loser, which is the only way the printed score and the recorded
+    winner can be guaranteed to agree.
+    """
+    out = []
+    for part in score.split(","):
+        m = re.match(r"\s*(\d+)-(\d+)(.*)$", part)
+        out.append(f"{m.group(2)}-{m.group(1)}{m.group(3)}" if m else part.strip())
+    return ", ".join(out)
 
 
 class Gen:
@@ -376,20 +431,41 @@ class Gen:
 
     # ------------------------------------------------------------ people
     def pool(self, school):
+        """A school's student body: (name, grade, gender).
+
+        Gender is carried on the person, not decided at the point of use, so
+        one student is one student — the same Marisol Okafor can appear in
+        girls cross country in October and girls track in April, and can never
+        turn up in a boys wrestling dual.
+        """
         if school not in self.pools:
             rng = self.rng
             n = POOL[self.by_name[school]["classification"]]
-            self.pools[school] = [
-                (f"{rng.choice(N.FIRST_NAMES)} {rng.choice(N.LAST_NAMES)}",
-                 str(rng.randint(9, 12)))
-                for _ in range(n)
-            ]
+            people = []
+            for _ in range(n):
+                gender = "Boys" if rng.random() < 0.5 else "Girls"
+                if rng.random() < 0.10:
+                    first = rng.choice(N.UNISEX_FIRST)
+                else:
+                    first = rng.choice(N.BOYS_FIRST if gender == "Boys"
+                                       else N.GIRLS_FIRST)
+                people.append((f"{first} {rng.choice(N.LAST_NAMES)}",
+                               str(rng.randint(9, 12)), gender))
+            self.pools[school] = people
         return self.pools[school]
 
     def roster(self, school, sport_key, size):
+        """The eligible students for one team, stable for the season.
+
+        A Boys sport draws from the boys in the pool and a Girls sport from
+        the girls; Coed activities (bowling, debate, winter track, ultimate)
+        draw from everyone, which is what "coed" means and is visible on the
+        page as a mixed field.
+        """
         key = (school, sport_key)
         if key not in self.rosters:
-            pool = self.pool(school)
+            want = BY_KEY[sport_key].gender if sport_key in BY_KEY else "Coed"
+            pool = [p for p in self.pool(school) if want == "Coed" or p[2] == want]
             self.rosters[key] = self.rng.sample(pool, min(size, len(pool)))
         return self.rosters[key]
 
@@ -462,27 +538,90 @@ class Gen:
         self.contests.append(g)
         return g
 
+    #: The lines a dual actually runs, by sport. Everything that was not
+    #: tennis or wrestling used to fall through to the fencing card, so girls
+    #: badminton was contested at foil, épée and sabre — a whole sport played
+    #: with the wrong equipment, in every one of its duals. A dual card is
+    #: sport-specific data, not an else branch.
+    DUAL_CARDS = {
+        "tennis": [("singles", 6), ("doubles", 3)],
+        # NFHS runs fourteen weight classes. Eight was a card nobody sponsors.
+        "wrestling": [(w, 1) for w in ("106", "113", "120", "126", "132", "138",
+                                       "144", "150", "157", "165", "175", "190",
+                                       "215", "285")],
+        "fencing": [("foil", 3), ("épée", 3), ("sabre", 3)],
+        "badminton": [("singles", 3), ("doubles", 2)],
+    }
+
+    def dual_card(self, sport: Sport):
+        for fam, card in self.DUAL_CARDS.items():
+            if fam in sport.key:
+                return card
+        return self.DUAL_CARDS["tennis"]
+
+    def line_score(self, sport: Sport, rng, home_wins: bool):
+        """The printed score for one line, and what it is worth.
+
+        Written from the WINNER's side and then flipped if the away side won.
+        Generating "6-3, 7-6" and separately deciding the away player won
+        published a scoreline that contradicted its own result on every tennis,
+        fencing and badminton line in the state — the kind of wrong that is
+        invisible in aggregate and obvious on the one page someone reads.
+        """
+        if "wrestling" in sport.key:
+            # The bout score is conventionally printed winner-first, so it does
+            # not flip; the decision type is what sets the team points.
+            kind = rng.choices(["Fall", "Dec", "Maj", "Tech", "Forfeit"],
+                               [26, 46, 16, 8, 4])[0]
+            score = {
+                "Fall": f"Fall {rng.randint(0, 5)}:{rng.randint(10, 59):02d}",
+                "Dec": f"Dec {rng.randint(4, 12)}-{rng.randint(0, 3)}",
+                "Maj": f"Maj {rng.randint(10, 18)}-{rng.randint(0, 5)}",
+                "Tech": f"TF {rng.randint(16, 22)}-{rng.randint(0, 5)}",
+                "Forfeit": "Forfeit",
+            }[kind]
+            return score, {"Fall": 6.0, "Dec": 3.0, "Maj": 4.0,
+                           "Tech": 5.0, "Forfeit": 6.0}[kind]
+
+        if "tennis" in sport.key:
+            def set_score():
+                return rng.choices([f"6-{rng.randint(0, 4)}", "7-5", "7-6 (5)",
+                                    f"7-6 ({rng.randint(2, 8)})"],
+                                   [70, 12, 9, 9])[0]
+            sets = [set_score(), set_score()]
+            if rng.random() < 0.18:            # a third set, and it can be a tiebreak
+                sets = [set_score(), _flip_set(set_score()),
+                        rng.choice([set_score(), f"10-{rng.randint(4, 8)}"])]
+            score = ", ".join(sets)
+        elif "badminton" in sport.key:
+            games = [f"21-{rng.randint(9, 19)}", f"21-{rng.randint(9, 19)}"]
+            if rng.random() < 0.25:
+                games = [games[0], _flip_set(games[1]),
+                         f"21-{rng.randint(12, 19)}"]
+            score = ", ".join(games)
+        else:                                   # fencing: bouts to five touches
+            score = f"5-{rng.randint(0, 4)}"
+        return (score if home_wins else _flip_set(score)), 1.0
+
     def make_dual(self, sport: Sport, home, away, date, played, round_name=None):
         rng = self.rng
         name = f"{away} at {home}" if not round_name else f"{away} at {home} — {round_name}"
         d = Dual(name=name, date=date.isoformat(), sport=sport.key, season=SEASON,
                  home=home, away=away)
         if played and rng.random() < 0.985:
-            if "tennis" in sport.key:
-                slots = [("singles", 4), ("doubles", 3)]
-            elif "wrestling" in sport.key:
-                slots = [("106", 1), ("120", 1), ("132", 1), ("145", 1),
-                         ("160", 1), ("182", 1), ("220", 1), ("285", 1)]
-            else:  # fencing
-                slots = [("foil", 3), ("épée", 3), ("sabre", 3)]
-            hr = self.roster(home, sport.key, 12)
-            ar = self.roster(away, sport.key, 12) if away in self.by_name else []
+            slots = self.dual_card(sport)
+            hr = self.roster(home, sport.key, 16)
+            ar = self.roster(away, sport.key, 16) if away in self.by_name else []
+            if not hr:
+                self.contests.append(d)
+                return d
             hp = ap = 0.0
-            slot_i = 0
             hi = ai = 0
             for kind, count in slots:
-                for _ in range(count):
-                    slot_i += 1
+                # Flights are numbered WITHIN their kind — Singles 1-6 then
+                # Doubles 1-3, the way a match card prints them. A running
+                # index made the third doubles court "Doubles 9".
+                for flight in range(1, count + 1):
                     n_players = 2 if kind == "doubles" else 1
                     hp_players = [Competitor(hr[(hi + k) % len(hr)][0], home, hr[(hi + k) % len(hr)][1]) for k in range(n_players)]
                     hi += n_players
@@ -493,23 +632,12 @@ class Gen:
                         ap_players = []
                     home_wins = rng.random() < 0.5 + (self.strength(home, sport.key) -
                                 (self.strength(away, sport.key) if away in self.by_name else 0)) * 0.15
-                    if "tennis" in sport.key:
-                        score = f"6-{rng.randint(0,4)}, {rng.choice(['6-'+str(rng.randint(0,4)), '7-5', '7-6'])}"
-                        pt = 1.0
-                    elif "wrestling" in sport.key:
-                        kindres = rng.choice(["Fall", "Dec", "Maj"])
-                        score = {"Fall": f"Fall {rng.randint(0,5)}:{rng.randint(10,59)}",
-                                 "Dec": f"Dec {rng.randint(4,12)}-{rng.randint(0,3)}",
-                                 "Maj": f"Maj {rng.randint(10,18)}-{rng.randint(0,5)}"}[kindres]
-                        pt = {"Fall": 6.0, "Dec": 3.0, "Maj": 4.0}[kindres]
-                    else:
-                        score = f"5-{rng.randint(0,4)}"
-                        pt = 1.0
+                    score, pt = self.line_score(sport, rng, home_wins)
                     if home_wins:
                         hp += pt
                     else:
                         ap += pt
-                    d.lines.append(Line(slot=slot_i, kind=kind, home=hp_players,
+                    d.lines.append(Line(slot=flight, kind=kind, home=hp_players,
                                         away=ap_players, winner="home" if home_wins else "away",
                                         score=score, team_point=pt))
             d.home_points, d.away_points = hp, ap
@@ -638,35 +766,154 @@ class Gen:
                 date = date + dt.timedelta(days=7)
 
     # -------------------------------------------------------------- meets
+    #
+    # A meet's EVENT CARD, by sport family. Each event is
+    #
+    #     (name, entries per school, low, high, mark kind, relay?)
+    #
+    # ``entries per school`` of 0 means the SCHOOL is the entrant — a band
+    # show, a cheer routine, a choir performance have no individual result.
+    # A mark kind of ``None`` takes the sport's own; a card can mix them,
+    # which is how one swim meet holds eleven races and a diving competition
+    # judged in points, and one track meet holds races, throws and jumps.
+    # ``combined`` is a DERIVED event: an all-around, a band total. Its band
+    # is ignored and its value is the sum of the entrant's marks in the
+    # events above it, so a gymnast's all-around always equals her four
+    # apparatus scores added up.
+    #
+    # Bands are in the mark's own units: seconds, INCHES for a distance or a
+    # height, and the printed number for strokes, pinfall, points, ratings.
+    #
+    # These cards used to be one event each for nine of the twelve families —
+    # a bowling "meet" was a single line per school, a gymnastics meet had no
+    # apparatus, a swim meet ran six events and no diving. MEET is the shape
+    # this whole model exists to carry, so a one-event meet is the flagship
+    # case failing quietly.
     MEET_EVENTS = {
-        "cross-country": [("5,000 Meter Run", 5, (930, 1380))],
-        "boys-golf": [("18 Holes", 4, (68, 108))],
-        "girls-golf": [("18 Holes", 4, (68, 108))],
-        "mountain-biking": [("Varsity Race", 4, (3600, 5400))],
-        "swimming": [("200 Medley Relay", 0, (105, 135)), ("200 Freestyle", 2, (105, 150)),
-                     ("50 Freestyle", 2, (22, 32)), ("100 Butterfly", 2, (55, 75)),
-                     ("100 Freestyle", 2, (48, 68)), ("500 Freestyle", 2, (290, 400))],
-        "alpine-skiing": [("Giant Slalom", 4, (58, 80))],
-        "nordic-skiing": [("5K Classic", 4, (840, 1200))],
-        "bowling": [("3-Game Series", 5, (420, 720))],
-        "gymnastics": [("All-Around", 4, (30.0, 38.5))],
-        "competitive-spirit": [("Game Day Routine", 0, (62.0, 94.0))],
-        "winter-track": [("60 Meter Dash", 3, (7.0, 8.6)), ("400 Meter Dash", 3, (50, 68)),
-                         ("1600 Meter Run", 3, (260, 340))],
+        "cross-country": [
+            ("5,000 Meter Run", 7, 930, 1380, None, False),
+        ],
+        "golf": [
+            ("18 Holes", 5, 68, 108, None, False),
+        ],
+        "mountain-biking": [
+            ("Varsity Race", 3, 3600, 5400, None, False),
+            ("Junior Varsity Race", 3, 3800, 5700, None, False),
+            ("Freshman Race", 3, 4000, 6000, None, False),
+        ],
+        "swimming": [
+            ("200 Yard Medley Relay", 1, 105, 135, None, True),
+            ("200 Yard Freestyle", 2, 105, 150, None, False),
+            ("200 Yard IM", 2, 118, 165, None, False),
+            ("50 Yard Freestyle", 2, 22, 32, None, False),
+            ("1 Meter Diving", 1, 180, 460, "points", False),
+            ("100 Yard Butterfly", 2, 55, 75, None, False),
+            ("100 Yard Freestyle", 2, 48, 68, None, False),
+            ("500 Yard Freestyle", 2, 290, 400, None, False),
+            ("200 Yard Freestyle Relay", 1, 96, 118, None, True),
+            ("100 Yard Backstroke", 2, 56, 80, None, False),
+            ("100 Yard Breaststroke", 2, 62, 88, None, False),
+            ("400 Yard Freestyle Relay", 1, 212, 262, None, True),
+        ],
+        "alpine-skiing": [
+            ("Giant Slalom", 4, 58, 80, None, False),
+            ("Slalom", 4, 48, 68, None, False),
+        ],
+        "nordic-skiing": [
+            ("5K Classic", 4, 840, 1200, None, False),
+            ("5K Freestyle", 4, 780, 1120, None, False),
+        ],
+        "bowling": [
+            ("Game 1", 5, 120, 235, None, False),
+            ("Game 2", 5, 120, 235, None, False),
+            ("Game 3", 5, 120, 235, None, False),
+        ],
+        "gymnastics": [
+            ("Vault", 4, 8.0, 9.8, None, False),
+            ("Uneven Bars", 4, 7.3, 9.7, None, False),
+            ("Balance Beam", 4, 7.4, 9.7, None, False),
+            ("Floor Exercise", 4, 8.0, 9.85, None, False),
+            ("All-Around", 4, 0, 0, "combined", False),
+        ],
+        "competitive-spirit": [
+            ("Game Day Routine", 0, 62.0, 94.0, None, False),
+            ("Traditional Routine", 0, 60.0, 96.0, None, False),
+        ],
+        "track": [
+            ("100 Meter Dash", 2, 10.9, 12.6, None, False),
+            ("200 Meter Dash", 2, 22.1, 26.4, None, False),
+            ("400 Meter Dash", 2, 49.4, 59.8, None, False),
+            ("800 Meter Run", 2, 116.0, 142.0, None, False),
+            ("1600 Meter Run", 2, 258.0, 320.0, None, False),
+            ("3200 Meter Run", 2, 560.0, 700.0, None, False),
+            ("110 Meter Hurdles", 2, 14.6, 18.4, None, False),
+            ("300 Meter Hurdles", 2, 39.2, 48.6, None, False),
+            ("4x100 Meter Relay", 1, 43.1, 48.9, None, True),
+            ("4x400 Meter Relay", 1, 205.0, 232.0, None, True),
+            ("4x800 Meter Relay", 1, 490.0, 560.0, None, True),
+            ("Shot Put", 2, 420.0, 660.0, "distance", False),
+            ("Discus", 2, 1200.0, 2000.0, "distance", False),
+            ("Javelin", 2, 1400.0, 2300.0, "distance", False),
+            ("High Jump", 2, 60.0, 78.0, "height", False),
+            ("Long Jump", 2, 232.0, 290.0, "distance", False),
+            ("Triple Jump", 2, 460.0, 580.0, "distance", False),
+            ("Pole Vault", 2, 108.0, 174.0, "height", False),
+        ],
+        "winter-track": [
+            ("55 Meter Dash", 2, 6.5, 8.0, None, False),
+            ("55 Meter Hurdles", 2, 7.9, 10.2, None, False),
+            ("200 Meter Dash", 2, 23.2, 27.5, None, False),
+            ("400 Meter Dash", 2, 51.5, 62.0, None, False),
+            ("800 Meter Run", 2, 120.0, 148.0, None, False),
+            ("1600 Meter Run", 2, 268.0, 330.0, None, False),
+            ("3200 Meter Run", 2, 580.0, 720.0, None, False),
+            ("4x200 Meter Relay", 1, 95.0, 112.0, None, True),
+            ("4x400 Meter Relay", 1, 210.0, 240.0, None, True),
+            ("4x800 Meter Relay", 1, 500.0, 580.0, None, True),
+            ("Shot Put", 2, 400.0, 620.0, "distance", False),
+            ("High Jump", 2, 58.0, 76.0, "height", False),
+            ("Long Jump", 2, 225.0, 285.0, "distance", False),
+            ("Triple Jump", 2, 450.0, 570.0, "distance", False),
+            ("Pole Vault", 2, 105.0, 165.0, "height", False),
+        ],
         # Activities: same MEET machinery, marks that match how each is judged.
-        # A band show is scored by a judging panel; a choir earns a division
+        # A band show is scored by caption panels; a choir earns a division
         # RATING (I best); debate is pure placement. No invented box scores.
-        "marching-band": [("Field Show", 0, (58.0, 96.0))],
-        "choir": [("Concert Choir", 0, (1.0, 4.0)), ("Chamber Ensemble", 0, (1.0, 4.0))],
-        "debate": [("Policy Debate", 2, (1.0, 30.0)), ("Lincoln-Douglas", 2, (1.0, 30.0)),
-                   ("Public Forum", 2, (1.0, 30.0))],
+        "marching-band": [
+            ("Music Performance", 0, 15.0, 24.0, None, False),
+            ("Visual Performance", 0, 14.0, 23.5, None, False),
+            ("General Effect", 0, 26.0, 38.0, None, False),
+            ("Total Score", 0, 0, 0, "combined", False),
+        ],
+        "choir": [
+            ("Concert Choir", 0, 1.0, 4.0, None, False),
+            ("Chamber Ensemble", 0, 1.0, 4.0, None, False),
+            ("Sight-Reading", 0, 1.0, 4.0, None, False),
+        ],
+        "debate": [
+            ("Policy Debate", 2, 1.0, 30.0, None, False),
+            ("Lincoln-Douglas", 2, 1.0, 30.0, None, False),
+            ("Public Forum", 2, 1.0, 30.0, None, False),
+            ("Congressional Debate", 2, 1.0, 30.0, None, False),
+            ("Extemporaneous Speaking", 2, 1.0, 30.0, None, False),
+        ],
     }
 
+    #: The team-scoring rule lives with the CATALOG (`app.sports.MEET_SCORING`),
+    #: not here: the renderer needs the same table to label the column, and a
+    #: golf team's 326 under a header reading "Points" is the page contradicting
+    #: itself. This module computes; that one names.
+
+    #: Place points for a scored meet; a relay is worth double.
+    PLACE_POINTS = (10, 8, 6, 5, 4, 3, 2, 1)
+
+    #: Girls' marks are slower and shorter than boys'. One factor per mark kind
+    #: beats a second copy of every band, which would drift out of step.
+    GIRLS_FACTOR = {"time": 1.12, "distance": 0.78, "height": 0.84}
+
     def meet_family(self, key):
-        for fam in self.MEET_EVENTS:
-            if fam in key:
-                return self.MEET_EVENTS[fam]
-        return self.MEET_EVENTS["cross-country"]
+        fam = meet_family(key)
+        return fam, self.MEET_EVENTS[fam]
 
     def fmt_time(self, secs: float, decimals=1) -> str:
         if secs < 60:
@@ -674,60 +921,193 @@ class Gen:
         m, s = divmod(secs, 60)
         return f"{int(m)}:{s:04.1f}" if decimals else f"{int(m)}:{int(s):02d}"
 
+    @staticmethod
+    def fmt_mark(val: float, kind: str) -> str:
+        """A mark as its sport prints it: 12.44, 2:05.44, 45-11.25, 5-04.00."""
+        if kind == "time":
+            return Gen.fmt_time_static(val)
+        if kind in ("distance", "height"):
+            feet, inches = int(val // 12), val % 12
+            return f"{feet}-{inches:05.2f}" if kind == "height" else f"{feet}-{inches:.2f}"
+        if kind in ("strokes", "pinfall"):
+            return str(int(round(val)))
+        if kind == "rating":
+            return ["I", "II", "III", "IV"][min(3, max(0, int(round(val)) - 1))]
+        return f"{val:.2f}"
+
+    @staticmethod
+    def fmt_time_static(secs: float) -> str:
+        if secs < 60:
+            return f"{secs:.2f}"
+        return f"{int(secs // 60)}:{secs % 60:05.2f}"
+
     def make_meet(self, sport: Sport, name, host, date, participants, played):
         rng = self.rng
         meet = Meet(name=name, date=date.isoformat(), sport=sport.key, season=SEASON,
                     venue=host, host=host)
         if played:
+            fam, card = self.meet_family(sport.key)
+            rule = meet_scoring(sport.key)[0]
             incomplete = rng.random() < 0.02
-            for num, (evname, per_school, rng_range) in enumerate(self.meet_family(sport.key), 1):
+            # One squad per school for the whole meet, so the gymnast on beam
+            # is the gymnast on bars and an all-around can be added up. Track
+            # and swimming draw per event instead — a sprinter is not the
+            # two-miler, and a card where one athlete wins all eighteen events
+            # is the tell that nobody modelled the sport.
+            squads = {s: self.roster(s, sport.key, 22) for s in participants}
+            fixed = fam not in ("track", "winter-track", "swimming", "debate")
+            # (school, athlete or None) -> running total, for the combined
+            # event. Keyed on None for an ensemble, whose entrant is the school.
+            running: dict[tuple, float] = {}
+            combined: list[str] = []
+            for num, (evname, per_school, lo, hi, kind, relay) in enumerate(card, 1):
+                kind = kind or sport.mark_type.value
+                mark_type = MarkType(kind) if kind != "combined" else sport.mark_type
                 ev = Event(number=num, name=evname, gender=sport.gender,
-                           division=None, round="Finals", mark_type=sport.mark_type)
-                lo, hi = rng_range
+                           division=None, round="Finals", mark_type=mark_type)
+                if kind == "combined":
+                    combined.append(evname)
+                    self._combined_event(ev, running, rule == "place-points")
+                    meet.events.append(ev)
+                    continue
+                if sport.gender == "Girls" and kind in self.GIRLS_FACTOR:
+                    f = self.GIRLS_FACTOR[kind]
+                    lo, hi = lo * f, hi * f
+                low_good = MarkType(kind) in LOWER_IS_BETTER
                 rows = []
                 for school in participants:
                     st = self.strength(school, sport.key)
-                    n = per_school or 1
-                    roster = self.roster(school, sport.key, 10) if per_school else []
-                    for k in range(n):
-                        base = (lo + hi) / 2 - st * (hi - lo) * 0.08 + rng.gauss(0, (hi - lo) * 0.07)
+                    squad = squads.get(school) or []
+                    n = max(per_school, 1)
+                    if per_school and not squad:
+                        continue
+                    if per_school:
+                        who = (squad[:n] if fixed
+                               else rng.sample(squad, min(n, len(squad))))
+                    else:
+                        who = [None] * n
+                    for k, person in enumerate(who):
+                        base = ((lo + hi) / 2 - st * (hi - lo) * 0.08
+                                + rng.gauss(0, (hi - lo) * 0.07))
                         val = min(hi, max(lo, base))
-                        if sport.lower_is_better is False and sport.mark_type.value in ("points", "pinfall"):
-                            val = lo + hi - val  # reflect: strong teams score high
-                        comp = []
-                        if roster:
-                            p = roster[k % len(roster)]
-                            comp = [Competitor(p[0], school, p[1])]
-                        if sport.mark_type.value == "time":
-                            raw = self.fmt_time(val)
-                        elif sport.mark_type.value in ("strokes", "pinfall"):
-                            raw = str(int(val))
-                        elif sport.mark_type.value == "rating":
-                            raw = ["I", "II", "III", "IV"][min(3, int(val) - 1)]
+                        if kind == "rating":
+                            # An adjudicated rating is four boxes, not a
+                            # continuum. Squeezed through the generic draw
+                            # every choir in the state earned a II.
+                            val = min(4.4, max(0.6, 2.3 - st * 0.6 + rng.gauss(0, 0.85)))
+                        elif not low_good:
+                            val = lo + hi - val   # reflect: strong teams score high
+                        # Snap to the precision the mark PRINTS at, before it
+                        # is ranked or added. Ranking the continuous draw made
+                        # three golfers on 79 finish first, second and third,
+                        # and left a band total a hundredth off the captions
+                        # it was the sum of.
+                        val = (round(val) if kind in ("strokes", "pinfall", "rating")
+                               else round(val, 2))
+                        if relay:
+                            # Each relay gets its OWN four legs. Slicing from
+                            # the top of the squad every time entered the same
+                            # four swimmers in the medley, the 200 free and the
+                            # 400 free relay.
+                            legs = squad[num * 4 % max(len(squad), 1):][:4] or squad[:4]
+                            comp = [Competitor(p[0], school, p[1]) for p in legs]
+                        elif person is not None:
+                            comp = [Competitor(person[0], school, person[1])]
                         else:
-                            raw = f"{val:.2f}"
-                        rows.append((val, school, comp, raw))
-                better_low = sport.lower_is_better or sport.mark_type.value in ("time", "strokes")
-                rows.sort(key=lambda r: r[0] if better_low else -r[0])
-                for place, (val, school, comp, raw) in enumerate(rows, 1):
-                    if sport.mark_type.value == "ordinal":
-                        raw = str(place)     # debate's mark IS the placement
-                    mark = parse_mark(raw, sport.mark_type)
+                            comp = []
+                        who_key = person[0] if person is not None else None
+                        running[(school, who_key)] = \
+                            running.get((school, who_key), 0.0) + val
+                        rows.append((val, school, comp))
+                rows.sort(key=lambda r: r[0] if low_good else -r[0])
+                places = _competition_ranks([r[0] for r in rows])
+                for place, (val, school, comp) in zip(places, rows):
+                    raw = (str(place) if kind == "ordinal"
+                           else self.fmt_mark(val, kind))
+                    mark = parse_mark(raw, mark_type)
                     if incomplete and rng.random() < 0.15:
                         mark = None
-                    ev.entries.append(Entry(place=place, school=school, mark=mark,
-                                            competitors=comp))
+                    ev.entries.append(Entry(
+                        place=place, school=school, mark=mark, competitors=comp,
+                        points=(self.place_points(place, relay)
+                                if rule == "place-points" else None)))
                 meet.events.append(ev)
-            # derived team scores: sum of places of a school's best entries (low good)
-            totals: dict[str, float] = {}
-            for ev in meet.events:
-                for e in ev.entries:
-                    totals[e.school] = totals.get(e.school, 0) + (e.place or 0)
-            ranked = sorted(totals.items(), key=lambda kv: kv[1])
-            for rank, (school, pts) in enumerate(ranked, 1):
-                meet.team_scores.append(TeamScore(school=school, points=pts, rank=rank,
-                                                  gender=sport.gender, division=None))
+            self.score_meet(meet, sport, combined)
         self.contests.append(meet)
+
+    @classmethod
+    def place_points(cls, place: int, relay: bool) -> float | None:
+        if place > len(cls.PLACE_POINTS):
+            return None
+        return float(cls.PLACE_POINTS[place - 1] * (2 if relay else 1))
+
+    def _combined_event(self, ev: Event, running: dict, award_points: bool):
+        """An all-around or a band total: the entrant's own marks, added.
+
+        Derived rather than drawn, so the number on the all-around line always
+        equals the four apparatus above it. A separate draw would put a gymnast
+        third on every apparatus and seventh in the all-around.
+        """
+        rows = sorted(running.items(), key=lambda kv: -kv[1])
+        places = _competition_ranks([-v for _, v in rows])
+        for place, ((school, who), total) in zip(places, rows):
+            comp = [Competitor(who, school, None)] if who else []
+            ev.entries.append(Entry(place=place, school=school,
+                                    mark=parse_mark(f"{total:.2f}", ev.mark_type),
+                                    competitors=comp,
+                                    points=(self.place_points(place, False)
+                                            if award_points else None)))
+
+    def score_meet(self, meet: Meet, sport: Sport, combined: list[str]):
+        """Derive the team result. Never drawn — always read off the entries.
+
+        Scoring is **per event and then summed**, for every rule. Pooling a
+        school's places across the whole card let one alpine skier who won both
+        the giant slalom and the slalom count twice toward a three-runner team
+        score, which put his school on 6 points for a two-race meet.
+        """
+        rule, count, _label = meet_scoring(sport.key)
+        scored = [ev for ev in meet.events
+                  if ev.entries and ev.name not in combined]
+        totals: dict[str, float] = {}
+        complete: dict[str, int] = {}
+        low_wins = rule == "places" or (rule == "best-marks"
+                                        and sport.mark_type in LOWER_IS_BETTER)
+
+        for ev in scored:
+            per: dict[str, list[float]] = {}
+            for e in ev.entries:
+                if e.mark is None:
+                    continue
+                if rule == "places" and e.place:
+                    per.setdefault(e.school, []).append(float(e.place))
+                elif rule == "best-marks" and e.mark.value is not None:
+                    per.setdefault(e.school, []).append(e.mark.value)
+                elif rule == "place-points" and e.points:
+                    totals[e.school] = totals.get(e.school, 0.0) + e.points
+            for school, vals in per.items():
+                # A team that could not field `count` scorers does not score
+                # the event — which is what an incomplete cross-country team is,
+                # and why a five-runner sport needs five runners.
+                if rule == "places" and len(vals) < count:
+                    continue
+                vals.sort(reverse=not low_wins)
+                totals[school] = totals.get(school, 0.0) + sum(vals[:count])
+                complete[school] = complete.get(school, 0) + 1
+
+        if rule != "place-points":
+            # Only schools that scored every event get a team result; a golf
+            # team that played one round of a three-round card is not leading.
+            full = max(complete.values(), default=0)
+            totals = {s: v for s, v in totals.items() if complete.get(s) == full}
+
+        ranked = sorted(totals.items(), key=lambda kv: (kv[1] if low_wins else -kv[1],
+                                                        kv[0]))
+        ranks = _competition_ranks([(v if low_wins else -v) for _, v in ranked])
+        for rank, (school, pts) in zip(ranks, ranked):
+            meet.team_scores.append(TeamScore(school=school, points=round(pts, 2),
+                                              rank=rank, gender=sport.gender,
+                                              division=None))
 
     def meet_sport_season(self, sport: Sport, invite_dates, champ_date=None):
         rng = self.rng
@@ -929,9 +1309,8 @@ class Gen:
                     sport, dates,
                     playoffs_start=fall_playoffs if sport.season == "fall" else None)
             else:
-                self.meet_sport_season(
-                    sport, invites,
-                    champ_date=dt.date(2026, 10, 31) if sport.season == "fall" else None)
+                self.meet_sport_season(sport, invites,
+                                       champ_date=champ_date(sport))
         self.rng = base
 
         # emit

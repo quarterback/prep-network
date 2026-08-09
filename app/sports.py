@@ -126,5 +126,53 @@ CATALOG: list[Sport] = [
 BY_KEY: dict[str, Sport] = {s.key: s for s in CATALOG}
 
 
+#: How a MEET sport derives its TEAM result, keyed by sport family:
+#: ``(rule, how many count, what the column is called)``.
+#:
+#:   places       add the school's best N finishing PLACES in each event. Low
+#:                wins. Cross country, and the racing sports that score the
+#:                same way.
+#:   best-marks   add the school's best N MARKS in each event: strokes, pinfall,
+#:                judged points, adjudicated ratings. Direction follows the mark.
+#:   place-points 10-8-6-5-4-3-2-1 by place, a relay worth double. High wins.
+#:
+#: This lives with the catalog rather than in the generator because both sides
+#: need it: the generator computes the score and the renderer labels the
+#: column. Split across the two, a golf team's 326 gets a header reading
+#: "Points" and the page contradicts itself.
+MEET_SCORING: dict[str, tuple[str, int, str]] = {
+    "cross-country": ("places", 5, "Points"),
+    "alpine-skiing": ("places", 3, "Points"),
+    "nordic-skiing": ("places", 3, "Points"),
+    "mountain-biking": ("places", 4, "Points"),
+    "golf": ("best-marks", 4, "Strokes"),
+    "bowling": ("best-marks", 4, "Pinfall"),
+    "gymnastics": ("best-marks", 3, "Score"),
+    "competitive-spirit": ("best-marks", 1, "Score"),
+    "marching-band": ("best-marks", 1, "Score"),
+    "choir": ("best-marks", 1, "Rating"),
+    "swimming": ("place-points", 0, "Points"),
+    "winter-track": ("place-points", 0, "Points"),
+    "track": ("place-points", 0, "Points"),
+    "debate": ("place-points", 0, "Points"),
+}
+
+
+def meet_family(sport_key: str) -> str:
+    """The scoring/event family a MEET sport belongs to.
+
+    ``winter-track`` is checked first: "track" is a substring of both, and the
+    loose match hands a February meet the outdoor card — javelin, indoors.
+    """
+    for fam in ("winter-track", *MEET_SCORING):
+        if fam in sport_key:
+            return fam
+    return "cross-country"
+
+
+def meet_scoring(sport_key: str) -> tuple[str, int, str]:
+    return MEET_SCORING[meet_family(sport_key)]
+
+
 def champ_group(sport_key: str, classification: str) -> str:
     return BY_KEY[sport_key].champ_group(classification)
