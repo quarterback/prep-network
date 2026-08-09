@@ -512,7 +512,7 @@ def shell(title, body, crumb="", back="", story=None, org=False):
     <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
     <span class="fh-season">{ASSOC} · {SEASON_LABEL}</span>
     <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"
-            title="Varsity — prussian · amber · flag red (default)"></button>
+            title="Varsity — mint · sea green · amber · pitch black (default)"></button>
     <button class="fh-swatch" data-theme-choice="bloom" aria-pressed="false" aria-label="Bloom scheme"
             title="Bloom — lavender · petal · plum"></button>
     <button class="fh-swatch" data-theme-choice="meadow" aria-pressed="false" aria-label="Meadow scheme"
@@ -523,8 +523,8 @@ def shell(title, body, crumb="", back="", story=None, org=False):
             title="Harbor — dark teal · peach · red"></button>
     <button class="fh-swatch" data-theme-choice="citrus" aria-pressed="false" aria-label="Citrus scheme"
             title="Citrus — aqua · beige · pumpkin"></button>
-    <button class="fh-swatch" data-theme-choice="pitch" aria-pressed="false" aria-label="Pitch scheme"
-            title="Pitch — mint · sea green · amber · black"></button>
+    <button class="fh-swatch" data-theme-choice="apex" aria-pressed="false" aria-label="Apex scheme"
+            title="Apex — prussian · amber · flag red"></button>
     <a class="fh-socialink" href="{BSKY_URL}" target="_blank" rel="noopener"
        aria-label="VarsityApex on Bluesky">{icons.bsky()}</a>
   </nav>
@@ -565,6 +565,7 @@ def shell(title, body, crumb="", back="", story=None, org=False):
   }});
   var t = null;
   try {{ t = localStorage.getItem("fh-theme"); }} catch (e) {{}}
+  if (t === "pitch") t = "";     // that palette became the default scheme
   if (t) apply(t);
 }})();
 </script>

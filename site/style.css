@@ -46,68 +46,67 @@
   font-display: swap; src: url('fonts/azeret-mono-variable.woff2') format('woff2'); }
 
 :root {
-  /* ---- palette slots (owner scheme 2027-08) ----
-     prussian-blue #0a122a · amber-honey #e8aa14 · bright-snow #fbfaf8 ·
-     flag-red #db162f · steel-blue #2c80b5.
-     Derived tones stay on the palette's four hues (216 / 43 / 353 / 203).
+  /* ---- palette slots (owner scheme 2027-08b — "this one i think") ----
+     mint-cream #eaf2ef · olive-wood #7e6551 · sea-green #00916e ·
+     bright-amber #ffcf00 · pitch-black #0d090a.
+     Derived tones stay on the palette's hues (158 / 27 / 166 / 49 / 345).
 
-     Unlike the placeholder it replaces, this is an INK + PAPER + three
-     accents scheme rather than two grounds and three tints, so the slots
-     carry pale mixes of the accents and the accents themselves are named.
-
-     Measured against bright-snow, which decides where each may be used:
-       prussian 17.8:1  body copy, rules, mastheads — the ink
-       flag-red  4.8:1  AA at body size; the live/alert accent
-       steel     4.1:1  large text only, so LINKS use it a shade darker
-       amber     2.0:1  FILL AND BORDER ONLY. Amber is never text on paper.
-                        On prussian it is 9.0:1 and can be read.
+     Measured against mint-cream, which decides where each may be used:
+       pitch    17.4:1  body copy, rules, mastheads — the ink
+       olive     4.8:1  the ONE accent that passes AA at body size, so it
+                        takes the secondary-text role
+       sea       3.5:1  accent details at full strength; LINKS take it
+                        darkened to 24% lightness (4.7:1)
+       amber     1.3:1  FILL AND BORDER ONLY. Amber is never text on mint.
+                        On pitch it is 13.4:1 and can be read.
      A palette applied without that table is a palette applied to a page
      nobody can read the middle of. */
-  --prussian: #0a122a;
-  --amber: #e8aa14;
-  --snow: #fbfaf8;
-  --flag: #db162f;
-  --steel: #2c80b5;
+  --mint: #eaf2ef;
+  --olive: #7e6551;
+  --sea: #00916e;
+  --amber: #ffcf00;
+  --pitch: #0d090a;
 
   /* the structural slots the components were built against */
-  --linen: hsl(43, 78%, 92%);      /* amber, laid down flat: bands and heads */
-  --ivory: var(--snow);            /* the ground */
-  --cyan: hsl(203, 66%, 93%);      /* steel, laid down flat: hover, highlight */
-  --ice: var(--steel);             /* accent detail */
+  --linen: hsl(49, 90%, 88%);      /* amber, laid down flat: bands and heads */
+  --ivory: var(--mint);            /* the ground */
+  --cyan: hsl(166, 45%, 89%);      /* sea-green, laid down flat: hover, highlight */
+  --ice: var(--sea);               /* accent detail */
+  --prussian: var(--pitch);        /* the ink slot keeps its historical name */
 
   --ink: var(--prussian);
   --paper: var(--ivory);
   --brand: var(--prussian);
-  --brand-strong: hsl(203, 61%, 38%);   /* steel at 5.2:1 — link text */
+  --brand-strong: hsl(166, 100%, 24%);  /* sea-green at 4.7:1 — link text */
   --brand-tint: var(--cyan);
-  --accent-live: var(--flag);           /* in progress, happening now */
+  --accent-live: hsl(27, 65%, 38%);     /* olive hue, burnt: in progress, happening now */
 
-  /* neutrals — prussian at falling strength */
-  --gray-150: hsl(216, 22%, 92%);
-  --gray-200: hsla(216, 61%, 10%, 0.13);
-  --gray-300: hsla(216, 61%, 10%, 0.22);
-  --gray-400: hsl(216, 14%, 62%);
-  --gray-500: hsl(216, 16%, 48%);
-  --gray-600: hsl(216, 22%, 34%);
+  /* neutrals — pitch and sage at falling strength */
+  --gray-150: hsl(158, 16%, 90%);
+  --gray-200: hsla(345, 18%, 4%, 0.14);
+  --gray-300: hsla(345, 18%, 4%, 0.24);
+  --gray-400: hsl(160, 8%, 58%);
+  --gray-500: hsl(160, 10%, 43%);
+  --gray-600: hsl(27, 22%, 34%);        /* olive-wood, the readable accent */
 
   /* classification chips — chip BACKGROUNDS carrying white text, so every
-     one of these is dark enough to hold it (4.7:1 at the lightest). */
-  --cat-7a: var(--prussian);
-  --cat-6a: hsl(216, 50%, 25%);
-  --cat-5a: hsl(203, 60%, 32%);
-  --cat-4a: hsl(203, 55%, 40%);
-  --cat-3a: hsl(43, 84%, 26%);
-  --cat-2a: hsl(43, 80%, 32%);
-  --cat-1a: hsl(353, 72%, 38%);
+     one of these is dark enough to hold it (5.4:1 at the lightest). */
+  --cat-7a: hsl(345, 18%, 6%);
+  --cat-6a: hsl(166, 60%, 16%);
+  --cat-5a: hsl(166, 100%, 22%);
+  --cat-4a: hsl(166, 55%, 30%);
+  --cat-3a: hsl(27, 30%, 30%);
+  --cat-2a: hsl(27, 26%, 38%);
+  --cat-1a: hsl(45, 100%, 24%);
 
-  --rank-gold: hsl(43, 84%, 34%);
+  --rank-gold: hsl(45, 100%, 30%);
 
   /* ---- semantic aliases — components read these only ---- */
   --surface-page: var(--paper);
   --surface-card: var(--paper);
-  --surface-subtle: hsl(43, 44%, 96%);
+  --surface-subtle: hsl(49, 55%, 95%);
   --surface-th: var(--linen);
-  --surface-zebra: hsla(203, 80%, 90%, 0.34);
+  --surface-zebra: hsla(166, 55%, 86%, 0.30);
   --surface-hover: var(--cyan);
   --surface-mast: var(--linen);
 
@@ -141,10 +140,12 @@
   --container: 1180px; --gutter: 20px;
 
   /* crest tones — hash-assigned per school, themed with the scheme */
-  --crest-0: #0a122a; --crest-1: #1c3157; --crest-2: #2c80b5;
-  --crest-3: #1d5f88; --crest-4: #14496b; --crest-5: #3f7fa3;
-  --crest-6: #8a6410; --crest-7: #a8791a; --crest-8: #6b4d0d;
-  --crest-9: #a71b2b; --crest-10: #7d1622; --crest-11: #435063;
+  --crest-0: hsl(345, 18%, 8%);  --crest-1: hsl(166, 65%, 18%);
+  --crest-2: hsl(166, 100%, 26%); --crest-3: hsl(166, 45%, 34%);
+  --crest-4: hsl(27, 30%, 30%);  --crest-5: hsl(27, 24%, 42%);
+  --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
+  --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
+  --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
 }
 
 /* ── scheme: bloom — ash-grey / petal-frost / soft-blossom / plum /
@@ -348,49 +349,46 @@
   --crest-10: hsl(240, 15%, 38%); --crest-11: hsl(10, 40%, 42%);
 }
 
-/* ── scheme: pitch — mint-cream / olive-wood / sea-green / bright-amber /
-   pitch-black (owner palette 2027-08b). Same contrast discipline as varsity:
-   pitch is the ink (17.4:1 on mint); olive-wood (4.8:1) is the one accent
-   that can carry body-size text and takes the secondary-text role; sea-green
-   is 3.5:1 at full strength so LINKS take it darkened to 24% (4.7:1);
-   bright-amber is 1.3:1 — fill and border only, never text on mint. ── */
-[data-theme="pitch"] {
-  --linen: hsl(49, 90%, 88%);   /* amber, laid down flat: bands and heads */
-  --ivory: #eaf2ef;             /* mint-cream takes the ground slot */
-  --cyan: hsl(166, 45%, 89%);   /* sea-green, laid down flat: hover, highlight */
-  --ice: #00916e;               /* sea-green takes the accent-detail slot */
-  --prussian: #0d090a;
+/* ── scheme: apex — prussian-blue / amber-honey / bright-snow / flag-red /
+   steel-blue (owner palette 2027-08a; the default until the mint palette
+   took that slot). Contrast against snow: prussian 17.8:1 is the ink;
+   flag-red 4.8:1 is the live accent; steel is 4.1:1 so LINKS take it a
+   shade darker (5.2:1); amber is 2.0:1 — fill and border only. ── */
+[data-theme="apex"] {
+  --linen: hsl(43, 78%, 92%);   /* amber, laid down flat: bands and heads */
+  --ivory: #fbfaf8;             /* bright-snow takes the ground slot */
+  --cyan: hsl(203, 66%, 93%);   /* steel, laid down flat: hover, highlight */
+  --ice: #2c80b5;               /* steel takes the accent-detail slot */
+  --prussian: #0a122a;
 
-  --brand-strong: hsl(166, 100%, 24%);   /* sea-green at 4.7:1 — link text */
+  --brand-strong: hsl(203, 61%, 38%);   /* steel at 5.2:1 — link text */
 
-  --gray-150: hsl(158, 16%, 90%);
-  --gray-200: hsla(345, 18%, 4%, 0.14);
-  --gray-300: hsla(345, 18%, 4%, 0.24);
-  --gray-400: hsl(160, 8%, 58%);
-  --gray-500: hsl(160, 10%, 43%);
-  --gray-600: hsl(27, 22%, 34%);         /* olive-wood, the readable accent */
+  --gray-150: hsl(216, 22%, 92%);
+  --gray-200: hsla(216, 61%, 10%, 0.13);
+  --gray-300: hsla(216, 61%, 10%, 0.22);
+  --gray-400: hsl(216, 14%, 62%);
+  --gray-500: hsl(216, 16%, 48%);
+  --gray-600: hsl(216, 22%, 34%);
 
-  /* chip backgrounds hold white text: 5.4:1 at the lightest */
-  --cat-7a: hsl(345, 18%, 6%);
-  --cat-6a: hsl(166, 60%, 16%);
-  --cat-5a: hsl(166, 100%, 22%);
-  --cat-4a: hsl(166, 55%, 30%);
-  --cat-3a: hsl(27, 30%, 30%);
-  --cat-2a: hsl(27, 26%, 38%);
-  --cat-1a: hsl(45, 100%, 24%);
+  /* chip backgrounds hold white text: 4.7:1 at the lightest */
+  --cat-7a: #0a122a;
+  --cat-6a: hsl(216, 50%, 25%);
+  --cat-5a: hsl(203, 60%, 32%);
+  --cat-4a: hsl(203, 55%, 40%);
+  --cat-3a: hsl(43, 84%, 26%);
+  --cat-2a: hsl(43, 80%, 32%);
+  --cat-1a: hsl(353, 72%, 38%);
 
-  --rank-gold: hsl(45, 100%, 30%);
-  --accent-live: hsl(27, 65%, 38%);      /* olive-wood hue, burnt: 4.8:1 white */
+  --rank-gold: hsl(43, 84%, 34%);
+  --accent-live: #db162f;               /* flag-red: in progress, happening now */
 
-  --surface-subtle: hsl(49, 55%, 95%);
-  --surface-zebra: hsla(166, 55%, 86%, 0.30);
+  --surface-subtle: hsl(43, 44%, 96%);
+  --surface-zebra: hsla(203, 80%, 90%, 0.34);
 
-  --crest-0: hsl(345, 18%, 8%);  --crest-1: hsl(166, 65%, 18%);
-  --crest-2: hsl(166, 100%, 26%); --crest-3: hsl(166, 45%, 34%);
-  --crest-4: hsl(27, 30%, 30%);  --crest-5: hsl(27, 24%, 42%);
-  --crest-6: hsl(45, 100%, 26%); --crest-7: hsl(49, 70%, 34%);
-  --crest-8: hsl(158, 20%, 34%); --crest-9: hsl(190, 40%, 28%);
-  --crest-10: hsl(27, 40%, 24%); --crest-11: hsl(345, 12%, 30%);
+  --crest-0: #0a122a; --crest-1: #1c3157; --crest-2: #2c80b5;
+  --crest-3: #1d5f88; --crest-4: #14496b; --crest-5: #3f7fa3;
+  --crest-6: #8a6410; --crest-7: #a8791a; --crest-8: #6b4d0d;
+  --crest-9: #a71b2b; --crest-10: #7d1622; --crest-11: #435063;
 }
 
 * { box-sizing: border-box; }
@@ -494,13 +492,13 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
   width: 20px; height: 20px; padding: 0; border: 2px solid var(--ink);
   border-radius: 4px; cursor: pointer; align-self: center;
 }
-.fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0a122a 0 34%, #e8aa14 0 67%, #db162f 0); }
+.fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
 .fh-swatch[data-theme-choice="bloom"] { background: linear-gradient(135deg, #c287e8 0 34%, #eecfd4 0 67%, #cfd4c5 0); }
 .fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
 .fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }
 .fh-swatch[data-theme-choice="harbor"] { background: linear-gradient(135deg, #071e22 0 34%, #f4c095 0 67%, #ee2e31 0); }
 .fh-swatch[data-theme-choice="citrus"] { background: linear-gradient(135deg, #1d4e57 0 34%, #dce2c8 0 67%, #f96900 0); }
-.fh-swatch[data-theme-choice="pitch"] { background: linear-gradient(135deg, #0d090a 0 34%, #00916e 0 67%, #ffcf00 0); }
+.fh-swatch[data-theme-choice="apex"] { background: linear-gradient(135deg, #0a122a 0 34%, #e8aa14 0 67%, #db162f 0); }
 .fh-swatch[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* chips */
