@@ -46,47 +46,68 @@
   font-display: swap; src: url('fonts/azeret-mono-variable.woff2') format('woff2'); }
 
 :root {
-  /* ---- palette slots (owner scheme 2026-08) ----
-     linen #ffede1 · ivory #f9fbf2 · light-cyan #d7f9ff ·
-     baby-blue-ice #afcbff · prussian-blue #0e1c36.
-     Derived tones stay on the palette's three hues (24 / 189 / 219). */
-  --linen: #ffede1;
-  --ivory: #f9fbf2;
-  --cyan: #d7f9ff;
-  --ice: #afcbff;
-  --prussian: #0e1c36;
+  /* ---- palette slots (owner scheme 2027-08) ----
+     prussian-blue #0a122a · amber-honey #e8aa14 · bright-snow #fbfaf8 ·
+     flag-red #db162f · steel-blue #2c80b5.
+     Derived tones stay on the palette's four hues (216 / 43 / 353 / 203).
+
+     Unlike the placeholder it replaces, this is an INK + PAPER + three
+     accents scheme rather than two grounds and three tints, so the slots
+     carry pale mixes of the accents and the accents themselves are named.
+
+     Measured against bright-snow, which decides where each may be used:
+       prussian 17.8:1  body copy, rules, mastheads — the ink
+       flag-red  4.8:1  AA at body size; the live/alert accent
+       steel     4.1:1  large text only, so LINKS use it a shade darker
+       amber     2.0:1  FILL AND BORDER ONLY. Amber is never text on paper.
+                        On prussian it is 9.0:1 and can be read.
+     A palette applied without that table is a palette applied to a page
+     nobody can read the middle of. */
+  --prussian: #0a122a;
+  --amber: #e8aa14;
+  --snow: #fbfaf8;
+  --flag: #db162f;
+  --steel: #2c80b5;
+
+  /* the structural slots the components were built against */
+  --linen: hsl(43, 78%, 92%);      /* amber, laid down flat: bands and heads */
+  --ivory: var(--snow);            /* the ground */
+  --cyan: hsl(203, 66%, 93%);      /* steel, laid down flat: hover, highlight */
+  --ice: var(--steel);             /* accent detail */
 
   --ink: var(--prussian);
   --paper: var(--ivory);
   --brand: var(--prussian);
-  --brand-strong: hsl(219, 62%, 38%);          /* link blue, 219 hue */
+  --brand-strong: hsl(203, 61%, 38%);   /* steel at 5.2:1 — link text */
   --brand-tint: var(--cyan);
+  --accent-live: var(--flag);           /* in progress, happening now */
 
   /* neutrals — prussian at falling strength */
-  --gray-150: hsl(219, 24%, 92%);
-  --gray-200: hsla(219, 59%, 13%, 0.13);
-  --gray-300: hsla(219, 59%, 13%, 0.22);
-  --gray-400: hsl(219, 16%, 64%);
-  --gray-500: hsl(219, 18%, 50%);
-  --gray-600: hsl(219, 24%, 36%);
+  --gray-150: hsl(216, 22%, 92%);
+  --gray-200: hsla(216, 61%, 10%, 0.13);
+  --gray-300: hsla(216, 61%, 10%, 0.22);
+  --gray-400: hsl(216, 14%, 62%);
+  --gray-500: hsl(216, 16%, 48%);
+  --gray-600: hsl(216, 22%, 34%);
 
-  /* classification chips — tones of the palette hues */
-  --cat-7a: hsl(219, 70%, 10%);
-  --cat-6a: var(--prussian);
-  --cat-5a: hsl(219, 58%, 38%);
-  --cat-4a: hsl(219, 45%, 50%);
-  --cat-3a: hsl(189, 62%, 30%);
-  --cat-2a: hsl(189, 45%, 42%);
-  --cat-1a: hsl(24, 42%, 42%);
+  /* classification chips — chip BACKGROUNDS carrying white text, so every
+     one of these is dark enough to hold it (4.7:1 at the lightest). */
+  --cat-7a: var(--prussian);
+  --cat-6a: hsl(216, 50%, 25%);
+  --cat-5a: hsl(203, 60%, 32%);
+  --cat-4a: hsl(203, 55%, 40%);
+  --cat-3a: hsl(43, 84%, 26%);
+  --cat-2a: hsl(43, 80%, 32%);
+  --cat-1a: hsl(353, 72%, 38%);
 
-  --rank-gold: hsl(24, 70%, 44%);
+  --rank-gold: hsl(43, 84%, 34%);
 
   /* ---- semantic aliases — components read these only ---- */
   --surface-page: var(--paper);
   --surface-card: var(--paper);
-  --surface-subtle: hsl(73, 40%, 96%);
+  --surface-subtle: hsl(43, 44%, 96%);
   --surface-th: var(--linen);
-  --surface-zebra: hsla(189, 100%, 92%, 0.32);
+  --surface-zebra: hsla(203, 80%, 90%, 0.34);
   --surface-hover: var(--cyan);
   --surface-mast: var(--linen);
 
@@ -120,10 +141,10 @@
   --container: 1180px; --gutter: 20px;
 
   /* crest tones — hash-assigned per school, themed with the scheme */
-  --crest-0: #0e1c36; --crest-1: #27447c; --crest-2: #3a5fa8;
-  --crest-3: #14506b; --crest-4: #1b6f8c; --crest-5: #0e6377;
-  --crest-6: #8a4d2b; --crest-7: #6b3d1f; --crest-8: #a05a2e;
-  --crest-9: #2c3e66; --crest-10: #40699e; --crest-11: #575047;
+  --crest-0: #0a122a; --crest-1: #1c3157; --crest-2: #2c80b5;
+  --crest-3: #1d5f88; --crest-4: #14496b; --crest-5: #3f7fa3;
+  --crest-6: #8a6410; --crest-7: #a8791a; --crest-8: #6b4d0d;
+  --crest-9: #a71b2b; --crest-10: #7d1622; --crest-11: #435063;
 }
 
 /* ── scheme: bloom — ash-grey / petal-frost / soft-blossom / plum /
@@ -154,6 +175,7 @@
   --cat-1a: hsl(80, 18%, 38%);
 
   --rank-gold: hsl(340, 55%, 42%);
+  --accent-live: hsl(340, 68%, 44%);
 
   --surface-subtle: hsl(350, 40%, 92%);
   --surface-zebra: hsla(294, 62%, 80%, 0.18);
@@ -193,6 +215,7 @@
   --cat-1a: hsl(240, 8%, 42%);
 
   --rank-gold: hsl(39, 85%, 40%);
+  --accent-live: hsl(14, 72%, 44%);
 
   --surface-subtle: hsl(114, 45%, 94%);
   --surface-zebra: hsla(118, 39%, 66%, 0.14);
@@ -232,6 +255,7 @@
   --cat-1a: hsl(33, 75%, 36%);
 
   --rank-gold: hsl(33, 83%, 42%);
+  --accent-live: hsl(10, 68%, 43%);
 
   --surface-subtle: hsl(278, 30%, 94%);
   --surface-zebra: hsla(175, 40%, 60%, 0.14);
@@ -271,6 +295,7 @@
   --cat-1a: hsl(27, 45%, 40%);
 
   --rank-gold: hsl(359, 70%, 44%);
+  --accent-live: hsl(359, 74%, 44%);
 
   --surface-subtle: hsl(27, 55%, 93%);
   --surface-zebra: hsla(167, 17%, 49%, 0.12);
@@ -310,6 +335,7 @@
   --cat-1a: hsl(74, 25%, 36%);
 
   --rank-gold: hsl(25, 95%, 42%);
+  --accent-live: hsl(8, 82%, 46%);
 
   --surface-subtle: hsl(167, 35%, 92%);
   --surface-zebra: hsla(188, 83%, 67%, 0.14);
@@ -423,7 +449,7 @@ a.fh-wordmark:hover { text-decoration: none; color: var(--brand-strong); }
   width: 20px; height: 20px; padding: 0; border: 2px solid var(--ink);
   border-radius: 4px; cursor: pointer; align-self: center;
 }
-.fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0e1c36 0 34%, #ffede1 0 67%, #d7f9ff 0); }
+.fh-swatch[data-theme-choice="varsity"] { background: linear-gradient(135deg, #0a122a 0 34%, #e8aa14 0 67%, #db162f 0); }
 .fh-swatch[data-theme-choice="bloom"] { background: linear-gradient(135deg, #c287e8 0 34%, #eecfd4 0 67%, #cfd4c5 0); }
 .fh-swatch[data-theme-choice="meadow"] { background: linear-gradient(135deg, #648381 0 34%, #e4fde1 0 67%, #ffbf46 0); }
 .fh-swatch[data-theme-choice="evergreen"] { background: linear-gradient(135deg, #012622 0 34%, #ece5f0 0 67%, #e98a15 0); }
@@ -1488,7 +1514,7 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
 .fh-livechip:hover { background: var(--surface-hover); text-decoration: none; }
 .fh-livechip .sp { font-weight: 700; font-size: var(--fs-small); }
 .fh-livechip .rd { font-size: 10px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 0.05em; color: var(--text-muted); }
+  letter-spacing: 0.05em; color: var(--accent-live); }
 
 .fh-champseason { margin-top: 30px; }
 .fh-champseason h2 { font-family: var(--font-display); font-weight: 800; font-size: 19px;
@@ -1504,7 +1530,8 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
   font-size: var(--fs-caption); letter-spacing: 0.02em; color: inherit;
   background: var(--surface-card); }
 .dvchip:hover { background: var(--surface-hover); text-decoration: none; }
-.dvchip.in_progress { background: var(--ink); color: var(--paper); }
+.dvchip.in_progress { background: var(--accent-live); border-color: var(--accent-live);
+  color: #fff; }
 .dvchip.upcoming { border-style: dashed; color: var(--text-secondary); }
 
 /* one sport's championships */
