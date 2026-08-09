@@ -31,14 +31,31 @@ over ranch country. This is a deliberate stretch: a real Oregon 1A school is
 not the Pangolins. It is here because variety is the point, and it is kept to
 the tail so it never crowds out the names that make the state feel American.
 
-Deliberately excluded
----------------------
-Native American mascots — Indians, Braves, Chiefs, Chieftains, Redskins,
-Redmen, Savages, Apaches, Seminoles, Mohawks and the rest. They are all over
-the Massey list (Indians alone is 418 high schools, the eleventh most common
-name in the country) and they are being retired across the country, several
-states by statute. A demo that ships them is making an argument it does not
-mean to make. The gap is intentional, not an oversight.
+Where the line is on Indigenous names
+-------------------------------------
+Not a blanket exclusion, because a blanket exclusion is the lazy read and it
+throws away a naming layer the region genuinely has.
+
+**Out: a people used as a mascot.** Indians, Braves, Chiefs, Chieftains,
+Redskins, Redmen, Savages, Apaches, Mohawks, Seminoles, Sioux, and every tribal
+name. They fill the Massey list — Indians alone is 418 high schools, the
+eleventh most common name in the country — and they are being retired
+nationally, several states by statute. The handful of real programmes that keep
+one do it under an explicit agreement with the nation whose name it is; a
+fictional state cannot claim a relationship it does not have.
+
+**In: words from the region's Indigenous languages for weather, water, animals
+and land.** ``CHINOOK_JARGON`` below is drawn from the Pacific Northwest trade
+pidgin and neighbouring languages — *skookum* (strong), *hyak* (swift),
+*chinook* (the wind, and the salmon), *kokanee* (landlocked sockeye), *wapiti*
+(elk), *sasquatch* (from Halkomelem *sásq'ets*). These name a thing, not a
+people, and several are already ordinary English: they are the same layer the
+state's own map is built from, since Jefferson's regions are Klamath, Owyhee,
+Shasta and Siskiyou. Hyaks, Chinooks, Nanooks, Wapiti, Sasquatch and Kokanee
+Salmon are all real, current, uncontroversial school mascots.
+
+The distinction is the one the retirement campaigns themselves draw, and it is
+worth getting right rather than flattening.
 
 Assignment is a **post-pass over the finished school records**, keyed on the
 school's own name, so it costs the state generator no RNG draws and re-running
@@ -214,6 +231,29 @@ WORLD_FAUNA: dict[str, list[str]] = {
     ],
 }
 
+#: Words from Chinook Jargon and neighbouring Pacific Northwest languages, for
+#: weather, water, animals and land — never for a people. See the module
+#: docstring for where that line sits and why it is not a blanket exclusion.
+#: These weight into the mountain, forest, river and coastal areas, which is
+#: where the real ones are: Hyaks in the Cascades, Chinooks on the Columbia.
+CHINOOK_JARGON = [
+    "Chinooks",        # the warm wind, and the king salmon
+    "Skookums",        # strong, powerful
+    "Hyaks",           # swift
+    "Kokanee",         # landlocked sockeye
+    "Sasquatch",       # from Halkomelem sásq'ets
+    "Wapiti",          # elk
+    "Skookumchuck",    # strong water — rapids
+    "Tumwater",        # falling water
+    "Olallie",         # berry
+]
+
+#: Areas whose landscape those words actually describe.
+JARGON_AREAS = {
+    "Cascade Divide", "Timber Valley", "Harborline", "South Coast",
+    "North Range", "Juniper Highlands",
+}
+
 #: Insects and other invertebrates, kept as their own group because they are
 #: badly under-used — Massey has Hornets 259 and Yellowjackets 150 and then
 #: almost nothing until Boll Weevils and Fire Ants in the single digits.
@@ -230,6 +270,7 @@ BUGS = [
 LOCAL_SHARE = 0.20        # a town naming its own work
 WORLD_SHARE = 0.11        # fauna from elsewhere
 BUG_SHARE = 0.03
+JARGON_SHARE = 0.05       # only in the areas the words describe
 PREFIX_CHANCE = 0.16      # "Golden Eagles" rather than "Eagles"
 
 
@@ -277,6 +318,9 @@ def assign(schools: list[dict], seed: int = 11) -> dict[str, str]:
             pick = rng.choice(world_flat)[0]
         elif roll < local_w + world_w + BUG_SHARE:
             pick = rng.choice(BUGS)
+        elif (area in JARGON_AREAS
+              and roll < local_w + world_w + BUG_SHARE + JARGON_SHARE):
+            pick = rng.choice(CHINOOK_JARGON)
         else:
             pick = rng.choices(core_names, weights=core_weights, k=1)[0]
             # Only the core takes a colour prefix: "Golden Eagles" is a real

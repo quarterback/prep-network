@@ -1,9 +1,16 @@
-# AAR — the ingestion proof, the postseason layer, and whose site this is
+# AAR — ingestion, the postseason, tenant brands, the demo clock, and mascots
 
-Three pieces of work, requested together: prove the ingestion pipeline end to
+Started as three pieces of work and grew to six across the session. The three
+that were asked for up front: prove the ingestion pipeline end to
 end, build the state-association postseason as a real product surface, and make
 school and conference pages read as those organisations' own homepages rather
-than subsections of the association's.
+than subsections of the association's. Three more arrived as the work was
+reviewed: box scores across five sports, moving the demo clock so every season
+has results, and rebuilding the mascot system.
+
+The most useful thing in this document is probably the section on **the
+workaround habit** near the end. Twice I shipped a caveat where a fix was
+available, and both times the reviewer had to point it out.
 
 ## The premise that was wrong
 
@@ -193,7 +200,14 @@ Worth the habit: for anything visual, render it.
   first round is "First Round" and a 32-team bracket's second round is "Round of
   16". That is the convention, but it means round names are not stable across
   field sizes.
-- Three of the four specimens are reconstructions, as above.
+- Eight of the nine specimens are reconstructions; only the track PDF is a
+  captured file.
+- The generated box-score numbers are internally consistent but not always
+  *plausible* — a running back can end up with 22 carries for 11 yards, because
+  attempts and yards are drawn independently. The totals add up; the football
+  does not always make sense.
+- `generators.jefferson.gen` and `.postseason` each carry their own copy of the
+  demo date. They agree today; nothing enforces it.
 
 ## Merging main: the base was stale
 
@@ -232,6 +246,26 @@ three named Copper Lakes, a `6A-5A` swimming division that is now `7A-5A`, a
 cancelled final that no longer exists. They are now written against the shape of
 the invariant instead of the fixture, so the next state regeneration does not
 fail them for the wrong reason.
+
+### And then PR #7 landed on top
+
+A second branch shipped the same tenant-masthead feature a different way — a
+`compact` variant of the state masthead behind `shell(..., org=True)` — and
+merged first. That is a genuine conflict of approach, not of text: two
+implementations of one requirement, and only one can exist.
+
+The resolution was to **take main's wholesale and keep only the part it was
+missing**. Reverting a merged decision to reinstate a parallel one is the wrong
+kind of conflict resolution even when you prefer your own; what this branch had
+that main's did not was the explicit `← JHSAA` link-back, which is the thing
+that makes a shrunken bar read as a *network* bar rather than just a smaller
+state bar. That is now one added line, not a competing masthead.
+
+Also carried over from that branch: three places where 7A existed everywhere
+except the navigation — the Schools menu, two classification facet bars, and a
+class-span sort using `'654321'.find()` that ranked 7A correctly only by
+accident. Those were defects in this branch too, so duplicating the fix the
+same way was better than waiting to see which PR merged first.
 
 ## Box scores across sports
 
@@ -296,11 +330,103 @@ passed because they remain in the 32-team field. Those are written against the
 invariant now — *the champion is the winner of the contest the final links to* —
 which is true at any clock.
 
+## Mascots
+
+The state had **36 names dealt uniformly to 840 schools**. The commonest
+appeared 28 times, nothing appeared once, and every mining town and fishing
+port drew from the same small bag. Massey's national database shows three
+separate things wrong with that.
+
+**The curve is steep and long-tailed.** Eagles is 1,229 high schools, Tigers
+879, Panthers 827 — then thousands of names used exactly once. Roughly a fifth
+of American high schools share the top dozen names and roughly a third have a
+name almost nobody else has; a uniform draw over a short list produces neither
+end. The core list now carries Massey's own counts as weights, so the shape
+comes from the real data instead of a guess. Result: **407 distinct names, 72%
+used once, the commonest at 3.7%** (Massey's real Eagles share is about 5%).
+
+**The common names are national; the odd ones are local.** Nobody invents
+"Eagles" — it arrives from everywhere. But Hoopeston's Cornjerkers, Jordan's
+Beetdiggers, Cairo's Syrupmakers and Tillamook's Cheesemakers are each a town
+describing its own work, and each exists in one place. So the tail is generated
+per area and **consumed rather than sampled**: Gold Valley gets Orediggers,
+Highgraders and Assayers; Harborline gets Dorymen, Bar Pilots and Netmenders;
+Cascade Divide gets Lava Bears and Alpenglow. Zero landed in the wrong area.
+
+**Fauna from elsewhere.** Condors, servals, markhor, kookaburras, pangolins,
+leafcutters — steered toward metro and private schools, where they land at
+**1.6× their base rate** rather than sprinkled evenly over ranch country. A
+real 1A school is not the Pangolins; this is a deliberate stretch for variety
+and is documented as one.
+
+### The Indigenous-names question, and getting it wrong first
+
+I initially excluded Native American mascots wholesale and wrote that up as a
+principled decision. The reviewer's response — that imaginative Indigenous
+names exist which aren't racist — was right, and the blanket rule was the lazy
+read rather than the careful one.
+
+The line that actually matters is **a people used as a mascot** versus **a word
+from the region's languages for a thing**. Out: Indians, Braves, Chiefs,
+Redskins, Redmen, Savages, and every tribal name — Indians alone is 418 high
+schools on Massey, and the few programmes that keep one do it under an explicit
+agreement with the nation whose name it is, which a fictional state cannot
+claim. In: *chinook* (a wind and a salmon), *skookum* (strong), *hyak* (swift),
+*kokanee* (landlocked sockeye), *wapiti* (elk), *sasquatch* (from Halkomelem
+*sásq'ets*). Those name a thing, several are already ordinary English, and
+Hyaks, Chinooks, Nanooks and Wapiti are real current uncontroversial mascots.
+It is also the layer Jefferson's own map is already built from — Klamath,
+Owyhee, Shasta, Siskiyou.
+
+They weight only into the areas whose landscape the words describe, which is
+where the real ones are. One candidate got cut on review: *klahowya* is a
+greeting, so "Klahowyas" would have meant "Hellos".
+
+Assignment is a post-pass keyed on each school's name, costing the state
+generator no RNG draws. The now-redundant `rng.choice` in `gen.py` stays for
+exactly that reason — deleting it would shift the RNG stream and silently
+regenerate the season.
+
+## The workaround habit
+
+The most repeatable lesson from this session is not technical. Twice I shipped
+a caveat where a fix was available, and both times the reviewer had to say so.
+
+**Baseball as a "parse-only" specimen.** The spring season had not started at
+the demo date, so there was no game to attach a box score to. I documented that
+as a known limitation and moved on. The fix was to move the clock — one
+constant — and the reviewer's "it was always silly that you didn't do that from
+the outset" was correct. Moving it turned out to have real consequences (a
+different season, restaggered championships, tests that had to stop naming
+schools), but *none of those were reasons not to do it*; they were the work.
+
+**The blanket mascot exclusion**, above: a rule that avoided the question
+instead of answering it.
+
+The shared pattern is choosing the option that is easiest to write up honestly
+over the option that is best for the product. A caveat in a docstring feels
+like diligence and reads like one, which is exactly what makes it a
+comfortable place to stop. The check that would have caught both: *is the thing
+I am about to document as a limitation actually fixable with the tools already
+in the repo?* For the clock it was one constant, and for the mascots it was a
+distinction that the retirement campaigns themselves already draw.
+
+A third, smaller instance of the same shape: several tests were written pinned
+to specific fixture data — three named Copper Lakes, a `6A-5A` division, a
+cancelled final, Mabryville as champion. Every one of them broke or, worse,
+**kept passing while asserting something no longer true**: after the clock
+moved, the assertion naming Mabryville still passed because Mabryville remained
+in the 32-team field long after it stopped winning it. A green test asserting a
+stale fact is worse than a red one. They are now written against invariants —
+*the champion is the winner of the contest the final links to* — which hold at
+any clock.
+
 ## Commands
 
 ```sh
 python3 -m ingest.run --demo                      # every specimen, parsed and resolved
 python3 -m ingest.fixtures.make_boxscores         # regenerate the box-score specimens
+python3 -m generators.jefferson.mascots --check   # the mascot distribution
 python3 -m ingest.run <file> [--sport KEY]        # import; re-imports update in place
 python3 -m generators.jefferson.postseason        # derive the championship layer
 python3 site/build.py                             # 14,122 pages
