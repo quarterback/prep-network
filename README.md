@@ -45,16 +45,17 @@ is written against real structure instead of an invented one.
 | `app/shapes.py` — MEET / DUAL / GAME + postseason | working |
 | `app/postseason.py` — bracket geometry | working |
 | `generators/` — the fictional state, incl. 165 championships | working |
-| `site/build.py` — 50,790 pages, three tenant tiers | working |
+| `site/build.py` — 54,005 pages, three tenant tiers | working |
 | `atproto/` — lexicons, local repo store, relay, AppView | not started |
 
 ```sh
 python3 -m pytest -q                              # 202 tests
 python3 -m generators.jefferson.gen               # the state, at the demo clock
 python3 -m generators.jefferson.mascots --check   # the mascot distribution
+python3 -m generators.jefferson.boxscores         # periods, box scores, track cards
 python3 -m ingest.run --demo                      # every specimen, parsed and resolved
 python3 -m generators.jefferson.postseason        # derive the championship layer
-python3 site/build.py                             # writes dist/site/ (50,790 pages)
+python3 site/build.py                             # writes dist/site/ (54,005 pages)
 ```
 
 ## Ingestion, end to end
@@ -105,6 +106,13 @@ mean complete, in-progress and upcoming brackets all exist at that one date.
 Scoring happens inline with scheduling, so moving the clock produces a
 *different* season rather than the same one further along — everything derived
 from it has to be rebuilt.
+
+**[`/tour/`](dist/site/tour/) is the fastest way in.** One live link to every
+page type the site produces — a box score, each of the three bracket states, a
+bye, a meet-decided title, an imported record, a school site. Links are
+resolved from the records at build time, so the page cannot rot into a list of
+404s when the state is regenerated; a category with no example says so rather
+than linking nowhere.
 
 See [`docs/AAR-ingestion-postseason-and-tenant-brands.md`](docs/AAR-ingestion-postseason-and-tenant-brands.md).
 

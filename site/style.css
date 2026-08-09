@@ -1578,3 +1578,17 @@ a.fh-brk-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 2
 .fh-mast.compact .fh-mast-nav .fh-backassoc {
   font-weight: 800; color: var(--text-primary); margin-right: 4px;
 }
+
+/* product tour — one live link per page type */
+.fh-toursec { margin-top: 28px; }
+.fh-toursec h2 { font-family: var(--font-display); font-weight: 800; font-size: 18px;
+  margin: 0 0 4px; padding-bottom: 7px; border-bottom: var(--rule); }
+.fh-tourrow { display: grid; grid-template-columns: minmax(160px,240px) minmax(0,1fr) minmax(0,1.1fr);
+  gap: 4px 16px; align-items: baseline; padding: 9px 2px;
+  border-bottom: var(--hairline); color: inherit; }
+a.fh-tourrow:hover { background: var(--surface-hover); text-decoration: none; }
+.fh-tourrow .lb { font-weight: 700; font-size: var(--fs-small); }
+.fh-tourrow .ex { color: var(--text-link); font-weight: 600; font-size: var(--fs-small); }
+.fh-tourrow .nt { color: var(--text-muted); font-size: var(--fs-caption); }
+.fh-tourrow.none .ex { color: var(--text-muted); font-style: italic; }
+@media (max-width: 700px) { .fh-tourrow { grid-template-columns: 1fr; } }

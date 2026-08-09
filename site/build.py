@@ -500,6 +500,7 @@ def shell(title, body, crumb="", back="", story=None, org=False):
       {''.join(f"<a href='/schools/#{c}'>{c}</a>" for c in CLASSES)}</div></div>
     <a href="/championships/">Championships</a>
     <a href="/news/">News</a>
+    <a href="/tour/">Tour</a>
     <div class="fh-menu"><button type="button">Resources ▾</button><div class="fh-drop">{RES_MENU}</div></div>
     <span class="fh-season">{ASSOC} · {SEASON_LABEL}</span>
     <button class="fh-swatch" data-theme-choice="varsity" aria-pressed="true" aria-label="Varsity scheme"></button>
@@ -1770,6 +1771,159 @@ def render_athlete(reg, a):
     return shell(f"{name} — {school}", body, crumb, f"← {school}|{reg.school_url(school)}")
 
 
+def _first(reg, used, kind, pred, note):
+    """The first contest of `kind` matching `pred` that the tour has not used."""
+    for c in reg.contests:
+        if isinstance(c, kind) and pred(c) and reg.url(c) not in used:
+            used.add(reg.url(c))
+            extra = f"{len(c.events)} events · " if isinstance(c, Meet) else ""
+            return (reg.url(c), c.name, extra + note)
+    return None
+
+
+def render_tour(reg):
+    """`/tour/` — one live link to every page type the site can produce.
+
+    A build of 50,000 pages hides its own range. Every capability here is real
+    and reachable, but "reachable" is not the same as findable: a box score
+    exists on a quarter of games, a bye only appears in brackets with an odd
+    field, and a needs-review import is one record in thirty thousand. Without
+    an index you learn what the product does by hunting for it.
+
+    Every link is RESOLVED FROM THE RECORDS at build time, not hard-coded, so
+    the page cannot rot into a list of 404s the next time the state is
+    regenerated. If a category has no example, it says so instead of linking
+    nowhere — which is itself the useful signal.
+    """
+    from app.shapes import TournamentFormat as TF, TournamentStatus as TS
+
+    # Each row should send you somewhere you have not already been: several
+    # predicates legitimately match the same record (the smallest bracket is
+    # often also the first upcoming one), and two rows pointing at one page
+    # spends a line of the index proving nothing.
+    used: set[str] = set()
+
+    def game_where(pred, note=""):
+        for c in reg.contests:
+            if isinstance(c, Game) and pred(c) and reg.url(c) not in used:
+                used.add(reg.url(c))
+                return (reg.url(c), f"{c.away} {c.away_score}–{c.home_score} {c.home}", note)
+        return None
+
+    def tour_of(pred):
+        for t in reg.tournaments:
+            href = reg.tour_url[t.id]
+            if pred(t) and href not in used:
+                used.add(href)
+                return (href, t.name, "")
+        return None
+
+    def has_box(c, family=None):
+        if not getattr(c, "box", None):
+            return False
+        return family is None or c.sport == family
+
+    imported = lambda c: c.provenance and c.provenance.adapter in (  # noqa: E731
+        "scorebook_csv", "dual_card", "hytek_swim", "hytek_pdf")
+
+    school = reg.schools.get("Ashbrook") or next(iter(reg.schools.values()))
+    conf_slug = next(iter(sorted(reg.confs)))
+    athlete = next((a for a in reg.athletes.values() if len(a["rows"]) > 3),
+                   next(iter(reg.athletes.values()), None))
+
+    SECTIONS = [
+        ("Results — what a contest page looks like", [
+            ("Game with a box score", game_where(
+                lambda c: has_box(c, "boys-basketball"),
+                "period scoring, full player box, team totals")),
+            ("Football — four stat tables", game_where(
+                lambda c: has_box(c, "football"),
+                "passing, rushing, receiving, defense: different columns each")),
+            ("Hockey — skaters and goaltending", game_where(
+                lambda c: has_box(c, "boys-ice-hockey"),
+                "two tables, the second all rate stats")),
+            ("Baseball — batting and pitching", game_where(
+                lambda c: has_box(c, "baseball"), "two tables")),
+            ("Volleyball — sets, not points", game_where(
+                lambda c: has_box(c, "girls-volleyball"),
+                "the final is sets won; the linescore is points")),
+            ("Dual match", _first(
+                reg, used, Dual, lambda c: bool(c.lines) and not imported(c),
+                "line-by-line, singles and doubles")),
+            ("Meet", _first(
+                reg, used, Meet, lambda c: len(c.events) > 8 and not imported(c),
+                "a full event card")),
+        ]),
+        ("Ingestion — records that came from a source file", [
+            ("Imported box score", game_where(
+                lambda c: imported(c) and getattr(c, "box", None),
+                "scorebook CSV — see the Source block at the foot")),
+            ("Imported dual", _first(reg, used, Dual, imported,
+                                     "fixed-width match card")),
+            ("Imported Hy-Tek meet", _first(reg, used, Meet, imported,
+                                            "MEET MANAGER text report, with splits")),
+        ]),
+        ("Postseason — the three bracket states", [
+            ("Championships hub", ("/championships/", "All championships",
+                                   "sport, then classification")),
+            ("Completed bracket", tour_of(
+                lambda t: t.status is TS.COMPLETE and t.format is TF.BRACKET
+                and t.size >= 16)),
+            ("In-progress bracket", tour_of(lambda t: t.status is TS.IN_PROGRESS)),
+            ("Upcoming bracket", tour_of(lambda t: t.status is TS.UPCOMING
+                                         and t.format is TF.BRACKET)),
+            ("Bracket with byes", tour_of(
+                lambda t: t.format is TF.BRACKET and t.byes and t.size >= 24)),
+            ("Smallest bracket", tour_of(
+                lambda t: t.format is TF.BRACKET and t.size == 4)),
+            ("Title decided by a meet", tour_of(
+                lambda t: t.format is TF.MEET and t.meet_key)),
+        ]),
+        ("Organisations — who owns the page", [
+            ("School athletics site", (f"/schools/{school['slug']}/",
+                                       f"{school['name']} Athletics",
+                                       "school masthead; JHSAA collapses to a link-back")),
+            ("Conference site", (f"/conferences/{conf_slug}/",
+                                 reg.confs[conf_slug]["name"], "same treatment")),
+            ("Athlete", (f"/athletes/{athlete['slug']}/", athlete["name"],
+                         "results across the season") if athlete else None),
+            ("Sport hub", ("/sports/boys-basketball/", "Boys Basketball", "")),
+            ("Standings", ("/sports/boys-basketball/standings/", "League tables", "")),
+            ("Scoreboard", ("/scoreboard/", "Every result, filterable", "")),
+        ]),
+    ]
+
+    blocks = []
+    for title, rows in SECTIONS:
+        items = []
+        for label, found in rows:
+            if not found:
+                items.append(f"<div class='fh-tourrow none'><span class='lb'>{esc(label)}</span>"
+                             f"<span class='ex'>no example in the current state</span></div>")
+                continue
+            href, what, note = found
+            items.append(
+                f"<a class='fh-tourrow' href='{href}'>"
+                f"<span class='lb'>{esc(label)}</span>"
+                f"<span class='ex'>{esc(what)}</span>"
+                f"<span class='nt'>{esc(note)}</span></a>")
+        blocks.append(f"<section class='fh-toursec'><h2>{esc(title)}</h2>"
+                      f"{''.join(items)}</section>")
+
+    body = f"""
+<div class="fh-idhdr">
+  <div></div>
+  <div><div class="name">Product tour</div>
+  <div class="meta">One live example of every page type. Links are resolved from
+  the records at build time, so they cannot go stale.</div></div>
+  <div class="side"></div>
+</div>
+{''.join(blocks)}
+"""
+    crumb = f"<a href='/'>{NAME}</a> › Tour"
+    return shell(page_title("Product tour"), body, crumb)
+
+
 def render_scoreboard(reg):
     """The week, day by day. A row reads matchup-first — the matchup and the
     result are the news; sport and status are the caption under them."""
@@ -2599,6 +2753,7 @@ def build():
     build_menus(reg)
 
     pages = {"/": render_front(reg), "/scoreboard/": render_scoreboard(reg),
+             "/tour/": render_tour(reg),
              "/schools/": render_schools_index(reg), "/conferences/": render_confs_index(reg),
              "/championships/": render_championships(reg),
              "/news/": render_news_index(reg)}

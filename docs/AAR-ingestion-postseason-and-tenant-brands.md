@@ -387,6 +387,67 @@ generator no RNG draws. The now-redundant `rng.choice` in `gen.py` stays for
 exactly that reason — deleting it would shift the RNG stream and silently
 regenerate the season.
 
+## Depth, and a route to find it
+
+The reviewer opened a championship game page and saw a bare final score. The
+numbers were worse than that suggested: **23,149 played games, 5 with a box
+score, 84% with no period scoring at all.** Basketball had 1 of 3,817 — my own
+imported fixture. Track meets carried exactly one event each, when a real one
+runs eighteen and MEET is the shape this whole model was designed around.
+
+So the ingestion work had proved a capability on five files and stopped. A
+capability demonstrated on five records out of thirty thousand is one nobody
+browsing will ever meet, which makes it indistinguishable from not having it.
+
+`generators/jefferson/boxscores.py` is a post-pass, on the same terms as the
+mascots — keyed on each record's identity, no RNG contact with the state
+generator:
+
+- **Period scoring on everything that has it**: 97% of played games, up from
+  16% (and that 16% was volleyball alone, because the generator returns sets
+  for volleyball and `None` for everything else).
+- **Box scores on a slice**: every postseason game, plus a deterministic 22% of
+  the regular season. 5,875 in all. Not everything — these are fictional games
+  and boxing all of them adds ~60MB of invented statistics for no extra proof.
+- **Full 18-event cards for track meets**, with entries drawn from each
+  school's roster.
+
+Rosters are per (school, sport) and stable across games, so a player who scores
+18 in December is the same player in February and athlete pages accumulate a
+season instead of showing one disconnected line.
+
+Two bugs while building it, both already-seen shapes:
+
+- **Not idempotent.** The box-score selection RNG was the same stream the
+  period generation drew from, so on a second run — where periods already
+  existed and consumed nothing — a different set of games was selected and the
+  count grew from 5,792 to 8,731. Exactly the postseason generator's bug, and
+  the same fix: independent streams per decision.
+- **A stat that did not add up.** Offensive plus defensive rebounds did not
+  equal total rebounds, because all three were drawn separately. Any reader who
+  checks a box score checks that.
+
+### The tour page
+
+Depth alone does not solve the actual complaint, which was *"I need a route
+where I can at least show how the various page types work, so I'm not hunting
+for all of this."* A 54,000-page build hides its own range: a bye only appears
+in brackets with an odd field, a needs-review import is one record in thirty
+thousand.
+
+`/tour/` is one live link per page type, grouped — results, ingestion, the
+three bracket states, organisations. Every link is **resolved from the records
+at build time** rather than hard-coded, so it cannot rot into a list of 404s
+the next time the state regenerates, and a category with no example says so
+instead of linking nowhere.
+
+That last property immediately earned itself. The first build reported "no
+example" for Meet, which is how I found the one-event track meets. The second
+reported it for "imported dual" — because the plain "Dual match" row above it
+had taken the imported record, since row selection deduplicates. Both were the
+index telling me something true about the state rather than rendering a
+plausible page over a gap.
+
 ## The workaround habit
 
 The most repeatable lesson from this session is not technical. Twice I shipped
@@ -402,6 +463,11 @@ schools), but *none of those were reasons not to do it*; they were the work.
 
 **The blanket mascot exclusion**, above: a rule that avoided the question
 instead of answering it.
+
+**Box scores proved on five files.** The capability was real and the rendering
+was right, and I stopped at the point where it was demonstrable to me rather
+than the point where it was discoverable by a reader. 5 records out of 23,149
+is a feature you have to be told about to find.
 
 The shared pattern is choosing the option that is easiest to write up honestly
 over the option that is best for the product. A caveat in a docstring feels
