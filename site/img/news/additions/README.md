@@ -59,22 +59,23 @@ file with no entry at all renders without a credit line rather than failing.
 
 ## Sport keys still on a borrowed picture
 
-Sixteen sports now lead on a photograph from this folder. Thirty-five are still
-on the stock library, and a file named for any of them is the biggest single
-improvement available. The ones where the borrowed picture is furthest off:
+Eighteen sports now lead on a photograph from this folder. Thirty-three are
+still on the stock library, and a file named for any of them is the biggest
+single improvement available. The ones where the borrowed picture is furthest
+off:
 
 | Key | Currently showing |
 | --- | --- |
 | `chess` | a general-purpose gym interior, shared with `debate` |
-| `boys-squash`, `girls-squash` | an aerial of tennis courts |
+| `field-hockey` | a generic field-sports frame |
 | `girls-flag-football` | tackle football |
 | `competitive-spirit` | gymnastics |
 | `mountain-biking` | a cross-country trail |
-| `boys-lacrosse`, `field-hockey` | one generic field-sports frame |
 | `winter-track` | outdoor track |
 | `choir` | a marching band |
+| `boys-soccer` | soccer, but the two dropped soccer photos both read as girls, so it keeps the stock frame |
 
-The rest — basketball, soccer, wrestling, swimming, hockey, skiing, volleyball,
+The rest — basketball, wrestling, swimming, hockey, skiing, volleyball,
 bowling, fencing, gymnastics, track, cross country, water polo — are on stock
 photographs of the right sport, so they read correctly; they are just not as
 good as these.

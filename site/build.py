@@ -1141,7 +1141,10 @@ def render_game(reg, c: Game):
 """
     crumb = (f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}")
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
-                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 desc=share_desc(reg, c), kind="article",
+                 # salted per contest, so 45,000 result cards do not all paste
+                 # the same frame of the same sport
+                 image=sport_photo(c.sport, salt=reg.url(c))[0],
                  published=c.date)
 
 
@@ -1178,7 +1181,10 @@ def render_dual(reg, c: Dual):
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
-                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 desc=share_desc(reg, c), kind="article",
+                 # salted per contest, so 45,000 result cards do not all paste
+                 # the same frame of the same sport
+                 image=sport_photo(c.sport, salt=reg.url(c))[0],
                  published=c.date)
 
 
@@ -1265,7 +1271,10 @@ def render_meet(reg, c: Meet):
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
-                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 desc=share_desc(reg, c), kind="article",
+                 # salted per contest, so 45,000 result cards do not all paste
+                 # the same frame of the same sport
+                 image=sport_photo(c.sport, salt=reg.url(c))[0],
                  published=c.date)
 
 
@@ -1889,9 +1898,9 @@ def render_school(reg, s):
         default=None)
     lead_c = next((c for c in played if "Championship" in (c.name or "")), None) or \
              (played[0] if played else None)
-    lead = ""
+    lead, lead_photo = "", None
     if lead_item is not None:
-        photo = sport_photo(lead_item["sport"], salt=name) \
+        photo = lead_photo = sport_photo(lead_item["sport"], salt=name) \
             if lead_item.get("sport") in BY_KEY else sport_photo("football", salt=name)
         lead = feature_panel(
             f"{esc(lead_item['label'])} · {esc(nice_date(lead_item['date']))}",
@@ -1914,7 +1923,7 @@ def render_school(reg, s):
                              f"{dk} · <a href='{reg.url(lead_c)}'>Full result →</a>",
                              s.get("colors") or ["#14294e", "#c8ccd4"],
                              watermark=reg.mark(name, 200),
-                             photo=sport_photo(lead_c.sport, salt=name))
+                             photo=(lead_photo := sport_photo(lead_c.sport, salt=name)))
 
     recent_rows = [event_card(reg, c, final=True) for c in played[:4]]
     next_rows = [event_card(reg, c, final=False) for c in upcoming[:4]]
@@ -2084,14 +2093,18 @@ def render_school(reg, s):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/schools/'>Schools</a> › {esc(name)}"
-    lead_sport = (lead_c.sport if lead_c is not None
-                  else (sorted(s.get("sports", ())) or ["football"])[0])
+    # THE CARD IS THE PANEL'S PHOTOGRAPH, not a second derivation of it. These
+    # picked their lead independently — the panel prefers an editorial item and
+    # the card preferred the last result — so a school leading on a lacrosse
+    # honour pasted as a baseball card.
+    card = lead_photo or sport_photo(
+        (sorted(s.get("sports", ())) or ["football"])[0], salt=name)
     return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True,
                  desc=(f"{name} {s['mascot']} athletics — {s['city']}, "
                        f"{s['classification']}{f', {conf}' if conf else ''}. Schedules, "
                        f"results, standings and championship history across "
                        f"{len(s.get('sports', ()))} sports."),
-                 image=sport_photo(lead_sport)[0])
+                 image=card[0])
 
 
 def render_conference(reg, conf):
@@ -2351,7 +2364,7 @@ def render_conference(reg, conf):
                  desc=(f"{conf['name']} — {len(members)} member schools in "
                        f"{conf['area']}. Standings, the composite schedule, league "
                        f"champions and results across {len(conf_sports)} sports."),
-                 image=sport_photo(default_key or "football")[0])
+                 image=sport_photo(default_key or "football", salt=conf["name"])[0])
 
 
 def render_athlete(reg, a):
@@ -2913,7 +2926,7 @@ def render_tournament(reg, t):
                  desc=(f"{t.name} — a {t.size}-team field"
                        f"{f' at {t.final_venue}' if t.final_venue else ''}. {won} "
                        f"Full bracket, seeds and every round's result."),
-                 image=sport_photo(t.sport)[0], kind="article", published=t.start_date)
+                 image=sport_photo(t.sport, salt=t.id)[0], kind="article", published=t.start_date)
 
 
 def render_champ_sport(reg, sport):
