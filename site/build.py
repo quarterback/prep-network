@@ -1136,14 +1136,17 @@ def render_dual(reg, c: Dual):
     rows = []
     for line in c.lines:
         hw = line.winner == "home"
+        aw = line.winner == "away"
+        drew = line.winner == "draw"
         hn = ", ".join(reg.athlete_link(p.name, c.home) for p in line.home) or "—"
         an = ", ".join(reg.athlete_link(p.name, c.away) for p in line.away) or "—"
         rows.append(
             f"<div class='fh-row' style='--grid-cols:56px minmax(140px,1fr) minmax(140px,1fr) 96px'>"
             f"<span class='fh-rank'>{esc(str(line.kind)[:8].title() if not str(line.kind).isdigit() else line.kind)} {line.slot if line.kind in ('singles','doubles') else ''}</span>"
-            f"<span class='fh-plain{' fh-mark' if not hw else ''}'>{an}</span>"
+            f"<span class='fh-plain{' fh-mark' if aw else ''}'>{an}</span>"
             f"<span class='fh-plain{' fh-mark' if hw else ''}'>{hn}</span>"
-            f"<span class='fh-num tnum'>{esc(line.score or '')}</span></div>")
+            f"<span class='fh-num tnum{' fh-dim' if drew else ''}'>"
+            f"{esc(line.score or '')}</span></div>")
     score = (f"{c.away_points:g}&nbsp;–&nbsp;{c.home_points:g}" if c.home_points is not None else "—")
     body = f"""
 <div class="fh-score">
@@ -2353,7 +2356,7 @@ def render_athlete(reg, a):
             else:
                 line = ev_or_line
                 on_home = any(p.name == name for p in line.home)
-                won = (line.winner == "home") == on_home
+                won = line.winner != "draw" and (line.winner == "home") == on_home
                 opp = c.away if on_home else c.home
                 rows.append(
                     f"<div class='fh-row' style='--grid-cols:86px minmax(150px,1.4fr) minmax(110px,1fr) 34px 80px'>"
@@ -2789,12 +2792,66 @@ def render_tournament(reg, t):
     if t.format is TournamentFormat.BRACKET and t.entrants:
         byes = f" · {t.byes} byes" if t.byes else ""
         facts.append(("Field", f"{t.size} teams{byes}"))
-    if t.start_date and t.format is TournamentFormat.BRACKET:
+    if t.format is TournamentFormat.SWISS and t.entrants:
+        facts.append(("Field", f"{t.size} teams · {len(t.rounds)} rounds"))
+    if t.start_date and t.format in (TournamentFormat.BRACKET, TournamentFormat.SWISS):
         facts.append(("Opens", nice_date(t.start_date)))
     info = "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(str(v))}</dd></div>" for k, v in facts)
 
-    # A meet-decided title hands off to the meet renderer instead of a bracket.
-    if t.format is not TournamentFormat.BRACKET:
+    # A SWISS is standings first, then the rounds that produced them. There is
+    # no tree to draw: nobody is eliminated, every school plays every round,
+    # and the title is the top of the table rather than the winner of a final.
+    if t.format is TournamentFormat.SWISS:
+        rows = t.standings()
+        played = sum(1 for r in t.rounds if r.complete)
+        head = ("26px minmax(150px,1fr) 62px 62px")
+        table = "".join(
+            f"<div class='fh-row{' first' if i == 0 else ''}' style='--grid-cols:{head}'>"
+            f"<span class='fh-rank'>{i + 1}</span>"
+            f"<span class='fh-name'>{reg.crest(sc,'xs')} {reg.school_link(sc)}</span>"
+            f"<span class='fh-num tnum'>{pts:g}</span>"
+            f"<span class='fh-num tnum fh-dim'>{brd:g}</span></div>"
+            for i, (sc, pts, brd) in enumerate(rows[:16]))
+        rounds_html = []
+        for r in t.rounds:
+            lines = []
+            for m in r.matchups:
+                if m.bye:
+                    lines.append(f"<div class='fh-evrow'><span class='kk'>Bye</span>"
+                                 f"<span class='ln'>{reg.school_link(m.home)}</span>"
+                                 f"<span class='dt'>1 point</span></div>")
+                    continue
+                href = reg.contest_href(m.contest_key)
+                inner = (f"<a class='m' href='{href}'></a>" if href else "")
+                res = (f"{m.home_score:g}–{m.away_score:g}"
+                       if m.status == "final" and m.home_score is not None
+                       else esc(m.time or "TBD"))
+                lines.append(
+                    f"<div class='fh-evrow{' final' if m.status == 'final' else ''}'>{inner}"
+                    f"<span class='kk'>Board match</span>"
+                    f"<span class='ln'>{reg.school_link(m.away)} at "
+                    f"{reg.school_link(m.home)}</span>"
+                    f"<span class='dt'>{res}</span></div>")
+            rounds_html.append(
+                f"<div class='fh-mod'><h3>{esc(r.name)}"
+                f"{f' · {esc(nice_date(r.matchups[0].date))}' if r.matchups and r.matchups[0].date else ''}"
+                f"</h3>{''.join(lines[:10])}</div>")
+        body_main = (
+            f"<div class='fh-section'><h2>Standings</h2>"
+            f"<p class='fh-lede'>Five rounds of Swiss pairing over two days. "
+            f"Every school plays every round; a match is five boards, a board "
+            f"is a point and a drawn board is a half. {played} of "
+            f"{len(t.rounds)} rounds complete.</p>"
+            f"<div class='fh-tablescroll'><div class='fh-table' style='--grid-cols:{head}'>"
+            f"<div class='fh-thead'><span class='fh-th'></span>"
+            f"<span class='fh-th'>School</span><span class='fh-th'>Match</span>"
+            f"<span class='fh-th'>Boards</span></div>{table}</div></div></div>"
+            f"<div class='fh-section'><h2>Rounds</h2>"
+            + module_row(*rounds_html[:4])
+            + (module_row(*rounds_html[4:]) if len(rounds_html) > 4 else "")
+            + "</div>")
+        nav = "Standings · Rounds · Field"
+    elif t.format is not TournamentFormat.BRACKET:
         meet = reg.contest_for(t.meet_key)
         if meet is not None:
             body_main = (

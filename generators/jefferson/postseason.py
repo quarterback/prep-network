@@ -51,11 +51,16 @@ if str(ROOT) not in sys.path:
 
 from app import records_io                                          # noqa: E402
 from app.shapes import (                                            # noqa: E402
+    Dual,
+    Competitor,
     Entrant,
+    Line,
     Game,
     Meet,
     Provenance,
     SourceType,
+    Matchup,
+    Round,
     Tournament,
     TournamentFormat,
     advance,
@@ -84,6 +89,12 @@ LATE_SPRING = {
     "girls-flag-football", "boys-track", "girls-track",
 }
 LATE_SPRING_FINAL = "2027-06-12"
+
+#: Per-sport championship dates that do not sit on their season's weekend.
+#: Chess crowns early — its five-round team championship is a two-day event
+#: held well before the outdoor spring finals, which is also what puts a
+#: COMPLETED Swiss in the demo instead of a field waiting to be paired.
+SPORT_FINALS = {"chess": "2027-05-09"}
 
 #: Days between rounds, counting back from the final.
 ROUND_GAP = 7
@@ -219,6 +230,11 @@ def _score(sport, rng: random.Random) -> tuple[int, int]:
     elif "tennis" in k or "fencing" in k:
         w = rng.choice([5, 5, 6, 6, 7, 8, 9])       # nine lines, team points
         return w, 9 - w
+    elif k == "chess":
+        # five boards; a drawn board is a half, so a match score is a
+        # half-integer as often as it is whole
+        w = rng.choice([3, 3, 3.5, 3.5, 4, 4.5, 5])
+        return w, 5 - w
     elif "badminton" in k:
         w = rng.choice([3, 3, 4, 5])                # five lines
         return w, 5 - w
@@ -239,6 +255,127 @@ def _score(sport, rng: random.Random) -> tuple[int, int]:
     if l >= w:
         l = w - 1
     return w, max(0, l)
+
+
+#: Rounds in the chess team championship, over a Friday and a Saturday.
+SWISS_ROUNDS = 5
+
+
+def board_rosters(contests) -> dict[str, list]:
+    """Each school's board order, read off its regular-season chess matches.
+
+    Not regenerated: the five players who turn up at the championship have to
+    be the five who played all season, in the same board order, or a school's
+    own results page contradicts itself. Board 1 is whoever the school played
+    at Board 1.
+    """
+    out: dict[str, dict[int, str]] = {}
+    for c in contests:
+        if c.sport != "chess" or not isinstance(c, Dual):
+            continue
+        for side in ("home", "away"):
+            school = getattr(c, side)
+            for ln in c.lines:
+                who = getattr(ln, side)
+                if who:
+                    out.setdefault(school, {}).setdefault(ln.slot, who[0].name)
+    return {s: [b[i] for i in sorted(b)][:5] for s, b in out.items()}
+
+
+def _play_swiss(t: Tournament, today: str, rng: random.Random, sport,
+                rosters: dict[str, list]) -> list[Dual]:
+    """Five rounds of Swiss, pairing on running score.
+
+    Nobody is eliminated: every school plays all five rounds and the title
+    goes to the top of the standings. A knockout would send half a statewide
+    field home on the Friday morning, and a round robin of twenty-four teams
+    is twenty-three rounds — which is exactly why the sport pairs this way.
+
+    Pairing is the real rule in miniature: sort by score, pair down the list,
+    and don't repeat a meeting. An odd field gives the lowest unpaired team a
+    full-point bye, which is a matchup with no opponent — the same structural
+    bye the brackets use.
+    """
+    produced: list[Dual] = []
+    schools = [e.school for e in t.entrants]
+    score = {s: 0.0 for s in schools}
+    met: set[frozenset] = set()
+    # Friday and Saturday, not five separate days: rounds 1-2 on the Friday,
+    # 3-5 on the Saturday, which is how a two-day team championship runs.
+    start = _shift(t.final_date, -1)
+    day_of = [start, start, t.final_date, t.final_date, t.final_date]
+
+    for idx in range(SWISS_ROUNDS):
+        r_date = day_of[idx] if idx < len(day_of) else t.final_date
+        rnd = Round(index=idx, name=f"Round {idx + 1}")
+        # seeded first round, then strictly by running score
+        order = sorted(schools, key=lambda s: (-score[s], s)) if idx else list(schools)
+        unpaired, pairs = list(order), []
+        while len(unpaired) > 1:
+            a = unpaired.pop(0)
+            nxt = next((b for b in unpaired if frozenset((a, b)) not in met), unpaired[0])
+            unpaired.remove(nxt)
+            met.add(frozenset((a, nxt)))
+            pairs.append((a, nxt))
+        bye = unpaired[0] if unpaired else None
+
+        for slot, (home, away) in enumerate(pairs):
+            m = Matchup(round=idx, slot=slot, home=home, away=away,
+                        home_seed=t.seed_of(home), away_seed=t.seed_of(away),
+                        date=r_date, time=["4:00 PM", "7:00 PM", "9:00 AM",
+                                           "12:30 PM", "3:30 PM"][idx],
+                        venue=t.final_venue)
+            if r_date <= today:
+                hs, as_ = _score(sport, rng)
+                if rng.random() < 0.5:
+                    hs, as_ = as_, hs
+                m.home_score, m.away_score, m.status = hs, as_, "final"
+                score[home] += 1 if hs > as_ else 0.5 if hs == as_ else 0
+                score[away] += 1 if as_ > hs else 0.5 if hs == as_ else 0
+                g = _swiss_dual(t, m, idx, sport, rng, rosters)
+                m.contest_key = contest_key(g)
+                produced.append(g)
+            rnd.matchups.append(m)
+        if bye is not None:
+            rnd.matchups.append(Matchup(round=idx, slot=len(pairs), home=bye,
+                                        away=None, bye=True, date=r_date,
+                                        home_seed=t.seed_of(bye)))
+            if r_date <= today:
+                score[bye] += 1
+        t.rounds.append(rnd)
+    t.start_date = start
+    return produced
+
+
+def _swiss_dual(t: Tournament, m: Matchup, idx: int, sport, rng, rosters) -> Dual:
+    """The five boards behind one Swiss match score."""
+    d = Dual(name=f"{m.away} at {m.home} — JHSAA {t.group} Round {idx + 1}",
+             date=m.date, venue=m.venue, sport=t.sport, season=t.season,
+             home=m.home, away=m.away,
+             home_points=float(m.home_score), away_points=float(m.away_score),
+             provenance=Provenance(
+                 source_uri=f"generated://jefferson/postseason/{t.id}",
+                 adapter="jefferson.postseason", adapter_version="1",
+                 extracted_at=_dt.datetime.now(_dt.timezone.utc).isoformat(),
+                 source_type=SourceType.MANUAL,
+                 external_ids={"tournament": t.id, "round": str(idx),
+                               "slot": str(m.slot)}))
+    # Boards that add up to the match score: hand out the whole points first,
+    # then a drawn board for each remaining half.
+    hw = int(m.home_score)
+    aw = int(m.away_score)
+    draws = 5 - hw - aw
+    outcomes = ["home"] * hw + ["away"] * aw + ["draw"] * draws
+    rng.shuffle(outcomes)
+    hr = rosters.get(m.home, [])
+    ar = rosters.get(m.away, [])
+    for b, who in enumerate(outcomes, 1):
+        d.lines.append(Line(
+            slot=b, kind="board", winner=who, team_point=1.0,
+            home=[Competitor(hr[b - 1], m.home)] if len(hr) >= b else [],
+            away=[Competitor(ar[b - 1], m.away)] if len(ar) >= b else [],
+            score={"home": "1-0", "away": "0-1", "draw": "1/2-1/2"}[who]))
+    return d
 
 
 def _play(t: Tournament, today: str, rng: random.Random,
@@ -425,8 +562,9 @@ def build(records_dir: pathlib.Path, today: str = TODAY) -> tuple[int, int]:
 
         for group, members in by_group.items():
             tid = f"{SEASON}-{sport.key}-{slugify(group)}"
-            final_date = (LATE_SPRING_FINAL if sport.key in LATE_SPRING
-                          else FINALS[sport.season])
+            final_date = SPORT_FINALS.get(
+                sport.key,
+                LATE_SPRING_FINAL if sport.key in LATE_SPRING else FINALS[sport.season])
             t = Tournament(
                 id=tid,
                 name=f"{final_date[:4]} JHSAA {group} {sport.name} State Championship",
@@ -459,6 +597,20 @@ def build(records_dir: pathlib.Path, today: str = TODAY) -> tuple[int, int]:
                 t.entrants = _field(sport.key, group, members, table,
                                     min(len(members), 24))
                 t.start_date = t.final_date
+                tournaments.append(t)
+                continue
+
+            if sport.key == "chess":
+                # One combined varsity section, all classifications together,
+                # five rounds of Swiss — the format the sport actually uses.
+                t.format = TournamentFormat.SWISS
+                t.entrants = _field(sport.key, group, members, table,
+                                    min(len(members), 24))
+                if len(t.entrants) < 4:
+                    continue
+                rng = random.Random(f"{tid}")
+                new_games.extend(_play_swiss(t, today, rng, sport,
+                                             board_rosters(contests)))
                 tournaments.append(t)
                 continue
 

@@ -551,6 +551,10 @@ class Gen:
                                        "215", "285")],
         "fencing": [("foil", 3), ("épée", 3), ("sabre", 3)],
         "badminton": [("singles", 3), ("doubles", 2)],
+        # FIVE boards, played in strength order — Board 1 is the team's best.
+        # A match is therefore out of 5 and lands on a half as often as not:
+        # 5-0, 3-2, 2.5-2.5 are all ordinary results.
+        "chess": [("board", 5)],
     }
 
     def dual_card(self, sport: Sport):
@@ -558,6 +562,11 @@ class Gen:
             if fam in sport.key:
                 return card
         return self.DUAL_CARDS["tennis"]
+
+    #: Chess results, as a chess result is written. A DRAW is the ordinary
+    #: outcome — roughly a third of decisive-strength games between matched
+    #: players — which is why the line has to carry one at all.
+    CHESS_DRAW = 0.30
 
     def line_score(self, sport: Sport, rng, home_wins: bool):
         """The printed score for one line, and what it is worth.
@@ -568,6 +577,12 @@ class Gen:
         fencing and badminton line in the state — the kind of wrong that is
         invisible in aggregate and obvious on the one page someone reads.
         """
+        if "chess" in sport.key:
+            # 1-0, 0-1 or 1/2-1/2, and the caller is told which by the winner
+            # it gets back rather than by the score string alone.
+            return ("1/2-1/2", 0.5) if home_wins is None else \
+                   (("1-0", 1.0) if home_wins else ("0-1", 1.0))
+
         if "wrestling" in sport.key:
             # The bout score is conventionally printed winner-first, so it does
             # not flip; the decision type is what sets the team points.
@@ -632,13 +647,21 @@ class Gen:
                         ap_players = []
                     home_wins = rng.random() < 0.5 + (self.strength(home, sport.key) -
                                 (self.strength(away, sport.key) if away in self.by_name else 0)) * 0.15
+                    if "chess" in sport.key and rng.random() < self.CHESS_DRAW:
+                        home_wins = None            # the board is drawn
                     score, pt = self.line_score(sport, rng, home_wins)
-                    if home_wins:
+                    if home_wins is None:
+                        hp += pt / 2
+                        ap += pt / 2
+                        won = "draw"
+                    elif home_wins:
                         hp += pt
+                        won = "home"
                     else:
                         ap += pt
+                        won = "away"
                     d.lines.append(Line(slot=flight, kind=kind, home=hp_players,
-                                        away=ap_players, winner="home" if home_wins else "away",
+                                        away=ap_players, winner=won,
                                         score=score, team_point=pt))
             d.home_points, d.away_points = hp, ap
         self.contests.append(d)

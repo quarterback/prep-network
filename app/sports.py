@@ -121,6 +121,14 @@ CATALOG: list[Sport] = [
     Sport("girls-golf", "Girls Golf", "spring", "Girls", S.MEET, M.STROKES, _g("7A 6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
     Sport("boys-track", "Boys Track & Field", "spring", "Boys", S.MEET, M.TIME, ALL_CLASSES, "broad"),
     Sport("girls-track", "Girls Track & Field", "spring", "Girls", S.MEET, M.TIME, ALL_CLASSES, "broad"),
+    # Chess is a DUAL: eight boards in order, a point a board, and boards that
+    # DRAW — the only sanctioned activity here whose team score is routinely a
+    # half (4.5-3.5). It runs one open championship rather than one per
+    # classification, and its reach is deliberately "broad" with no small-school
+    # penalty: the real Oregon association this is modelled on has been won by
+    # Cottage Grove, Clatskanie, Sweet Home and South Umpqua as often as by the
+    # big suburban programs, which is true of no other activity in the catalog.
+    Sport("chess", "Chess", "spring", "Coed", S.DUAL, None, OPEN, "broad"),
 ]
 
 BY_KEY: dict[str, Sport] = {s.key: s for s in CATALOG}

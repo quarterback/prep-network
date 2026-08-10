@@ -357,11 +357,15 @@ class Line:
     """One flight of a DUAL — singles 3, doubles 1, the 145lb bout."""
 
     slot: int
-    kind: str                       # "singles" | "doubles" | weight class
+    kind: str                       # "singles" | "doubles" | weight class | board
     home: list[Competitor] = field(default_factory=list)
     away: list[Competitor] = field(default_factory=list)
-    winner: str | None = None       # "home" | "away"
-    score: str | None = None        # "6-4, 3-6, 10-8" / "Fall 3:21"
+    #: "home" | "away" | "draw". A DRAWN line splits its team point — chess
+    #: boards halve (4.5-3.5 is an ordinary team score), and a shape that
+    #: could only record a winner could not carry the sport at all. `None`
+    #: still means unplayed, which is not the same thing as drawn.
+    winner: str | None = None
+    score: str | None = None        # "6-4, 3-6, 10-8" / "Fall 3:21" / "1/2-1/2"
     team_point: float = 1.0
 
 
@@ -380,7 +384,8 @@ class Dual(Contest):
     def compute_points(self) -> tuple[float, float]:
         h = sum(l.team_point for l in self.lines if l.winner == "home")
         a = sum(l.team_point for l in self.lines if l.winner == "away")
-        return h, a
+        half = sum(l.team_point for l in self.lines if l.winner == "draw") / 2
+        return h + half, a + half
 
 
 @dataclass
@@ -539,6 +544,13 @@ class TournamentFormat(str, Enum):
     BRACKET = "bracket"      # single elimination: GAME or DUAL per matchup
     MEET = "meet"            # one championship meet decides it: a MEET record
     SERIES = "series"        # multi-day aggregate (golf 36-hole, ski combined)
+    #: Every team plays the same number of ROUNDS and the title goes to the
+    #: best aggregate — nobody is eliminated. Chess runs five rounds over two
+    #: days this way, because a statewide field cannot round-robin and a
+    #: knockout would send half the teams home on Friday morning. Rounds and
+    #: matchups carry it unchanged; what differs is that the champion is the
+    #: top of a STANDINGS table rather than the winner of a last game.
+    SWISS = "swiss"
 
 
 class TournamentStatus(str, Enum):
@@ -709,6 +721,14 @@ class Tournament:
 
     @property
     def status(self) -> TournamentStatus:
+        if self.format is TournamentFormat.SWISS:
+            if not self.rounds:
+                return TournamentStatus.UPCOMING
+            if all(r.complete for r in self.rounds):
+                return TournamentStatus.COMPLETE
+            if any(r.started for r in self.rounds):
+                return TournamentStatus.IN_PROGRESS
+            return TournamentStatus.UPCOMING
         if self.format is not TournamentFormat.BRACKET:
             # A meet-decided title has no rounds to inspect. It is finished when
             # the meet it points at exists; before that it is a date on the
@@ -733,13 +753,50 @@ class Tournament:
             return None
         return self.rounds[-1].matchups[0]
 
+    def standings(self) -> list[tuple[str, float, int]]:
+        """(school, match points, boards won) — a Swiss result, best first.
+
+        A drawn MATCH is worth a half to each side, the same way a drawn board
+        is; board count is the tiebreak, which is what the sport actually uses.
+        """
+        pts: dict[str, float] = {e.school: 0.0 for e in self.entrants}
+        boards: dict[str, float] = {e.school: 0.0 for e in self.entrants}
+        for r in self.rounds:
+            for m in r.matchups:
+                if m.status != "final" or m.home is None:
+                    continue
+                hs, as_ = m.home_score or 0, m.away_score or 0
+                if m.away is None:                       # a bye is a full point
+                    pts[m.home] = pts.get(m.home, 0) + 1
+                    continue
+                boards[m.home] = boards.get(m.home, 0) + hs
+                boards[m.away] = boards.get(m.away, 0) + as_
+                if hs == as_:
+                    pts[m.home] = pts.get(m.home, 0) + 0.5
+                    pts[m.away] = pts.get(m.away, 0) + 0.5
+                elif hs > as_:
+                    pts[m.home] = pts.get(m.home, 0) + 1
+                else:
+                    pts[m.away] = pts.get(m.away, 0) + 1
+        rows = [(s, pts.get(s, 0.0), boards.get(s, 0.0)) for s in pts]
+        rows.sort(key=lambda r: (-r[1], -r[2], r[0]))
+        return rows
+
     @property
     def champion(self) -> str | None:
+        if self.format is TournamentFormat.SWISS:
+            if self.status is not TournamentStatus.COMPLETE:
+                return None
+            rows = self.standings()
+            return rows[0][0] if rows else None
         f = self.final
         return f.winner if f else None
 
     @property
     def runner_up(self) -> str | None:
+        if self.format is TournamentFormat.SWISS:
+            rows = self.standings() if self.champion else []
+            return rows[1][0] if len(rows) > 1 else None
         f = self.final
         return f.loser if f else None
 
