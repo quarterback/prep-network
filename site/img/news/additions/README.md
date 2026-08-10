@@ -6,8 +6,13 @@ after what it should replace:
 | Name it | And it becomes |
 | --- | --- |
 | a **sport key** — `cricket.jpg`, `boys-rugby.jpg`, `chess.jpg` | that sport's photo everywhere: sport hub, share card, story fallback |
+| a **sport key with the gender off** — `squash.jpg`, `rugby.jpg` | both sports in that pair, unless one of them has a file of its own |
 | a **photo family** — `track.jpg`, `aquatic.jpg`, `gym-generic.jpg` | every sport the stock library maps to that family |
 | a **news slug** — `tennis-semifinals-preview.jpg` | that story's lead image (slugs are in `site/news.py`) |
+
+The gendered pairs are looked up in that order, so `boys-squash.jpg` beats
+`squash.jpg` for boys squash and `squash.jpg` still covers the girls. One
+photograph of a court does not have to be committed twice.
 
 `.jpg`, `.jpeg`, `.png` and `.webp` all work. Landscape, 1200px wide or more.
 These are used as share-card images too, and the card is 1.91:1, so a portrait

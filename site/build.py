@@ -3211,13 +3211,21 @@ def _addition(*names, salt=""):
 def sport_photo(sport_key, salt=""):
     """(url, credit line) for the sport's action photograph.
 
-    The drop folder is checked first, by sport key and then by the family the
-    stock library groups it under, so one `track.jpg` can serve both track
-    sports and one `cricket.jpg` serves a sport the library has no picture for
-    at all.
+    The drop folder is checked first, by sport key, then by the key with its
+    gender prefix off, then by the family the stock library groups it under.
+    So `boys-squash.jpg` serves boys squash, `squash.jpg` serves both, and
+    `cricket.jpg` serves a sport the library has no picture for at all.
+
+    The middle step exists because the sport keys are gendered and the
+    photographs mostly are not — without it, one squash court has to be
+    committed twice under two names, or named for a family it does not belong
+    to. It is checked BELOW the exact key, so a genuinely gendered pair still
+    wins where somebody has supplied one.
     """
     k = SPORT_PHOTO.get(sport_key, "gym-generic")
-    hit = _addition(sport_key, k, salt=salt)
+    base = (sport_key.split("-", 1)[1]
+            if sport_key.startswith(("boys-", "girls-")) else None)
+    hit = _addition(sport_key, base, k, salt=salt)
     if hit:
         return hit
     if not (SPORTS_IMG / f"{k}.jpg").exists():
