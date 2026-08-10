@@ -503,6 +503,14 @@ class Game(Contest):
     periods: list[Period] = field(default_factory=list)
     status: str = "final"
     box: BoxScore | None = None
+    #: How the match ENDED, in the sport's own words, when a scoreline does
+    #: not say it. Cricket is the case that forces this: 104/6 beating 92/8 is
+    #: "won by 12 runs", but the same two totals reached in the other order is
+    #: "won by 4 wickets with 7 balls remaining", and a reader who is told
+    #: only the numbers has not been told the result. Tied matches, super
+    #: overs, rain-adjusted targets and abandonments live here too. Every
+    #: other sport leaves it None and loses nothing.
+    result: str | None = None
 
     @property
     def winner(self) -> str | None:

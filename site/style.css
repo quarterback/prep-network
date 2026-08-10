@@ -622,6 +622,10 @@ a.fh-wordmark:hover { text-decoration: none; opacity: 0.78; color: var(--on-mast
   white-space: nowrap; margin-left: auto;
 }
 .fh-pill:hover { background: var(--surface-hover); color: var(--text-link); text-decoration: none; }
+/* the sport's own sentence for how a match ended — cricket needs it, because
+   "104 to 92" is a pair of numbers and "won by 12 runs" is a result */
+.fh-score .rs { margin-top: 5px; font-size: var(--fs-small); font-weight: 700;
+  color: var(--accent-live); }
 
 /* ── 404 ────────────────────────────────────────────────────────────────
    The number is set in the WORDMARK face — the one type on the site nobody

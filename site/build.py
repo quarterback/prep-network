@@ -848,6 +848,8 @@ def share_desc(reg, c) -> str:
             tail = f" {t.group} {sp} {(r.name if r else 'championship').lower()}."
         elif getattr(c, "box", None):
             tail = " Full box score and scoring by period."
+        if getattr(c, "result", None):
+            return f"{c.result} — {sp}, {when}.{tail}"
         return (f"Final: {pairs[0][0]} {pairs[0][1]}, {pairs[1][0]} {pairs[1][1]} "
                 f"— {sp}, {when}.{tail}")
     return f"{c.away} at {c.home} — {sp}, {when}. Result posts when the contest is final."
@@ -1117,7 +1119,8 @@ def render_game(reg, c: Game):
 <div class="fh-score">
   <div class="side">{reg.crest(c.away,'lg')}<div class="tn">{reg.school_link(c.away)}</div></div>
   <div class="mid"><div class="big tnum">{score}</div>
-  <div class="st">{esc(status)} · {esc(nice_date(c.date))}</div></div>
+  <div class="st">{esc(status)} · {esc(nice_date(c.date))}</div>
+  {f'<div class="rs">{esc(c.result)}</div>' if getattr(c, "result", None) else ''}</div>
   <div class="side">{reg.crest(c.home,'lg')}<div class="tn">{reg.school_link(c.home)}</div></div>
 </div>
 {after}
