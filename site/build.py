@@ -5,7 +5,12 @@ Page types: front · scoreboard · sport landings · meet/game/dual contest page
 · school pages · conference mini-fronts · athlete pages. Every page carries the
 persistent score rail. The build fails on a broken internal link.
 
+Pages are rendered one at a time and written as they go, never all held at
+once — see `page_routes`. The link check runs on the hrefs harvested during
+that pass, against the route table rather than against retained page text.
+
     python3 site/build.py        # writes dist/site/ (+ dist/index.html preview)
+    FH_ONLY=front,tour ...       # only those page kinds; partial, not for deploy
 """
 
 from __future__ import annotations
@@ -14,6 +19,7 @@ import base64
 import hashlib
 import json
 import html
+import multiprocessing
 import os
 import pathlib
 import re
@@ -3698,6 +3704,32 @@ def _letter_favicon() -> str:
     )
 
 
+HREF = re.compile(r"href=['\"](/[^'\"#]*)")
+
+
+def link_check(refs, targets):
+    """`refs` maps each internal href the build emitted to one page carrying
+    it; `targets` is every url the site knows how to serve.
+
+    Split in two because the build no longer keeps the rendered pages around
+    to re-scan at the end — hrefs are harvested as each page is written and
+    the page text is dropped. Checking against the route table rather than
+    against what was rendered is also what lets a partial build still prove
+    its links point at real urls.
+    """
+    ok = set(targets) | {"/style.css", FAVICON}
+    broken = []
+    for href, src in sorted(refs.items()):
+        if href.startswith("/fonts/"):
+            if not (ROOT / "site/fonts" / href.split("/")[-1]).exists():
+                broken.append(f"{src} -> {href}")
+        elif href.startswith("/report/"):
+            if not (ROOT / href.lstrip("/")).exists():
+                broken.append(f"{src} -> {href}")
+        elif href not in ok:
+            broken.append(f"{src} -> {href}")
+    return broken
+
 
 def inline_preview(front):
     css = (ROOT / "site/style.css").read_text()
@@ -3710,11 +3742,11 @@ def inline_preview(front):
     return front.replace('<link rel="stylesheet" href="/style.css">', f"<style>\n{css}\n</style>")
 
 
-def write_sitemap(out: pathlib.Path, page_urls: list) -> None:
+def write_sitemap(out: pathlib.Path, pages) -> None:
     """A sitemap index plus shards, because 58,000 urls is past the 50,000 a
     single sitemap may carry — a crawler drops the whole file when it is over,
     so the limit is not advisory."""
-    urls = sorted(page_urls)
+    urls = sorted(pages)
     shards = [urls[i:i + 40000] for i in range(0, len(urls), 40000)]
     for n, shard in enumerate(shards, 1):
         body = "".join(f"<url><loc>{SITE_URL}{html.escape(u)}</loc></url>" for u in shard)
@@ -3730,130 +3762,210 @@ def write_sitemap(out: pathlib.Path, page_urls: list) -> None:
         f"{index}</sitemapindex>\n")
 
 
-def page_plan(reg):
-    """Every url the site will publish, paired with how to render it.
+def page_routes(reg):
+    """Every url the site serves, paired with the thunk that renders it.
 
-    Deferred as (url, thunk) rather than rendered here, so `build` can hold
-    the URL SET — which link checking and the sitemap need in full — without
-    holding 58,000 rendered pages at the same time.
+    The table is built whole and rendered lazily, which buys two things. The
+    build can hold one page in memory at a time instead of all 58,000 — the
+    dict of rendered pages this replaced peaked at 7 GB, most of it the same
+    masthead, rail and icon sprite repeated on every page. And a partial build
+    can still link-check against the complete url space, because the routes
+    exist here whether or not anything renders them.
     """
-    plan = [("/", lambda: render_front(reg)),
-            ("/scoreboard/", lambda: render_scoreboard(reg)),
-            ("/tour/", lambda: render_tour(reg)),
-            ("/schools/", lambda: render_schools_index(reg)),
-            ("/conferences/", lambda: render_confs_index(reg)),
-            ("/championships/", lambda: render_championships(reg)),
-            ("/news/", lambda: render_news_index(reg))]
+    r: dict[str, tuple[str, object]] = {}
+    r["/"] = ("front", lambda: render_front(reg))
+    r["/scoreboard/"] = ("scoreboard", lambda: render_scoreboard(reg))
+    r["/tour/"] = ("tour", lambda: render_tour(reg))
+    r["/schools/"] = ("index", lambda: render_schools_index(reg))
+    r["/conferences/"] = ("index", lambda: render_confs_index(reg))
+    r["/championships/"] = ("index", lambda: render_championships(reg))
+    r["/news/"] = ("index", lambda: render_news_index(reg))
     for st in news.STORIES:
-        plan.append((f"/news/{st['slug']}/", lambda st=st: render_story(reg, st)))
+        r[f"/news/{st['slug']}/"] = ("news", lambda st=st: render_story(reg, st))
     for c in reg.contests:
-        render = (render_meet if isinstance(c, Meet) else
-                  render_dual if isinstance(c, Dual) else render_game)
-        plan.append((reg.url(c), lambda c=c, r=render: r(reg, c)))
+        fn = (render_meet if isinstance(c, Meet) else
+              render_dual if isinstance(c, Dual) else render_game)
+        r[reg.url(c)] = ("contest", lambda c=c, fn=fn: fn(reg, c))
     for sp in CATALOG:
         # A hub exists for every activity somebody sponsors, even with no
         # contests yet — school pages link to it, and an empty season is a
         # state a real association site has to show anyway.
         if reg.by_sport.get(sp.key) or any(sp.key in s.get("sports", ())
                                            for s in reg.schools.values()):
-            plan += [(f"/sports/{sp.key}/", lambda sp=sp: render_sport(reg, sp)),
-                     (f"/sports/{sp.key}/standings/", lambda sp=sp: render_sport_standings(reg, sp)),
-                     (f"/sports/{sp.key}/schedule/", lambda sp=sp: render_sport_schedule(reg, sp)),
-                     (f"/sports/{sp.key}/champions/", lambda sp=sp: render_sport_champs(reg, sp))]
+            r[f"/sports/{sp.key}/"] = ("sport", lambda sp=sp: render_sport(reg, sp))
+            r[f"/sports/{sp.key}/standings/"] = (
+                "sport", lambda sp=sp: render_sport_standings(reg, sp))
             if sp.shape.value != "meet":
-                plan.append((f"/sports/{sp.key}/rankings/",
-                             lambda sp=sp: render_sport_rankings(reg, sp)))
+                r[f"/sports/{sp.key}/rankings/"] = (
+                    "sport", lambda sp=sp: render_sport_rankings(reg, sp))
+            r[f"/sports/{sp.key}/schedule/"] = (
+                "sport", lambda sp=sp: render_sport_schedule(reg, sp))
+            r[f"/sports/{sp.key}/champions/"] = (
+                "sport", lambda sp=sp: render_sport_champs(reg, sp))
     for sp in CATALOG:
         if reg.tour_by_sport.get(sp.key):
-            plan.append((f"/championships/{sp.key}/", lambda sp=sp: render_champ_sport(reg, sp)))
+            r[f"/championships/{sp.key}/"] = (
+                "championship", lambda sp=sp: render_champ_sport(reg, sp))
     for t in reg.tournaments:
-        plan.append((reg.tour_url[t.id], lambda t=t: render_tournament(reg, t)))
-    for sc in reg.schools.values():
-        plan.append((f"/schools/{sc['slug']}/", lambda sc=sc: render_school(reg, sc)))
+        r[reg.tour_url[t.id]] = ("championship", lambda t=t: render_tournament(reg, t))
+    for s in reg.schools.values():
+        r[f"/schools/{s['slug']}/"] = ("school", lambda s=s: render_school(reg, s))
     for slug, conf in reg.confs.items():
-        plan.append((f"/conferences/{slug}/", lambda conf=conf: render_conference(reg, conf)))
+        r[f"/conferences/{slug}/"] = ("conference", lambda conf=conf: render_conference(reg, conf))
     for a in reg.athletes.values():
-        plan.append((f"/athletes/{a['slug']}/", lambda a=a: render_athlete(reg, a)))
-    return plan
+        r[f"/athletes/{a['slug']}/"] = ("athlete", lambda a=a: render_athlete(reg, a))
+    return r
 
 
-def check_links(url, text, targets, broken):
-    for href in re.findall(r"href=['\"](/[^'\"#]*)", text):
-        if href.startswith("/fonts/"):
-            if not (ROOT / "site/fonts" / href.split("/")[-1]).exists():
-                broken.append(f"{url} -> {href}")
-        elif href.startswith("/report/"):
-            if not (ROOT / href.lstrip("/")).exists():
-                broken.append(f"{url} -> {href}")
-        elif href not in targets:
-            broken.append(f"{url} -> {href}")
+#: Set by build() before any worker forks, so the children inherit the whole
+#: route table — and the registry the thunks close over — as copy-on-write
+#: pages rather than pickling it across a pipe.
+ROUTES: dict[str, tuple[str, object]] = {}
+
+
+def render_slice(urls, stage):
+    """Render, write and drop each page in `urls`; return the hrefs it emitted.
+
+    The unit of parallelism. A page depends on nothing but the registry and
+    the module globals, both fixed before the fork, so slices cannot interact:
+    every worker writes to a distinct path, and the only thing that comes back
+    is href -> one page carrying it, which the parent merges for the link
+    check. The front page comes back with it because `dist/index.html` inlines
+    that exact text, before the og:url substitution.
+    """
+    refs: dict[str, str] = {}
+    front = ""
+    for url in urls:
+        text = ROUTES[url][1]()
+        for href in HREF.findall(text):
+            refs.setdefault(href, url)
+        rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
+        p = stage / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        # og:url and rel=canonical are the one thing in the head only this
+        # loop knows. Substituted here rather than threaded through every
+        # renderer's signature.
+        p.write_text(text.replace(OG_URL_TOKEN, url))
+        if url == "/":
+            front = text
+        # `text` is the last reference to this page and dies with the
+        # iteration. Retaining all of them to link-check at the end was the
+        # whole of the build's memory footprint.
+    return refs, front
+
+
+def render_all(picked, stage, jobs):
+    """`render_slice` over `jobs` forked workers, or inline when jobs == 1."""
+    if jobs == 1:
+        return render_slice(picked, stage)
+
+    # Round-robin, not contiguous blocks: the expensive pages cluster by kind
+    # (840 school pages each rendering a full season are most of the tail), so
+    # a block split leaves one worker running long after the others are idle.
+    slices = [picked[i::jobs] for i in range(jobs)]
+    ctx = multiprocessing.get_context("fork")
+    with ctx.Pool(jobs) as pool:
+        results = pool.starmap(render_slice, [(s, stage) for s in slices])
+
+    refs: dict[str, str] = {}
+    front = ""
+    for slice_refs, slice_front in results:      # slice order, so the link
+        for href, url in slice_refs.items():     # check reports the same
+            refs.setdefault(href, url)           # source page every run
+        front = front or slice_front
+    return refs, front
+
+
+def worker_count(n_pages):
+    """`FH_JOBS` if set, else one per core, capped.
+
+    Capped at 4 because each worker's copy-on-write share of the registry
+    diverges as CPython touches refcounts, so peak memory grows with workers
+    while wall time stops improving once the writes go I/O-bound. Small builds
+    stay serial — forking to render 18 pages costs more than it saves.
+    """
+    env = os.environ.get("FH_JOBS")
+    if env:
+        return max(1, int(env))
+    if not hasattr(os, "fork") or n_pages < 500:
+        return 1
+    return max(1, min(4, len(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity")
+                      else (os.cpu_count() or 1)))
 
 
 def build():
-    global RAIL, FAVICON
+    global RAIL, FAVICON, ROUTES
     reg = Registry()
     FAVICON = pick_favicon()
     RAIL = build_rail(reg)
     build_menus(reg)
 
-    plan = page_plan(reg)
-    urls = [u for u, _ in plan]
-    targets = set(urls) | {"/style.css", FAVICON}
+    ROUTES = routes = page_routes(reg)
+    only = {k.strip() for k in os.environ.get("FH_ONLY", "").split(",") if k.strip()}
+    if only - {kind for kind, _ in routes.values()}:
+        raise SystemExit(f"FH_ONLY: no such page kind {sorted(only - {k for k, _ in routes.values()})}; "
+                         f"known kinds are {sorted({k for k, _ in routes.values()})}")
+    picked = [u for u, (kind, _) in routes.items() if not only or kind in only]
 
-    shutil.rmtree(OUT, ignore_errors=True)
-    # RENDER, CHECK AND WRITE ONE PAGE AT A TIME. Accumulating all 58,000 in a
-    # dict first cost ~3GB of HTML strings on top of the records already in
-    # memory, and the whole build peaked at 7.1GB — inside an 8GB build
-    # container, which is how a deploy starts failing silently and the live
-    # site quietly serves the previous commit.
-    broken, front = [], None
-    for url, render in plan:
-        text = render()
-        check_links(url, text, targets, broken)
-        if len(broken) > 40:
-            break
-        rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
-        out = OUT / rel
-        out.parent.mkdir(parents=True, exist_ok=True)
-        # og:url and rel=canonical are the one thing in the head only this
-        # loop knows. Substituted here rather than threaded through every
-        # renderer's signature.
-        page = text.replace(OG_URL_TOKEN, url)
-        out.write_text(page)
-        if url == "/":
-            front = page
+    # Staged, not written straight into OUT: pages now go to disk before the
+    # link check can run, and a build that fails its check must leave the last
+    # good tree standing rather than a half-written one.
+    (ROOT / "dist").mkdir(exist_ok=True)
+    stage = OUT.parent / (OUT.name + ".staging")
+    shutil.rmtree(stage, ignore_errors=True)
+    stage.mkdir(parents=True)
+
+    jobs = worker_count(len(picked))
+    refs, front = render_all(picked, stage, jobs)
+
+    broken = link_check(refs, routes)
     if broken:
         for b in broken[:20]:
             print("BROKEN:", b)
+        shutil.rmtree(stage, ignore_errors=True)
         raise SystemExit(f"{len(broken)} broken internal links")
 
-    shutil.copy(ROOT / "site/style.css", OUT / "style.css")
-    # Not in the plan: it must land at 404.html, not 404/index.html, and it
-    # must stay out of the sitemap.
-    (OUT / "404.html").write_text(render_404(reg).replace(OG_URL_TOKEN, "/404"))
-    write_favicon(OUT)
-    shutil.copytree(ROOT / "site/fonts", OUT / "fonts")
+    shutil.copy(ROOT / "site/style.css", stage / "style.css")
+    # Not a route: it must land at 404.html, not 404/index.html, and it must
+    # stay out of the sitemap.
+    (stage / "404.html").write_text(render_404(reg).replace(OG_URL_TOKEN, "/404"))
+    write_favicon(stage)
+    shutil.copytree(ROOT / "site/fonts", stage / "fonts")
     if NEWS_IMG.exists():
-        shutil.copytree(NEWS_IMG, OUT / "img/news", ignore=shutil.ignore_patterns("credits.json"))
+        # `additions` is a child of this folder but is published at its own
+        # path below — copying it here too would ship every photograph twice
+        shutil.copytree(NEWS_IMG, stage / "img/news",
+                        ignore=shutil.ignore_patterns("credits.json", "additions"))
     if SPORTS_IMG.exists():
-        shutil.copytree(SPORTS_IMG, OUT / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
+        shutil.copytree(SPORTS_IMG, stage / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
     if ADDITIONS.exists():
-        shutil.copytree(ADDITIONS, OUT / "img/additions",
-                        ignore=shutil.ignore_patterns("credits.json", "*.txt"))
+        # served flat at /img/additions/ though it lives inside img/news/, so
+        # a photograph dropped in one folder never collides with a story slug
+        shutil.copytree(ADDITIONS, stage / "img/additions",
+                        ignore=shutil.ignore_patterns("credits.json", "*.md", "*.txt"))
     if (ROOT / "site/img/og.jpg").exists():
-        shutil.copy(ROOT / "site/img/og.jpg", OUT / "img/og.jpg")
-    (OUT / "robots.txt").write_text(
+        shutil.copy(ROOT / "site/img/og.jpg", stage / "img/og.jpg")
+    (stage / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
-    write_sitemap(OUT, urls)
-    shutil.copytree(ROOT / "report", OUT / "report")
-    for f in (OUT / "report").glob("*.html"):
+    if only:
+        # A sitemap listing urls this run did not write would advertise 404s.
+        print(f"FH_ONLY={','.join(sorted(only))}: {len(picked):,} of {len(routes):,} pages, "
+              "no sitemap — a partial tree, for local work, not for deploy")
+    else:
+        write_sitemap(stage, picked)
+    shutil.copytree(ROOT / "report", stage / "report")
+    for f in (stage / "report").glob("*.html"):
         f.write_text(f.read_text().replace("{{WORDMARK}}", WORDMARK)
                      .replace("{{NAME}}", NAME).replace("{{FAVICON}}", favicon_tag().strip()))
     n_rec = stdsite.write_records(ROOT, news.STORIES)
-    wk = stdsite.write_well_known(OUT)
-    (ROOT / "dist").mkdir(exist_ok=True)
-    (ROOT / "dist/index.html").write_text(inline_preview(front))
-    print(f"{len(urls):,} pages · {len(reg.schools)} schools · {len(reg.athletes):,} athletes · links OK")
+    wk = stdsite.write_well_known(stage)
+
+    shutil.rmtree(OUT, ignore_errors=True)
+    stage.rename(OUT)
+    if front:
+        (ROOT / "dist/index.html").write_text(inline_preview(front))
+    print(f"{len(picked):,} pages · {len(reg.schools)} schools · {len(reg.athletes):,} athletes"
+          f" · {jobs} worker{'s' if jobs > 1 else ''} · links OK")
     print(f"standard.site: {n_rec} records"
           + (f" · published as {stdsite.PUB_URI}" if wk else " · unpublished (FH_PUB_URI unset)"))
 

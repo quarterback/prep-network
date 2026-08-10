@@ -45,7 +45,7 @@ is written against real structure instead of an invented one.
 | `app/shapes.py` — MEET / DUAL / GAME + postseason | working |
 | `app/postseason.py` — bracket geometry | working |
 | `generators/` — the fictional state, incl. 174 championships | working |
-| `site/build.py` — 59,096 pages, three tenant tiers | working |
+| `site/build.py` — 59,096 pages, three tenant tiers | working, 64 s / 1.8 GB |
 | `social/bsky.py` — Bluesky posts composed from the records | working |
 | `atproto/` — lexicons, local repo store, relay, AppView | not started |
 
@@ -57,6 +57,8 @@ python3 -m ingest.run --demo --write              # replay the specimen imports
 python3 -m generators.jefferson.postseason        # derive the championship layer
 python3 -m generators.jefferson.boxscores         # periods and box scores
 python3 site/build.py                             # writes dist/site/ (58,497 pages)
+FH_ONLY=front,tour,index python3 site/build.py    # just those page kinds, for local work
+FH_JOBS=1 python3 site/build.py                   # serial; default forks one worker per core
 ```
 
 That is also the REBUILD ORDER: `gen` clears the contest store, so the
@@ -181,3 +183,19 @@ Three things, each of which fails silently and plausibly:
 
 See [`docs/AAR-project-genesis-and-source-research.md`](docs/AAR-project-genesis-and-source-research.md)
 for the source research and the reasoning behind the scope.
+
+## What 58,000 pages actually costs
+
+The build was measured before it was changed, and most of the intuitions about
+it were wrong. Page count was never the problem: peak memory was the whole site
+held as live strings for one link check, and 48.2 KB of the smallest 50.7 KB
+page is chrome every other page also carries. Streaming the pages to disk and
+rendering them across forked workers took the build from **252 s / 7.3 GB to
+64 s / 1.8 GB with byte-identical output**.
+
+The measurement worth keeping is the link graph: `/tour/` alone reaches 98.7% of
+the site, because every masthead links `/schools/` and every school links its
+whole season. This site cannot be pruned by reachability — only federated,
+where a cross-origin link stops being a dead one.
+
+See [`docs/AAR-build-scaling.md`](docs/AAR-build-scaling.md).

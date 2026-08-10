@@ -54,12 +54,22 @@ file with no entry at all renders without a credit line rather than failing.
 
 ## Sport keys still on a borrowed picture
 
-These have no photograph of their own, so a file named for them is the biggest
-single improvement available:
+Sixteen sports now lead on a photograph from this folder. Thirty-five are still
+on the stock library, and a file named for any of them is the biggest single
+improvement available. The ones where the borrowed picture is furthest off:
 
-`chess` · `boys-squash` · `girls-squash` · `softball` · `boys-lacrosse` ·
-`field-hockey` · `mountain-biking` · `competitive-spirit` ·
-`girls-flag-football` · `debate` · `choir` · `winter-track`
+| Key | Currently showing |
+| --- | --- |
+| `chess` | a general-purpose gym interior, shared with `debate` |
+| `boys-squash`, `girls-squash` | an aerial of tennis courts |
+| `girls-flag-football` | tackle football |
+| `competitive-spirit` | gymnastics |
+| `mountain-biking` | a cross-country trail |
+| `boys-lacrosse`, `field-hockey` | one generic field-sports frame |
+| `winter-track` | outdoor track |
+| `choir` | a marching band |
 
-Squash currently borrows a tennis court and both diamond sports share one
-baseball photo; chess and debate share a general-purpose gym interior.
+The rest — basketball, soccer, wrestling, swimming, hockey, skiing, volleyball,
+bowling, fencing, gymnastics, track, cross country, water polo — are on stock
+photographs of the right sport, so they read correctly; they are just not as
+good as these.
