@@ -540,7 +540,12 @@ def image_size(path: str) -> tuple[int, int] | None:
     """
     if path in _OG_DIMS:
         return _OG_DIMS[path]
-    f = ROOT / "site" / path.lstrip("/")
+    # the drop folder is served flat at /img/additions/ but lives one level
+    # deeper in the tree, so the naive join misses every photograph in it and
+    # the card it feeds ships without a box to reserve
+    f = (ADDITIONS / path.split("/img/additions/")[-1]
+         if path.startswith("/img/additions/")
+         else ROOT / "site" / path.lstrip("/"))
     dims = None
     try:
         d = f.read_bytes()
@@ -1530,7 +1535,13 @@ def render_sport(reg, sport):
 
     body = sport_header(reg, sport) + body_inner
     crumb = f"<a href='/'>{NAME}</a> › {esc(sport.name)}"
-    return shell(page_title(f"{sport.name}"), body, crumb)
+    # 51 sport fronts are the most-linked pages on the site after the schools,
+    # and every one of them was pasting as the generic fallback card
+    return shell(page_title(f"{sport.name}"), body, crumb,
+                 desc=(f"JHSAA {sport.name} — {SEASON_LABEL} results, schedule, "
+                       f"standings and the state championship, every "
+                       f"classification."),
+                 image=sport_photo(sport.key)[0])
 
 
 def _champ_winner(c):
@@ -1874,8 +1885,8 @@ def render_school(reg, s):
              (played[0] if played else None)
     lead = ""
     if lead_item is not None:
-        photo = sport_photo(lead_item["sport"]) if lead_item.get("sport") in BY_KEY \
-            else sport_photo("football")
+        photo = sport_photo(lead_item["sport"], salt=name) \
+            if lead_item.get("sport") in BY_KEY else sport_photo("football", salt=name)
         lead = feature_panel(
             f"{esc(lead_item['label'])} · {esc(nice_date(lead_item['date']))}",
             esc(lead_item["headline"]),
@@ -1897,7 +1908,7 @@ def render_school(reg, s):
                              f"{dk} · <a href='{reg.url(lead_c)}'>Full result →</a>",
                              s.get("colors") or ["#14294e", "#c8ccd4"],
                              watermark=reg.mark(name, 200),
-                             photo=sport_photo(lead_c.sport))
+                             photo=sport_photo(lead_c.sport, salt=name))
 
     recent_rows = [event_card(reg, c, final=True) for c in played[:4]]
     next_rows = [event_card(reg, c, final=False) for c in upcoming[:4]]
@@ -2174,7 +2185,8 @@ def render_conference(reg, conf):
             f"{esc(lead_item['dek'])} <a href='{item_href(reg, lead_item)}'>More →</a>",
             marks.conf_colors(conf["name"]),
             watermark=marks.conf_mark(conf["name"], 200),
-            photo=sport_photo(lead_item.get("sport") or default_key or "football"))
+            photo=sport_photo(lead_item.get("sport") or default_key or "football",
+                              salt=conf["name"]))
     elif default_key:
         rec = reg.records_for(default_key)
         rows = sorted(((s, r) for s, r in rec.items() if s in mset),
@@ -2189,7 +2201,7 @@ def render_conference(reg, conf):
                 f"in {esc(conf['name'])} play · <a href='#standings'>Standings →</a>",
                 marks.conf_colors(conf["name"]),
                 watermark=marks.conf_mark(conf["name"], 200),
-                photo=sport_photo(default_key))
+                photo=sport_photo(default_key, salt=conf["name"]))
 
     # ---- composite week, grouped by day ----
     week = sorted((c for c in reg.contests if c.date and
@@ -3092,11 +3104,20 @@ def render_confs_index(reg):
 
 
 SPORTS_IMG = ROOT / "site/img/sports"
-try:
-    import json as _json2
-    SPORTS_CREDITS = _json2.load(open(SPORTS_IMG / "credits.json"))
-except Exception:
-    SPORTS_CREDITS = {}
+
+
+def _credits(path):
+    """A credits sidecar, or an empty one. Missing credits must not stop a
+    build; a *misread* one silently dropping every credit is the failure that
+    matters, so the read is narrow rather than a bare `except`."""
+    try:
+        with open(path) as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return {}
+
+
+SPORTS_CREDITS = _credits(SPORTS_IMG / "credits.json")
 
 # sport key -> photo in the action library; news-style surfaces carry a real
 # photograph, per the owner's rule
@@ -3106,8 +3127,15 @@ for _k, _names in {
     "soccer": ("boys-soccer", "girls-soccer"),
     "volleyball": ("girls-volleyball", "boys-volleyball"),
     "trail": ("boys-cross-country", "girls-cross-country", "mountain-biking"),
-    "tennis": ("girls-tennis", "boys-tennis", "girls-badminton"),
+    # racquet sports: badminton and squash have no stock picture of their own,
+    # and a racquet on a court is a much closer miss than the archive photo
+    # they were falling through to
+    "tennis": ("girls-tennis", "boys-tennis", "badminton",
+               "boys-squash", "girls-squash"),
     "golf": ("boys-golf", "girls-golf"),
+    # `baseball.jpg` has been in the library since the first build and nothing
+    # pointed at it — both diamond sports were resolving to `gym-generic`
+    "baseball": ("baseball", "softball", "cricket"),
     "aquatic": ("boys-water-polo", "girls-water-polo", "boys-swimming", "girls-swimming"),
     "basketball": ("boys-basketball", "girls-basketball"),
     "wrestling": ("boys-wrestling", "girls-wrestling"),
@@ -3118,8 +3146,9 @@ for _k, _names in {
     "gymnastics": ("gymnastics", "competitive-spirit"),
     "track": ("winter-track", "boys-track", "girls-track"),
     "performing": ("marching-band", "choir"),
-    "field": ("boys-lacrosse", "girls-lacrosse", "field-hockey", "ultimate"),
-    "gym-generic": ("debate",),
+    "field": ("boys-lacrosse", "girls-lacrosse", "field-hockey", "ultimate",
+              "boys-rugby", "girls-rugby"),
+    "gym-generic": ("debate", "chess"),
 }.items():
     for _n in _names:
         SPORT_PHOTO[_n] = _k
@@ -3130,25 +3159,50 @@ for _k, _names in {
 #: the stock library without touching any code — which is the point, because
 #: the person choosing the pictures should not have to edit a Python file to
 #: use one. Credits go in `additions/credits.json`, same shape as the others.
+#:
+#: A name may carry VARIANTS — `baseball.jpg`, `baseball-2.jpg`,
+#: `baseball-3.jpg`. All of them are that sport's photo; which one a given
+#: surface gets is chosen by a stable hash of the caller's `salt` (a school
+#: name, a conference), so 840 school fronts leading on baseball do not all
+#: lead on the same frame. No salt means variant one, every time.
 ADDITIONS = ROOT / "site/img/news/additions"
+_ADDITION_EXTS = ("jpg", "jpeg", "png", "webp")
 
 
-def _addition(*names):
-    """The first of `names` that exists in the drop folder, as (url, credit)."""
+def _variants(name):
+    """Every file in the drop folder that is `name` or `name-<n>`, in order."""
+    out = []
+    for ext in _ADDITION_EXTS:
+        if (ADDITIONS / f"{name}.{ext}").exists():
+            out.append(f"{name}.{ext}")
+    n = 2
+    while True:
+        hit = [f"{name}-{n}.{ext}" for ext in _ADDITION_EXTS
+               if (ADDITIONS / f"{name}-{n}.{ext}").exists()]
+        if not hit:
+            break
+        out += hit
+        n += 1
+    return out
+
+
+def _addition(*names, salt=""):
+    """The first of `names` present in the drop folder, as (url, credit)."""
     for n in names:
         if not n:
             continue
-        for ext in ("jpg", "jpeg", "png", "webp"):
-            f = ADDITIONS / f"{n}.{ext}"
-            if f.exists():
-                c = ADDITION_CREDITS.get(n, {})
-                credit = " · ".join(x for x in (c.get("credit", ""),
-                                                c.get("license", "")) if x)
-                return f"/img/additions/{n}.{ext}", credit
+        files = _variants(n)
+        if not files:
+            continue
+        f = files[zlib.crc32(salt.encode()) % len(files)] if salt else files[0]
+        c = ADDITION_CREDITS.get(f.rsplit(".", 1)[0], ADDITION_CREDITS.get(n, {}))
+        credit = " · ".join(x for x in (c.get("credit", ""),
+                                        c.get("license", "")) if x)
+        return f"/img/additions/{f}", credit
     return None
 
 
-def sport_photo(sport_key):
+def sport_photo(sport_key, salt=""):
     """(url, credit line) for the sport's action photograph.
 
     The drop folder is checked first, by sport key and then by the family the
@@ -3157,7 +3211,7 @@ def sport_photo(sport_key):
     at all.
     """
     k = SPORT_PHOTO.get(sport_key, "gym-generic")
-    hit = _addition(sport_key, k)
+    hit = _addition(sport_key, k, salt=salt)
     if hit:
         return hit
     if not (SPORTS_IMG / f"{k}.jpg").exists():
@@ -3168,44 +3222,46 @@ def sport_photo(sport_key):
 
 
 NEWS_IMG = ROOT / "site/img/news"
-try:
-    ADDITION_CREDITS = _json.load(open(ADDITIONS / "credits.json"))
-except Exception:
-    ADDITION_CREDITS = {}
-try:
-    import json as _json
-    NEWS_CREDITS = _json.load(open(NEWS_IMG / "credits.json"))
-except Exception:
-    NEWS_CREDITS = {}
+ADDITION_CREDITS = _credits(ADDITIONS / "credits.json")
+NEWS_CREDITS = _credits(NEWS_IMG / "credits.json")
 
 
-def story_photo(st):
+def story_photo(st, salt=""):
     """(url, credit) for a story — its own photograph, or its sport's.
 
     Only eleven of the stories have a picture of their own. Without a
     fallback the ones that do not lead the front page as a flat colour
     block, which reads as a bug rather than a choice.
     """
-    hit = _addition(st["slug"])
+    hit = _addition(st["slug"], salt=salt)
     if hit:
         return hit
     if (NEWS_IMG / f"{st['slug']}.jpg").exists():
         c = NEWS_CREDITS.get(st["slug"], {})
         credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
         return f"/img/news/{st['slug']}.jpg", credit
-    return sport_photo(st.get("sport") or "gym-generic")
+    return sport_photo(st.get("sport") or "gym-generic", salt=salt)
 
 
 def story_img(st, cls=""):
-    """The story's photograph, when one exists on disk. Every credit renders —
-    the licenses require it, and a real newsroom would print it anyway."""
-    if not (NEWS_IMG / f"{st['slug']}.jpg").exists():
+    """The story's photograph. Every credit renders — the licenses require it,
+    and a real newsroom would print it anyway.
+
+    This used to look only in `img/news/`, so a story whose picture arrived in
+    the drop folder ran its article page with no image at all while the same
+    photograph led the front page.
+    """
+    src = _addition(st["slug"]) or (
+        (f"/img/news/{st['slug']}.jpg",
+         " · ".join(x for x in (NEWS_CREDITS.get(st["slug"], {}).get("credit", ""),
+                                NEWS_CREDITS.get(st["slug"], {}).get("license", "")) if x))
+        if (NEWS_IMG / f"{st['slug']}.jpg").exists() else None)
+    if not src:
         return ""
-    c = NEWS_CREDITS.get(st["slug"], {})
-    credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
+    url, credit = src
     cap = f"<figcaption>Photo: {esc(credit)}</figcaption>" if credit else ""
     return (f"<figure class='fh-figure {cls}'>"
-            f"<img src='/img/news/{st['slug']}.jpg' alt='' loading='lazy'>{cap}</figure>")
+            f"<img src='{url}' alt='' loading='lazy'>{cap}</figure>")
 
 
 def render_story(reg, st):
