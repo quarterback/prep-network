@@ -464,15 +464,75 @@ DRAWER_SPORTS = ""  # mobile drawer, same material as the dropdowns
 DRAWER_RES = ""
 
 
+def _base_name(sp):
+    """A sport's name with the gender off — "Boys Basketball" -> "Basketball"."""
+    for p in ("Boys ", "Girls "):
+        if sp.name.startswith(p):
+            return sp.name[len(p):]
+    return sp.name
+
+
+def collapse_pairs(keys, season=None):
+    """`keys` as [(label, key)], same-season gendered PAIRS COLLAPSED.
+
+    Only collapses where BOTH halves are in the set handed in. The set is
+    scoped by tier — the state front has every activity, a school has the ones
+    it sponsors — and a school that fields girls lacrosse and not boys has to
+    go on saying "Girls Lacrosse", because for that school it is not half of
+    anything.
+    """
+    sports = [BY_KEY[k] for k in dict.fromkeys(keys) if k in BY_KEY]
+    if season:
+        sports = [s for s in sports if s.season == season]
+    by = defaultdict(list)
+    for sp in sports:
+        by[(sp.season, _base_name(sp))].append(sp)
+    out = []
+    for (_, base), group in by.items():
+        lead = min(group, key=lambda s: s.name)
+        out.append((base if len(group) > 1 else lead.name, lead.key))
+    return sorted(out)
+
+
+def season_menu(reg, season):
+    """One season's activities, as (label, href) — gendered PAIRS COLLAPSED.
+
+    Fifty activities listed one gender at a time is a nav that cannot be
+    scanned and, at nineteen rows in a column, could not even be displayed:
+    the panel capped its own height and quietly hid the bottom of every
+    column behind a hover-scroll.
+
+    So where BOTH genders of a sport run in the SAME season — basketball,
+    wrestling, swimming, the two skiings, fencing, hockey, soccer, cross
+    country, water polo, lacrosse, track — the menu carries the sport ONCE,
+    under its plain name, and the boys/girls split happens on the page
+    (`gender_switch`). Where they run in DIFFERENT seasons they are genuinely
+    different entries in the calendar and stay separate: girls tennis is a
+    fall sport and boys tennis a spring one, and collapsing those would say
+    something untrue about when they are played.
+    """
+    return collapse_pairs([sp.key for sp in CATALOG if reg.by_sport.get(sp.key)],
+                          season)
+
+
+def gendered_pair(reg, sp):
+    """The other gender of `sp`, if it runs in the same season. Else None."""
+    if not sp.name.startswith(("Boys ", "Girls ")):
+        return None
+    base = _base_name(sp)
+    return next((o for o in CATALOG
+                 if o.key != sp.key and o.season == sp.season
+                 and _base_name(o) == base and reg.by_sport.get(o.key)), None)
+
+
 def build_menus(reg):
     """Nav dropdowns: sports by season, resources by audience."""
     global SPORT_MENU, RES_MENU, DRAWER_SPORTS, DRAWER_RES
     cols = []
     for season in ("fall", "winter", "spring"):
         links = "".join(
-            f"<a href='/sports/{sp.key}/'>{icons.icon(sp.key, 'fh-ic sm')}{esc(sp.name)}</a>"
-            for sp in sorted(CATALOG, key=lambda s: s.name)
-            if sp.season == season and reg.by_sport.get(sp.key))
+            f"<a href='/sports/{key}/'>{icons.icon(key, 'fh-ic sm')}{esc(label)}</a>"
+            for label, key in season_menu(reg, season))
         cols.append(f"<div><h4>{season.title()}</h4>{links}</div>")
     SPORT_MENU = f"<div class='fh-dropcols'>{''.join(cols)}</div>"
     rcols = []
@@ -487,9 +547,8 @@ def build_menus(reg):
     dsec = []
     for season in ("fall", "winter", "spring"):
         links = "".join(
-            f"<a href='/sports/{sp.key}/'>{icons.icon(sp.key, 'fh-ic sm')}{esc(sp.name)}</a>"
-            for sp in sorted(CATALOG, key=lambda s: s.name)
-            if sp.season == season and reg.by_sport.get(sp.key))
+            f"<a href='/sports/{key}/'>{icons.icon(key, 'fh-ic sm')}{esc(label)}</a>"
+            for label, key in season_menu(reg, season))
         dsec.append(f"<details><summary>{season.title()} sports</summary>"
                     f"<div class='items'>{links}</div></details>")
     DRAWER_SPORTS = "".join(dsec)
@@ -811,8 +870,12 @@ def score_line(reg, c):
             return ""
         pairs = [(c.home, f"{c.home_points:g}"), (c.away, f"{c.away_points:g}")]
     pairs.sort(key=lambda p: -float(p[1]))
-    return (f"{reg.school_link(pairs[0][0])} <b class='tnum'>{pairs[0][1]}</b>, "
-            f"{reg.school_link(pairs[1][0])} <b class='tnum'>{pairs[1][1]}</b>")
+
+    def n(v):
+        return f"<b class='tnum{' frac' if '.' in str(v) else ''}'>{v}</b>"
+
+    return (f"{reg.school_link(pairs[0][0])} {n(pairs[0][1])}, "
+            f"{reg.school_link(pairs[1][0])} {n(pairs[1][1])}")
 
 
 def meet_line(reg, c):
@@ -1165,10 +1228,11 @@ def render_dual(reg, c: Dual):
             f"<span class='fh-num tnum{' fh-dim' if drew else ''}'>"
             f"{esc(line.score or '')}</span></div>")
     score = (f"{c.away_points:g}&nbsp;–&nbsp;{c.home_points:g}" if c.home_points is not None else "—")
+    big = "big tnum frac" if "." in score else "big tnum"
     body = f"""
 <div class="fh-score">
   <div class="side">{reg.crest(c.away,'lg')}<div class="tn">{reg.school_link(c.away)}</div></div>
-  <div class="mid"><div class="big tnum">{score}</div>
+  <div class="mid"><div class="{big}">{score}</div>
   <div class="st">{esc(nice_date(c.date))}</div></div>
   <div class="side">{reg.crest(c.home,'lg')}<div class="tn">{reg.school_link(c.home)}</div></div>
 </div>
@@ -1299,16 +1363,41 @@ def sport_nav(sp, active):
     return f"<nav class='fh-subnav'>{links}</nav>"
 
 
+def gender_switch(reg, sp, active=""):
+    """Boys · Girls, where both run in the same season.
+
+    The nav lists such a sport ONCE, under its plain name, so this is where
+    the split actually happens — the page you land on has to be able to reach
+    the other half, and a reader who wants "basketball" should not have to
+    know which of two entries they clicked.
+    """
+    other = gendered_pair(reg, sp)
+    if other is None:
+        return ""
+    # `active` already carries its trailing slash ("rankings/"), and a pair is
+    # always the same shape, so the sub-page exists on both sides
+    pair = sorted((sp, other), key=lambda s: s.name)
+    return "<div class='fh-gsw'>" + "".join(
+        (f"<span class='on'>{esc(s.name.split(' ', 1)[0])}</span>" if s.key == sp.key
+         else f"<a href='/sports/{s.key}/{active}'>{esc(s.name.split(' ', 1)[0])}</a>")
+        for s in pair) + "</div>"
+
+
 def sport_header(reg, sp, active=""):
     groups = list(dict.fromkeys(sp.champ_group(c) for c in tuple(CLASSES)))
     chips = "".join(class_chip(g) if g[0].isdigit() else f"<span class='fh-tag'>{esc(g)}</span>"
                     for g in groups)
+    # a paired sport shows its plain name and lets the switch carry the gender;
+    # an unpaired one keeps its full name, because "Softball" and "Gymnastics"
+    # are not halves of anything
+    other = gendered_pair(reg, sp)
+    title = _base_name(sp) if other is not None else sp.name
     return f"""
 <div class="fh-idhdr sport">
   <span class="fh-sportmark">{icons.icon(sp.key, 'fh-ic lg')}</span>
-  <div><div class="name">{esc(sp.name)}</div>
+  <div><div class="name">{esc(title)}</div>
   <div class="meta">{esc(sp.season.title())} · {SEASON_LABEL} · championship divisions: {chips}</div></div>
-  <div class="side"></div>
+  <div class="side">{gender_switch(reg, sp, active)}</div>
 </div>
 {sport_nav(sp, active)}
 """
@@ -2505,6 +2594,27 @@ def render_tour(reg):
                 reg, used, Meet, lambda c: len(c.events) > 8 and not imported(c),
                 "a full event card")),
         ]),
+        # The formats added to find where the three shapes stop bending. Each
+        # row is a thing the model could not express before it was asked to.
+        ("Formats the shapes had to stretch for", [
+            ("Chess — a DRAWN board", _first(
+                reg, used, Dual,
+                lambda c: c.sport == "chess" and any(l.winner == "draw" for l in c.lines),
+                "a line with no winner: the point splits, 2.5-2.5 is ordinary")),
+            ("Cricket — two innings", game_where(
+                lambda c: has_box(c, "cricket"),
+                "batting and bowling cards belonging to opposite sides, and a "
+                "result sentence: runs if defended, wickets if chased")),
+            ("Rugby sevens", game_where(
+                lambda c: has_box(c, "boys-rugby") or has_box(c, "girls-rugby"),
+                "tries, conversions and penalties that sum to the scoreline")),
+            ("Badminton — one co-ed squad", _first(
+                reg, used, Dual, lambda c: c.sport == "badminton",
+                "five lines off eight players: boys, girls, two mixed, one singles")),
+            ("Squash — a five-line ladder", _first(
+                reg, used, Dual, lambda c: c.sport == "squash",
+                "singles 1 through 5 in strength order; an odd card cannot tie")),
+        ]),
         ("Ingestion", [
             ("Imported box score", game_where(
                 lambda c: imported(c) and getattr(c, "box", None),
@@ -2529,6 +2639,7 @@ def render_tour(reg):
                 lambda t: t.format is TF.BRACKET and t.size == 4)),
             ("Title decided by a meet", tour_of(
                 lambda t: t.format is TF.MEET and t.meet_key)),
+            ("Title decided by a SWISS", tour_of(lambda t: t.format is TF.SWISS)),
         ]),
         ("Organisations", [
             ("School athletics site", (f"/schools/{school['slug']}/",
@@ -2538,7 +2649,9 @@ def render_tour(reg):
                                  reg.confs[conf_slug]["name"], "same treatment")),
             ("Athlete", (f"/athletes/{athlete['slug']}/", athlete["name"],
                          "results across the season") if athlete else None),
-            ("Sport hub", ("/sports/boys-basketball/", "Boys Basketball", "")),
+            ("Sport hub", ("/sports/boys-basketball/", "Basketball",
+                           "paired sport: the nav lists it once, the page "
+                           "carries the Boys / Girls switch")),
             ("Standings", ("/sports/boys-basketball/standings/", "League tables", "")),
             ("Scoreboard", ("/scoreboard/", "Every result, filterable", "")),
         ]),
@@ -2624,7 +2737,7 @@ def render_scoreboard(reg):
 """
     crumb = f"<a href='/'>{NAME}</a> › Scoreboard"
     return shell(page_title(f"Scoreboard"), body, crumb,
-                 desc=("Every JHSAA result and fixture, all 45 activities on one "
+                 desc=("Every JHSAA result and fixture, all 50 activities on one "
                        "board — filter by sport, classification, conference and day."))
 
 
@@ -3149,8 +3262,7 @@ for _k, _names in {
     # racquet sports: badminton and squash have no stock picture of their own,
     # and a racquet on a court is a much closer miss than the archive photo
     # they were falling through to
-    "tennis": ("girls-tennis", "boys-tennis", "badminton",
-               "boys-squash", "girls-squash"),
+    "tennis": ("girls-tennis", "boys-tennis", "badminton", "squash"),
     "golf": ("boys-golf", "girls-golf"),
     # `baseball.jpg` has been in the library since the first build and nothing
     # pointed at it — both diamond sports were resolving to `gym-generic`
@@ -3447,11 +3559,12 @@ def season_ribbon(sport_keys, current="winter", link=None, tail=""):
         f"{sn.title()}</button>" for sn in seasons)
     panes = []
     for sn in seasons:
+        # same collapsing as the nav: a ribbon that lists Boys and Girls
+        # Basketball as two tiles says the school runs two sports
         items = "".join(
-            f"<a class='fh-ribbonitem' href='{link(sp.key)}' title='{esc(sp.name)}'>"
-            f"{icons.icon(sp.key)}<span>{esc(sp.name)}</span></a>"
-            for sp in sorted((BY_KEY[k] for k in sport_keys), key=lambda s: s.name)
-            if sp.season == sn)
+            f"<a class='fh-ribbonitem' href='{link(key)}' title='{esc(label)}'>"
+            f"{icons.icon(key)}<span>{esc(label)}</span></a>"
+            for label, key in collapse_pairs(sport_keys, sn))
         panes.append(f"<div class='fh-sportribbon' data-season-pane='{sn}'>"
                      f"<h3 class='fh-seasonlabel'>{sn.title()}</h3>{items}</div>")
     return f"""

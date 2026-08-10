@@ -85,6 +85,10 @@ CATALOG: list[Sport] = [
     Sport("boys-golf", "Boys Golf", "fall", "Boys", S.MEET, M.STROKES, _g("7A 6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
     Sport("mountain-biking", "Mountain Biking", "fall", "Coed", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
     Sport("girls-rugby", "Girls Rugby Sevens", "fall", "Girls", S.GAME, None, _g("7A-5A 4A-1A"), "metro"),
+    # T10 cricket: ten overs a side, one innings each. A GAME whose box score
+    # is two INNINGS, each with a batting card and a bowling card. A boys'
+    # sport with no girls' counterpart, the way baseball is.
+    Sport("cricket", "Cricket", "fall", "Boys", S.GAME, None, _g("7A-4A 3A-1A"), "metro"),
     Sport("boys-water-polo", "Boys Water Polo", "fall", "Boys", S.GAME, None, OPEN, "aquatic"),
     Sport("girls-water-polo", "Girls Water Polo", "fall", "Girls", S.GAME, None, OPEN, "aquatic"),
     # ---- winter ----
@@ -106,6 +110,12 @@ CATALOG: list[Sport] = [
     Sport("gymnastics", "Gymnastics", "winter", "Girls", S.MEET, M.POINTS, _g("7A-5A 4A-1A"), "metro"),
     Sport("competitive-spirit", "Competitive Spirit", "winter", "Coed", S.MEET, M.POINTS, _g("7A 6A 5A 4A-1A"), "broad"),
     Sport("winter-track", "Winter Track", "winter", "Coed", S.MEET, M.TIME, OPEN, "metro"),
+    # A five-player singles LADDER, #1 through #5, clinching at three. Five is
+    # deliberate: it cannot tie, and it fits two courts in an hour where the
+    # traditional seven-player ladder needs four courts for two. CO-ED — one
+    # ladder, best five players in the school, which is how the sport is
+    # actually run where a school has two courts and not two programs.
+    Sport("squash", "Squash", "winter", "Coed", S.DUAL, None, _g("7A-5A 4A-1A"), "metro"),
     Sport("debate", "Debate", "winter", "Coed", S.MEET, M.ORDINAL, _g("7A-4A 3A-1A"), "metro", lower_is_better=True),
 
     # ---- spring ----
@@ -121,14 +131,6 @@ CATALOG: list[Sport] = [
     # twenty-one lines off a much bigger roster; five is the same shape at a
     # size a high school with one gym can actually field.
     Sport("badminton", "Badminton", "spring", "Coed", S.DUAL, None, _g("7A 6A 5A 4A-1A"), "metro"),
-    # A five-player singles LADDER, #1 through #5, clinching at three. Five is
-    # deliberate: it cannot tie, and it fits two courts in an hour where the
-    # traditional seven-player ladder needs four courts for two.
-    Sport("boys-squash", "Boys Squash", "spring", "Boys", S.DUAL, None, _g("7A-5A 4A-1A"), "metro"),
-    Sport("girls-squash", "Girls Squash", "spring", "Girls", S.DUAL, None, _g("7A-5A 4A-1A"), "metro"),
-    # T10 cricket: ten overs a side, one innings each. A GAME whose box score
-    # is two INNINGS, each with a batting card and a bowling card.
-    Sport("cricket", "Cricket", "spring", "Coed", S.GAME, None, _g("7A-4A 3A-1A"), "metro"),
     # Rugby sevens, split across the calendar the way the sport is played.
     Sport("boys-rugby", "Boys Rugby Sevens", "spring", "Boys", S.GAME, None, _g("7A-5A 4A-1A"), "metro"),
     Sport("ultimate", "Ultimate", "spring", "Coed", S.GAME, None, _g("7A-4A 3A-1A"), "metro"),
