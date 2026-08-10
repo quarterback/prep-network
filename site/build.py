@@ -3125,9 +3125,41 @@ for _k, _names in {
         SPORT_PHOTO[_n] = _k
 
 
+#: A drop folder. Anything named for a SPORT KEY (`cricket.jpg`), a NEWS SLUG
+#: (`tennis-semifinals-preview.jpg`) or a photo family (`track.jpg`) wins over
+#: the stock library without touching any code — which is the point, because
+#: the person choosing the pictures should not have to edit a Python file to
+#: use one. Credits go in `additions/credits.json`, same shape as the others.
+ADDITIONS = ROOT / "site/img/news/additions"
+
+
+def _addition(*names):
+    """The first of `names` that exists in the drop folder, as (url, credit)."""
+    for n in names:
+        if not n:
+            continue
+        for ext in ("jpg", "jpeg", "png", "webp"):
+            f = ADDITIONS / f"{n}.{ext}"
+            if f.exists():
+                c = ADDITION_CREDITS.get(n, {})
+                credit = " · ".join(x for x in (c.get("credit", ""),
+                                                c.get("license", "")) if x)
+                return f"/img/additions/{n}.{ext}", credit
+    return None
+
+
 def sport_photo(sport_key):
-    """(url, credit line) for the sport's action photograph."""
+    """(url, credit line) for the sport's action photograph.
+
+    The drop folder is checked first, by sport key and then by the family the
+    stock library groups it under, so one `track.jpg` can serve both track
+    sports and one `cricket.jpg` serves a sport the library has no picture for
+    at all.
+    """
     k = SPORT_PHOTO.get(sport_key, "gym-generic")
+    hit = _addition(sport_key, k)
+    if hit:
+        return hit
     if not (SPORTS_IMG / f"{k}.jpg").exists():
         k = "gym-generic"
     c = SPORTS_CREDITS.get(k, {})
@@ -3136,6 +3168,10 @@ def sport_photo(sport_key):
 
 
 NEWS_IMG = ROOT / "site/img/news"
+try:
+    ADDITION_CREDITS = _json.load(open(ADDITIONS / "credits.json"))
+except Exception:
+    ADDITION_CREDITS = {}
 try:
     import json as _json
     NEWS_CREDITS = _json.load(open(NEWS_IMG / "credits.json"))
@@ -3150,6 +3186,9 @@ def story_photo(st):
     fallback the ones that do not lead the front page as a flat colour
     block, which reads as a bug rather than a choice.
     """
+    hit = _addition(st["slug"])
+    if hit:
+        return hit
     if (NEWS_IMG / f"{st['slug']}.jpg").exists():
         c = NEWS_CREDITS.get(st["slug"], {})
         credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
@@ -3742,6 +3781,9 @@ def build():
         shutil.copytree(NEWS_IMG, OUT / "img/news", ignore=shutil.ignore_patterns("credits.json"))
     if SPORTS_IMG.exists():
         shutil.copytree(SPORTS_IMG, OUT / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
+    if ADDITIONS.exists():
+        shutil.copytree(ADDITIONS, OUT / "img/additions",
+                        ignore=shutil.ignore_patterns("credits.json", "*.txt"))
     if (ROOT / "site/img/og.jpg").exists():
         shutil.copy(ROOT / "site/img/og.jpg", OUT / "img/og.jpg")
     (OUT / "robots.txt").write_text(
