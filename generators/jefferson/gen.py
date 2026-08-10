@@ -469,6 +469,19 @@ class Gen:
             self.rosters[key] = self.rng.sample(pool, min(size, len(pool)))
         return self.rosters[key]
 
+    def squad(self, school, sport_key, want, size):
+        """The boys, or the girls, of a co-ed team.
+
+        `roster` filters on the SPORT's gender, which is all a single-gender
+        sport needs. Co-ed badminton has to field four of each and put them on
+        specific lines, so it asks for them separately.
+        """
+        key = (school, sport_key, want)
+        if key not in self.rosters:
+            pool = [p for p in self.pool(school) if p[2] == want]
+            self.rosters[key] = self.rng.sample(pool, min(size, len(pool)))
+        return self.rosters[key]
+
     # --------------------------------------------------------- schedules
     def weeks(self, start: dt.date, n: int, step=7):
         return [start + dt.timedelta(days=step * i) for i in range(n)]
@@ -506,6 +519,26 @@ class Gen:
             h = max(0, int(rng.gauss(2.8 + ds, 1.4))); a = max(0, int(rng.gauss(2.8 - ds, 1.4)))
             if h == a and rng.random() < 0.6:
                 (h, a) = (h + 1, a) if rng.random() < 0.5 + ds * 0.2 else (h, a + 1)
+            return h, a, None
+        if "rugby" in sport_key:
+            # Sevens: tries are five, conversions two, the odd penalty three.
+            def side(edge):
+                tries = max(0, int(rng.gauss(4 + edge, 1.8)))
+                conv = sum(1 for _ in range(tries) if rng.random() < 0.62)
+                pen = 1 if rng.random() < 0.12 else 0
+                return tries * 5 + conv * 2 + pen * 3
+            h, a = side(ds), side(-ds)
+            if h == a:
+                h += 5
+            return h, a, None
+        if "cricket" in sport_key:
+            # T10: ten overs a side. The SCORE is runs; wickets and the result
+            # sentence are attached by the box-score pass, which is the only
+            # place that knows how the innings actually went.
+            h = max(28, int(rng.gauss(96 + ds * 9, 22)))
+            a = max(28, int(rng.gauss(96 - ds * 9, 22)))
+            if h == a and rng.random() < 0.85:
+                h += rng.randint(1, 9)
             return h, a, None
         if "water-polo" in sport_key:
             return max(1, int(9 + 3 * ds + rng.gauss(0, 3))), max(1, int(9 - 3 * ds + rng.gauss(0, 3))), None
@@ -551,6 +584,12 @@ class Gen:
                                        "215", "285")],
         "fencing": [("foil", 3), ("épée", 3), ("sabre", 3)],
         "badminton": [("singles", 3), ("doubles", 2)],
+        # Five singles, #1 through #5, in ladder order. An odd card cannot tie.
+        "squash": [("singles", 5)],
+        # FIVE boards, played in strength order — Board 1 is the team's best.
+        # A match is therefore out of 5 and lands on a half as often as not:
+        # 5-0, 3-2, 2.5-2.5 are all ordinary results.
+        "chess": [("board", 5)],
     }
 
     def dual_card(self, sport: Sport):
@@ -558,6 +597,45 @@ class Gen:
             if fam in sport.key:
                 return card
         return self.DUAL_CARDS["tennis"]
+
+    #: Chess results, as a chess result is written. A DRAW is the ordinary
+    #: outcome — roughly a third of decisive-strength games between matched
+    #: players — which is why the line has to carry one at all.
+    CHESS_DRAW = 0.30
+
+    #: Co-ed badminton, five lines off four boys and four girls. Each entry is
+    #: (kind, how many boys, how many girls) and every athlete plays exactly
+    #: one line — which is the whole reason the squad is eight and not twelve.
+    BADMINTON_LINES = [
+        ("boys doubles", 2, 0),
+        ("girls doubles", 0, 2),
+        ("mixed doubles", 1, 1),
+        ("mixed doubles", 1, 1),
+        # The co-ed singles court is the one place an athlete plays twice:
+        # lines 1-4 use all eight, and the singles is Boy 1 or Girl 1 by the
+        # coach's designation. Dealing a fifth boy off a four-boy squad left
+        # the court empty, which is what happens when a spec says "everyone
+        # plays exactly one line" and then names a fifth line.
+        ("singles", 0, 0),
+    ]
+
+    def badminton_pairs(self, school, sport_key):
+        """Who plays which line: boys 1-2 together, girls 1-2 together, then
+        3s and 4s crossed into the two mixed pairs, then a singles court."""
+        boys = self.squad(school, sport_key, "Boys", 4)
+        girls = self.squad(school, sport_key, "Girls", 4)
+        bi = gi = 0
+        out = []
+        for kind, nb, ng in self.BADMINTON_LINES:
+            if kind == "singles":
+                # designated seed: the school's best boy or best girl
+                pick = boys[:1] if zlib.crc32(school.encode()) % 2 else girls[:1]
+                out.append(pick)
+                continue
+            out.append(boys[bi:bi + nb] + girls[gi:gi + ng])
+            bi += nb
+            gi += ng
+        return out
 
     def line_score(self, sport: Sport, rng, home_wins: bool):
         """The printed score for one line, and what it is worth.
@@ -568,6 +646,12 @@ class Gen:
         fencing and badminton line in the state — the kind of wrong that is
         invisible in aggregate and obvious on the one page someone reads.
         """
+        if "chess" in sport.key:
+            # 1-0, 0-1 or 1/2-1/2, and the caller is told which by the winner
+            # it gets back rather than by the score string alone.
+            return ("1/2-1/2", 0.5) if home_wins is None else \
+                   (("1-0", 1.0) if home_wins else ("0-1", 1.0))
+
         if "wrestling" in sport.key:
             # The bout score is conventionally printed winner-first, so it does
             # not flip; the decision type is what sets the team points.
@@ -582,6 +666,18 @@ class Gen:
             }[kind]
             return score, {"Fall": 6.0, "Dec": 3.0, "Maj": 4.0,
                            "Tech": 5.0, "Forfeit": 6.0}[kind]
+
+        if "squash" in sport.key:
+            # PAR to 11, best of five, and a game can go past 11 on deuce.
+            def game():
+                return rng.choice([f"11-{rng.randint(2, 9)}", "12-10", "13-11", "11-9"])
+            games = [game(), game(), game()]
+            if rng.random() < 0.34:            # dropped a game, or two
+                games = [game(), _flip_set(game()), game(), game()]
+                if rng.random() < 0.4:
+                    games = [games[0], games[1], _flip_set(game()), game(), game()]
+            score = ", ".join(games)
+            return (score if home_wins else _flip_set(score)), 1.0
 
         if "tennis" in sport.key:
             def set_score():
@@ -609,6 +705,14 @@ class Gen:
         d = Dual(name=name, date=date.isoformat(), sport=sport.key, season=SEASON,
                  home=home, away=away)
         if played and rng.random() < 0.985:
+            # Co-ed badminton assigns SPECIFIC people to specific lines —
+            # boys 1-2 to the boys' pair, 3 and 4 into the mixed pairs — so it
+            # cannot use the sequential deal the other cards use.
+            if "badminton" in sport.key:
+                self._badminton_dual(d, sport, home, away, rng)
+                self.contests.append(d)
+                return d
+
             slots = self.dual_card(sport)
             hr = self.roster(home, sport.key, 16)
             ar = self.roster(away, sport.key, 16) if away in self.by_name else []
@@ -632,17 +736,50 @@ class Gen:
                         ap_players = []
                     home_wins = rng.random() < 0.5 + (self.strength(home, sport.key) -
                                 (self.strength(away, sport.key) if away in self.by_name else 0)) * 0.15
+                    if "chess" in sport.key and rng.random() < self.CHESS_DRAW:
+                        home_wins = None            # the board is drawn
                     score, pt = self.line_score(sport, rng, home_wins)
-                    if home_wins:
+                    if home_wins is None:
+                        hp += pt / 2
+                        ap += pt / 2
+                        won = "draw"
+                    elif home_wins:
                         hp += pt
+                        won = "home"
                     else:
                         ap += pt
+                        won = "away"
                     d.lines.append(Line(slot=flight, kind=kind, home=hp_players,
-                                        away=ap_players, winner="home" if home_wins else "away",
+                                        away=ap_players, winner=won,
                                         score=score, team_point=pt))
             d.home_points, d.away_points = hp, ap
         self.contests.append(d)
         return d
+
+    def _badminton_dual(self, d, sport, home, away, rng):
+        """Five lines off eight players a side; first to three wins the dual."""
+        hp_lines = self.badminton_pairs(home, sport.key)
+        ap_lines = (self.badminton_pairs(away, sport.key)
+                    if away in self.by_name else [[]] * 5)
+        hp = ap = 0.0
+        flight = {"boys doubles": 0, "girls doubles": 0,
+                  "mixed doubles": 0, "singles": 0}
+        for i, (kind, _nb, _ng) in enumerate(self.BADMINTON_LINES):
+            flight[kind] += 1
+            home_wins = rng.random() < 0.5 + (self.strength(home, sport.key) -
+                        (self.strength(away, sport.key) if away in self.by_name else 0)) * 0.15
+            score, pt = self.line_score(sport, rng, home_wins)
+            if home_wins:
+                hp += pt
+            else:
+                ap += pt
+            d.lines.append(Line(
+                slot=flight[kind], kind=kind,
+                home=[Competitor(p[0], home, p[1]) for p in hp_lines[i]],
+                away=[Competitor(p[0], away, p[1]) for p in ap_lines[i]],
+                winner="home" if home_wins else "away",
+                score=score, team_point=pt))
+        d.home_points, d.away_points = hp, ap
 
     def round_robin(self, teams):
         """Circle method; returns rounds of (home, away)."""

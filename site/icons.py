@@ -33,6 +33,7 @@ ICONS = {
  "microphone": "<path d=\"M15 12.9a5 5 0 1 0 -3.902 -3.9\" /> <path d=\"M15 12.9l-3.902 -3.899l-7.513 8.584a2 2 0 1 0 2.827 2.83l8.588 -7.515z\" />",
  "messages": "<path d=\"M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10\" /> <path d=\"M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2\" />",
  "disc": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\" /> <path d=\"M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M7 12a5 5 0 0 1 5 -5\" /> <path d=\"M12 17a5 5 0 0 0 5 -5\" />",
+ "chess": "<path d=\"M8 16l1.5 -8h5l1.5 8\" /> <path d=\"M6 20h12v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v2z\" /> <path d=\"M12 4v2\" /> <path d=\"M11 5h2\" /> <path d=\"M9.5 8h5\" />",
  "yoga": "<path d=\"M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M4 20h4l1.5 -3\" /> <path d=\"M17 20l-1 -5h-5l1 -7\" /> <path d=\"M4 10l4 -1l4 -1l4 1.5l4 1.5\" />"
 }
 
@@ -77,11 +78,17 @@ SPORT_ICON = {
  "girls-golf": "golf",
  "boys-track": "run",
  "girls-track": "run",
- "girls-badminton": "ball-tennis",
+ "badminton": "ball-tennis",
+ "boys-squash": "ball-tennis",
+ "girls-squash": "ball-tennis",
+ "cricket": "ball-baseball",
+ "boys-rugby": "ball-american-football",
+ "girls-rugby": "ball-american-football",
  "ultimate": "disc",
  "marching-band": "music",
  "choir": "microphone",
- "debate": "messages"
+ "debate": "messages",
+ "chess": "chess"
 }
 
 

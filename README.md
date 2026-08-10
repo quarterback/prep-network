@@ -44,8 +44,9 @@ is written against real structure instead of an invented one.
 | `ingest/resolve.py` — source names → member schools | working |
 | `app/shapes.py` — MEET / DUAL / GAME + postseason | working |
 | `app/postseason.py` — bracket geometry | working |
-| `generators/` — the fictional state, incl. 165 championships | working |
-| `site/build.py` — 58,497 pages, three tenant tiers | working, 64 s / 1.8 GB |
+| `generators/` — the fictional state, incl. 174 championships | working |
+| `site/build.py` — 59,096 pages, three tenant tiers | working, 64 s / 1.8 GB |
+| `social/bsky.py` — Bluesky posts composed from the records | working |
 | `atproto/` — lexicons, local repo store, relay, AppView | not started |
 
 ```sh
@@ -121,12 +122,19 @@ resolved from the records at build time, so the page cannot rot into a list of
 404s when the state is regenerated; a category with no example says so rather
 than linking nowhere.
 
-See [`docs/AAR-ingestion-postseason-and-tenant-brands.md`](docs/AAR-ingestion-postseason-and-tenant-brands.md).
+See [`docs/AAR-ingestion-postseason-and-tenant-brands.md`](docs/AAR-ingestion-postseason-and-tenant-brands.md)
+and [`docs/AAR-editorial-layer-schemes-and-six-new-sports.md`](docs/AAR-editorial-layer-schemes-and-six-new-sports.md).
 
 ## The model
 
 Every activity a state association sanctions is a configuration over one of
 three shapes. Nothing downstream knows what sport it is looking at.
+
+Fifty-one activities, and the claim has been tested rather than asserted:
+squash and rugby sevens went in as pure configuration, while chess forced a
+drawn line and a no-elimination tournament format, badminton forced a squad
+handed out by gender inside a co-ed sport, and cricket forced a result
+sentence — "104 to 92" is a pair of numbers; "won by 12 runs" is a result.
 
 | Shape | Structure |
 | --- | --- |

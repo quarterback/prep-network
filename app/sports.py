@@ -84,6 +84,7 @@ CATALOG: list[Sport] = [
     Sport("girls-tennis", "Girls Tennis", "fall", "Girls", S.DUAL, None, _g("7A 6A 5A 4A 3A-1A"), "broad"),
     Sport("boys-golf", "Boys Golf", "fall", "Boys", S.MEET, M.STROKES, _g("7A 6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
     Sport("mountain-biking", "Mountain Biking", "fall", "Coed", S.MEET, M.TIME, OPEN, "mountain", lower_is_better=True),
+    Sport("girls-rugby", "Girls Rugby Sevens", "fall", "Girls", S.GAME, None, _g("7A-5A 4A-1A"), "metro"),
     Sport("boys-water-polo", "Boys Water Polo", "fall", "Boys", S.GAME, None, OPEN, "aquatic"),
     Sport("girls-water-polo", "Girls Water Polo", "fall", "Girls", S.GAME, None, OPEN, "aquatic"),
     # ---- winter ----
@@ -115,12 +116,34 @@ CATALOG: list[Sport] = [
     Sport("boys-tennis", "Boys Tennis", "spring", "Boys", S.DUAL, None, _g("7A 6A 5A 4A 3A-1A"), "broad"),
     Sport("boys-volleyball", "Boys Volleyball", "spring", "Boys", S.GAME, None, _g("7A 6A 5A-1A"), "metro"),
     Sport("girls-flag-football", "Girls Flag Football", "spring", "Girls", S.GAME, None, _g("7A 6A 5A 4A-1A"), "metro"),
-    Sport("girls-badminton", "Girls Badminton", "spring", "Girls", S.DUAL, None, _g("7A 6A 5A 4A-1A"), "metro"),
+    # Badminton is CO-ED and runs five lines off an eight-player squad — four
+    # boys, four girls, everyone in exactly one line. The full CIF format is
+    # twenty-one lines off a much bigger roster; five is the same shape at a
+    # size a high school with one gym can actually field.
+    Sport("badminton", "Badminton", "spring", "Coed", S.DUAL, None, _g("7A 6A 5A 4A-1A"), "metro"),
+    # A five-player singles LADDER, #1 through #5, clinching at three. Five is
+    # deliberate: it cannot tie, and it fits two courts in an hour where the
+    # traditional seven-player ladder needs four courts for two.
+    Sport("boys-squash", "Boys Squash", "spring", "Boys", S.DUAL, None, _g("7A-5A 4A-1A"), "metro"),
+    Sport("girls-squash", "Girls Squash", "spring", "Girls", S.DUAL, None, _g("7A-5A 4A-1A"), "metro"),
+    # T10 cricket: ten overs a side, one innings each. A GAME whose box score
+    # is two INNINGS, each with a batting card and a bowling card.
+    Sport("cricket", "Cricket", "spring", "Coed", S.GAME, None, _g("7A-4A 3A-1A"), "metro"),
+    # Rugby sevens, split across the calendar the way the sport is played.
+    Sport("boys-rugby", "Boys Rugby Sevens", "spring", "Boys", S.GAME, None, _g("7A-5A 4A-1A"), "metro"),
     Sport("ultimate", "Ultimate", "spring", "Coed", S.GAME, None, _g("7A-4A 3A-1A"), "metro"),
     Sport("choir", "Choir", "spring", "Coed", S.MEET, M.RATING, _g("7A-5A 4A-3A 2A-1A"), "broad", lower_is_better=True),
     Sport("girls-golf", "Girls Golf", "spring", "Girls", S.MEET, M.STROKES, _g("7A 6A 5A 4A 3A-1A"), "broad", lower_is_better=True),
     Sport("boys-track", "Boys Track & Field", "spring", "Boys", S.MEET, M.TIME, ALL_CLASSES, "broad"),
     Sport("girls-track", "Girls Track & Field", "spring", "Girls", S.MEET, M.TIME, ALL_CLASSES, "broad"),
+    # Chess is a DUAL: eight boards in order, a point a board, and boards that
+    # DRAW — the only sanctioned activity here whose team score is routinely a
+    # half (4.5-3.5). It runs one open championship rather than one per
+    # classification, and its reach is deliberately "broad" with no small-school
+    # penalty: the real Oregon association this is modelled on has been won by
+    # Cottage Grove, Clatskanie, Sweet Home and South Umpqua as often as by the
+    # big suburban programs, which is true of no other activity in the catalog.
+    Sport("chess", "Chess", "spring", "Coed", S.DUAL, None, OPEN, "broad"),
 ]
 
 BY_KEY: dict[str, Sport] = {s.key: s for s in CATALOG}

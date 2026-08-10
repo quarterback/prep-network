@@ -75,6 +75,7 @@ PERIODS: dict[str, tuple[str, int]] = {
     "girls-lacrosse": ("Q", 4),
     "girls-flag-football": ("H", 2),
     "ultimate": ("H", 2),
+    "boys-rugby": ("H", 2), "girls-rugby": ("H", 2),
     "baseball": ("Inn", 7),
     "softball": ("Inn", 7),
 }
@@ -100,6 +101,20 @@ COLUMNS: dict[str, dict[str, list[str]]] = {
         "PITCHING": "ip h r er bb so hr era".split(),
     },
     "soccer": {"": "min g a sh sog fc off sv".split()},
+    "rugby": {
+        "SCORING": "t c p dg pts".split(),
+        "PLAY": "min car m tkl mt to".split(),
+    },
+    # Cricket prints FOUR tables, not one: each innings has a batting card and
+    # a bowling card, and the bowling card belongs to the OTHER side. This is
+    # the case the section mechanism was built for — the renderer draws one
+    # table per named section without knowing what an over is.
+    "cricket": {
+        "1ST INNINGS — BATTING": "r b 4s 6s sr out".split(),
+        "1ST INNINGS — BOWLING": "o m r w wd nb econ".split(),
+        "2ND INNINGS — BATTING": "r b 4s 6s sr out".split(),
+        "2ND INNINGS — BOWLING": "o m r w wd nb econ".split(),
+    },
 }
 
 #: Which column set a sport uses.
@@ -113,6 +128,8 @@ FAMILY: dict[str, str] = {
     "boys-lacrosse": "soccer", "girls-lacrosse": "soccer",
     "field-hockey": "soccer",
     "boys-water-polo": "soccer", "girls-water-polo": "soccer",
+    "boys-rugby": "rugby", "girls-rugby": "rugby",
+    "cricket": "cricket",
 }
 
 #: Share of regular-season games that get a box score. Postseason is always 1.0
@@ -264,6 +281,40 @@ def _lines(rng, school, sport, family, points, n):
                 "so": str(rng.randint(1, 8)), "hr": str(rng.randint(0, 2)),
                 "era": f"{rng.uniform(1.2, 4.8):.2f}",
             }, "PITCHING", i == 0))
+    elif family == "rugby":
+        # Sevens: seven on the field, a couple off the bench. Points are the
+        # tries and conversions added, so the column agrees with the scoreline.
+        # Solve the scoreline back into tries, conversions and a penalty, so
+        # the SCORING column sums to the score on the page. A box score whose
+        # points do not add to the final is the one mistake this pass exists
+        # to avoid making at scale.
+        nt = nc = npen = 0
+        for pen in (0, 1):
+            rem0 = points - 3 * pen
+            for tr in range(rem0 // 5, -1, -1):
+                rem = rem0 - 5 * tr
+                if rem >= 0 and rem % 2 == 0 and rem // 2 <= tr:
+                    nt, nc, npen = tr, rem // 2, pen
+                    break
+            if nt or points == 3 * pen:
+                break
+        tries = split(rng, nt, n)
+        convs = split(rng, nc, 1) and [nc] + [0] * (n - 1)   # one kicker
+        pens = [npen] + [0] * (n - 1)
+        for i, (who, yr, no) in enumerate(people):
+            c, pn = convs[i], pens[i]
+            rows.append((who, yr, {
+                "t": str(tries[i]), "c": str(c), "p": str(pn), "dg": "0",
+                "pts": str(tries[i] * 5 + c * 2 + pn * 3),
+            }, "SCORING", i < 7))
+        for i, (who, yr, no) in enumerate(people):
+            car = rng.randint(2, 14)
+            rows.append((who, yr, {
+                "min": str(rng.randint(7, 14)), "car": str(car),
+                "m": str(int(car * rng.uniform(1.5, 8.0))),
+                "tkl": str(rng.randint(0, 9)), "mt": str(rng.randint(0, 3)),
+                "to": str(rng.randint(0, 2)),
+            }, "PLAY", i < 7))
     elif family == "football":
         for section, count in (("PASSING", 1), ("RUSHING", 3),
                                ("RECEIVING", 4), ("DEFENSE", 5)):
@@ -291,14 +342,90 @@ def _lines(rng, school, sport, family, points, n):
     return rows
 
 
+#: How a batter got out, and how often. "not out" is not a dismissal.
+DISMISSALS = ["b", "c", "lbw", "run out", "st", "c & b", "not out"]
+DISMISS_W = [22, 34, 14, 9, 6, 5, 10]
+
+
+def _innings(rng, batting: str, bowling: str, runs: int, label: str):
+    """One innings: a batting card that adds up, and the bowling that caused it.
+
+    The two cards are the same ten overs seen from opposite ends, so they have
+    to agree — the bowlers' runs conceded sum to the innings total and their
+    wickets sum to the wickets that fell. A box score whose two halves
+    contradict each other is the exact thing this project's review queue
+    exists to catch, and it would be inexcusable to generate one.
+    """
+    wickets = min(9, max(0, int(rng.gauss(5.4, 2.1))))
+    bat = roster(batting, "cricket", 11)
+    bowl = roster(bowling, "cricket", 11)[5:10]        # five bowlers, ten overs
+
+    # runs across the order, weighted to the top; extras take a few
+    extras = rng.randint(2, 11)
+    made = split(rng, max(runs - extras, 0), 8)
+    made.sort(reverse=True)
+    rng.shuffle(made[3:])
+    rows, out_count = [], 0
+    for i, (who, yr, _no) in enumerate(bat[:8]):
+        r = made[i]
+        balls = max(1, int(r / rng.uniform(0.9, 2.1)) + rng.randint(0, 5))
+        fours = min(r // 4, rng.randint(0, 6))
+        sixes = min((r - fours * 4) // 6, rng.randint(0, 3))
+        if out_count < wickets and (i < wickets or rng.random() < 0.5):
+            how = rng.choices(DISMISSALS[:-1], DISMISS_W[:-1])[0]
+            out_count += 1
+        else:
+            how = "not out"
+        rows.append((who, yr, {
+            "r": str(r), "b": str(balls), "4s": str(fours), "6s": str(sixes),
+            "sr": f"{r / balls * 100:.1f}", "out": how,
+        }, f"{label} — BATTING", i < 3))
+
+    # the bowling card has to reconcile: conceded == runs, wickets == out_count
+    conceded = split(rng, runs, len(bowl))
+    got = split(rng, out_count, len(bowl))
+    overs = [2] * len(bowl)
+    for i, (who, yr, _no) in enumerate(bowl):
+        rows.append((who, yr, {
+            "o": f"{overs[i]}.0", "m": str(1 if rng.random() < 0.12 else 0),
+            "r": str(conceded[i]), "w": str(got[i]),
+            "wd": str(rng.randint(0, 3)), "nb": str(rng.randint(0, 1)),
+            "econ": f"{conceded[i] / overs[i]:.2f}",
+        }, f"{label} — BOWLING", True))
+    return rows, wickets, out_count
+
+
+def cricket_result(home: str, away: str, hs: int, as_: int, hw: int, aw: int,
+                   first: str, rng) -> str:
+    """The result in cricket's own words.
+
+    "104 to 92" is not a cricket result. The side batting first DEFENDS a
+    total and wins BY RUNS; the side chasing wins BY WICKETS, with the balls
+    it had left. Same two numbers, two different sentences, and the reader who
+    gets only the numbers has not been told what happened.
+    """
+    if hs == as_:
+        return f"Match tied. {rng.choice([home, away])} won the Super Over."
+    winner = home if hs > as_ else away
+    if winner == first:
+        # defended a total: the margin is in RUNS
+        return f"{winner} won by {abs(hs - as_)} runs"
+    # chased it down: the margin is in WICKETS IN HAND, plus what was left
+    wk = hw if winner == home else aw
+    left = max(1, 10 - wk)
+    balls = rng.randint(1, 17)
+    return (f"{winner} won by {left} wicket{'s' if left != 1 else ''} "
+            f"with {balls} ball{'s' if balls != 1 else ''} remaining")
+
+
 def box_for(sport: str, home: str, away: str, hs: int, as_: int, rng) -> dict | None:
     family = FAMILY.get(sport)
     if not family:
         return None
     sections = COLUMNS[family]
     multi = list(sections) != [""]
-    n = {"basketball": 8, "volleyball": 8, "soccer": 12,
-         "hockey": 12, "baseball": 11, "football": 13}[family]
+    n = {"basketball": 8, "volleyball": 8, "soccer": 12, "hockey": 12,
+         "baseball": 11, "football": 13, "rugby": 9, "cricket": 11}[family]
 
     def side(school, points):
         return _lines(rng, school, sport, family, points, n)
@@ -309,6 +436,30 @@ def box_for(sport: str, home: str, away: str, hs: int, as_: int, rng) -> dict | 
                  **({"starter": True} if starter else {}),
                  **({"section": sec} if sec else {})}
                 for w, y, st, sec, starter in rows]
+
+    if family == "cricket":
+        # Cricket does not have two symmetrical sides. It has two INNINGS, and
+        # in each one a side bats while the other bowls — so the rows are
+        # built per innings, not per team, and the batting card of the first
+        # innings sits opposite the bowling card of the same ten overs.
+        first, second = (home, away) if rng.random() < 0.55 else (away, home)
+        fr, sr = (hs, as_) if first == home else (as_, hs)
+        rows1, w1, _o1 = _innings(rng, first, second, fr, "1ST INNINGS")
+        rows2, w2, _o2 = _innings(rng, second, first, sr, "2ND INNINGS")
+        by_team = {home: [], away: []}
+        for rows, batting, bowling in ((rows1, first, second), (rows2, second, first)):
+            for r in rows:
+                by_team["BOWLING" in r[3] and bowling or batting].append(r)
+        doc = {
+            "columns": sections["1ST INNINGS — BATTING"],
+            "home": pack(by_team[home], home), "away": pack(by_team[away], away),
+            "homeTotals": {}, "awayTotals": {},
+            "sections": {k: v for k, v in sections.items()},
+        }
+        hw, aw = (w1, w2) if first == home else (w2, w1)
+        doc["_result"] = cricket_result(home, away, hs, as_, hw, aw, first, rng)
+        doc["_wickets"] = {"home": hw, "away": aw}
+        return doc
 
     hrows, arows = side(home, hs), side(away, as_)
     doc = {
@@ -382,6 +533,17 @@ def run(records_dir: pathlib.Path, write: bool = True) -> dict:
             # skipping means a fix to the stat logic never reaches the records
             # already carrying the old version.
             b = box_for(sport, d["home"], d["away"], hs, as_, brng)
+            if b:
+                # `_result` and `_wickets` are the box telling the RECORD
+                # something about itself; they are not columns and must not
+                # reach the stored box score.
+                res = b.pop("_result", None)
+                wk = b.pop("_wickets", None)
+                if res and d.get("result") != res:
+                    d["result"] = res
+                    changed = True
+                if wk:
+                    d["homeWickets"], d["awayWickets"] = wk["home"], wk["away"]
             if b and b != d.get("box"):
                 d["box"] = b
                 changed = True

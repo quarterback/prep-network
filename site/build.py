@@ -546,7 +546,12 @@ def image_size(path: str) -> tuple[int, int] | None:
     """
     if path in _OG_DIMS:
         return _OG_DIMS[path]
-    f = ROOT / "site" / path.lstrip("/")
+    # the drop folder is served flat at /img/additions/ but lives one level
+    # deeper in the tree, so the naive join misses every photograph in it and
+    # the card it feeds ships without a box to reserve
+    f = (ADDITIONS / path.split("/img/additions/")[-1]
+         if path.startswith("/img/additions/")
+         else ROOT / "site" / path.lstrip("/"))
     dims = None
     try:
         d = f.read_bytes()
@@ -854,6 +859,8 @@ def share_desc(reg, c) -> str:
             tail = f" {t.group} {sp} {(r.name if r else 'championship').lower()}."
         elif getattr(c, "box", None):
             tail = " Full box score and scoring by period."
+        if getattr(c, "result", None):
+            return f"{c.result} — {sp}, {when}.{tail}"
         return (f"Final: {pairs[0][0]} {pairs[0][1]}, {pairs[1][0]} {pairs[1][1]} "
                 f"— {sp}, {when}.{tail}")
     return f"{c.away} at {c.home} — {sp}, {when}. Result posts when the contest is final."
@@ -1123,7 +1130,8 @@ def render_game(reg, c: Game):
 <div class="fh-score">
   <div class="side">{reg.crest(c.away,'lg')}<div class="tn">{reg.school_link(c.away)}</div></div>
   <div class="mid"><div class="big tnum">{score}</div>
-  <div class="st">{esc(status)} · {esc(nice_date(c.date))}</div></div>
+  <div class="st">{esc(status)} · {esc(nice_date(c.date))}</div>
+  {f'<div class="rs">{esc(c.result)}</div>' if getattr(c, "result", None) else ''}</div>
   <div class="side">{reg.crest(c.home,'lg')}<div class="tn">{reg.school_link(c.home)}</div></div>
 </div>
 {after}
@@ -1133,7 +1141,10 @@ def render_game(reg, c: Game):
 """
     crumb = (f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}")
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
-                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 desc=share_desc(reg, c), kind="article",
+                 # salted per contest, so 45,000 result cards do not all paste
+                 # the same frame of the same sport
+                 image=sport_photo(c.sport, salt=reg.url(c))[0],
                  published=c.date)
 
 
@@ -1142,14 +1153,17 @@ def render_dual(reg, c: Dual):
     rows = []
     for line in c.lines:
         hw = line.winner == "home"
+        aw = line.winner == "away"
+        drew = line.winner == "draw"
         hn = ", ".join(reg.athlete_link(p.name, c.home) for p in line.home) or "—"
         an = ", ".join(reg.athlete_link(p.name, c.away) for p in line.away) or "—"
         rows.append(
             f"<div class='fh-row' style='--grid-cols:56px minmax(140px,1fr) minmax(140px,1fr) 96px'>"
             f"<span class='fh-rank'>{esc(str(line.kind)[:8].title() if not str(line.kind).isdigit() else line.kind)} {line.slot if line.kind in ('singles','doubles') else ''}</span>"
-            f"<span class='fh-plain{' fh-mark' if not hw else ''}'>{an}</span>"
+            f"<span class='fh-plain{' fh-mark' if aw else ''}'>{an}</span>"
             f"<span class='fh-plain{' fh-mark' if hw else ''}'>{hn}</span>"
-            f"<span class='fh-num tnum'>{esc(line.score or '')}</span></div>")
+            f"<span class='fh-num tnum{' fh-dim' if drew else ''}'>"
+            f"{esc(line.score or '')}</span></div>")
     score = (f"{c.away_points:g}&nbsp;–&nbsp;{c.home_points:g}" if c.home_points is not None else "—")
     body = f"""
 <div class="fh-score">
@@ -1167,7 +1181,10 @@ def render_dual(reg, c: Dual):
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
-                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 desc=share_desc(reg, c), kind="article",
+                 # salted per contest, so 45,000 result cards do not all paste
+                 # the same frame of the same sport
+                 image=sport_photo(c.sport, salt=reg.url(c))[0],
                  published=c.date)
 
 
@@ -1254,7 +1271,10 @@ def render_meet(reg, c: Meet):
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/sports/{sport.key}/'>{esc(sport.name)}</a> › {esc(c.name)}"
     return shell(f"{c.name} — {sport.name}", body, crumb, f"← {sport.name}|/sports/{sport.key}/",
-                 desc=share_desc(reg, c), image=sport_photo(c.sport)[0], kind="article",
+                 desc=share_desc(reg, c), kind="article",
+                 # salted per contest, so 45,000 result cards do not all paste
+                 # the same frame of the same sport
+                 image=sport_photo(c.sport, salt=reg.url(c))[0],
                  published=c.date)
 
 
@@ -1530,7 +1550,13 @@ def render_sport(reg, sport):
 
     body = sport_header(reg, sport) + body_inner
     crumb = f"<a href='/'>{NAME}</a> › {esc(sport.name)}"
-    return shell(page_title(f"{sport.name}"), body, crumb)
+    # 51 sport fronts are the most-linked pages on the site after the schools,
+    # and every one of them was pasting as the generic fallback card
+    return shell(page_title(f"{sport.name}"), body, crumb,
+                 desc=(f"JHSAA {sport.name} — {SEASON_LABEL} results, schedule, "
+                       f"standings and the state championship, every "
+                       f"classification."),
+                 image=sport_photo(sport.key)[0])
 
 
 def _champ_winner(c):
@@ -1872,10 +1898,10 @@ def render_school(reg, s):
         default=None)
     lead_c = next((c for c in played if "Championship" in (c.name or "")), None) or \
              (played[0] if played else None)
-    lead = ""
+    lead, lead_photo = "", None
     if lead_item is not None:
-        photo = sport_photo(lead_item["sport"]) if lead_item.get("sport") in BY_KEY \
-            else sport_photo("football")
+        photo = lead_photo = sport_photo(lead_item["sport"], salt=name) \
+            if lead_item.get("sport") in BY_KEY else sport_photo("football", salt=name)
         lead = feature_panel(
             f"{esc(lead_item['label'])} · {esc(nice_date(lead_item['date']))}",
             esc(lead_item["headline"]),
@@ -1897,7 +1923,7 @@ def render_school(reg, s):
                              f"{dk} · <a href='{reg.url(lead_c)}'>Full result →</a>",
                              s.get("colors") or ["#14294e", "#c8ccd4"],
                              watermark=reg.mark(name, 200),
-                             photo=sport_photo(lead_c.sport))
+                             photo=(lead_photo := sport_photo(lead_c.sport, salt=name)))
 
     recent_rows = [event_card(reg, c, final=True) for c in played[:4]]
     next_rows = [event_card(reg, c, final=False) for c in upcoming[:4]]
@@ -2067,14 +2093,18 @@ def render_school(reg, s):
 {SEASON_JS}
 """
     crumb = f"<a href='/'>{NAME}</a> › <a href='/schools/'>Schools</a> › {esc(name)}"
-    lead_sport = (lead_c.sport if lead_c is not None
-                  else (sorted(s.get("sports", ())) or ["football"])[0])
+    # THE CARD IS THE PANEL'S PHOTOGRAPH, not a second derivation of it. These
+    # picked their lead independently — the panel prefers an editorial item and
+    # the card preferred the last result — so a school leading on a lacrosse
+    # honour pasted as a baseball card.
+    card = lead_photo or sport_photo(
+        (sorted(s.get("sports", ())) or ["football"])[0], salt=name)
     return shell(page_title(f"{name} Athletics"), body, crumb, "← Schools|/schools/", org=True,
                  desc=(f"{name} {s['mascot']} athletics — {s['city']}, "
                        f"{s['classification']}{f', {conf}' if conf else ''}. Schedules, "
                        f"results, standings and championship history across "
                        f"{len(s.get('sports', ()))} sports."),
-                 image=sport_photo(lead_sport)[0])
+                 image=card[0])
 
 
 def render_conference(reg, conf):
@@ -2174,7 +2204,8 @@ def render_conference(reg, conf):
             f"{esc(lead_item['dek'])} <a href='{item_href(reg, lead_item)}'>More →</a>",
             marks.conf_colors(conf["name"]),
             watermark=marks.conf_mark(conf["name"], 200),
-            photo=sport_photo(lead_item.get("sport") or default_key or "football"))
+            photo=sport_photo(lead_item.get("sport") or default_key or "football",
+                              salt=conf["name"]))
     elif default_key:
         rec = reg.records_for(default_key)
         rows = sorted(((s, r) for s, r in rec.items() if s in mset),
@@ -2189,7 +2220,7 @@ def render_conference(reg, conf):
                 f"in {esc(conf['name'])} play · <a href='#standings'>Standings →</a>",
                 marks.conf_colors(conf["name"]),
                 watermark=marks.conf_mark(conf["name"], 200),
-                photo=sport_photo(default_key))
+                photo=sport_photo(default_key, salt=conf["name"]))
 
     # ---- composite week, grouped by day ----
     week = sorted((c for c in reg.contests if c.date and
@@ -2333,7 +2364,7 @@ def render_conference(reg, conf):
                  desc=(f"{conf['name']} — {len(members)} member schools in "
                        f"{conf['area']}. Standings, the composite schedule, league "
                        f"champions and results across {len(conf_sports)} sports."),
-                 image=sport_photo(default_key or "football")[0])
+                 image=sport_photo(default_key or "football", salt=conf["name"])[0])
 
 
 def render_athlete(reg, a):
@@ -2359,7 +2390,7 @@ def render_athlete(reg, a):
             else:
                 line = ev_or_line
                 on_home = any(p.name == name for p in line.home)
-                won = (line.winner == "home") == on_home
+                won = line.winner != "draw" and (line.winner == "home") == on_home
                 opp = c.away if on_home else c.home
                 rows.append(
                     f"<div class='fh-row' style='--grid-cols:86px minmax(150px,1.4fr) minmax(110px,1fr) 34px 80px'>"
@@ -2795,12 +2826,66 @@ def render_tournament(reg, t):
     if t.format is TournamentFormat.BRACKET and t.entrants:
         byes = f" · {t.byes} byes" if t.byes else ""
         facts.append(("Field", f"{t.size} teams{byes}"))
-    if t.start_date and t.format is TournamentFormat.BRACKET:
+    if t.format is TournamentFormat.SWISS and t.entrants:
+        facts.append(("Field", f"{t.size} teams · {len(t.rounds)} rounds"))
+    if t.start_date and t.format in (TournamentFormat.BRACKET, TournamentFormat.SWISS):
         facts.append(("Opens", nice_date(t.start_date)))
     info = "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(str(v))}</dd></div>" for k, v in facts)
 
-    # A meet-decided title hands off to the meet renderer instead of a bracket.
-    if t.format is not TournamentFormat.BRACKET:
+    # A SWISS is standings first, then the rounds that produced them. There is
+    # no tree to draw: nobody is eliminated, every school plays every round,
+    # and the title is the top of the table rather than the winner of a final.
+    if t.format is TournamentFormat.SWISS:
+        rows = t.standings()
+        played = sum(1 for r in t.rounds if r.complete)
+        head = ("26px minmax(150px,1fr) 62px 62px")
+        table = "".join(
+            f"<div class='fh-row{' first' if i == 0 else ''}' style='--grid-cols:{head}'>"
+            f"<span class='fh-rank'>{i + 1}</span>"
+            f"<span class='fh-name'>{reg.crest(sc,'xs')} {reg.school_link(sc)}</span>"
+            f"<span class='fh-num tnum'>{pts:g}</span>"
+            f"<span class='fh-num tnum fh-dim'>{brd:g}</span></div>"
+            for i, (sc, pts, brd) in enumerate(rows[:16]))
+        rounds_html = []
+        for r in t.rounds:
+            lines = []
+            for m in r.matchups:
+                if m.bye:
+                    lines.append(f"<div class='fh-evrow'><span class='kk'>Bye</span>"
+                                 f"<span class='ln'>{reg.school_link(m.home)}</span>"
+                                 f"<span class='dt'>1 point</span></div>")
+                    continue
+                href = reg.contest_href(m.contest_key)
+                inner = (f"<a class='m' href='{href}'></a>" if href else "")
+                res = (f"{m.home_score:g}–{m.away_score:g}"
+                       if m.status == "final" and m.home_score is not None
+                       else esc(m.time or "TBD"))
+                lines.append(
+                    f"<div class='fh-evrow{' final' if m.status == 'final' else ''}'>{inner}"
+                    f"<span class='kk'>Board match</span>"
+                    f"<span class='ln'>{reg.school_link(m.away)} at "
+                    f"{reg.school_link(m.home)}</span>"
+                    f"<span class='dt'>{res}</span></div>")
+            rounds_html.append(
+                f"<div class='fh-mod'><h3>{esc(r.name)}"
+                f"{f' · {esc(nice_date(r.matchups[0].date))}' if r.matchups and r.matchups[0].date else ''}"
+                f"</h3>{''.join(lines[:10])}</div>")
+        body_main = (
+            f"<div class='fh-section'><h2>Standings</h2>"
+            f"<p class='fh-lede'>Five rounds of Swiss pairing over two days. "
+            f"Every school plays every round; a match is five boards, a board "
+            f"is a point and a drawn board is a half. {played} of "
+            f"{len(t.rounds)} rounds complete.</p>"
+            f"<div class='fh-tablescroll'><div class='fh-table' style='--grid-cols:{head}'>"
+            f"<div class='fh-thead'><span class='fh-th'></span>"
+            f"<span class='fh-th'>School</span><span class='fh-th'>Match</span>"
+            f"<span class='fh-th'>Boards</span></div>{table}</div></div></div>"
+            f"<div class='fh-section'><h2>Rounds</h2>"
+            + module_row(*rounds_html[:4])
+            + (module_row(*rounds_html[4:]) if len(rounds_html) > 4 else "")
+            + "</div>")
+        nav = "Standings · Rounds · Field"
+    elif t.format is not TournamentFormat.BRACKET:
         meet = reg.contest_for(t.meet_key)
         if meet is not None:
             body_main = (
@@ -2841,7 +2926,7 @@ def render_tournament(reg, t):
                  desc=(f"{t.name} — a {t.size}-team field"
                        f"{f' at {t.final_venue}' if t.final_venue else ''}. {won} "
                        f"Full bracket, seeds and every round's result."),
-                 image=sport_photo(t.sport)[0], kind="article", published=t.start_date)
+                 image=sport_photo(t.sport, salt=t.id)[0], kind="article", published=t.start_date)
 
 
 def render_champ_sport(reg, sport):
@@ -3038,11 +3123,20 @@ def render_confs_index(reg):
 
 
 SPORTS_IMG = ROOT / "site/img/sports"
-try:
-    import json as _json2
-    SPORTS_CREDITS = _json2.load(open(SPORTS_IMG / "credits.json"))
-except Exception:
-    SPORTS_CREDITS = {}
+
+
+def _credits(path):
+    """A credits sidecar, or an empty one. Missing credits must not stop a
+    build; a *misread* one silently dropping every credit is the failure that
+    matters, so the read is narrow rather than a bare `except`."""
+    try:
+        with open(path) as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return {}
+
+
+SPORTS_CREDITS = _credits(SPORTS_IMG / "credits.json")
 
 # sport key -> photo in the action library; news-style surfaces carry a real
 # photograph, per the owner's rule
@@ -3052,8 +3146,15 @@ for _k, _names in {
     "soccer": ("boys-soccer", "girls-soccer"),
     "volleyball": ("girls-volleyball", "boys-volleyball"),
     "trail": ("boys-cross-country", "girls-cross-country", "mountain-biking"),
-    "tennis": ("girls-tennis", "boys-tennis", "girls-badminton"),
+    # racquet sports: badminton and squash have no stock picture of their own,
+    # and a racquet on a court is a much closer miss than the archive photo
+    # they were falling through to
+    "tennis": ("girls-tennis", "boys-tennis", "badminton",
+               "boys-squash", "girls-squash"),
     "golf": ("boys-golf", "girls-golf"),
+    # `baseball.jpg` has been in the library since the first build and nothing
+    # pointed at it — both diamond sports were resolving to `gym-generic`
+    "baseball": ("baseball", "softball", "cricket"),
     "aquatic": ("boys-water-polo", "girls-water-polo", "boys-swimming", "girls-swimming"),
     "basketball": ("boys-basketball", "girls-basketball"),
     "wrestling": ("boys-wrestling", "girls-wrestling"),
@@ -3064,16 +3165,82 @@ for _k, _names in {
     "gymnastics": ("gymnastics", "competitive-spirit"),
     "track": ("winter-track", "boys-track", "girls-track"),
     "performing": ("marching-band", "choir"),
-    "field": ("boys-lacrosse", "girls-lacrosse", "field-hockey", "ultimate"),
-    "gym-generic": ("debate",),
+    "field": ("boys-lacrosse", "girls-lacrosse", "field-hockey", "ultimate",
+              "boys-rugby", "girls-rugby"),
+    "gym-generic": ("debate", "chess"),
 }.items():
     for _n in _names:
         SPORT_PHOTO[_n] = _k
 
 
-def sport_photo(sport_key):
-    """(url, credit line) for the sport's action photograph."""
+#: A drop folder. Anything named for a SPORT KEY (`cricket.jpg`), a NEWS SLUG
+#: (`tennis-semifinals-preview.jpg`) or a photo family (`track.jpg`) wins over
+#: the stock library without touching any code — which is the point, because
+#: the person choosing the pictures should not have to edit a Python file to
+#: use one. Credits go in `additions/credits.json`, same shape as the others.
+#:
+#: A name may carry VARIANTS — `baseball.jpg`, `baseball-2.jpg`,
+#: `baseball-3.jpg`. All of them are that sport's photo; which one a given
+#: surface gets is chosen by a stable hash of the caller's `salt` (a school
+#: name, a conference), so 840 school fronts leading on baseball do not all
+#: lead on the same frame. No salt means variant one, every time.
+ADDITIONS = ROOT / "site/img/news/additions"
+_ADDITION_EXTS = ("jpg", "jpeg", "png", "webp")
+
+
+def _variants(name):
+    """Every file in the drop folder that is `name` or `name-<n>`, in order."""
+    out = []
+    for ext in _ADDITION_EXTS:
+        if (ADDITIONS / f"{name}.{ext}").exists():
+            out.append(f"{name}.{ext}")
+    n = 2
+    while True:
+        hit = [f"{name}-{n}.{ext}" for ext in _ADDITION_EXTS
+               if (ADDITIONS / f"{name}-{n}.{ext}").exists()]
+        if not hit:
+            break
+        out += hit
+        n += 1
+    return out
+
+
+def _addition(*names, salt=""):
+    """The first of `names` present in the drop folder, as (url, credit)."""
+    for n in names:
+        if not n:
+            continue
+        files = _variants(n)
+        if not files:
+            continue
+        f = files[zlib.crc32(salt.encode()) % len(files)] if salt else files[0]
+        c = ADDITION_CREDITS.get(f.rsplit(".", 1)[0], ADDITION_CREDITS.get(n, {}))
+        credit = " · ".join(x for x in (c.get("credit", ""),
+                                        c.get("license", "")) if x)
+        return f"/img/additions/{f}", credit
+    return None
+
+
+def sport_photo(sport_key, salt=""):
+    """(url, credit line) for the sport's action photograph.
+
+    The drop folder is checked first, by sport key, then by the key with its
+    gender prefix off, then by the family the stock library groups it under.
+    So `boys-squash.jpg` serves boys squash, `squash.jpg` serves both, and
+    `cricket.jpg` serves a sport the library has no picture for at all.
+
+    The middle step exists because the sport keys are gendered and the
+    photographs mostly are not — without it, one squash court has to be
+    committed twice under two names, or named for a family it does not belong
+    to. It is checked BELOW the exact key, so a genuinely gendered pair still
+    wins where somebody has supplied one.
+    """
     k = SPORT_PHOTO.get(sport_key, "gym-generic")
+    base = (sport_key.split("-", 1)[1]
+            if sport_key.startswith(("boys-", "girls-")) else None)
+    hit = _addition(sport_key, base, k, salt=salt)
+    if hit:
+        return hit
     if not (SPORTS_IMG / f"{k}.jpg").exists():
         k = "gym-generic"
     c = SPORTS_CREDITS.get(k, {})
@@ -3082,23 +3249,46 @@ def sport_photo(sport_key):
 
 
 NEWS_IMG = ROOT / "site/img/news"
-try:
-    import json as _json
-    NEWS_CREDITS = _json.load(open(NEWS_IMG / "credits.json"))
-except Exception:
-    NEWS_CREDITS = {}
+ADDITION_CREDITS = _credits(ADDITIONS / "credits.json")
+NEWS_CREDITS = _credits(NEWS_IMG / "credits.json")
+
+
+def story_photo(st, salt=""):
+    """(url, credit) for a story — its own photograph, or its sport's.
+
+    Only eleven of the stories have a picture of their own. Without a
+    fallback the ones that do not lead the front page as a flat colour
+    block, which reads as a bug rather than a choice.
+    """
+    hit = _addition(st["slug"], salt=salt)
+    if hit:
+        return hit
+    if (NEWS_IMG / f"{st['slug']}.jpg").exists():
+        c = NEWS_CREDITS.get(st["slug"], {})
+        credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
+        return f"/img/news/{st['slug']}.jpg", credit
+    return sport_photo(st.get("sport") or "gym-generic", salt=salt)
 
 
 def story_img(st, cls=""):
-    """The story's photograph, when one exists on disk. Every credit renders —
-    the licenses require it, and a real newsroom would print it anyway."""
-    if not (NEWS_IMG / f"{st['slug']}.jpg").exists():
+    """The story's photograph. Every credit renders — the licenses require it,
+    and a real newsroom would print it anyway.
+
+    This used to look only in `img/news/`, so a story whose picture arrived in
+    the drop folder ran its article page with no image at all while the same
+    photograph led the front page.
+    """
+    src = _addition(st["slug"]) or (
+        (f"/img/news/{st['slug']}.jpg",
+         " · ".join(x for x in (NEWS_CREDITS.get(st["slug"], {}).get("credit", ""),
+                                NEWS_CREDITS.get(st["slug"], {}).get("license", "")) if x))
+        if (NEWS_IMG / f"{st['slug']}.jpg").exists() else None)
+    if not src:
         return ""
-    c = NEWS_CREDITS.get(st["slug"], {})
-    credit = " · ".join(x for x in (c.get("credit", ""), c.get("license", "")) if x)
+    url, credit = src
     cap = f"<figcaption>Photo: {esc(credit)}</figcaption>" if credit else ""
     return (f"<figure class='fh-figure {cls}'>"
-            f"<img src='/img/news/{st['slug']}.jpg' alt='' loading='lazy'>{cap}</figure>")
+            f"<img src='{url}' alt='' loading='lazy'>{cap}</figure>")
 
 
 def render_story(reg, st):
@@ -3271,10 +3461,35 @@ def season_ribbon(sport_keys, current="winter", link=None, tail=""):
 </section>"""
 
 
-def season_chooser(reg, current="winter"):
+def season_of(day: str) -> str:
+    """Which season a date falls in, by the calendar this state keeps."""
+    m = int(day[5:7])
+    return "fall" if 8 <= m <= 11 else "winter" if m == 12 or m <= 2 else "spring"
+
+
+def season_chooser(reg, current=None):
+    current = current or season_of(TODAY)
     keys = [sp.key for sp in CATALOG if reg.by_sport.get(sp.key)]
     return season_ribbon(keys, current,
                          tail="<a class='all' href='/scoreboard/'>Scoreboard →</a>")
+
+
+#: The season tabs already sit above the fold; this moves the newsroom with
+#: them. Kept separate from SEASON_JS because those panes are scoped inside
+#: the ribbon and the news column is not.
+NEWS_SEASON_JS = """
+<script>
+(function () {
+  var panes = document.querySelectorAll("[data-news-season]");
+  var tabs = document.querySelectorAll(".fh-seasontabs button");
+  if (!panes.length || !tabs.length) return;
+  tabs.forEach(function (b) {
+    b.addEventListener("click", function () {
+      panes.forEach(function (p) { p.hidden = p.dataset.newsSeason !== b.dataset.season; });
+    });
+  });
+})();
+</script>"""
 
 
 def render_404(reg):
@@ -3330,30 +3545,45 @@ def render_front(reg):
     import datetime as dt
     t = dt.date.fromisoformat(TODAY)
 
+    # ---- ONE NEWS COLUMN PER SEASON, switched by the season tabs.
+    #      Every story in this file was dated the same January week, so at a
+    #      May clock the front page led with a four-month-old fencing result
+    #      and had nothing to say about fall or spring at all. Season is now
+    #      a property of a story, and the tabs that already sit above the
+    #      fold move the newsroom with them.
     stories = sorted(news.STORIES, key=lambda s: s["date"], reverse=True)
-    lead, second = stories[0], stories[1:3]
-    briefs = stories[3:9]
+    now = season_of(TODAY)
 
-    lead_img = ""
-    if (NEWS_IMG / f"{lead['slug']}.jpg").exists():
-        lead_img = f"<span class='ph'><img src='/img/news/{lead['slug']}.jpg' alt=''></span>"
-    lead_html = (
-        f"<a class='fh-hero' href='/news/{lead['slug']}/'>{lead_img}"
-        f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
-        f"<span class='hd'>{esc(lead['head'])}</span>"
-        f"<span class='dk'>{esc(lead['dek'])}</span></a>")
-    second_html = "".join(
-        f"<a class='fh-second' href='/news/{st['slug']}/'>"
-        f"<span class='kk'>{esc(st['kicker'])}</span>"
-        f"<span class='hd'>{esc(st['head'])}</span>"
-        f"<span class='dk'>{esc(st['dek'])}</span></a>"
-        for st in second)
-    briefs_html = "".join(
-        f"<a class='fh-brief' href='/news/{st['slug']}/'>"
-        f"<span class='kk'>{esc(st['kicker'])}</span>"
-        f"<span class='hd'>{esc(st['head'])}</span>"
-        f"<span class='dt'>{esc(nice_date(st['date']))}</span></a>"
-        for st in briefs)
+    def news_column(season):
+        pool = [st for st in stories if st.get("season") == season] or stories
+        lead, second, briefs = pool[0], pool[1:3], pool[3:9]
+        img, _credit = story_photo(lead)
+        lead_html = (
+            f"<a class='fh-hero' href='/news/{lead['slug']}/'>"
+            f"<span class='ph'><img src='{img}' alt=''></span>"
+            f"<span class='kk'>{esc(lead['kicker'])} · {esc(nice_date(lead['date']))}</span>"
+            f"<span class='hd'>{esc(lead['head'])}</span>"
+            f"<span class='dk'>{esc(lead['dek'])}</span></a>")
+        second_html = "".join(
+            f"<a class='fh-second' href='/news/{st['slug']}/'>"
+            f"<span class='kk'>{esc(st['kicker'])}</span>"
+            f"<span class='hd'>{esc(st['head'])}</span>"
+            f"<span class='dk'>{esc(st['dek'])}</span></a>"
+            for st in second)
+        briefs_html = "".join(
+            f"<a class='fh-brief' href='/news/{st['slug']}/'>"
+            f"<span class='kk'>{esc(st['kicker'])}</span>"
+            f"<span class='hd'>{esc(st['head'])}</span>"
+            f"<span class='dt'>{esc(nice_date(st['date']))}</span></a>"
+            for st in briefs)
+        return (f"<div data-news-season='{season}'{'' if season == now else ' hidden'}>"
+                f"{lead_html}<div class='fh-seconds'>{second_html}</div>"
+                f"<div class='fh-briefs'><h2>{season.title()} from the JHSAA</h2>"
+                f"{briefs_html}"
+                f"<p class='fh-more'><a href='/news/'>All news →</a></p></div></div>")
+
+    lead = next((st for st in stories if st.get("season") == now), stories[0])
+    news_cols = "".join(news_column(sn) for sn in ("fall", "winter", "spring"))
 
     # Latest — the most recent finals, winner first, both scores. Recency is
     # relative to the calendar the season actually kept, not a fixed window.
@@ -3395,15 +3625,7 @@ def render_front(reg):
 {season_chooser(reg)}
 
 <div class="fh-top">
-  <div class="fh-newscol">
-    {lead_html}
-    <div class="fh-seconds">{second_html}</div>
-    <div class="fh-briefs">
-      <h2>Latest from the JHSAA</h2>
-      {briefs_html}
-      <p class="fh-more"><a href="/news/">All news →</a></p>
-    </div>
-  </div>
+  <div class="fh-newscol">{news_cols}</div>
   <aside class="fh-side">
     <section class="fh-latest">
       <h2>Latest scores</h2>
@@ -3428,6 +3650,7 @@ def render_front(reg):
 
 {state_mods}
 {SEASON_JS}
+{NEWS_SEASON_JS}
 {BSKY_JS}
 <script>
 (function () {{
@@ -3730,9 +3953,17 @@ def build():
     write_favicon(stage)
     shutil.copytree(ROOT / "site/fonts", stage / "fonts")
     if NEWS_IMG.exists():
-        shutil.copytree(NEWS_IMG, stage / "img/news", ignore=shutil.ignore_patterns("credits.json"))
+        # `additions` is a child of this folder but is published at its own
+        # path below — copying it here too would ship every photograph twice
+        shutil.copytree(NEWS_IMG, stage / "img/news",
+                        ignore=shutil.ignore_patterns("credits.json", "additions"))
     if SPORTS_IMG.exists():
         shutil.copytree(SPORTS_IMG, stage / "img/sports", ignore=shutil.ignore_patterns("credits.json"))
+    if ADDITIONS.exists():
+        # served flat at /img/additions/ though it lives inside img/news/, so
+        # a photograph dropped in one folder never collides with a story slug
+        shutil.copytree(ADDITIONS, stage / "img/additions",
+                        ignore=shutil.ignore_patterns("credits.json", "*.md", "*.txt"))
     if (ROOT / "site/img/og.jpg").exists():
         shutil.copy(ROOT / "site/img/og.jpg", stage / "img/og.jpg")
     (stage / "robots.txt").write_text(
@@ -3758,7 +3989,6 @@ def build():
           f" · {jobs} worker{'s' if jobs > 1 else ''} · links OK")
     print(f"standard.site: {n_rec} records"
           + (f" · published as {stdsite.PUB_URI}" if wk else " · unpublished (FH_PUB_URI unset)"))
-
 
 if __name__ == "__main__":
     build()
