@@ -1,14 +1,30 @@
-# Build scaling — where the cost actually is
+# AAR — build scaling: measuring before choosing an architecture
 
-## Why this exists
+**Date:** 2026-08-10
+**Status:** Streaming and parallel rendering shipped; federation still a design question
+**Why this document exists:** the brief proposed four architectural directions
+for cutting the cost of a 58,000-page build. Measuring first killed three of
+them and found a fifth nobody had named. The measurements are the useful part,
+and they outlive the specific fix — anyone proposing to shard, defer or
+federate this site should start from these numbers rather than from intuition
+about what a large static build costs.
 
-The brief asked how to cut the cost of rebuilding a 58,000-page site: federate
-it into per-school repos, defer the tail to edge rendering, prune sparse
-routes, or distribute the deploy. Four plausible directions, none of them
-measured.
+---
 
-So they were measured first. Three of the four turn out to be aimed at the
-wrong thing, and the one number nobody had is the one that matters.
+## The premise that was wrong
+
+The brief framed the problem as **page count**: 58,497 pages is a lot of pages,
+so cut pages — federate them into per-school repos, defer the tail to edge
+rendering, prune sparse routes, distribute the deploy.
+
+Page count was not the problem. The build's peak memory was the entire site
+held as live Python strings so a link check could scan it at the end, and the
+per-page cost was dominated by chrome that is identical on every page. Both are
+fixed without removing a single page, and neither was on the list.
+
+Three of the four proposed directions turn out to be aimed at the wrong thing.
+The fourth — federation — survives, but for a reason the brief did not give,
+and the reason only becomes visible once you measure the link graph.
 
 ## The baseline, measured
 
@@ -113,7 +129,7 @@ rather than fixed, because it is a product decision wearing a build-cost
 costume. The empty per-sport sub-routes are the same order — a few hundred
 pages at most.
 
-## What changed
+## First: streaming the pages to disk
 
 `build()` now streams. `page_routes()` returns the complete url → thunk table
 without rendering anything; the build loop renders one page, harvests its
@@ -163,17 +179,57 @@ Two smaller consequences fall out of the same change:
   conference athlete`; an unknown one is rejected with the list rather than
   silently building nothing.
 
+## Then: rendering in parallel, which the first change unlocked
+
+Parallelism was not available before. A shared 3.4 GB dict and a link check
+that needed every page at once meant there was nothing to parallelise over.
+Once `page_routes()` existed, the build was a list of independent thunks, and
+each worker needed only the registry plus one page.
+
+`render_slice()` is the unit: render, harvest hrefs, write, drop. `render_all()`
+forks `FH_JOBS` workers (default: one per core, capped at 4) and merges the
+returned href maps for a single link check in the parent. Fork rather than
+spawn, so the 630 MB registry and the route table are inherited copy-on-write
+instead of pickled down a pipe.
+
+Two details that matter more than they look:
+
+- **Round-robin slices, not contiguous blocks.** The expensive pages cluster by
+  kind — the 840 school pages each render a full season and dominate the tail.
+  A block split leaves one worker grinding through all of them while the others
+  sit idle. `picked[i::jobs]` interleaves the kinds.
+- **Slices are merged in order**, so `link_check` names the same source page
+  for a given bad href on every run. Parallelism should not make an error
+  message nondeterministic.
+
+| | original | streaming | + 4 workers |
+| --- | --- | --- | --- |
+| wall time | 252 s | 205 s | **63.9 s** |
+| peak memory | 7,313 MB | 646 MB | **~1,840 MB** |
+| output tree | `6a029c27…b81f5` | same | same |
+
+**3.9× faster than where this started, at a quarter of the memory**, and the
+tree is still byte-identical — same sha256 over all 58,553 files as the
+pre-change build.
+
+The memory figure is PSS summed across the process tree, sampled at 10 s
+intervals, not `ru_maxrss`. That matters: `RUSAGE_CHILDREN.ru_maxrss` reports
+the largest *single* child (657 MB here) and summing RSS across forked workers
+double-counts the shared registry (3,193 MB). PSS is the honest number — 1.84 GB
+of real physical memory, against an 8 GB container.
+
+So the memory won back by streaming is partly spent again to buy the speedup,
+which is the right trade at 4 workers and stops being one well before 8: the
+copy-on-write share of the registry diverges as CPython touches refcounts, so
+memory climbs with workers while wall time flattens once the 58,000 file
+writes go I/O-bound. Hence the cap, and `FH_JOBS` to override it.
+
+Builds under 500 pages stay serial — forking to render 18 pages costs more
+than it saves.
+
 ## What is still open, in the order the numbers justify
 
-**1. The chrome floor (2.85 GB of the 3.37 GB tree).** The score rail is
-identical on all 58,497 pages and changes on every rebuild. Deduplicating it —
-client-side include, or an edge transform — cuts the deployed tree by roughly
-an order of magnitude and shrinks every future rebuild's write phase. The cost
-is that the rail stops working without JS, which is a product decision, not a
-technical one, and it runs against the stated bar of "see results on any device
-without loading a third-party site."
-
-**2. Federation is the only thing that cuts page count.** The closure analysis
+**1. Federation is the only thing that cuts page count.** The closure analysis
 is the argument *for* it: you cannot cut this graph inside one origin, but you
 can cut it at an origin boundary, because a link to another deployment is not
 a dead link. The natural seam is exactly where the fan-out is, and the split is
@@ -189,7 +245,7 @@ Deterministic routing already supports this: `reg.url()` and
 origin. This is the direction worth designing properly, and the measurement
 says why.
 
-**3. Hybrid static/dynamic has a hard number attached now.** The tail worth
+**2. Hybrid static/dynamic has a hard number attached now.** The tail worth
 deferring is athlete pages (25,987, 44% of the site) and out-of-window
 contests. Deferring keeps the urls alive, so nothing breaks. The blocker is
 that any runtime renderer needs the registry: **9.0 s and 630 MB cold**, per
@@ -199,14 +255,44 @@ projection rebuilt from the record stream would be *for* — and it is the
 prerequisite, not an alternative. Until it exists, ISR is slower than serving
 a file.
 
+**3. The chrome floor is a deploy cost, not a reader cost — and it ranks lower
+than it first appears.** 48.2 KB of identical markup on every page is 2.85 GB
+of the 3.37 GB tree, which looks like the headline number until you notice it
+is *identical* bytes: gzip and brotli collapse it on the wire, so no reader
+pays for it. What it actually costs is deploy-side — 58,553 files to upload,
+and a write phase proportional to total bytes. Worth doing eventually; not
+worth doing before federation, which deletes 99% of those files outright.
+
+An earlier draft of this document ranked it first and justified deferring it
+by appeal to the README's "any device without loading a third-party site" line,
+as though that were a fixed constraint. It is not — it is a design commitment
+this project is free to revisit. The honest reason to rank it third is the
+compression argument above, which is a measurement, not a principle.
+
 **4. Multi-region and high-concurrency windows are not a build concern.** A
 static tree on a CDN already handles Friday-night load; nothing measured here
 bears on it. Revisit if and when the record store stops being git-backed.
 
+## Method note
+
+Every number here came from this box (4 cores, 16 GB, Linux) against the
+records as committed. Two measurement traps worth naming, because both would
+have produced a confident wrong answer:
+
+- **`ru_maxrss` lies about forked builds.** `RUSAGE_CHILDREN` gives the largest
+  single child, not the tree; summing per-process RSS double-counts shared
+  copy-on-write pages. Only PSS answers "how much physical memory does this
+  build need."
+- **The link closure had to be measured on the built tree**, not reasoned about
+  from the templates. The intuition — "the tour links about twenty pages, so a
+  tour-only build is small" — is wrong by three orders of magnitude, and
+  nothing short of walking the real hrefs would have shown it.
+
 ## Reproducing
 
 ```sh
-python3 site/build.py                                   # full tree, 214 s / 646 MB
+python3 site/build.py                                   # full tree, 64 s, 4 workers
+FH_JOBS=1 python3 site/build.py                         # serial, 205 s / 646 MB
 FH_ONLY=front,tour,index python3 site/build.py          # partial, local only, ~9 s
 python3 -m pytest -q                                    # 201 passed, 1 skipped
 ```

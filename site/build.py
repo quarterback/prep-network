@@ -19,6 +19,7 @@ import base64
 import hashlib
 import json
 import html
+import multiprocessing
 import os
 import pathlib
 import re
@@ -3614,32 +3615,26 @@ def page_routes(reg):
     return r
 
 
-def build():
-    global RAIL, FAVICON
-    reg = Registry()
-    FAVICON = pick_favicon()
-    RAIL = build_rail(reg)
-    build_menus(reg)
+#: Set by build() before any worker forks, so the children inherit the whole
+#: route table — and the registry the thunks close over — as copy-on-write
+#: pages rather than pickling it across a pipe.
+ROUTES: dict[str, tuple[str, object]] = {}
 
-    routes = page_routes(reg)
-    only = {k.strip() for k in os.environ.get("FH_ONLY", "").split(",") if k.strip()}
-    if only - {kind for kind, _ in routes.values()}:
-        raise SystemExit(f"FH_ONLY: no such page kind {sorted(only - {k for k, _ in routes.values()})}; "
-                         f"known kinds are {sorted({k for k, _ in routes.values()})}")
-    picked = [u for u, (kind, _) in routes.items() if not only or kind in only]
 
-    # Staged, not written straight into OUT: pages now go to disk before the
-    # link check can run, and a build that fails its check must leave the last
-    # good tree standing rather than a half-written one.
-    (ROOT / "dist").mkdir(exist_ok=True)
-    stage = OUT.parent / (OUT.name + ".staging")
-    shutil.rmtree(stage, ignore_errors=True)
-    stage.mkdir(parents=True)
+def render_slice(urls, stage):
+    """Render, write and drop each page in `urls`; return the hrefs it emitted.
 
+    The unit of parallelism. A page depends on nothing but the registry and
+    the module globals, both fixed before the fork, so slices cannot interact:
+    every worker writes to a distinct path, and the only thing that comes back
+    is href -> one page carrying it, which the parent merges for the link
+    check. The front page comes back with it because `dist/index.html` inlines
+    that exact text, before the og:url substitution.
+    """
     refs: dict[str, str] = {}
     front = ""
-    for url in picked:
-        text = routes[url][1]()
+    for url in urls:
+        text = ROUTES[url][1]()
         for href in HREF.findall(text):
             refs.setdefault(href, url)
         rel = "index.html" if url == "/" else url.strip("/") + "/index.html"
@@ -3654,6 +3649,72 @@ def build():
         # `text` is the last reference to this page and dies with the
         # iteration. Retaining all of them to link-check at the end was the
         # whole of the build's memory footprint.
+    return refs, front
+
+
+def render_all(picked, stage, jobs):
+    """`render_slice` over `jobs` forked workers, or inline when jobs == 1."""
+    if jobs == 1:
+        return render_slice(picked, stage)
+
+    # Round-robin, not contiguous blocks: the expensive pages cluster by kind
+    # (840 school pages each rendering a full season are most of the tail), so
+    # a block split leaves one worker running long after the others are idle.
+    slices = [picked[i::jobs] for i in range(jobs)]
+    ctx = multiprocessing.get_context("fork")
+    with ctx.Pool(jobs) as pool:
+        results = pool.starmap(render_slice, [(s, stage) for s in slices])
+
+    refs: dict[str, str] = {}
+    front = ""
+    for slice_refs, slice_front in results:      # slice order, so the link
+        for href, url in slice_refs.items():     # check reports the same
+            refs.setdefault(href, url)           # source page every run
+        front = front or slice_front
+    return refs, front
+
+
+def worker_count(n_pages):
+    """`FH_JOBS` if set, else one per core, capped.
+
+    Capped at 4 because each worker's copy-on-write share of the registry
+    diverges as CPython touches refcounts, so peak memory grows with workers
+    while wall time stops improving once the writes go I/O-bound. Small builds
+    stay serial — forking to render 18 pages costs more than it saves.
+    """
+    env = os.environ.get("FH_JOBS")
+    if env:
+        return max(1, int(env))
+    if not hasattr(os, "fork") or n_pages < 500:
+        return 1
+    return max(1, min(4, len(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity")
+                      else (os.cpu_count() or 1)))
+
+
+def build():
+    global RAIL, FAVICON, ROUTES
+    reg = Registry()
+    FAVICON = pick_favicon()
+    RAIL = build_rail(reg)
+    build_menus(reg)
+
+    ROUTES = routes = page_routes(reg)
+    only = {k.strip() for k in os.environ.get("FH_ONLY", "").split(",") if k.strip()}
+    if only - {kind for kind, _ in routes.values()}:
+        raise SystemExit(f"FH_ONLY: no such page kind {sorted(only - {k for k, _ in routes.values()})}; "
+                         f"known kinds are {sorted({k for k, _ in routes.values()})}")
+    picked = [u for u, (kind, _) in routes.items() if not only or kind in only]
+
+    # Staged, not written straight into OUT: pages now go to disk before the
+    # link check can run, and a build that fails its check must leave the last
+    # good tree standing rather than a half-written one.
+    (ROOT / "dist").mkdir(exist_ok=True)
+    stage = OUT.parent / (OUT.name + ".staging")
+    shutil.rmtree(stage, ignore_errors=True)
+    stage.mkdir(parents=True)
+
+    jobs = worker_count(len(picked))
+    refs, front = render_all(picked, stage, jobs)
 
     broken = link_check(refs, routes)
     if broken:
@@ -3693,7 +3754,8 @@ def build():
     stage.rename(OUT)
     if front:
         (ROOT / "dist/index.html").write_text(inline_preview(front))
-    print(f"{len(picked):,} pages · {len(reg.schools)} schools · {len(reg.athletes):,} athletes · links OK")
+    print(f"{len(picked):,} pages · {len(reg.schools)} schools · {len(reg.athletes):,} athletes"
+          f" · {jobs} worker{'s' if jobs > 1 else ''} · links OK")
     print(f"standard.site: {n_rec} records"
           + (f" · published as {stdsite.PUB_URI}" if wk else " · unpublished (FH_PUB_URI unset)"))
 
