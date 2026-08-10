@@ -225,7 +225,74 @@ by printing the generated records and looking at them.
 
 ---
 
-## 6. Things I would do differently
+## 6. The photographs, and four bugs that had been eating them
+
+The previous section of this file listed photography as a known gap and said
+so honestly: nineteen stock images, several of them crowds and coaches. The
+owner then did the obvious thing and dropped twenty-five photographs into
+`site/img/news/additions/`.
+
+They did not appear. Or rather, they appeared in some places and not others,
+which is worse, and the reason turned out to be **four separate defects, none
+of which would raise anything**:
+
+| | |
+| --- | --- |
+| `ADDITION_CREDITS = _json.load(...)` ran three lines *before* `import json as _json` | `NameError`, swallowed by a bare `except`, so every credit in the folder resolved to the empty string. Silently. Which is the one failure mode a photo licence actually cares about. |
+| `story_img` looked only in `img/news/` | a story whose picture arrived in the drop folder ran its own article page with no image while that same photograph led the front page |
+| `image_size` joined `/img/additions/x.jpg` onto `site/` | the folder is a level deeper, so every share card fed by a dropped photo shipped with no width or height — the exact jumping-card problem that function exists to prevent |
+| `SPORT_PHOTO` had no entry for `baseball` or `softball`, and still listed `girls-badminton` | `baseball.jpg` had been sitting in the library since the first build with nothing pointing at it; both diamond sports were resolving to a Fortepan archive interior. `girls-badminton` stopped being a key when badminton went co-ed. |
+
+All four are the same shape as §5's: a fallback doing its job so well that the
+thing it was covering for never got noticed. The bare `except` is the worst of
+them — it is *load a file, or don't, either is fine*, applied to a legal
+obligation. Both sidecar reads now go through one loader that catches
+`FileNotFoundError` and nothing else.
+
+Two things that were work rather than bugs. The files arrived at camera
+resolution — 50 MB for twenty, one 4.3 MB frame for a single hero — so they
+are resized to a 1600px long edge at quality 82, which is 5.7 MB for all
+twenty-five, and the README now carries the one-liner that does it. And I had
+to *look* at them: reading the filenames would have filed a girls lacrosse
+huddle as rugby and a baseball tag play as softball, because that is what I
+had them down as from a first pass over a contact sheet. A second look at full
+size caught both. Same lesson as §5, in a different medium.
+
+The folder now supports **variants** — `baseball.jpg`, `baseball-2.jpg`, up to
+`-5` — because the owner supplied five baseball frames and the honest reading
+of that is *use all five*. Which one a page gets is a stable hash of its school
+or conference, so 840 school fronts leading on baseball no longer lead on the
+same picture.
+
+Sixteen of fifty-one sports now lead on a real photograph. The README lists the
+thirty-five that do not, worst fit first, so the next drop has somewhere to go.
+
+---
+
+## 6b. The merge that was always going to happen
+
+Two branches fixed the same 7 GB out-of-memory failure independently — §1 here,
+and PR #15 — so the entire tail of `build.py` conflicted, both sides having
+rewritten it for the same reason.
+
+Resolved wholly in favour of #15, which is the better fix and not close:
+
+* it stages into `dist.staging` and renames only after the link check passes,
+  so a failed build leaves the previous tree standing rather than a
+  half-written one — directly addressing §1, where a failed build was invisible
+* it link-checks against the **route table** rather than against what was
+  rendered, so a partial build can still prove its links
+* it forks up to four workers: **389 s → 113 s**, 0.68 GB peak
+
+The only thing grafted on from this side was the drop-folder copy. Worth
+recording that the right move on a conflict this size was to read both and
+concede, not to reconcile line by line — the two implementations agreed on the
+diagnosis and differed on ambition, and merging them would have produced
+something worse than either.
+
+---
+
+## 7. Things I would do differently
 
 **Check the delivery path, not just the artifact.** Four rounds of "it is
 fixed" against a user who could see it wasn't. The branch, the merge and the
@@ -245,6 +312,15 @@ in the CSS" was true and unhelpful twice. The user was describing what the page
 up to reach a round number, and a caveat shipped in place of a fix more than
 once (that habit is documented in the previous AAR and recurred here).
 
+**A bare `except` around a file read is a decision, not a convenience.** The
+credits loader silently turned a `NameError` into "no photographer is credited
+on anything", and would have gone on doing it. Catch the thing you mean —
+`FileNotFoundError` — and let the rest raise.
+
+**Look at the picture.** Two of twenty photographs were filed as the wrong
+sport off a small contact sheet, and both were caught only by opening them at
+full size. The medium changed; the §5 lesson did not.
+
 ---
 
 ## 7. Where it stands
@@ -252,9 +328,9 @@ once (that habit is documented in the previous AAR and recurred here).
 ```
 59,096 pages · 840 schools · 25,795 athletes · links OK
 51 sanctioned activities · 174 state championships
-12,291 editorial items · 9 colour schemes
+12,291 editorial items · 9 colour schemes · 25 photographs, 16 sports
 201 tests passing, 1 skipped
-build: 186s, 0.63 GB peak
+build: 113s, 0.68 GB peak, 4 workers
 ```
 
 ```sh
@@ -269,11 +345,14 @@ python3 -m social.bsky --post                # the account, from the records
 
 Known gaps, stated rather than hidden:
 
-* **Photography.** The site reuses 19 sport images; several are coaches and
-  crowds rather than action, which the user flagged. Unsplash search needs an
-  API key and returns `Authorization required` from the build environment, so
-  I could not pick better ones. Drop files at `site/img/news/<slug>.jpg` or
-  `site/img/sports/<key>.jpg` and they take over.
+* **Photography, thirty-five sports of it.** Sixteen sports lead on a real
+  photograph now; the rest are on the stock library. Most read correctly —
+  they are the right sport, just not as good — but `chess` shows a general
+  gym interior, squash shows tennis courts, and flag football shows tackle
+  football. `site/img/news/additions/README.md` ranks them worst-fit first.
+  I still cannot search Unsplash from the build environment (it wants an API
+  key and returns `Authorization required`), so choosing them stays a job for
+  a human with a browser.
 * **Box-score players have no athlete pages.** Only meet and dual competitors
   are indexed, so honours naming a basketball player link to the sport page.
   Fixing it adds roughly 40,000 pages.
