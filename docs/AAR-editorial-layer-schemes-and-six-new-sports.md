@@ -292,6 +292,58 @@ something worse than either.
 
 ---
 
+## 6c. Fifty activities, and a nav that was hiding twelve of them
+
+The owner said the new sports were not in the menu. They were — all of them,
+from the day they were added. The panel was **hiding** them: `.fh-drop` capped
+itself at `min(62vh, 520px)` with an overflow-scroll, the winter column ran to
+about 510px at nineteen activities, and 62vh on a laptop is around 430px. Four
+sports a column sat below the fold of a **hover** menu, which for any real
+reader is the same as not existing.
+
+That is the third time this run that the right answer was "the code is correct
+and the user is still right" (§1 was the first, §3 the second). The pattern is
+identical every time: I check whether the thing is *present* and they are
+telling me whether it is *reachable*.
+
+The fix is the owner's, offered as a suggestion and better than mine. Where
+both genders of a sport run in the **same season**, the menu carries it once
+under its plain name — Basketball, Wrestling, Soccer, Lacrosse, Track — and
+the split moves onto the page as a Boys/Girls switch. Columns go 14/19/18 to
+12/12/13 and the cap never engages. Where the genders run in **different**
+seasons they stay separate, because girls tennis is a fall sport and boys
+tennis a spring one; collapsing those would state something false about the
+calendar. The same collapsing runs in the season ribbon, but scoped per tier,
+so a school that fields girls lacrosse and not boys still reads "Girls
+Lacrosse" — for that school it is not half of anything.
+
+Two catalog moves alongside it: cricket to **fall** as a boys' sport with no
+counterpart (baseball's shape), squash to **winter** as ONE co-ed ladder
+rather than a boys' and a girls' one. Fifty activities.
+
+### The icons, and looking at them twice
+
+Six glyphs drawn for this catalog, because Tabler has none of them and the
+fallbacks were wrong enough to misread — **field hockey was showing a golf
+club**, lacrosse a target-and-arrow, and badminton, squash, cricket and both
+rugbies were each borrowing the nearest ball, which put three racquet sports
+on one glyph and two bat-and-ball sports on another.
+
+Both drafts I got wrong were caught the same way as the photographs: by
+rendering them and looking. The first racquet was a circle with an X through
+it — the universal *cancel* symbol — and the first crosse read as a mallet.
+Neither is visible in the path data.
+
+### And a bug only chess could have found
+
+`.tnum` sets tabular figures, which give the **decimal point** a full digit
+cell. Every score on the site is an integer except a drawn chess dual, so
+"Boyerstown 4 . 5" shipped the moment draws existed and nothing before then
+could have exposed it. Fractional values now opt out; the class keeps its
+alignment everywhere it earns it.
+
+---
+
 ## 7. Things I would do differently
 
 **Check the delivery path, not just the artifact.** Four rounds of "it is
@@ -326,11 +378,11 @@ full size. The medium changed; the §5 lesson did not.
 ## 7. Where it stands
 
 ```
-59,096 pages · 840 schools · 25,795 athletes · links OK
-51 sanctioned activities · 174 state championships
-12,291 editorial items · 9 colour schemes · 25 photographs, 16 sports
+58,642 pages · 840 schools · 25,287 athletes · links OK
+50 sanctioned activities · 173 state championships
+12,291 editorial items · 9 colour schemes · 38 photographs, 19 sports
 201 tests passing, 1 skipped
-build: 113s, 0.68 GB peak, 4 workers
+build: 101s, 0.68 GB peak, 4 workers
 ```
 
 ```sh
