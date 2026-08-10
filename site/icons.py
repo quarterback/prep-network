@@ -1,10 +1,15 @@
 """
 Sport icons — Tabler Icons (MIT), inlined.
 
-Icons compress the 41-activity nav into something scannable: a glyph with the
-sport's name under it, instead of a wall of text links. Paths are embedded
-rather than linked because the site is static and the artifact CSP blocks
-external hosts.
+Icons compress the fifty-activity nav into something scannable: a glyph with
+the sport's name beside it, instead of a wall of text links. Paths are
+embedded rather than linked because the site is static and the artifact CSP
+blocks external hosts.
+
+Most glyphs are Tabler's. Six at the foot of `ICONS` are drawn for this
+catalog, because Tabler has no shuttlecock, squash racquet, cricket bat, rugby
+ball, crosse or hockey stick, and the fallbacks they replaced were wrong
+enough to misread — field hockey was showing a golf club.
 
 Tabler Icons · MIT License · https://github.com/tabler/tabler-icons
 """
@@ -34,7 +39,20 @@ ICONS = {
  "messages": "<path d=\"M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10\" /> <path d=\"M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2\" />",
  "disc": "<path d=\"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0\" /> <path d=\"M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M7 12a5 5 0 0 1 5 -5\" /> <path d=\"M12 17a5 5 0 0 0 5 -5\" />",
  "chess": "<path d=\"M8 16l1.5 -8h5l1.5 8\" /> <path d=\"M6 20h12v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v2z\" /> <path d=\"M12 4v2\" /> <path d=\"M11 5h2\" /> <path d=\"M9.5 8h5\" />",
- "yoga": "<path d=\"M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M4 20h4l1.5 -3\" /> <path d=\"M17 20l-1 -5h-5l1 -7\" /> <path d=\"M4 10l4 -1l4 -1l4 1.5l4 1.5\" />"
+ "yoga": "<path d=\"M12 4m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0\" /> <path d=\"M4 20h4l1.5 -3\" /> <path d=\"M17 20l-1 -5h-5l1 -7\" /> <path d=\"M4 10l4 -1l4 -1l4 1.5l4 1.5\" />",
+
+ # ---- drawn for this catalog, in Tabler's grammar (24x24, 2px round stroke).
+ # Tabler has no glyph for any of these six, and the fallbacks they replace
+ # were wrong enough to misread: field hockey was showing a GOLF CLUB, and
+ # lacrosse a target-and-arrow. Squash, badminton, cricket and rugby were each
+ # borrowing the nearest ball, which put three different racquet sports and
+ # two different bat-and-ball sports on one icon apiece.
+ "shuttlecock": "<path d=\"M12 18.6m-2.9 0a2.9 2.9 0 1 0 5.8 0a2.9 2.9 0 1 0 -5.8 0\" /> <path d=\"M9.7 16.8l-3.7 -8.8\" /> <path d=\"M14.3 16.8l3.7 -8.8\" /> <path d=\"M6 8a9 9 0 0 1 12 0\" /> <path d=\"M12 15.7v-9.5\" />",
+ "racquet": "<path d=\"M10 14a6.4 4.9 -45 1 1 9 -9a6.4 4.9 -45 1 1 -9 9z\" /> <path d=\"M10.7 13.3l7.6 -7.6\" /> <path d=\"M11.7 7.2l5.6 5.6\" /> <path d=\"M9.6 14.4l-4.2 4.2\" /> <path d=\"M4 17.4l2.6 2.6\" />",
+ "cricket": "<path d=\"M19.8 4.2l1.6 1.6\" /> <path d=\"M18.6 5.4l-2.9 2.9\" /> <path d=\"M15.7 8.3l-7.4 7.4a2.4 2.4 0 0 0 0 3.4a2.4 2.4 0 0 0 3.4 0l7.4 -7.4z\" /> <path d=\"M5 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0\" />",
+ "ball-rugby": "<path d=\"M4.6 19.4c-2.4 -2.4 -1.4 -8.4 2.2 -12s9.6 -4.6 12 -2.2s1.4 8.4 -2.2 12s-9.6 4.6 -12 2.2z\" /> <path d=\"M8.5 15.5l7 -7\" /> <path d=\"M10.6 14.1l1.7 1.7\" /> <path d=\"M13.1 11.6l1.7 1.7\" /> <path d=\"M15.6 9.1l1.7 1.7\" />",
+ "lacrosse": "<path d=\"M12.8 11.2l3.2 -6.6a5 5 0 0 1 4.6 4.6l-6.6 3.2z\" /> <path d=\"M14.9 7.3l3.4 3.4\" /> <path d=\"M12.6 11.6l-6.8 6.8\" /> <path d=\"M4.4 17l2.6 2.6\" />",
+ "hockey-stick": "<path d=\"M6.5 3.5l3.5 11.2a4.5 4.5 0 0 0 4.3 3.1h4.2\" /> <path d=\"M18.5 17.8a2 2 0 0 1 0 4h-4.4\" /> <path d=\"M6 20m-1.8 0a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0 -3.6 0\" />",
 }
 
 SPORT_ICON = {
@@ -42,7 +60,7 @@ SPORT_ICON = {
  "girls-flag-football": "play-football",
  "boys-soccer": "ball-football",
  "girls-soccer": "ball-football",
- "field-hockey": "golf",
+ "field-hockey": "hockey-stick",
  "girls-volleyball": "ball-volleyball",
  "boys-cross-country": "run",
  "girls-cross-country": "run",
@@ -71,19 +89,18 @@ SPORT_ICON = {
  "winter-track": "run",
  "baseball": "ball-baseball",
  "softball": "ball-baseball",
- "boys-lacrosse": "target-arrow",
- "girls-lacrosse": "target-arrow",
+ "boys-lacrosse": "lacrosse",
+ "girls-lacrosse": "lacrosse",
  "boys-tennis": "ball-tennis",
  "boys-volleyball": "ball-volleyball",
  "girls-golf": "golf",
  "boys-track": "run",
  "girls-track": "run",
- "badminton": "ball-tennis",
- "boys-squash": "ball-tennis",
- "girls-squash": "ball-tennis",
- "cricket": "ball-baseball",
- "boys-rugby": "ball-american-football",
- "girls-rugby": "ball-american-football",
+ "badminton": "shuttlecock",
+ "squash": "racquet",
+ "cricket": "cricket",
+ "boys-rugby": "ball-rugby",
+ "girls-rugby": "ball-rugby",
  "ultimate": "disc",
  "marching-band": "music",
  "choir": "microphone",

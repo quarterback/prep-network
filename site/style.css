@@ -564,6 +564,11 @@ body {
 a { color: var(--text-link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 .tnum { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
+/* Tabular figures give the DECIMAL POINT a full digit cell too, so a chess
+   dual read "Boyerstown 4 . 5". Alignment is why .tnum exists — it earns that
+   in a column of scores and buys nothing in an inline sentence, so a fractional
+   value opts out rather than the whole class losing its alignment. */
+.tnum.frac { font-variant-numeric: normal; font-feature-settings: normal; }
 ::selection { background: var(--brand-tint); color: var(--brand-strong); }
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
@@ -1443,8 +1448,14 @@ main.wrap { padding-bottom: 10px; }
   font-size: var(--fs-caption); font-weight: 600; color: var(--text-primary);
   white-space: nowrap;
 }
-/* navigation, not a page-sized overlay: cap the panel's height and scroll */
-.fh-drop { max-height: min(62vh, 520px); overflow-y: auto; }
+/* Navigation, not a page-sized overlay — but the cap is a LAST RESORT, not
+   the layout. At 62vh/520px the sports panel silently hid the bottom of every
+   column behind a hover-scroll nobody discovers: nineteen winter activities
+   ran to ~510px and a laptop's 62vh is ~430px, so four sports a column were
+   unreachable from the nav. The panel now collapses same-season gendered
+   pairs (build.season_menu), which brings the tallest column to thirteen
+   rows, and this cap only ever engages on a genuinely short window. */
+.fh-drop { max-height: min(78vh, 620px); overflow-y: auto; }
 .fh-dropcols span { color: var(--text-faint); font-weight: 400; }
 .fh-dropcols a:hover { color: var(--text-link); text-decoration: none; }
 @media (max-width: 720px) { .fh-menu > button { display: none; } }
@@ -2054,3 +2065,23 @@ a.fh-tourrow:hover { background: var(--surface-hover); text-decoration: none; }
 .fh-tourrow .nt { color: var(--text-muted); font-size: var(--fs-caption); }
 .fh-tourrow.none .ex { color: var(--text-muted); font-style: italic; }
 @media (max-width: 700px) { .fh-tourrow { grid-template-columns: 1fr; } }
+
+
+/* ---- gender switch on a paired sport ------------------------------------
+   The nav lists "Basketball" once, so the split lives here. A segmented pair
+   rather than two links: the reader is choosing between two halves of one
+   thing, and two plain links read as two unrelated destinations. */
+.fh-gsw {
+  display: inline-flex; border: var(--rule); overflow: hidden;
+  background: var(--surface-card);
+}
+.fh-gsw > a, .fh-gsw > span {
+  padding: 5px 13px; font-family: var(--font-text);
+  font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.02em;
+  color: var(--text-secondary); text-decoration: none;
+}
+.fh-gsw > * + * { border-left: var(--hairline); }
+.fh-gsw > a:hover { background: var(--surface-hover); color: var(--text-link);
+  text-decoration: none; }
+.fh-gsw > .on { background: var(--ink); color: var(--paper); }
+@media (max-width: 620px) { .fh-gsw { width: 100%; } .fh-gsw > * { flex: 1; text-align: center; } }
