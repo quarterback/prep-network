@@ -45,7 +45,7 @@ is written against real structure instead of an invented one.
 | `app/shapes.py` — MEET / DUAL / GAME + postseason | working |
 | `app/postseason.py` — bracket geometry | working |
 | `generators/` — the fictional state, incl. 165 championships | working |
-| `site/build.py` — 58,497 pages, three tenant tiers | working |
+| `site/build.py` — 58,497 pages, three tenant tiers | working, 214 s / 646 MB |
 | `atproto/` — lexicons, local repo store, relay, AppView | not started |
 
 ```sh
@@ -56,6 +56,7 @@ python3 -m ingest.run --demo --write              # replay the specimen imports
 python3 -m generators.jefferson.postseason        # derive the championship layer
 python3 -m generators.jefferson.boxscores         # periods and box scores
 python3 site/build.py                             # writes dist/site/ (58,497 pages)
+FH_ONLY=front,tour,index python3 site/build.py    # just those page kinds, for local work
 ```
 
 That is also the REBUILD ORDER: `gen` clears the contest store, so the
