@@ -1106,7 +1106,7 @@
    ]
   },
   {
-   "name": "Halbrook Technical",
+   "name": "Halbrook East",
    "city": "Halbrook",
    "area": "Halbrook Basin",
    "mascot": "Spartans",
@@ -1181,7 +1181,7 @@
    ]
   },
   {
-   "name": "Port Meridian Polytechnic",
+   "name": "Port Meridian North",
    "city": "Port Meridian",
    "area": "Harborline",
    "mascot": "Sasquatch",
@@ -8257,7 +8257,7 @@
    ]
   },
   {
-   "name": "Rye Academy of Arts and Letters",
+   "name": "Rye North",
    "city": "Rye",
    "area": "Ashbury Metro",
    "mascot": "Bulldogs",
@@ -8874,7 +8874,7 @@
    ]
   },
   {
-   "name": "Ansotegui Siding Commonwealth",
+   "name": "Ansotegui Siding North",
    "city": "Ansotegui Siding",
    "area": "Ashbury Metro",
    "mascot": "Panthers",
@@ -10431,7 +10431,7 @@
    ]
   },
   {
-   "name": "San Cordero Maritime Academy",
+   "name": "San Cordero North",
    "city": "San Cordero",
    "area": "Cascade Divide",
    "mascot": "Chamois",
@@ -10474,7 +10474,7 @@
    ]
   },
   {
-   "name": "San Cordero School of Commerce",
+   "name": "San Cordero South",
    "city": "San Cordero",
    "area": "Cascade Divide",
    "mascot": "Tigers",
@@ -10766,7 +10766,7 @@
    ]
   },
   {
-   "name": "Las Norias Foundry High",
+   "name": "Las Norias East",
    "city": "Las Norias",
    "area": "Gold Valley",
    "mascot": "Falcons",
@@ -11068,7 +11068,7 @@
    ]
   },
   {
-   "name": "Gagarin School of Public Service",
+   "name": "Gagarin East",
    "city": "Gagarin",
    "area": "Gold Valley",
    "mascot": "Tigers",
@@ -11215,7 +11215,7 @@
    ]
   },
   {
-   "name": "Fellows Mill International School",
+   "name": "Fellows Mill South",
    "city": "Fellows Mill",
    "area": "Gold Valley",
    "mascot": "White Cougars",
@@ -11596,7 +11596,7 @@
    ]
   },
   {
-   "name": "Montelago Agricultural Sciences Academy",
+   "name": "Montelago South",
    "city": "Montelago",
    "area": "Gold Valley",
    "mascot": "Vikings",
@@ -11986,7 +11986,7 @@
    ]
   },
   {
-   "name": "Mercer City Technical Arts Academy",
+   "name": "Mercer City North",
    "city": "Mercer City",
    "area": "Gold Valley",
    "mascot": "Eagles",
@@ -12227,7 +12227,7 @@
    ]
   },
   {
-   "name": "Moriarty Foundry High",
+   "name": "Moriarty West",
    "city": "Moriarty",
    "area": "Gold Valley",
    "mascot": "Muckers",
@@ -12463,7 +12463,7 @@
    ]
   },
   {
-   "name": "Lake Esperanza School of Science and Industry",
+   "name": "Lake Esperanza North",
    "city": "Lake Esperanza",
    "area": "Gold Valley",
    "mascot": "Orediggers",
@@ -13518,7 +13518,7 @@
    ]
   },
   {
-   "name": "Cortland Environmental Sciences Academy",
+   "name": "Cortland North",
    "city": "Cortland",
    "area": "Gold Valley",
    "mascot": "Eagles",
@@ -13560,7 +13560,7 @@
    ]
   },
   {
-   "name": "Cortland Foundry High",
+   "name": "Harry S. Truman",
    "city": "Cortland",
    "area": "Gold Valley",
    "mascot": "Scarlet Hurricanes",
@@ -13940,7 +13940,7 @@
    ]
   },
   {
-   "name": "Valderra Aviation and Engineering Academy",
+   "name": "Valderra North",
    "city": "Valderra",
    "area": "Gold Valley",
    "mascot": "Pine Martens",
@@ -13980,7 +13980,7 @@
    ]
   },
   {
-   "name": "Valderra Technical Arts Academy",
+   "name": "Dwight Eisenhower",
    "city": "Valderra",
    "area": "Gold Valley",
    "mascot": "Shoebills",
@@ -14453,7 +14453,7 @@
    ]
   },
   {
-   "name": "Belyakov School of Public Service",
+   "name": "Abraham Lincoln",
    "city": "Belyakov",
    "area": "Halbrook Basin",
    "mascot": "Hurricanes",
@@ -15458,7 +15458,7 @@
    ]
   },
   {
-   "name": "Caswell Classical School",
+   "name": "Cherry Hill",
    "city": "Caswell",
    "area": "Halbrook Basin",
    "mascot": "Rebels",
@@ -15498,7 +15498,7 @@
    ]
   },
   {
-   "name": "Caswell Depot High",
+   "name": "Cherry Hill North",
    "city": "Caswell",
    "area": "Halbrook Basin",
    "mascot": "Grainmen",
@@ -15541,7 +15541,7 @@
    ]
   },
   {
-   "name": "Caswell I-50 Technical",
+   "name": "Cherry Hill South",
    "city": "Caswell",
    "area": "Halbrook Basin",
    "mascot": "Crusaders",
@@ -15588,7 +15588,7 @@
    ]
   },
   {
-   "name": "Caswell School of Science and Industry",
+   "name": "Andrew Jackson",
    "city": "Caswell",
    "area": "Halbrook Basin",
    "mascot": "Grizzlies",
@@ -15632,7 +15632,7 @@
    ]
   },
   {
-   "name": "Caswell University Prep",
+   "name": "Caswell West",
    "city": "Caswell",
    "area": "Halbrook Basin",
    "mascot": "Grey Eagles",
@@ -15846,7 +15846,7 @@
    ]
   },
   {
-   "name": "Echevarria Foundry High",
+   "name": "Echevarria North",
    "city": "Echevarria",
    "area": "Halbrook Basin",
    "mascot": "Leafcutters",
@@ -15884,7 +15884,7 @@
    ]
   },
   {
-   "name": "Echevarria I-50 Technical",
+   "name": "Echevarria South",
    "city": "Echevarria",
    "area": "Halbrook Basin",
    "mascot": "Huskies",
@@ -15917,7 +15917,7 @@
    ]
   },
   {
-   "name": "Echevarria School of Commerce",
+   "name": "William McKinley",
    "city": "Echevarria",
    "area": "Halbrook Basin",
    "mascot": "Bulldogs",
@@ -16174,7 +16174,7 @@
    ]
   },
   {
-   "name": "Belmonte Civic Leadership Academy",
+   "name": "Belmonte East",
    "city": "Belmonte",
    "area": "Halbrook Basin",
    "mascot": "Threshers",
@@ -16244,7 +16244,7 @@
    ]
   },
   {
-   "name": "Belmonte Health Sciences Academy",
+   "name": "Belmonte West",
    "city": "Belmonte",
    "area": "Halbrook Basin",
    "mascot": "Toucans",
@@ -16532,7 +16532,7 @@
    ]
   },
   {
-   "name": "Belyakov Environmental Sciences Academy",
+   "name": "Belyakov South",
    "city": "Belyakov",
    "area": "Halbrook Basin",
    "mascot": "Eagles",
@@ -16574,7 +16574,7 @@
    ]
   },
   {
-   "name": "Belyakov I-50 Technical",
+   "name": "Belyakov East",
    "city": "Belyakov",
    "area": "Halbrook Basin",
    "mascot": "Cougars",
@@ -16703,7 +16703,7 @@
    ]
   },
   {
-   "name": "Belyakov School of Science and Industry",
+   "name": "Belyakov Technical",
    "city": "Belyakov",
    "area": "Halbrook Basin",
    "mascot": "Beanpickers",
@@ -17385,7 +17385,7 @@
    ]
   },
   {
-   "name": "Javier Villalba",
+   "name": "Alonso Villalba",
    "city": "Llerena",
    "area": "Halbrook Basin",
    "mascot": "Huskies",
@@ -17470,7 +17470,7 @@
    ]
   },
   {
-   "name": "Llerena Civic Leadership Academy",
+   "name": "Llerena North",
    "city": "Llerena",
    "area": "Halbrook Basin",
    "mascot": "Jacanas",
@@ -17513,7 +17513,7 @@
    ]
   },
   {
-   "name": "Llerena School of Science and Industry",
+   "name": "Llerena South",
    "city": "Llerena",
    "area": "Halbrook Basin",
    "mascot": "Tigers",
@@ -18600,7 +18600,7 @@
    ]
   },
   {
-   "name": "Orellana Foundry High",
+   "name": "Orellana North",
    "city": "Orellana",
    "area": "Halbrook Basin",
    "mascot": "Pirates",
@@ -18645,7 +18645,7 @@
    ]
   },
   {
-   "name": "Orellana School of Commerce",
+   "name": "Orellana South",
    "city": "Orellana",
    "area": "Halbrook Basin",
    "mascot": "Clouded Leopards",
@@ -18850,7 +18850,7 @@
    ]
   },
   {
-   "name": "Eagleton School of Science and Industry",
+   "name": "Eagleton West",
    "city": "Eagleton",
    "area": "Halbrook Basin",
    "mascot": "Milkmen",
@@ -18900,7 +18900,7 @@
    ]
   },
   {
-   "name": "Greaves Junction Treasure Valley",
+   "name": "Greaves Junction South",
    "city": "Greaves Junction",
    "area": "Halbrook Basin",
    "mascot": "Bulldogs",
@@ -19320,7 +19320,7 @@
    ]
   },
   {
-   "name": "Serrano Applied Sciences Institute",
+   "name": "Serrano North",
    "city": "Serrano",
    "area": "Halbrook Basin",
    "mascot": "Bulldogs",
@@ -19356,7 +19356,7 @@
    ]
   },
   {
-   "name": "Serrano Depot High",
+   "name": "Serrano South",
    "city": "Serrano",
    "area": "Halbrook Basin",
    "mascot": "Numbats",
@@ -19475,7 +19475,7 @@
    ]
   },
   {
-   "name": "Belmonte Agricultural Sciences Academy",
+   "name": "Belmonte North",
    "city": "Belmonte",
    "area": "Halbrook Basin",
    "mascot": "Seahawks",
@@ -19516,7 +19516,7 @@
    ]
   },
   {
-   "name": "Belmonte Applied Sciences Institute",
+   "name": "Belmonte South",
    "city": "Belmonte",
    "area": "Halbrook Basin",
    "mascot": "Mustangs",
@@ -19560,7 +19560,7 @@
    ]
   },
   {
-   "name": "Belmonte Classical Academy",
+   "name": "James Madison",
    "city": "Belmonte",
    "area": "Halbrook Basin",
    "mascot": "Scarlet Mustangs",
@@ -19601,7 +19601,7 @@
    ]
   },
   {
-   "name": "Belmonte Technical Arts Academy",
+   "name": "Woodrow Wilson",
    "city": "Belmonte",
    "area": "Halbrook Basin",
    "mascot": "Dusters",
@@ -19874,7 +19874,7 @@
    ]
   },
   {
-   "name": "St. Basil School",
+   "name": "St. Ignatius",
    "city": "Belmonte",
    "area": "Halbrook Basin",
    "mascot": "Weaverbirds",
@@ -20271,7 +20271,7 @@
    ]
   },
   {
-   "name": "Aldecoa Academy of Arts and Letters",
+   "name": "Aldecoa North",
    "city": "Aldecoa",
    "area": "Halbrook Basin",
    "mascot": "Dholes",
@@ -20307,7 +20307,7 @@
    ]
   },
   {
-   "name": "Aldecoa Applied Sciences Institute",
+   "name": "Aldecoa South",
    "city": "Aldecoa",
    "area": "Halbrook Basin",
    "mascot": "Saints",
@@ -20343,7 +20343,7 @@
    ]
   },
   {
-   "name": "Aldecoa Depot High",
+   "name": "Ulysses Grant",
    "city": "Aldecoa",
    "area": "Halbrook Basin",
    "mascot": "Harvesters",
@@ -20661,7 +20661,7 @@
    ]
   },
   {
-   "name": "Belyakov Academy of Music and Media",
+   "name": "Belyakov North",
    "city": "Belyakov",
    "area": "Halbrook Basin",
    "mascot": "Cannery",
@@ -20702,7 +20702,7 @@
    ]
   },
   {
-   "name": "Belyakov Polytechnic Institute",
+   "name": "Belyakov West",
    "city": "Belyakov",
    "area": "Halbrook Basin",
    "mascot": "Silos",
@@ -20746,7 +20746,7 @@
    ]
   },
   {
-   "name": "Belyakov School of Design and Engineering",
+   "name": "Theodore Roosevelt",
    "city": "Belyakov",
    "area": "Halbrook Basin",
    "mascot": "Lobos",
@@ -21689,7 +21689,7 @@
    ]
   },
   {
-   "name": "Port Veles Civic Leadership Academy",
+   "name": "Port Veles South",
    "city": "Port Veles",
    "area": "Harborline",
    "mascot": "Patriots",
@@ -21928,7 +21928,7 @@
    ]
   },
   {
-   "name": "Port Veles Agricultural Sciences Academy",
+   "name": "Port Veles North",
    "city": "Port Veles",
    "area": "Harborline",
    "mascot": "Tigers",
@@ -23333,7 +23333,7 @@
    ]
   },
   {
-   "name": "Nadia Sidorov",
+   "name": "Anton Sidorov",
    "city": "Port Veles",
    "area": "Harborline",
    "mascot": "Blue Buccaneers",
@@ -25363,7 +25363,7 @@
    ]
   },
   {
-   "name": "Harriman Civic Leadership Academy",
+   "name": "Harriman North",
    "city": "Harriman",
    "area": "Sage Plains",
    "mascot": "Waterhaulers",
@@ -25405,7 +25405,7 @@
    ]
   },
   {
-   "name": "Harriman Maritime Academy",
+   "name": "John F. Kennedy",
    "city": "Harriman",
    "area": "Sage Plains",
    "mascot": "Numbats",
@@ -25742,7 +25742,7 @@
    ]
   },
   {
-   "name": "Fort Valois School of Design and Engineering",
+   "name": "Fort Valois North",
    "city": "Fort Valois",
    "area": "Sage Plains",
    "mascot": "Wolverines",
@@ -25981,7 +25981,7 @@
    ]
   },
   {
-   "name": "Bah\u00eda Leal Costa Verde",
+   "name": "Housatonic HS",
    "city": "Bah\u00eda Leal",
    "area": "South Coast",
    "mascot": "Warthogs",
@@ -26383,7 +26383,7 @@
    ]
   },
   {
-   "name": "Puerto de los Reyes International School",
+   "name": "Puerto de los Reyes North",
    "city": "Puerto de los Reyes",
    "area": "South Coast",
    "mascot": "Sasquatch",
@@ -26415,7 +26415,7 @@
    ]
   },
   {
-   "name": "Puerto de los Reyes School of Commerce",
+   "name": "Puerto de los Reyes South",
    "city": "Puerto de los Reyes",
    "area": "South Coast",
    "mascot": "Wolves",
@@ -27637,7 +27637,7 @@
    ]
   },
   {
-   "name": "San Borond\u00f3n Agricultural Sciences Academy",
+   "name": "San Borond\u00f3n North",
    "city": "San Borond\u00f3n",
    "area": "South Coast",
    "mascot": "Panthers",
@@ -27749,7 +27749,7 @@
    ]
   },
   {
-   "name": "San Borond\u00f3n Environmental Sciences Academy",
+   "name": "San Borond\u00f3n South",
    "city": "San Borond\u00f3n",
    "area": "South Coast",
    "mascot": "Hornbeetles",

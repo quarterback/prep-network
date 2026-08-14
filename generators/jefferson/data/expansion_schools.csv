@@ -10,7 +10,7 @@ Evelyn Booker,Mount Horeb,Marlow,Ashbury Metro,65000,1195,3A,False,namesake,Rail
 Manuel Cordero,Mount Horeb,Marlow,Ashbury Metro,65000,1196,3A,False,namesake,Trojans,Civic League,new
 Mount Horeb,Mount Horeb,Marlow,Ashbury Metro,65000,1057,3A,False,city flagship,Mustangs,Civic League,new
 Mount Horeb Academy of Arts and Letters,Mount Horeb,Marlow,Ashbury Metro,65000,1232,3A,False,magnet/technical,Ravens,Civic League,new
-Rye Academy of Arts and Letters,Rye,Marlow,Ashbury Metro,63507,1246,3A,False,magnet/technical,Foxes,Civic League,new
+Rye North,Rye,Marlow,Ashbury Metro,63507,1246,3A,False,magnet/technical,Foxes,Civic League,new
 Teresa Escobedo,Rye,Marlow,Ashbury Metro,63507,1040,3A,False,namesake,Lancers,Civic League,new
 Jean Weiss,Tindall,Camas,Ashbury Metro,60036,1075,3A,False,namesake,Lancers,Civic League,new
 Renata Dahl,Tindall,Camas,Ashbury Metro,60036,1086,3A,False,namesake,Railers,Civic League,new
@@ -29,7 +29,7 @@ Yuri Kochiyama,Los Alisos,Marlow,Ashbury Metro,40000,1173,3A,False,namesake,Fire
 Ida B. Wells,San Joaquín,Marlow,Ashbury Metro,50000,1071,3A,False,namesake,Engineers,Jefferson Capital Conference,new
 Naomi Ward,San Joaquín,Marlow,Ashbury Metro,50000,1463,4A,False,namesake,Jaguars,Jefferson Capital Conference,new
 San Joaquín,San Joaquín,Marlow,Ashbury Metro,50000,1066,3A,False,city flagship,Panthers,Jefferson Capital Conference,new
-Ansotegui Siding Commonwealth,Ansotegui Siding,Camas,Ashbury Metro,102422,1844,5A,False,district/neighborhood,Pilots,Metropolitan Athletic Conference,new
+Ansotegui Siding North,Ansotegui Siding,Camas,Ashbury Metro,102422,1844,5A,False,district/neighborhood,Pilots,Metropolitan Athletic Conference,new
 Copper Lake Academy of Music and Media,Copper Lake,Camas,Ashbury Metro,115495,2079,5A,False,magnet/technical,Pilots,Metropolitan Athletic Conference,new
 Hawk Lake Eastgate,Hawk Lake,Camas,Ashbury Metro,86000,1548,4A,False,district/neighborhood,Timberwolves,Metropolitan Athletic Conference,new
 Grace Lee Boggs,Norview,Marlow,Ashbury Metro,93588,1408,4A,False,namesake,Railers,Metropolitan Athletic Conference,new
@@ -78,8 +78,8 @@ Gwendolyn Brooks,San Cordero,Tamarack,Cascade Divide,380000,3573,7A,False,namesa
 Igor Lebedev,San Cordero,Tamarack,Cascade Divide,380000,3171,7A,False,namesake,Bears,Summit Conference,new
 Ruby Stokes,San Cordero,Tamarack,Cascade Divide,380000,3596,7A,False,namesake,Panthers,Summit Conference,new
 San Cordero,San Cordero,Tamarack,Cascade Divide,380000,2680,7A,False,city flagship,Marlins,Summit Conference,new
-San Cordero Maritime Academy,San Cordero,Tamarack,Cascade Divide,380000,3025,7A,False,magnet/technical,Vikings,Summit Conference,new
-San Cordero School of Commerce,San Cordero,Tamarack,Cascade Divide,380000,2347,6A,False,magnet/technical,Comets,Summit Conference,new
+San Cordero North,San Cordero,Tamarack,Cascade Divide,380000,3025,7A,False,magnet/technical,Vikings,Summit Conference,new
+San Cordero South,San Cordero,Tamarack,Cascade Divide,380000,2347,6A,False,magnet/technical,Comets,Summit Conference,new
 St. Genevieve High School,San Cordero,Tamarack,Cascade Divide,380000,1544,4A,True,private/independent,Wolves,Summit Conference,new
 Svenja Bianchi,San Cordero,Tamarack,Cascade Divide,380000,2443,6A,False,namesake,Wolves,Summit Conference,new
 Thurgood Marshall,San Cordero,Tamarack,Cascade Divide,380000,2703,7A,False,namesake,Wolves,Summit Conference,new
@@ -88,7 +88,7 @@ Sofía Barragán,Bancroft,Ferris,Gold Valley,18000,649,1A,False,namesake,Vikings
 Mary McLeod Bethune,Barclay,Ferris,Gold Valley,55000,1565,4A,False,namesake,Foxes,Barclay Civic Conference,new
 Eleanor Tillman,Las Norias,Ferris,Gold Valley,45000,1031,3A,False,namesake,Condors,Barclay Civic Conference,new
 Las Norias,Las Norias,Ferris,Gold Valley,45000,1198,3A,False,city flagship,Railers,Barclay Civic Conference,new
-Las Norias Foundry High,Las Norias,Ferris,Gold Valley,45000,1011,3A,False,district/neighborhood,Bison,Barclay Civic Conference,new
+Las Norias East,Las Norias,Ferris,Gold Valley,45000,1011,3A,False,district/neighborhood,Bison,Barclay Civic Conference,new
 Naomi Moss,San Tomás,Ferris,Gold Valley,50000,1255,3A,False,namesake,Pioneers,Barclay Civic Conference,new
 San Tomás,San Tomás,Ferris,Gold Valley,50000,1038,3A,False,city flagship,Engineers,Barclay Civic Conference,new
 Xavier Robles,San Tomás,Ferris,Gold Valley,50000,1308,3A,False,namesake,Eagles,Barclay Civic Conference,new
@@ -98,12 +98,12 @@ César Mendoza,Bellacosta,Ferris,Gold Valley,80000,1235,3A,False,namesake,Comets
 Fellows Mill,Fellows Mill,Sablewood,Gold Valley,60000,1052,3A,False,city flagship,Miners,Bellacosta Heritage Athletic Association,new
 Fellows Mill Civic Leadership Academy,Fellows Mill,Sablewood,Gold Valley,60000,1090,3A,False,magnet/technical,Trojans,Bellacosta Heritage Athletic Association,new
 Gagarin,Gagarin,Sablewood,Gold Valley,70000,1102,3A,False,city flagship,Timberwolves,Bellacosta Heritage Athletic Association,new
-Gagarin School of Public Service,Gagarin,Sablewood,Gold Valley,70000,1370,3A,False,magnet/technical,Condors,Bellacosta Heritage Athletic Association,new
+Gagarin East,Gagarin,Sablewood,Gold Valley,70000,1370,3A,False,magnet/technical,Condors,Bellacosta Heritage Athletic Association,new
 Mother Lode,Gagarin,Sablewood,Gold Valley,70000,1099,3A,False,district/neighborhood,Pilots,Bellacosta Heritage Athletic Association,new
 Naomi Ellison,Gagarin,Sablewood,Gold Valley,70000,1469,4A,False,namesake,Titans,Bellacosta Heritage Athletic Association,new
 Barclay,Barclay,Ferris,Gold Valley,55000,1025,3A,False,city flagship,Coyotes,Fellows Mill Pioneer League,new
 Barclay Golden Gate,Barclay,Ferris,Gold Valley,55000,1369,3A,False,district/neighborhood,Miners,Fellows Mill Pioneer League,new
-Fellows Mill International School,Fellows Mill,Sablewood,Gold Valley,60000,971,2A,False,magnet/technical,Miners,Fellows Mill Pioneer League,new
+Fellows Mill South,Fellows Mill,Sablewood,Gold Valley,60000,971,2A,False,magnet/technical,Miners,Fellows Mill Pioneer League,new
 Katherine Davenport,Fellows Mill,Sablewood,Gold Valley,60000,1207,3A,False,namesake,Spartans,Fellows Mill Pioneer League,new
 Leidesdorff Academy of Music and Media,Leidesdorff,Sablewood,Gold Valley,56304,1351,3A,False,magnet/technical,Trojans,Fellows Mill Pioneer League,new
 Claudette Freeman,Monte Blanco,Ferris,Gold Valley,60000,965,2A,False,namesake,Grizzlies,Fellows Mill Pioneer League,new
@@ -115,7 +115,7 @@ Isaiah Price,Montelago,Ferris,Gold Valley,250000,1718,4A,False,namesake,Eagles,F
 Lars Bellini,Montelago,Ferris,Gold Valley,250000,2382,6A,False,namesake,Falcons,Foundry League,new
 Matteo Dahl,Montelago,Ferris,Gold Valley,250000,1796,4A,False,namesake,Mavericks,Foundry League,new
 Montelago,Montelago,Ferris,Gold Valley,250000,2035,5A,False,city flagship,Ravens,Foundry League,new
-Montelago Agricultural Sciences Academy,Montelago,Ferris,Gold Valley,250000,1662,4A,False,magnet/technical,Engineers,Foundry League,new
+Montelago South,Montelago,Ferris,Gold Valley,250000,1662,4A,False,magnet/technical,Engineers,Foundry League,new
 Rafael Escobedo,Montelago,Ferris,Gold Valley,250000,2072,5A,False,namesake,Trojans,Foundry League,new
 St. Agnes Preparatory,Montelago,Ferris,Gold Valley,250000,1137,3A,True,private/independent,Jaguars,Foundry League,new
 St. Helena Academy,Montelago,Ferris,Gold Valley,250000,1233,3A,True,private/independent,Panthers,Foundry League,new
@@ -126,20 +126,20 @@ Harlan Tillman,Mercer City,Ferris,Gold Valley,280000,1769,4A,False,namesake,Stee
 Lillian Stokes,Mercer City,Ferris,Gold Valley,280000,1952,5A,False,namesake,Pilots,Golden State Conference,new
 Mercer City,Mercer City,Ferris,Gold Valley,280000,1747,4A,False,city flagship,Grizzlies,Golden State Conference,new
 Mercer City School of Design and Engineering,Mercer City,Ferris,Gold Valley,280000,1831,5A,False,magnet/technical,Stags,Golden State Conference,new
-Mercer City Technical Arts Academy,Mercer City,Ferris,Gold Valley,280000,2319,6A,False,magnet/technical,Mustangs,Golden State Conference,new
+Mercer City North,Mercer City,Ferris,Gold Valley,280000,2319,6A,False,magnet/technical,Mustangs,Golden State Conference,new
 Petra Jansen,Mercer City,Ferris,Gold Valley,280000,2320,6A,False,namesake,Titans,Golden State Conference,new
 St. Olga College Prep,Mercer City,Ferris,Gold Valley,280000,1312,3A,True,private/independent,Loggers,Golden State Conference,new
 Thomas Halvorsen,Mercer City,Ferris,Gold Valley,280000,2072,5A,False,namesake,Navigators,Golden State Conference,new
 Lillian Price,Moriarty,Ferris,Gold Valley,150000,2069,5A,False,namesake,Grizzlies,Mission Valley Athletic Conference,new
 Lorna Booker,Moriarty,Ferris,Gold Valley,150000,1568,4A,False,namesake,Foxes,Mission Valley Athletic Conference,new
 Moriarty,Moriarty,Ferris,Gold Valley,150000,1559,4A,False,city flagship,Eagles,Mission Valley Athletic Conference,new
-Moriarty Foundry High,Moriarty,Ferris,Gold Valley,150000,1595,4A,False,district/neighborhood,Hawks,Mission Valley Athletic Conference,new
+Moriarty West,Moriarty,Ferris,Gold Valley,150000,1595,4A,False,district/neighborhood,Hawks,Mission Valley Athletic Conference,new
 Ruby Mercer,Moriarty,Ferris,Gold Valley,150000,1797,4A,False,namesake,Bears,Mission Valley Athletic Conference,new
 Vineyard High,Moriarty,Ferris,Gold Valley,150000,2213,6A,False,district/neighborhood,Trojans,Mission Valley Athletic Conference,new
 Foundry High,Lake Esperanza,Ferris,Gold Valley,220000,2593,6A,False,district/neighborhood,Timberwolves,Orchard League,new
 Gabriel Zúñiga,Lake Esperanza,Ferris,Gold Valley,220000,1919,5A,False,namesake,Bears,Orchard League,new
 Lake Esperanza,Lake Esperanza,Ferris,Gold Valley,220000,2751,7A,False,city flagship,Hawks,Orchard League,new
-Lake Esperanza School of Science and Industry,Lake Esperanza,Ferris,Gold Valley,220000,2949,7A,False,magnet/technical,Engineers,Orchard League,new
+Lake Esperanza North,Lake Esperanza,Ferris,Gold Valley,220000,2949,7A,False,magnet/technical,Engineers,Orchard League,new
 Marcus Price,Lake Esperanza,Ferris,Gold Valley,220000,2754,7A,False,namesake,Marlins,Orchard League,new
 Thomas Jansen,Lake Esperanza,Ferris,Gold Valley,220000,2874,7A,False,namesake,Marlins,Orchard League,new
 Carmen Valera,Valderra,Ferris,Gold Valley,520000,2583,6A,False,namesake,Coyotes,Sacramento Headwaters Conference,new
@@ -172,8 +172,8 @@ Velasco,Velasco,Ferris,Gold Valley,8000,576,1A,False,city flagship,Jaguars,Silve
 Mission Ridge,Villard,Ferris,Gold Valley,15000,610,1A,False,district/neighborhood,Mavericks,Silver Glen Industrial Athletic Association,new
 Villard,Villard,Ferris,Gold Valley,15000,470,1A,False,city flagship,Marlins,Silver Glen Industrial Athletic Association,new
 Cortland,Cortland,Ferris,Gold Valley,190000,2606,7A,False,city flagship,Trojans,Valley Metro Conference,new
-Cortland Environmental Sciences Academy,Cortland,Ferris,Gold Valley,190000,2715,7A,False,magnet/technical,Pelicans,Valley Metro Conference,new
-Cortland Foundry High,Cortland,Ferris,Gold Valley,190000,2729,7A,False,district/neighborhood,Coyotes,Valley Metro Conference,new
+Cortland North,Cortland,Ferris,Gold Valley,190000,2715,7A,False,magnet/technical,Pelicans,Valley Metro Conference,new
+Harry S. Truman,Cortland,Ferris,Gold Valley,190000,2729,7A,False,district/neighborhood,Coyotes,Valley Metro Conference,new
 Nathaniel Ward,Cortland,Ferris,Gold Valley,190000,1715,4A,False,namesake,Mavericks,Valley Metro Conference,new
 Oskar Weiss,Cortland,Ferris,Gold Valley,190000,1955,5A,False,namesake,Pioneers,Valley Metro Conference,new
 Svenja Ekström,Cortland,Ferris,Gold Valley,190000,1961,5A,False,namesake,Bison,Valley Metro Conference,new
@@ -183,8 +183,8 @@ Lars Mercier,Valderra,Ferris,Gold Valley,520000,2394,6A,False,namesake,Firebirds
 Petra Weiss,Valderra,Ferris,Gold Valley,520000,3189,7A,False,namesake,Firebirds,Vineyard League,new
 St. Gabriel Preparatory,Valderra,Ferris,Gold Valley,520000,1461,4A,True,private/independent,Steelheads,Vineyard League,new
 Valderra,Valderra,Ferris,Gold Valley,520000,1980,5A,False,city flagship,Eagles,Vineyard League,new
-Valderra Aviation and Engineering Academy,Valderra,Ferris,Gold Valley,520000,2370,6A,False,magnet/technical,Bison,Vineyard League,new
-Valderra Technical Arts Academy,Valderra,Ferris,Gold Valley,520000,2144,5A,False,magnet/technical,Coyotes,Vineyard League,new
+Valderra North,Valderra,Ferris,Gold Valley,520000,2370,6A,False,magnet/technical,Bison,Vineyard League,new
+Dwight Eisenhower,Valderra,Ferris,Gold Valley,520000,2144,5A,False,magnet/technical,Coyotes,Vineyard League,new
 Winifred Browne,Valderra,Ferris,Gold Valley,520000,2492,6A,False,namesake,Mustangs,Vineyard League,new
 Jon Arrieta,Arrieta,Halbrook,Halbrook Basin,80000,1147,3A,False,namesake,Coyotes,Arrieta Intercity Conference,new
 Nicolás Treviño,Arrieta,Halbrook,Halbrook Basin,80000,1752,4A,False,namesake,Pilots,Arrieta Intercity Conference,new
@@ -198,7 +198,7 @@ Northrup,Northrup,Vance,Halbrook Basin,70000,1321,3A,False,city flagship,Marlins
 Aitor Zubieta,Belyakov,Vance,Halbrook Basin,950000,2156,5A,False,namesake,Vikings,Basin Cities League,new
 Belyakov Agricultural Sciences Academy,Belyakov,Vance,Halbrook Basin,950000,2258,6A,False,magnet/technical,Falcons,Basin Cities League,new
 Belyakov Depot High,Belyakov,Vance,Halbrook Basin,950000,1940,5A,False,district/neighborhood,Falcons,Basin Cities League,new
-Belyakov School of Public Service,Belyakov,Vance,Halbrook Basin,950000,2260,6A,False,magnet/technical,Pilots,Basin Cities League,new
+Abraham Lincoln,Belyakov,Vance,Halbrook Basin,950000,2260,6A,False,magnet/technical,Pilots,Basin Cities League,new
 Carmen Cordero,Belyakov,Vance,Halbrook Basin,950000,2220,6A,False,namesake,Knights,Basin Cities League,new
 Mikhail Sidorov,Belyakov,Vance,Halbrook Basin,950000,3071,7A,False,namesake,Marlins,Basin Cities League,new
 Orchard Gate,Belyakov,Vance,Halbrook Basin,950000,3155,7A,False,district/neighborhood,Ravens,Basin Cities League,new
@@ -225,38 +225,38 @@ Zubieta River Plain,Zubieta,Vance,Halbrook Basin,90000,1533,4A,False,district/ne
 Adela Villaseñor,Caswell,Halbrook,Halbrook Basin,450000,3342,7A,False,namesake,Vikings,Foundry Conference,new
 Andrés Valera,Caswell,Halbrook,Halbrook Basin,450000,2627,7A,False,namesake,Marlins,Foundry Conference,new
 Caswell,Caswell,Halbrook,Halbrook Basin,450000,3802,7A,False,city flagship,Stags,Foundry Conference,new
-Caswell Classical School,Caswell,Halbrook,Halbrook Basin,450000,3127,7A,True,private/independent,Hawks,Foundry Conference,new
-Caswell Depot High,Caswell,Halbrook,Halbrook Basin,450000,3336,7A,False,district/neighborhood,Bears,Foundry Conference,new
-Caswell I-50 Technical,Caswell,Halbrook,Halbrook Basin,450000,2855,7A,False,district/neighborhood,Bears,Foundry Conference,new
-Caswell School of Science and Industry,Caswell,Halbrook,Halbrook Basin,450000,3561,7A,False,magnet/technical,Spartans,Foundry Conference,new
-Caswell University Prep,Caswell,Halbrook,Halbrook Basin,450000,2444,6A,True,private/independent,Firebirds,Foundry Conference,new
+Cherry Hill,Caswell,Halbrook,Halbrook Basin,450000,3127,7A,True,private/independent,Hawks,Foundry Conference,new
+Cherry Hill North,Caswell,Halbrook,Halbrook Basin,450000,3336,7A,False,district/neighborhood,Bears,Foundry Conference,new
+Cherry Hill South,Caswell,Halbrook,Halbrook Basin,450000,2855,7A,False,district/neighborhood,Bears,Foundry Conference,new
+Andrew Jackson,Caswell,Halbrook,Halbrook Basin,450000,3561,7A,False,magnet/technical,Spartans,Foundry Conference,new
+Caswell West,Caswell,Halbrook,Halbrook Basin,450000,2444,6A,True,private/independent,Firebirds,Foundry Conference,new
 Salvador Montalvo,Caswell,Halbrook,Halbrook Basin,450000,3236,7A,False,namesake,Marlins,Foundry Conference,new
 Tatiana Moroz,Caswell,Halbrook,Halbrook Basin,450000,4070,7A,False,namesake,Hawks,Foundry Conference,new
 Amaia Echevarria,Echevarria,Vance,Halbrook Basin,280000,2394,6A,False,namesake,Mavericks,Gateway League,new
 Echevarria,Echevarria,Vance,Halbrook Basin,280000,2473,6A,False,city flagship,Stags,Gateway League,new
-Echevarria Foundry High,Echevarria,Vance,Halbrook Basin,280000,2528,6A,False,district/neighborhood,Pelicans,Gateway League,new
-Echevarria I-50 Technical,Echevarria,Vance,Halbrook Basin,280000,1963,5A,False,district/neighborhood,Ravens,Gateway League,new
-Echevarria School of Commerce,Echevarria,Vance,Halbrook Basin,280000,1617,4A,False,magnet/technical,Ravens,Gateway League,new
+Echevarria North,Echevarria,Vance,Halbrook Basin,280000,2528,6A,False,district/neighborhood,Pelicans,Gateway League,new
+Echevarria South,Echevarria,Vance,Halbrook Basin,280000,1963,5A,False,district/neighborhood,Ravens,Gateway League,new
+William McKinley,Echevarria,Vance,Halbrook Basin,280000,1617,4A,False,magnet/technical,Ravens,Gateway League,new
 Harold Tillman,Echevarria,Vance,Halbrook Basin,280000,2631,7A,False,namesake,Timberwolves,Gateway League,new
 Leire Aramburu,Echevarria,Vance,Halbrook Basin,280000,2354,6A,False,namesake,Loggers,Gateway League,new
 Mae Jemison,Echevarria,Vance,Halbrook Basin,280000,2008,5A,False,namesake,Bears,Gateway League,new
 St. Elias College Prep,Echevarria,Vance,Halbrook Basin,280000,1240,3A,True,private/independent,Vikings,Gateway League,new
 St. Raphael Preparatory,Echevarria,Vance,Halbrook Basin,280000,953,2A,True,private/independent,Marlins,Gateway League,new
 Andrés Ibarra,Belmonte,Halbrook,Halbrook Basin,1100000,2908,7A,False,namesake,Coyotes,I-50 Metro Conference,new
-Belmonte Civic Leadership Academy,Belmonte,Halbrook,Halbrook Basin,1100000,2364,6A,False,magnet/technical,Spartans,I-50 Metro Conference,new
+Belmonte East,Belmonte,Halbrook,Halbrook Basin,1100000,2364,6A,False,magnet/technical,Spartans,I-50 Metro Conference,new
 Belmonte Collegiate Academy,Belmonte,Halbrook,Halbrook Basin,1100000,1399,3A,True,private/independent,Pelicans,I-50 Metro Conference,new
-Belmonte Health Sciences Academy,Belmonte,Halbrook,Halbrook Basin,1100000,2697,7A,False,magnet/technical,Timberwolves,I-50 Metro Conference,new
+Belmonte West,Belmonte,Halbrook,Halbrook Basin,1100000,2697,7A,False,magnet/technical,Timberwolves,I-50 Metro Conference,new
 Belmonte River Plain,Belmonte,Halbrook,Halbrook Basin,1100000,2217,6A,False,district/neighborhood,Coyotes,I-50 Metro Conference,new
 I-50 Technical,Belmonte,Halbrook,Halbrook Basin,1100000,2849,7A,False,district/neighborhood,Panthers,I-50 Metro Conference,new
 Iker Aramburu,Belmonte,Halbrook,Halbrook Basin,1100000,3395,7A,False,namesake,Panthers,I-50 Metro Conference,new
 Miren Elorriaga,Belmonte,Halbrook,Halbrook Basin,1100000,2466,6A,False,namesake,Ravens,I-50 Metro Conference,new
 Nicolás Ordoñez,Belmonte,Halbrook,Halbrook Basin,1100000,2514,6A,False,namesake,Condors,I-50 Metro Conference,new
 Bayard Rustin,Belyakov,Vance,Halbrook Basin,950000,2376,6A,False,namesake,Lancers,Intermountain Athletic Conference,new
-Belyakov Environmental Sciences Academy,Belyakov,Vance,Halbrook Basin,950000,2284,6A,False,magnet/technical,Vikings,Intermountain Athletic Conference,new
-Belyakov I-50 Technical,Belyakov,Vance,Halbrook Basin,950000,3154,7A,False,district/neighborhood,Miners,Intermountain Athletic Conference,new
+Belyakov South,Belyakov,Vance,Halbrook Basin,950000,2284,6A,False,magnet/technical,Vikings,Intermountain Athletic Conference,new
+Belyakov East,Belyakov,Vance,Halbrook Basin,950000,3154,7A,False,district/neighborhood,Miners,Intermountain Athletic Conference,new
 Belyakov Manufacturing and Technology Academy,Belyakov,Vance,Halbrook Basin,950000,2498,6A,False,magnet/technical,Vikings,Intermountain Athletic Conference,new
 Belyakov River Plain,Belyakov,Vance,Halbrook Basin,950000,2909,7A,False,district/neighborhood,Trojans,Intermountain Athletic Conference,new
-Belyakov School of Science and Industry,Belyakov,Vance,Halbrook Basin,950000,1919,5A,False,magnet/technical,Condors,Intermountain Athletic Conference,new
+Belyakov Technical,Belyakov,Vance,Halbrook Basin,950000,1919,5A,False,magnet/technical,Condors,Intermountain Athletic Conference,new
 Dorothy Height,Belyakov,Vance,Halbrook Basin,950000,2331,6A,False,namesake,Bears,Intermountain Athletic Conference,new
 José Martí,Belyakov,Vance,Halbrook Basin,950000,3067,7A,False,namesake,Coyotes,Intermountain Athletic Conference,new
 Unai Etxeberria,Belyakov,Vance,Halbrook Basin,950000,2154,5A,False,namesake,Foxes,Intermountain Athletic Conference,new
@@ -272,10 +272,10 @@ Yelena Sokolov,Belmonte,Halbrook,Halbrook Basin,1100000,2204,6A,False,namesake,V
 Anya Belov,Llerena,Halbrook,Halbrook Basin,380000,3180,7A,False,namesake,Firebirds,Llerena Union Conference,new
 Ella Baker,Llerena,Halbrook,Halbrook Basin,380000,2734,7A,False,namesake,Engineers,Llerena Union Conference,new
 Javier Cárdenas,Llerena,Halbrook,Halbrook Basin,380000,2848,7A,False,namesake,Navigators,Llerena Union Conference,new
-Javier Villalba,Llerena,Halbrook,Halbrook Basin,380000,2418,6A,False,namesake,Pilots,Llerena Union Conference,new
+Alonso Villalba,Llerena,Halbrook,Halbrook Basin,380000,2418,6A,False,namesake,Pilots,Llerena Union Conference,new
 Llerena,Llerena,Halbrook,Halbrook Basin,380000,3490,7A,False,city flagship,Knights,Llerena Union Conference,new
-Llerena Civic Leadership Academy,Llerena,Halbrook,Halbrook Basin,380000,2828,7A,False,magnet/technical,Titans,Llerena Union Conference,new
-Llerena School of Science and Industry,Llerena,Halbrook,Halbrook Basin,380000,2095,5A,False,magnet/technical,Miners,Llerena Union Conference,new
+Llerena North,Llerena,Halbrook,Halbrook Basin,380000,2828,7A,False,magnet/technical,Titans,Llerena Union Conference,new
+Llerena South,Llerena,Halbrook,Halbrook Basin,380000,2095,5A,False,magnet/technical,Miners,Llerena Union Conference,new
 St. Brigid Preparatory,Llerena,Halbrook,Halbrook Basin,380000,1586,4A,True,private/independent,Foxes,Llerena Union Conference,new
 Viktor Kareva,Llerena,Halbrook,Halbrook Basin,380000,3554,7A,False,namesake,Foxes,Llerena Union Conference,new
 West Bench,Llerena,Halbrook,Halbrook Basin,380000,2626,7A,False,district/neighborhood,Bears,Llerena Union Conference,new
@@ -307,17 +307,17 @@ Lev Kareva,Orellana,Vance,Halbrook Basin,320000,2293,6A,False,namesake,Sentinels
 Mikel Elorriaga,Orellana,Vance,Halbrook Basin,320000,1810,5A,False,namesake,Stags,Orellana Pioneer League,new
 Orellana,Orellana,Vance,Halbrook Basin,320000,2023,5A,False,city flagship,Miners,Orellana Pioneer League,new
 Orellana Canal View,Orellana,Vance,Halbrook Basin,320000,2473,6A,False,district/neighborhood,Mustangs,Orellana Pioneer League,new
-Orellana Foundry High,Orellana,Vance,Halbrook Basin,320000,2859,7A,False,district/neighborhood,Steelheads,Orellana Pioneer League,new
-Orellana School of Commerce,Orellana,Vance,Halbrook Basin,320000,2078,5A,False,magnet/technical,Firebirds,Orellana Pioneer League,new
+Orellana North,Orellana,Vance,Halbrook Basin,320000,2859,7A,False,district/neighborhood,Steelheads,Orellana Pioneer League,new
+Orellana South,Orellana,Vance,Halbrook Basin,320000,2078,5A,False,magnet/technical,Firebirds,Orellana Pioneer League,new
 Orellana Treasure Valley,Orellana,Vance,Halbrook Basin,320000,2450,6A,False,district/neighborhood,Panthers,Orellana Pioneer League,new
 Benton Cross,Benton Cross,Halbrook,Halbrook Basin,15000,552,1A,False,city flagship,Falcons,Pomar Central Conference,new
 Walter Davenport,Benton Cross,Halbrook,Halbrook Basin,15000,528,1A,False,namesake,Jaguars,Pomar Central Conference,new
 Berrio,Berrio,Halbrook,Halbrook Basin,10000,720,2A,False,city flagship,Bison,Pomar Central Conference,new
 Carmina,Carmina,Vance,Halbrook Basin,10000,720,2A,False,city flagship,Pioneers,Pomar Central Conference,new
 Eagleton,Eagleton,Vance,Halbrook Basin,15000,484,1A,False,city flagship,Lancers,Pomar Central Conference,new
-Eagleton School of Science and Industry,Eagleton,Vance,Halbrook Basin,15000,596,1A,False,magnet/technical,Condors,Pomar Central Conference,new
+Eagleton West,Eagleton,Vance,Halbrook Basin,15000,596,1A,False,magnet/technical,Condors,Pomar Central Conference,new
 Greaves Junction,Greaves Junction,Halbrook,Halbrook Basin,12000,501,1A,False,city flagship,Knights,Pomar Central Conference,new
-Greaves Junction Treasure Valley,Greaves Junction,Halbrook,Halbrook Basin,12000,363,1A,False,district/neighborhood,Bison,Pomar Central Conference,new
+Greaves Junction South,Greaves Junction,Halbrook,Halbrook Basin,12000,363,1A,False,district/neighborhood,Bison,Pomar Central Conference,new
 Meridia,Meridia,Vance,Halbrook Basin,12000,436,1A,False,city flagship,Steelheads,Pomar Central Conference,new
 Meridia Manufacturing and Technology Academy,Meridia,Vance,Halbrook Basin,12000,428,1A,False,magnet/technical,Bears,Pomar Central Conference,new
 St. Francis Xavier College Prep,Pomar,Halbrook,Halbrook Basin,18000,406,1A,True,private/independent,Pioneers,Pomar Central Conference,new
@@ -330,21 +330,21 @@ Inés Valera,Serrano,Halbrook,Halbrook Basin,320000,2223,6A,False,namesake,Engin
 Nicolás Salcedo,Serrano,Halbrook,Halbrook Basin,320000,2348,6A,False,namesake,Falcons,Serrano Civic Conference,new
 Romare Bearden,Serrano,Halbrook,Halbrook Basin,320000,1678,4A,False,namesake,Mustangs,Serrano Civic Conference,new
 Serrano,Serrano,Halbrook,Halbrook Basin,320000,2681,7A,False,city flagship,Stags,Serrano Civic Conference,new
-Serrano Applied Sciences Institute,Serrano,Halbrook,Halbrook Basin,320000,2538,6A,False,magnet/technical,Mustangs,Serrano Civic Conference,new
-Serrano Depot High,Serrano,Halbrook,Halbrook Basin,320000,2779,7A,False,district/neighborhood,Spartans,Serrano Civic Conference,new
+Serrano North,Serrano,Halbrook,Halbrook Basin,320000,2538,6A,False,magnet/technical,Mustangs,Serrano Civic Conference,new
+Serrano South,Serrano,Halbrook,Halbrook Basin,320000,2779,7A,False,district/neighborhood,Spartans,Serrano Civic Conference,new
 St. Isidore Academy,Serrano,Halbrook,Halbrook Basin,320000,1871,5A,True,private/independent,Pelicans,Serrano Civic Conference,new
 Amaia Aramburu,Belmonte,Halbrook,Halbrook Basin,1100000,2932,7A,False,namesake,Vikings,Snake Plain League,new
-Belmonte Agricultural Sciences Academy,Belmonte,Halbrook,Halbrook Basin,1100000,2645,7A,False,magnet/technical,Jaguars,Snake Plain League,new
-Belmonte Applied Sciences Institute,Belmonte,Halbrook,Halbrook Basin,1100000,2827,7A,False,magnet/technical,Engineers,Snake Plain League,new
-Belmonte Classical Academy,Belmonte,Halbrook,Halbrook Basin,1100000,2987,7A,False,magnet/technical,Comets,Snake Plain League,new
-Belmonte Technical Arts Academy,Belmonte,Halbrook,Halbrook Basin,1100000,2689,7A,False,magnet/technical,Stags,Snake Plain League,new
+Belmonte North,Belmonte,Halbrook,Halbrook Basin,1100000,2645,7A,False,magnet/technical,Jaguars,Snake Plain League,new
+Belmonte South,Belmonte,Halbrook,Halbrook Basin,1100000,2827,7A,False,magnet/technical,Engineers,Snake Plain League,new
+James Madison,Belmonte,Halbrook,Halbrook Basin,1100000,2987,7A,False,magnet/technical,Comets,Snake Plain League,new
+Woodrow Wilson,Belmonte,Halbrook,Halbrook Basin,1100000,2689,7A,False,magnet/technical,Stags,Snake Plain League,new
 Depot High,Belmonte,Halbrook,Halbrook Basin,1100000,2847,7A,False,district/neighborhood,Sentinels,Snake Plain League,new
 Jon Etxeberria,Belmonte,Halbrook,Halbrook Basin,1100000,3124,7A,False,namesake,Falcons,Snake Plain League,new
 Leire Garmendia,Belmonte,Halbrook,Halbrook Basin,1100000,2572,6A,False,namesake,Railers,Snake Plain League,new
 Nerea Mendizabal,Belmonte,Halbrook,Halbrook Basin,1100000,2504,6A,False,namesake,Titans,Snake Plain League,new
 Shirley Chisholm,Belmonte,Halbrook,Halbrook Basin,1100000,2080,5A,False,namesake,Sentinels,Snake Plain League,new
 St. Basil Academy,Belmonte,Halbrook,Halbrook Basin,1100000,1070,3A,True,private/independent,Hawks,Snake Plain League,new
-St. Basil School,Belmonte,Halbrook,Halbrook Basin,1100000,1607,4A,True,private/independent,Pioneers,Snake Plain League,new
+St. Ignatius,Belmonte,Halbrook,Halbrook Basin,1100000,1607,4A,True,private/independent,Pioneers,Snake Plain League,new
 Treasure Valley,Belmonte,Halbrook,Halbrook Basin,1100000,3365,7A,False,district/neighborhood,Bears,Snake Plain League,new
 Drayfield Foundry High,Drayfield,Vance,Halbrook Basin,52259,1254,3A,False,district/neighborhood,Railers,Tolland Western League,new
 Homecroft,Homecroft,Vance,Halbrook Basin,50000,1635,4A,False,city flagship,Loggers,Tolland Western League,new
@@ -357,9 +357,9 @@ Tolland,Tolland,Vance,Halbrook Basin,60000,1023,3A,False,city flagship,Sentinels
 Walter Browne,Tolland,Vance,Halbrook Basin,60000,952,2A,False,namesake,Engineers,Tolland Western League,new
 Aitor Echevarria,Aldecoa,Vance,Halbrook Basin,250000,2304,6A,False,namesake,Bison,Treasure Valley League,new
 Aldecoa,Aldecoa,Vance,Halbrook Basin,250000,2049,5A,False,city flagship,Pilots,Treasure Valley League,new
-Aldecoa Academy of Arts and Letters,Aldecoa,Vance,Halbrook Basin,250000,1888,5A,False,magnet/technical,Hawks,Treasure Valley League,new
-Aldecoa Applied Sciences Institute,Aldecoa,Vance,Halbrook Basin,250000,2289,6A,False,magnet/technical,Spartans,Treasure Valley League,new
-Aldecoa Depot High,Aldecoa,Vance,Halbrook Basin,250000,1892,5A,False,district/neighborhood,Bison,Treasure Valley League,new
+Aldecoa North,Aldecoa,Vance,Halbrook Basin,250000,1888,5A,False,magnet/technical,Hawks,Treasure Valley League,new
+Aldecoa South,Aldecoa,Vance,Halbrook Basin,250000,2289,6A,False,magnet/technical,Spartans,Treasure Valley League,new
+Ulysses Grant,Aldecoa,Vance,Halbrook Basin,250000,1892,5A,False,district/neighborhood,Bison,Treasure Valley League,new
 Esteban Téllez,Aldecoa,Vance,Halbrook Basin,250000,1457,4A,False,namesake,Falcons,Treasure Valley League,new
 Fannie Lou Hamer,Aldecoa,Vance,Halbrook Basin,250000,1545,4A,False,namesake,Marlins,Treasure Valley League,new
 Jon Garmendia,Aldecoa,Vance,Halbrook Basin,250000,1521,4A,False,namesake,Mavericks,Treasure Valley League,new
@@ -368,9 +368,9 @@ St. Catherine College Prep,Aldecoa,Vance,Halbrook Basin,250000,1241,3A,True,priv
 Amalia Escobedo,Belyakov,Vance,Halbrook Basin,950000,3061,7A,False,namesake,Bears,West Bench Conference,new
 Anya Orlov,Belyakov,Vance,Halbrook Basin,950000,2914,7A,False,namesake,Miners,West Bench Conference,new
 Belyakov,Belyakov,Vance,Halbrook Basin,950000,2116,5A,False,city flagship,Foxes,West Bench Conference,new
-Belyakov Academy of Music and Media,Belyakov,Vance,Halbrook Basin,950000,3172,7A,False,magnet/technical,Miners,West Bench Conference,new
-Belyakov Polytechnic Institute,Belyakov,Vance,Halbrook Basin,950000,3165,7A,False,magnet/technical,Pelicans,West Bench Conference,new
-Belyakov School of Design and Engineering,Belyakov,Vance,Halbrook Basin,950000,2268,6A,False,magnet/technical,Hawks,West Bench Conference,new
+Belyakov North,Belyakov,Vance,Halbrook Basin,950000,3172,7A,False,magnet/technical,Miners,West Bench Conference,new
+Belyakov West,Belyakov,Vance,Halbrook Basin,950000,3165,7A,False,magnet/technical,Pelicans,West Bench Conference,new
+Theodore Roosevelt,Belyakov,Vance,Halbrook Basin,950000,2268,6A,False,magnet/technical,Hawks,West Bench Conference,new
 Lorraine Calder,Belyakov,Vance,Halbrook Basin,950000,1866,5A,False,namesake,Loggers,West Bench Conference,new
 Mila Chernov,Belyakov,Vance,Halbrook Basin,950000,2891,7A,False,namesake,Engineers,West Bench Conference,new
 St. Agnes Academy,Belyakov,Vance,Halbrook Basin,950000,1749,4A,True,private/independent,Spartans,West Bench Conference,new
@@ -395,13 +395,13 @@ Galina Markov,Port Veles,Bidwell,Harborline,1200000,2555,6A,False,namesake,Pione
 Janice Davenport,Port Veles,Bidwell,Harborline,1200000,3233,7A,False,namesake,Bison,Coastal Metro Conference,new
 Marcus Langston,Port Veles,Bidwell,Harborline,1200000,2618,7A,False,namesake,Pioneers,Coastal Metro Conference,new
 Marina Moroz,Port Veles,Bidwell,Harborline,1200000,2749,7A,False,namesake,Stags,Coastal Metro Conference,new
-Port Veles Civic Leadership Academy,Port Veles,Bidwell,Harborline,1200000,2682,7A,False,magnet/technical,Pioneers,Coastal Metro Conference,new
+Port Veles South,Port Veles,Bidwell,Harborline,1200000,2682,7A,False,magnet/technical,Pioneers,Coastal Metro Conference,new
 Port Veles Foundry High,Port Veles,Bidwell,Harborline,1200000,1948,5A,False,district/neighborhood,Condors,Coastal Metro Conference,new
 Port Veles Health Sciences Academy,Port Veles,Bidwell,Harborline,1200000,2001,5A,False,magnet/technical,Grizzlies,Coastal Metro Conference,new
 Aleksandr Lebedev,Port Veles,Bidwell,Harborline,1200000,3189,7A,False,namesake,Bison,Harbor Cities League,new
 Geraldine Cross,Port Veles,Bidwell,Harborline,1200000,2063,5A,False,namesake,Firebirds,Harbor Cities League,new
 Harbor Gate,Port Veles,Bidwell,Harborline,1200000,3257,7A,False,district/neighborhood,Railers,Harbor Cities League,new
-Port Veles Agricultural Sciences Academy,Port Veles,Bidwell,Harborline,1200000,2625,7A,False,magnet/technical,Grizzlies,Harbor Cities League,new
+Port Veles North,Port Veles,Bidwell,Harborline,1200000,2625,7A,False,magnet/technical,Grizzlies,Harbor Cities League,new
 Port Veles International Academy,Port Veles,Bidwell,Harborline,1200000,973,2A,True,private/independent,Sentinels,Harbor Cities League,new
 Ralph Booker,Port Veles,Bidwell,Harborline,1200000,2939,7A,False,namesake,Marlins,Harbor Cities League,new
 Sofia Romanov,Port Veles,Bidwell,Harborline,1200000,2784,7A,False,namesake,Miners,Harbor Cities League,new
@@ -441,7 +441,7 @@ Tule Admiralty High,Tule,Bidwell,Harborline,18551,668,2A,False,district/neighbor
 Igor Chernov,Port Veles,Bidwell,Harborline,1200000,3000,7A,False,namesake,Spartans,Shipwright League,new
 Katherine Williams,Port Veles,Bidwell,Harborline,1200000,2353,6A,False,namesake,Navigators,Shipwright League,new
 Nadia Chernov,Port Veles,Bidwell,Harborline,1200000,3100,7A,False,namesake,Firebirds,Shipwright League,new
-Nadia Sidorov,Port Veles,Bidwell,Harborline,1200000,2769,7A,False,namesake,Falcons,Shipwright League,new
+Anton Sidorov,Port Veles,Bidwell,Harborline,1200000,2769,7A,False,namesake,Falcons,Shipwright League,new
 Nathaniel Cross,Port Veles,Bidwell,Harborline,1200000,2999,7A,False,namesake,Comets,Shipwright League,new
 Port Veles Civic Academy,Port Veles,Bidwell,Harborline,1200000,1557,4A,True,private/independent,Mavericks,Shipwright League,new
 Port Veles Maritime Academy,Port Veles,Bidwell,Harborline,1200000,2333,6A,False,magnet/technical,Loggers,Shipwright League,new
@@ -507,8 +507,8 @@ Garazi Aramburu,Standale,Emigrant,Sage Plains,13134,473,1A,False,namesake,Wolves
 Wheatley,Wheatley,Emigrant,Sage Plains,6000,432,1A,False,city flagship,Vikings,Frontier Metro Conference,new
 Frontier High,Harriman,Emigrant,Sage Plains,450000,2854,7A,False,district/neighborhood,Railers,High Plains League,new
 Harriman,Harriman,Emigrant,Sage Plains,450000,3792,7A,False,city flagship,Lancers,High Plains League,new
-Harriman Civic Leadership Academy,Harriman,Emigrant,Sage Plains,450000,4219,7A,False,magnet/technical,Eagles,High Plains League,new
-Harriman Maritime Academy,Harriman,Emigrant,Sage Plains,450000,4072,7A,False,magnet/technical,Pelicans,High Plains League,new
+Harriman North,Harriman,Emigrant,Sage Plains,450000,4219,7A,False,magnet/technical,Eagles,High Plains League,new
+John F. Kennedy,Harriman,Emigrant,Sage Plains,450000,4072,7A,False,magnet/technical,Pelicans,High Plains League,new
 Homestead,Harriman,Emigrant,Sage Plains,450000,2970,7A,False,district/neighborhood,Ospreys,High Plains League,new
 Katya Moroz,Harriman,Emigrant,Sage Plains,450000,3850,7A,False,namesake,Condors,High Plains League,new
 Naomi Price,Harriman,Emigrant,Sage Plains,450000,2832,7A,False,namesake,Grizzlies,High Plains League,new
@@ -516,13 +516,13 @@ St. Casimir High School,Harriman,Emigrant,Sage Plains,450000,2763,7A,True,privat
 St. Michael Academy,Harriman,Emigrant,Sage Plains,450000,2970,7A,True,private/independent,Spartans,High Plains League,new
 St. Teresa High School,Harriman,Emigrant,Sage Plains,450000,2077,5A,True,private/independent,Pilots,High Plains League,new
 Fort Valois,Fort Valois,Stagewater,Sage Plains,200000,2265,6A,False,city flagship,Trojans,I-50 Plains Conference,new
-Fort Valois School of Design and Engineering,Fort Valois,Stagewater,Sage Plains,200000,2459,6A,False,magnet/technical,Grizzlies,I-50 Plains Conference,new
+Fort Valois North,Fort Valois,Stagewater,Sage Plains,200000,2459,6A,False,magnet/technical,Grizzlies,I-50 Plains Conference,new
 Fort Valois School of Public Service,Fort Valois,Stagewater,Sage Plains,200000,2436,6A,False,magnet/technical,Eagles,I-50 Plains Conference,new
 Galina Romanov,Fort Valois,Stagewater,Sage Plains,200000,2560,6A,False,namesake,Trojans,I-50 Plains Conference,new
 Lev Voronin,Fort Valois,Stagewater,Sage Plains,200000,2332,6A,False,namesake,Steelheads,I-50 Plains Conference,new
 Marian Cross,Fort Valois,Stagewater,Sage Plains,200000,2349,6A,False,namesake,Mustangs,I-50 Plains Conference,new
 Bahía Leal,Bahía Leal,San Marcos,South Coast,180000,1664,4A,False,city flagship,Bears,Bahía Athletic Conference,new
-Bahía Leal Costa Verde,Bahía Leal,San Marcos,South Coast,180000,2403,6A,False,district/neighborhood,Engineers,Bahía Athletic Conference,new
+Housatonic HS,Bahía Leal,San Marcos,South Coast,180000,2403,6A,False,district/neighborhood,Engineers,Bahía Athletic Conference,new
 Costa Verde,Bahía Leal,San Marcos,South Coast,180000,2635,7A,False,district/neighborhood,Firebirds,Bahía Athletic Conference,new
 Isabel Lucero,Bahía Leal,San Marcos,South Coast,180000,1796,4A,False,namesake,Comets,Bahía Athletic Conference,new
 James Gaines,Bahía Leal,San Marcos,South Coast,180000,2559,6A,False,namesake,Coyotes,Bahía Athletic Conference,new
@@ -533,8 +533,8 @@ Janice Cole,Puerto de los Reyes,San Marcos,South Coast,280000,1488,4A,False,name
 Oksana Romanov,Puerto de los Reyes,San Marcos,South Coast,280000,2123,5A,False,namesake,Ravens,Costa Norte League,new
 Puerto de los Reyes,Puerto de los Reyes,San Marcos,South Coast,280000,2193,5A,False,city flagship,Railers,Costa Norte League,new
 Puerto de los Reyes Civic Leadership Academy,Puerto de los Reyes,San Marcos,South Coast,280000,2281,6A,False,magnet/technical,Knights,Costa Norte League,new
-Puerto de los Reyes International School,Puerto de los Reyes,San Marcos,South Coast,280000,1748,4A,False,magnet/technical,Bears,Costa Norte League,new
-Puerto de los Reyes School of Commerce,Puerto de los Reyes,San Marcos,South Coast,280000,1878,5A,False,magnet/technical,Ravens,Costa Norte League,new
+Puerto de los Reyes North,Puerto de los Reyes,San Marcos,South Coast,280000,1748,4A,False,magnet/technical,Bears,Costa Norte League,new
+Puerto de los Reyes South,Puerto de los Reyes,San Marcos,South Coast,280000,1878,5A,False,magnet/technical,Ravens,Costa Norte League,new
 Rosa Salcedo,Puerto de los Reyes,San Marcos,South Coast,280000,1990,5A,False,namesake,Spartans,Costa Norte League,new
 Sofía Aranda,Puerto de los Reyes,San Marcos,South Coast,280000,2128,5A,False,namesake,Condors,Costa Norte League,new
 Copperview Polytechnic Institute,Copperview,San Marcos,South Coast,14539,523,1A,False,magnet/technical,Marlins,Humboldt Bay League,new
@@ -569,10 +569,10 @@ St. Nicholas College Prep,San Borondón,San Marcos,South Coast,850000,1572,4A,Tr
 George Nakashima,San Borondón,San Marcos,South Coast,850000,2253,6A,False,namesake,Hawks,Redwood Coast Conference,new
 Redwood Coast,San Borondón,San Marcos,South Coast,850000,2575,6A,False,district/neighborhood,Mavericks,Redwood Coast Conference,new
 San Borondón,San Borondón,San Marcos,South Coast,850000,3089,7A,False,city flagship,Pelicans,Redwood Coast Conference,new
-San Borondón Agricultural Sciences Academy,San Borondón,San Marcos,South Coast,850000,3064,7A,False,magnet/technical,Spartans,Redwood Coast Conference,new
+San Borondón North,San Borondón,San Marcos,South Coast,850000,3064,7A,False,magnet/technical,Spartans,Redwood Coast Conference,new
 San Borondón Civic Academy,San Borondón,San Marcos,South Coast,850000,1685,4A,True,private/independent,Pelicans,Redwood Coast Conference,new
 San Borondón Country Day School,San Borondón,San Marcos,South Coast,850000,1809,5A,True,private/independent,Loggers,Redwood Coast Conference,new
-San Borondón Environmental Sciences Academy,San Borondón,San Marcos,South Coast,850000,2109,5A,False,magnet/technical,Jaguars,Redwood Coast Conference,new
+San Borondón South,San Borondón,San Marcos,South Coast,850000,2109,5A,False,magnet/technical,Jaguars,Redwood Coast Conference,new
 Sergei Belov,San Borondón,San Marcos,South Coast,850000,2136,5A,False,namesake,Falcons,Redwood Coast Conference,new
 St. Casimir Preparatory,San Borondón,San Marcos,South Coast,850000,1437,4A,True,private/independent,Pilots,Redwood Coast Conference,new
 St. Helena School,Aspen Meadows,Antler,Timber Valley,18574,669,2A,True,private/independent,Miners,Umpqua Valley League,new

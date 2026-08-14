@@ -21,10 +21,10 @@ STORIES = [
     # ── fall ────────────────────────────────────────────────────────────
     dict(slug="llerena-takes-7a-football", season="fall", sport="football",
          kind="activity", kicker="Football", date="2026-11-21",
-         head="Llerena Civic Leadership Academy takes the 7A football title",
+         head="Llerena North takes the 7A football title",
          dek="The Coliseum final went to the team that had lost to Serrano in "
              "September, and the rematch was not close after halftime.",
-         body=["Llerena Civic Leadership Academy closed the 7A championship at "
+         body=["Llerena North closed the 7A championship at "
                "Jefferson Coliseum on Friday night, beating a Serrano side it "
                "had lost to in the second week of the season.",
                "Serrano had come through the bottom half of the bracket without "

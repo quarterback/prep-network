@@ -246,7 +246,7 @@ REGIONAL_FORMS = ["{} County", "Upper {} Union", "{} Regional", "{} Union"]
 
 # ---- magnet / technical / specialty (metros only) ---------------------------
 MAGNETS = [
-    "Jefferson School of Science and Technology", "Port Meridian Polytechnic",
+    "Jefferson School of Science and Technology", "Port Meridian North",
     "Academy of Arts and Communication", "Ashbury Health Sciences",
     "Port Meridian Maritime", "Ashbury Technical",
 ]

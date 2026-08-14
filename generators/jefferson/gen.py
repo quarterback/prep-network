@@ -170,9 +170,9 @@ class Gen:
         geo = list(N.GEO_SCHOOLS); rng.shuffle(geo)
         magnets = {"Ashbury": ["Jefferson School of Science and Technology",
                                "Academy of Arts and Communication"],
-                   "Port Meridian": ["Port Meridian Polytechnic",
+                   "Port Meridian": ["Port Meridian North",
                                      "Port Meridian Maritime"],
-                   "Halbrook": ["Halbrook Technical"]}
+                   "Halbrook": ["Halbrook East"]}
 
         def draw(pool, fallback):
             return pool.pop() if pool else fallback()
