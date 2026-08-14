@@ -682,15 +682,16 @@ SITE_DESC = ("Official results, schedules, standings and championships for the "
 #: The colour schemes, in picker order: (key, name, what it is made of).
 #: `varsity` is the default and carries no data-theme attribute.
 SCHEMES = [
-    ("default",   "Ensign",    "Deep twilight · cobalt · white · red"),
-    ("banner",    "Banner",    "Indigo · ocean blue · flag red · amber"),
-    ("apex",      "Apex",      "Prussian · steel blue · amber · flag red"),
-    ("rally",     "Rally",     "Blue bell · aqua · lemon · racing red"),
-    ("meadow",    "Meadow",    "Mint · teal · sunflower"),
-    ("evergreen", "Evergreen", "Deep green · orange"),
-    ("harbor",    "Harbor",    "Dark teal · peach · red"),
-    ("citrus",    "Citrus",    "Aqua · beige · pumpkin"),
-    ("pitch",     "Pitch",     "Mint · sea green · amber · black"),
+    ("default",    "Ensign",     "Deep twilight · cobalt · white · red"),
+    ("laurel",     "Laurel",     "Evergreen · crimson · parchment · amber"),
+    ("apex",       "Apex",       "Prussian · steel blue · amber · flag red"),
+    ("rally",      "Rally",      "Blue bell · aqua · lemon · racing red"),
+    ("clay",       "Clay",       "Neon pink · coral · petal · sand · olive"),
+    ("floodlight", "Floodlight", "Shadow · indigo · canary · mint · cherry"),
+    ("ember",      "Ember",      "Bordeaux · iron · peach · caramel · teal"),
+    ("harbor",     "Harbor",     "Dark teal · peach · red"),
+    ("citrus",     "Citrus",     "Aqua · beige · pumpkin"),
+    ("pitch",      "Pitch",      "Mint · sea green · amber · black"),
 ]
 
 
@@ -808,6 +809,12 @@ def shell(title, body, crumb="", back="", story=None, org=False,
   // "ensign" was an alternate before it became the site default; "varsity"
   // and "bloom" are retired names. All three resolve to the default now.
   if (t === "ensign" || t === "varsity" || t === "bloom") t = "";
+  // banner/meadow/evergreen were REPLACED in place — the slot kept its job in
+  // the picker but took a new palette, so a stored key is remapped rather than
+  // dropped. Without this the attribute is still written, matches no block,
+  // and the page silently renders as the default with no way to tell why.
+  var moved = {{ banner: "ember", meadow: "clay", evergreen: "floodlight" }};
+  if (moved[t]) t = moved[t];
   if (t) apply(t);
 }})();
 </script>

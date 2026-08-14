@@ -256,98 +256,174 @@
   --crest-10: hsl(206, 40%, 34%); --crest-11: hsl(192, 30%, 30%);
 }
 
-/* ── scheme: meadow — frosted-mint / willow-green / deep-teal / charcoal /
-   sunflower-gold. Ink derives as a deep tone of the teal hue (176). ── */
-[data-theme="meadow"] {
-  --linen: #b9dfb7;            /* willow tint takes the band slot */
-  --ivory: #e9fbe6;            /* frosted-mint takes the ground slot */
-  --cyan: hsl(39, 100%, 86%);  /* sunflower tint takes the highlight slot */
-  --ice: #ffbf46;              /* sunflower-gold takes the accent-detail slot */
-  --prussian: hsl(176, 30%, 13%);
+/* ── scheme: clay — neon-pink / light-coral / powder-petal / sand-dune /
+   muted-olive. The tennis one: a clay court and the grass beside it.
 
-  --brand-strong: hsl(176, 48%, 27%);
+   ‼️ THE ONLY SCHEME HERE WHOSE PALETTE CONTAINS NO INK. Every one of the five
+   is a light or mid tone — the darkest, muted-olive, is 1.8:1 on the ground —
+   so the ink and the link are DERIVED by pushing the olive and pink hues down
+   until they are legible, and the five sent colours are kept for the ground,
+   the band, and the accents where their lightness is the point. Measured on
+   powder-petal:
+     olive ink   11.7:1   the ink, and the masthead bar
+     pink link    6.8:1   link text, the pink hue at 32% lightness
+     coral live   5.1:1   the in-progress accent
+   Neon-pink survives UNMODIFIED where it sits on the dark bar (the mast rule)
+   and as an accent detail, which is the only place 3.7:1 is enough. ── */
+[data-theme="clay"] {
+  --linen: #d6d5b3;             /* sand-dune takes the band slot */
+  --ivory: hsl(23, 68%, 92%);   /* powder-petal, lifted, is the ground */
+  --cyan: hsl(23, 68%, 88%);    /* petal at full strength: hover, highlight */
+  --ice: #f92a82;               /* neon-pink takes the accent-detail slot */
+  --prussian: hsl(121, 34%, 12%);
 
-  --gray-150: hsl(140, 20%, 88%);
-  --gray-200: hsla(176, 30%, 13%, 0.14);
-  --gray-300: hsla(176, 30%, 13%, 0.24);
-  --gray-400: hsl(160, 10%, 60%);
-  --gray-500: hsl(170, 12%, 44%);
-  --gray-600: hsl(176, 16%, 32%);
+  --brand-strong: hsl(334, 74%, 32%);   /* the pink hue, pushed to carry text */
 
-  --cat-7a: hsl(176, 50%, 12%);
-  --cat-6a: hsl(176, 40%, 20%);
-  --cat-5a: hsl(176, 40%, 30%);
-  --cat-4a: hsl(118, 30%, 34%);
-  --cat-3a: hsl(118, 28%, 44%);
-  --cat-2a: hsl(39, 70%, 36%);
-  --cat-1a: hsl(240, 8%, 42%);
+  --gray-150: hsl(58, 30%, 88%);
+  --gray-200: hsla(121, 34%, 12%, 0.15);
+  --gray-300: hsla(121, 34%, 12%, 0.25);
+  --gray-400: hsl(58, 12%, 58%);
+  --gray-500: hsl(60, 10%, 33%);
+  --gray-600: hsl(121, 14%, 28%);
 
-  --rank-gold: hsl(39, 85%, 40%);
-  --accent-live: hsl(14, 72%, 44%);
+  --cat-7a: hsl(121, 34%, 13%);
+  --cat-6a: hsl(121, 30%, 20%);
+  --cat-5a: hsl(121, 26%, 28%);
+  --cat-4a: hsl(58, 32%, 26%);
+  --cat-3a: hsl(355, 52%, 38%);
+  --cat-2a: hsl(334, 70%, 35%);
+  --cat-1a: hsl(20, 18%, 34%);
 
-  --surface-subtle: hsl(114, 45%, 94%);
-  --surface-zebra: hsla(118, 39%, 66%, 0.14);
+  --rank-gold: hsl(30, 62%, 31%);
+  --accent-live: hsl(355, 60%, 42%);
 
-  --crest-0: hsl(176, 40%, 22%); --crest-1: hsl(176, 32%, 32%);
-  --crest-2: hsl(118, 30%, 32%); --crest-3: hsl(118, 26%, 42%);
-  --crest-4: hsl(39, 65%, 36%);  --crest-5: hsl(39, 55%, 44%);
-  --crest-6: hsl(240, 10%, 38%); --crest-7: hsl(240, 8%, 48%);
-  --crest-8: hsl(150, 25%, 34%); --crest-9: hsl(90, 20%, 38%);
-  --crest-10: hsl(200, 20%, 36%); --crest-11: hsl(20, 25%, 42%);
+  --surface-subtle: hsl(23, 60%, 95%);
+  --surface-zebra: hsla(58, 30%, 70%, 0.20);
+
+  --crest-0: hsl(121, 32%, 18%); --crest-1: hsl(121, 26%, 28%);
+  --crest-2: hsl(334, 66%, 32%); --crest-3: hsl(334, 50%, 42%);
+  --crest-4: hsl(355, 50%, 40%); --crest-5: hsl(355, 40%, 48%);
+  --crest-6: hsl(58, 32%, 28%);  --crest-7: hsl(30, 40%, 36%);
+  --crest-8: hsl(100, 24%, 30%); --crest-9: hsl(15, 30%, 38%);
+  --crest-10: hsl(80, 22%, 34%); --crest-11: hsl(345, 30%, 40%);
 
   /* the bar in this scheme's OWN colours — a masthead that does not
      change with the palette is not a palette */
-  --surface-mast: hsl(176, 40%, 15%);
+  --surface-mast: hsl(121, 34%, 14%);
   --on-mast: #ffffff;
-  --on-mast-dim: hsl(140, 30%, 80%);
-  --mast-rule: #ffbf46;
+  --on-mast-dim: hsl(58, 30%, 82%);
+  --mast-rule: #f92a82;         /* neon-pink, unmodified, on the dark bar */
 }
 
-/* ── scheme: evergreen — evergreen / lavender-mist / amber-earth / deep-purple.
-   The palette carries its own inks; lavender-mist is the ground. ── */
-[data-theme="evergreen"] {
-  --linen: hsl(175, 30%, 86%);  /* evergreen tint takes the band slot */
-  --ivory: #ece5f0;             /* lavender-mist takes the ground slot */
-  --cyan: hsl(33, 80%, 87%);    /* amber tint takes the highlight slot */
-  --ice: #e98a15;               /* amber-earth takes the accent-detail slot */
-  --prussian: #012622;
 
-  --brand-strong: hsl(310, 62%, 30%);   /* deep-purple carries links */
+/* ── scheme: floodlight — shadow-grey / twilight-indigo / canary-yellow /
+   mint-leaf / cherry-rose. A night match: dark stands, bright court.
 
-  --gray-150: hsl(278, 18%, 88%);
-  --gray-200: hsla(174, 95%, 8%, 0.15);
-  --gray-300: hsla(174, 95%, 8%, 0.25);
-  --gray-400: hsl(278, 8%, 60%);
-  --gray-500: hsl(230, 10%, 44%);
-  --gray-600: hsl(190, 20%, 28%);
+   Three of the five carry type as sent, which is unusual here. Measured on
+   white:
+     shadow-grey    17.5:1  the ink, and the masthead bar
+     twilight-indigo 11.6:1  LINK TEXT AT THE HEX GIVEN
+     cherry-rose     6.9:1  the live accent, and a chip ground
+   Canary (1.2:1) and mint (2.0:1) are the floodlit half of the palette and are
+   used ONLY where they sit on the dark bar or hold no type at all. ── */
+[data-theme="floodlight"] {
+  --linen: hsl(216, 44%, 90%);  /* indigo tint takes the band slot */
+  --ivory: #ffffff;             /* white is the ground */
+  --cyan: hsl(168, 60%, 93%);   /* mint tint takes the highlight slot */
+  --ice: #03cea4;               /* mint-leaf takes the accent-detail slot */
+  --prussian: #161925;
 
-  --cat-7a: #001512;
-  --cat-6a: #012622;
-  --cat-5a: #003b36;
-  --cat-4a: hsl(175, 55%, 25%);
-  --cat-3a: hsl(310, 55%, 30%);
-  --cat-2a: hsl(310, 45%, 42%);
-  --cat-1a: hsl(33, 75%, 36%);
+  --brand-strong: #23395b;      /* twilight-indigo, unmodified, carries links */
 
-  --rank-gold: hsl(33, 83%, 42%);
-  --accent-live: hsl(10, 68%, 43%);
+  --gray-150: hsl(216, 25%, 92%);
+  --gray-200: hsla(228, 25%, 12%, 0.14);
+  --gray-300: hsla(228, 25%, 12%, 0.24);
+  --gray-400: hsl(220, 12%, 62%);
+  --gray-500: hsl(220, 14%, 44%);
+  --gray-600: hsl(216, 26%, 32%);
 
-  --surface-subtle: hsl(278, 30%, 94%);
-  --surface-zebra: hsla(175, 40%, 60%, 0.14);
+  --cat-7a: #161925;
+  --cat-6a: #23395b;
+  --cat-5a: hsl(216, 40%, 34%);
+  --cat-4a: hsl(168, 90%, 24%);
+  --cat-3a: hsl(168, 70%, 30%);
+  --cat-2a: #ab2346;
+  --cat-1a: hsl(345, 50%, 50%);
 
-  --crest-0: #012622; --crest-1: #003b36;
-  --crest-2: hsl(175, 50%, 24%); --crest-3: hsl(175, 35%, 34%);
-  --crest-4: hsl(310, 55%, 28%); --crest-5: hsl(310, 42%, 38%);
-  --crest-6: hsl(33, 70%, 34%);  --crest-7: hsl(33, 55%, 42%);
-  --crest-8: hsl(270, 30%, 36%); --crest-9: hsl(210, 30%, 32%);
-  --crest-10: hsl(150, 25%, 30%); --crest-11: hsl(0, 25%, 38%);
+  --rank-gold: hsl(45, 88%, 27%);
+  --accent-live: #ab2346;
+
+  --surface-subtle: hsl(216, 40%, 97%);
+  --surface-zebra: hsla(216, 44%, 72%, 0.16);
+
+  --crest-0: #161925;            --crest-1: #23395b;
+  --crest-2: hsl(216, 40%, 34%); --crest-3: hsl(216, 28%, 42%);
+  --crest-4: hsl(168, 85%, 22%); --crest-5: hsl(168, 60%, 30%);
+  --crest-6: #ab2346;            --crest-7: hsl(345, 48%, 46%);
+  --crest-8: hsl(45, 70%, 28%);  --crest-9: hsl(260, 26%, 36%);
+  --crest-10: hsl(195, 40%, 30%); --crest-11: hsl(300, 20%, 36%);
 
   /* the bar in this scheme's OWN colours — a masthead that does not
      change with the palette is not a palette */
-  --surface-mast: #012622;
+  --surface-mast: #161925;
   --on-mast: #ffffff;
-  --on-mast-dim: hsl(150, 22%, 78%);
-  --mast-rule: #e98a15;
+  --on-mast-dim: hsl(216, 30%, 76%);
+  --mast-rule: #f7f052;         /* canary, unmodified — it only ever sits on the bar */
+}
+
+
+/* ── scheme: laurel — evergreen / crimson-violet / parchment / bubblegum-pink /
+   amber-flame. Parchment ground, two very dark inks, two hot accents.
+
+   The second scheme after Ensign that needed nothing darkened to carry type.
+   Measured on parchment:
+     evergreen      13.2:1  the ink, and the masthead bar
+     crimson-violet 12.2:1  LINK TEXT AT THE HEX GIVEN
+   Bubblegum-pink (3.0:1) and amber-flame (1.5:1) are accents only; the amber
+   is pushed to 27% lightness where it has to carry a rank number. ── */
+[data-theme="laurel"] {
+  --linen: hsl(182, 22%, 88%);  /* evergreen tint takes the band slot */
+  --ivory: #f2edeb;             /* parchment takes the ground slot */
+  --cyan: hsl(353, 60%, 94%);   /* pink tint takes the highlight slot */
+  --ice: #fabc2a;               /* amber-flame takes the accent-detail slot */
+  --prussian: #042a2b;
+
+  --brand-strong: #5c0029;      /* crimson-violet, unmodified, carries links */
+
+  --gray-150: hsl(17, 21%, 91%);
+  --gray-200: hsla(182, 83%, 9%, 0.14);
+  --gray-300: hsla(182, 83%, 9%, 0.24);
+  --gray-400: hsl(17, 10%, 60%);
+  --gray-500: hsl(17, 10%, 39%);
+  --gray-600: hsl(182, 18%, 28%);
+
+  --cat-7a: #021818;
+  --cat-6a: #042a2b;
+  --cat-5a: hsl(182, 60%, 20%);
+  --cat-4a: hsl(182, 40%, 28%);
+  --cat-3a: #5c0029;
+  --cat-2a: hsl(333, 60%, 30%);
+  --cat-1a: hsl(42, 70%, 30%);
+
+  --rank-gold: hsl(42, 88%, 27%);
+  --accent-live: hsl(353, 70%, 44%);
+
+  --surface-subtle: hsl(17, 30%, 96%);
+  --surface-zebra: hsla(182, 30%, 70%, 0.16);
+
+  --crest-0: #042a2b;            --crest-1: hsl(182, 60%, 20%);
+  --crest-2: hsl(182, 40%, 28%); --crest-3: hsl(182, 26%, 38%);
+  --crest-4: #5c0029;            --crest-5: hsl(333, 60%, 30%);
+  --crest-6: hsl(353, 55%, 40%); --crest-7: hsl(42, 70%, 30%);
+  --crest-8: hsl(42, 50%, 38%);  --crest-9: hsl(300, 26%, 34%);
+  --crest-10: hsl(200, 30%, 30%); --crest-11: hsl(15, 30%, 36%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #042a2b;
+  --on-mast: #ffffff;
+  --on-mast-dim: hsl(182, 24%, 78%);
+  --mast-rule: #fabc2a;
 }
 
 /* ── scheme: harbor — ink-black / deep-ocean / jungle-teal / peach-glow /
@@ -449,58 +525,59 @@
    took that slot). Contrast against snow: prussian 17.8:1 is the ink;
    flag-red 4.8:1 is the live accent; steel is 4.1:1 so LINKS take it a
    shade darker (5.2:1); amber is 2.0:1 — fill and border only. ── */
-/* ── scheme: banner — twilight-indigo / bright-ocean / flag-red / amber-earth
-   / ivory (owner palette 2027-08c). The red-white-blue one. Indigo ink is
-   12.1:1 on ivory; bright-ocean is 3.3:1 at full strength, so it keeps the
-   accent-detail slot and LINKS take it at 36% (5.6:1); flag-red 4.8:1 is the
-   live accent and reads at body size; amber-earth 2.5:1 is fill and border
-   only, and 4.9:1 on indigo where it can be read. ── */
-[data-theme="banner"] {
-  --linen: hsl(33, 85%, 89%);   /* amber, laid down flat: bands and heads */
-  --ivory: #f5fbef;             /* ivory takes the ground slot */
-  --cyan: hsl(205, 72%, 91%);   /* ocean, laid down flat: hover, highlight */
-  --ice: #1a8fe3;               /* bright-ocean takes the accent-detail slot */
-  --prussian: #1d3354;
+/* ── scheme: ember — iron-grey / peach-fuzz / light-caramel / muted-teal /
+   night-bordeaux. Peach is the ground; the bordeaux is the ink.
 
-  --brand-strong: hsl(205, 79%, 36%);   /* ocean at 5.6:1 — link text */
+   Two of the five are body-safe as sent, which is why this one needed almost
+   no adjustment. Measured on the peach ground:
+     night-bordeaux 13.7:1  the ink, and the masthead bar
+     iron-grey       7.8:1  LINK TEXT AT THE HEX GIVEN
+   Caramel, peach and teal are ground and detail — they carry no type. ── */
+[data-theme="ember"] {
+  --linen: #facfad;             /* peach-fuzz takes the band slot */
+  --ivory: hsl(26, 89%, 95%);   /* peach tint takes the ground slot */
+  --cyan: hsl(31, 90%, 90%);    /* caramel tint takes the highlight slot */
+  --ice: #f8bd7f;               /* light-caramel takes the accent-detail slot */
+  --prussian: #49111c;
 
-  --gray-150: hsl(90, 22%, 91%);
-  --gray-200: hsla(216, 49%, 18%, 0.14);
-  --gray-300: hsla(216, 49%, 18%, 0.24);
-  --gray-400: hsl(212, 12%, 60%);
-  --gray-500: hsl(212, 14%, 45%);
-  --gray-600: hsl(216, 30%, 30%);
+  --brand-strong: hsl(187, 22%, 28%);   /* iron-grey carries links */
 
-  /* chip backgrounds hold white text: 5.0:1 at the lightest */
-  --cat-7a: hsl(216, 49%, 14%);
-  --cat-6a: #1d3354;
-  --cat-5a: hsl(205, 60%, 30%);
-  --cat-4a: hsl(205, 55%, 38%);
-  --cat-3a: hsl(33, 83%, 30%);
-  --cat-2a: hsl(33, 70%, 36%);
-  --cat-1a: hsl(352, 72%, 38%);
+  --gray-150: hsl(26, 45%, 90%);
+  --gray-200: hsla(348, 62%, 18%, 0.15);
+  --gray-300: hsla(348, 62%, 18%, 0.25);
+  --gray-400: hsl(26, 14%, 62%);
+  --gray-500: hsl(200, 12%, 39%);
+  --gray-600: hsl(187, 16%, 30%);
 
-  --rank-gold: hsl(33, 83%, 34%);
-  --accent-live: #db162f;               /* flag-red: in progress, happening now */
+  --cat-7a: hsl(348, 62%, 14%);
+  --cat-6a: #49111c;
+  --cat-5a: hsl(348, 50%, 28%);
+  --cat-4a: hsl(187, 20%, 28%);
+  --cat-3a: hsl(187, 16%, 38%);
+  --cat-2a: hsl(125, 20%, 32%);
+  --cat-1a: hsl(31, 60%, 32%);
 
-  /* The bar IS the palette: indigo ground, white type, a flag-red rule under
-     it. Red-white-blue has to be red and blue on the biggest surface on the
-     page, not two chips beside a beige wash. */
-  --surface-mast: #1d3354;
+  --rank-gold: hsl(31, 72%, 34%);
+  --accent-live: hsl(348, 62%, 38%);
+
+  --surface-subtle: hsl(26, 70%, 96%);
+  --surface-zebra: hsla(26, 80%, 78%, 0.24);
+
+  --crest-0: #49111c;            --crest-1: hsl(348, 50%, 28%);
+  --crest-2: hsl(187, 22%, 26%); --crest-3: hsl(187, 16%, 36%);
+  --crest-4: hsl(125, 22%, 30%); --crest-5: hsl(125, 16%, 40%);
+  --crest-6: hsl(31, 62%, 32%);  --crest-7: hsl(31, 48%, 40%);
+  --crest-8: hsl(348, 30%, 34%); --crest-9: hsl(210, 20%, 34%);
+  --crest-10: hsl(160, 18%, 32%); --crest-11: hsl(10, 26%, 38%);
+
+  /* the bar in this scheme's OWN colours — a masthead that does not
+     change with the palette is not a palette */
+  --surface-mast: #49111c;
   --on-mast: #ffffff;
-  --on-mast-dim: hsl(205, 45%, 84%);
-  --mast-rule: #db162f;
-
-  --surface-subtle: hsl(90, 45%, 95%);
-  --surface-zebra: hsla(205, 75%, 88%, 0.30);
-
-  --crest-0: #1d3354;            --crest-1: hsl(216, 45%, 32%);
-  --crest-2: hsl(205, 70%, 34%); --crest-3: hsl(205, 60%, 44%);
-  --crest-4: hsl(352, 72%, 38%); --crest-5: hsl(352, 55%, 48%);
-  --crest-6: hsl(33, 83%, 32%);  --crest-7: hsl(33, 68%, 42%);
-  --crest-8: hsl(190, 45%, 30%); --crest-9: hsl(216, 30%, 40%);
-  --crest-10: hsl(12, 50%, 38%); --crest-11: hsl(90, 20%, 34%);
+  --on-mast-dim: hsl(26, 50%, 82%);
+  --mast-rule: #f8bd7f;
 }
+
 
 [data-theme="apex"] {
   --linen: hsl(43, 78%, 92%);   /* amber, laid down flat: bands and heads */
