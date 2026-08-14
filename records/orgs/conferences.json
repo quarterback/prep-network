@@ -98,7 +98,7 @@
     "Providence Academy Valley",
     "Port Meridian",
     "Holy Cross",
-    "Port Meridian Polytechnic",
+    "Port Meridian North",
     "Bell"
    ]
   },
@@ -172,7 +172,7 @@
     "Vasquez",
     "Northside Christian",
     "Halbrook",
-    "Halbrook Technical",
+    "Halbrook East",
     "Northgate",
     "Delbarton"
    ]
@@ -504,7 +504,7 @@
     "Manuel Cordero",
     "Mount Horeb",
     "Mount Horeb Academy of Arts and Letters",
-    "Rye Academy of Arts and Letters",
+    "Rye North",
     "Teresa Escobedo",
     "Jean Weiss",
     "Renata Dahl"
@@ -544,7 +544,7 @@
    "slug": "metropolitan-athletic-conference",
    "area": "Ashbury Metro",
    "members": [
-    "Ansotegui Siding Commonwealth",
+    "Ansotegui Siding North",
     "Copper Lake Academy of Music and Media",
     "Hawk Lake Eastgate",
     "Grace Lee Boggs",
@@ -628,8 +628,8 @@
     "Igor Lebedev",
     "Ruby Stokes",
     "San Cordero",
-    "San Cordero Maritime Academy",
-    "San Cordero School of Commerce",
+    "San Cordero North",
+    "San Cordero South",
     "St. Genevieve High School",
     "Svenja Bianchi",
     "Thurgood Marshall"
@@ -645,7 +645,7 @@
     "Mary McLeod Bethune",
     "Eleanor Tillman",
     "Las Norias",
-    "Las Norias Foundry High",
+    "Las Norias East",
     "Naomi Moss",
     "San Tom\u00e1s",
     "Xavier Robles"
@@ -662,7 +662,7 @@
     "Fellows Mill",
     "Fellows Mill Civic Leadership Academy",
     "Gagarin",
-    "Gagarin School of Public Service",
+    "Gagarin East",
     "Mother Lode",
     "Naomi Ellison"
    ]
@@ -674,7 +674,7 @@
    "members": [
     "Barclay",
     "Barclay Golden Gate",
-    "Fellows Mill International School",
+    "Fellows Mill South",
     "Katherine Davenport",
     "Leidesdorff Academy of Music and Media",
     "Claudette Freeman",
@@ -693,7 +693,7 @@
     "Lars Bellini",
     "Matteo Dahl",
     "Montelago",
-    "Montelago Agricultural Sciences Academy",
+    "Montelago South",
     "Rafael Escobedo",
     "St. Agnes Preparatory",
     "St. Helena Academy",
@@ -711,7 +711,7 @@
     "Lillian Stokes",
     "Mercer City",
     "Mercer City School of Design and Engineering",
-    "Mercer City Technical Arts Academy",
+    "Mercer City North",
     "Petra Jansen",
     "St. Olga College Prep",
     "Thomas Halvorsen"
@@ -725,7 +725,7 @@
     "Lillian Price",
     "Lorna Booker",
     "Moriarty",
-    "Moriarty Foundry High",
+    "Moriarty West",
     "Ruby Mercer",
     "Vineyard High"
    ]
@@ -738,7 +738,7 @@
     "Foundry High",
     "Gabriel Z\u00fa\u00f1iga",
     "Lake Esperanza",
-    "Lake Esperanza School of Science and Industry",
+    "Lake Esperanza North",
     "Marcus Price",
     "Thomas Jansen"
    ]
@@ -799,8 +799,8 @@
    "area": "Gold Valley",
    "members": [
     "Cortland",
-    "Cortland Environmental Sciences Academy",
-    "Cortland Foundry High",
+    "Cortland North",
+    "Harry S. Truman",
     "Nathaniel Ward",
     "Oskar Weiss",
     "Svenja Ekstr\u00f6m"
@@ -817,8 +817,8 @@
     "Petra Weiss",
     "St. Gabriel Preparatory",
     "Valderra",
-    "Valderra Aviation and Engineering Academy",
-    "Valderra Technical Arts Academy",
+    "Valderra North",
+    "Dwight Eisenhower",
     "Winifred Browne"
    ]
   },
@@ -846,7 +846,7 @@
     "Aitor Zubieta",
     "Belyakov Agricultural Sciences Academy",
     "Belyakov Depot High",
-    "Belyakov School of Public Service",
+    "Abraham Lincoln",
     "Carmen Cordero",
     "Mikhail Sidorov",
     "Orchard Gate",
@@ -894,11 +894,11 @@
     "Adela Villase\u00f1or",
     "Andr\u00e9s Valera",
     "Caswell",
-    "Caswell Classical School",
-    "Caswell Depot High",
-    "Caswell I-50 Technical",
-    "Caswell School of Science and Industry",
-    "Caswell University Prep",
+    "Cherry Hill",
+    "Cherry Hill North",
+    "Cherry Hill South",
+    "Andrew Jackson",
+    "Caswell West",
     "Salvador Montalvo",
     "Tatiana Moroz"
    ]
@@ -910,9 +910,9 @@
    "members": [
     "Amaia Echevarria",
     "Echevarria",
-    "Echevarria Foundry High",
-    "Echevarria I-50 Technical",
-    "Echevarria School of Commerce",
+    "Echevarria North",
+    "Echevarria South",
+    "William McKinley",
     "Harold Tillman",
     "Leire Aramburu",
     "Mae Jemison",
@@ -926,9 +926,9 @@
    "area": "Halbrook Basin",
    "members": [
     "Andr\u00e9s Ibarra",
-    "Belmonte Civic Leadership Academy",
+    "Belmonte East",
     "Belmonte Collegiate Academy",
-    "Belmonte Health Sciences Academy",
+    "Belmonte West",
     "Belmonte River Plain",
     "I-50 Technical",
     "Iker Aramburu",
@@ -942,11 +942,11 @@
    "area": "Halbrook Basin",
    "members": [
     "Bayard Rustin",
-    "Belyakov Environmental Sciences Academy",
-    "Belyakov I-50 Technical",
+    "Belyakov South",
+    "Belyakov East",
     "Belyakov Manufacturing and Technology Academy",
     "Belyakov River Plain",
-    "Belyakov School of Science and Industry",
+    "Belyakov Technical",
     "Dorothy Height",
     "Jos\u00e9 Mart\u00ed",
     "Unai Etxeberria"
@@ -976,10 +976,10 @@
     "Anya Belov",
     "Ella Baker",
     "Javier C\u00e1rdenas",
-    "Javier Villalba",
+    "Alonso Villalba",
     "Llerena",
-    "Llerena Civic Leadership Academy",
-    "Llerena School of Science and Industry",
+    "Llerena North",
+    "Llerena South",
     "St. Brigid Preparatory",
     "Viktor Kareva",
     "West Bench"
@@ -1039,8 +1039,8 @@
     "Mikel Elorriaga",
     "Orellana",
     "Orellana Canal View",
-    "Orellana Foundry High",
-    "Orellana School of Commerce",
+    "Orellana North",
+    "Orellana South",
     "Orellana Treasure Valley"
    ]
   },
@@ -1054,9 +1054,9 @@
     "Berrio",
     "Carmina",
     "Eagleton",
-    "Eagleton School of Science and Industry",
+    "Eagleton West",
     "Greaves Junction",
-    "Greaves Junction Treasure Valley",
+    "Greaves Junction South",
     "Meridia",
     "Meridia Manufacturing and Technology Academy",
     "St. Francis Xavier College Prep",
@@ -1076,8 +1076,8 @@
     "Nicol\u00e1s Salcedo",
     "Romare Bearden",
     "Serrano",
-    "Serrano Applied Sciences Institute",
-    "Serrano Depot High",
+    "Serrano North",
+    "Serrano South",
     "St. Isidore Academy"
    ]
   },
@@ -1087,17 +1087,17 @@
    "area": "Halbrook Basin",
    "members": [
     "Amaia Aramburu",
-    "Belmonte Agricultural Sciences Academy",
-    "Belmonte Applied Sciences Institute",
-    "Belmonte Classical Academy",
-    "Belmonte Technical Arts Academy",
+    "Belmonte North",
+    "Belmonte South",
+    "James Madison",
+    "Woodrow Wilson",
     "Depot High",
     "Jon Etxeberria",
     "Leire Garmendia",
     "Nerea Mendizabal",
     "Shirley Chisholm",
     "St. Basil Academy",
-    "St. Basil School",
+    "St. Ignatius",
     "Treasure Valley"
    ]
   },
@@ -1124,9 +1124,9 @@
    "members": [
     "Aitor Echevarria",
     "Aldecoa",
-    "Aldecoa Academy of Arts and Letters",
-    "Aldecoa Applied Sciences Institute",
-    "Aldecoa Depot High",
+    "Aldecoa North",
+    "Aldecoa South",
+    "Ulysses Grant",
     "Esteban T\u00e9llez",
     "Fannie Lou Hamer",
     "Jon Garmendia",
@@ -1142,9 +1142,9 @@
     "Amalia Escobedo",
     "Anya Orlov",
     "Belyakov",
-    "Belyakov Academy of Music and Media",
-    "Belyakov Polytechnic Institute",
-    "Belyakov School of Design and Engineering",
+    "Belyakov North",
+    "Belyakov West",
+    "Theodore Roosevelt",
     "Lorraine Calder",
     "Mila Chernov",
     "St. Agnes Academy"
@@ -1190,7 +1190,7 @@
     "Janice Davenport",
     "Marcus Langston",
     "Marina Moroz",
-    "Port Veles Civic Leadership Academy",
+    "Port Veles South",
     "Port Veles Foundry High",
     "Port Veles Health Sciences Academy"
    ]
@@ -1203,7 +1203,7 @@
     "Aleksandr Lebedev",
     "Geraldine Cross",
     "Harbor Gate",
-    "Port Veles Agricultural Sciences Academy",
+    "Port Veles North",
     "Port Veles International Academy",
     "Ralph Booker",
     "Sofia Romanov"
@@ -1271,7 +1271,7 @@
     "Igor Chernov",
     "Katherine Williams",
     "Nadia Chernov",
-    "Nadia Sidorov",
+    "Anton Sidorov",
     "Nathaniel Cross",
     "Port Veles Civic Academy",
     "Port Veles Maritime Academy",
@@ -1400,8 +1400,8 @@
    "members": [
     "Frontier High",
     "Harriman",
-    "Harriman Civic Leadership Academy",
-    "Harriman Maritime Academy",
+    "Harriman North",
+    "John F. Kennedy",
     "Homestead",
     "Katya Moroz",
     "Naomi Price",
@@ -1416,7 +1416,7 @@
    "area": "Sage Plains",
    "members": [
     "Fort Valois",
-    "Fort Valois School of Design and Engineering",
+    "Fort Valois North",
     "Fort Valois School of Public Service",
     "Galina Romanov",
     "Lev Voronin",
@@ -1429,7 +1429,7 @@
    "area": "South Coast",
    "members": [
     "Bah\u00eda Leal",
-    "Bah\u00eda Leal Costa Verde",
+    "Housatonic HS",
     "Costa Verde",
     "Isabel Lucero",
     "James Gaines",
@@ -1447,8 +1447,8 @@
     "Oksana Romanov",
     "Puerto de los Reyes",
     "Puerto de los Reyes Civic Leadership Academy",
-    "Puerto de los Reyes International School",
-    "Puerto de los Reyes School of Commerce",
+    "Puerto de los Reyes North",
+    "Puerto de los Reyes South",
     "Rosa Salcedo",
     "Sof\u00eda Aranda"
    ]
@@ -1511,10 +1511,10 @@
     "George Nakashima",
     "Redwood Coast",
     "San Borond\u00f3n",
-    "San Borond\u00f3n Agricultural Sciences Academy",
+    "San Borond\u00f3n North",
     "San Borond\u00f3n Civic Academy",
     "San Borond\u00f3n Country Day School",
-    "San Borond\u00f3n Environmental Sciences Academy",
+    "San Borond\u00f3n South",
     "Sergei Belov",
     "St. Casimir Preparatory"
    ]

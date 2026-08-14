@@ -40,7 +40,7 @@ Existing schools keep their current conference and classification in this planni
 | Manuel Cordero | Mount Horeb | 1,196 | 3A |
 | Mount Horeb | Mount Horeb | 1,057 | 3A |
 | Mount Horeb Academy of Arts and Letters | Mount Horeb | 1,232 | 3A |
-| Rye Academy of Arts and Letters | Rye | 1,246 | 3A |
+| Rye North | Rye | 1,246 | 3A |
 | Teresa Escobedo | Rye | 1,040 | 3A |
 | Jean Weiss | Tindall | 1,075 | 3A |
 | Renata Dahl | Tindall | 1,086 | 3A |
@@ -74,7 +74,7 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Ansotegui Siding Commonwealth | Ansotegui Siding | 1,844 | 5A |
+| Ansotegui Siding North | Ansotegui Siding | 1,844 | 5A |
 | Copper Lake Academy of Music and Media | Copper Lake | 2,079 | 5A |
 | Hawk Lake Eastgate | Hawk Lake | 1,548 | 4A |
 | Grace Lee Boggs | Norview | 1,408 | 4A |
@@ -150,8 +150,8 @@ Existing schools keep their current conference and classification in this planni
 | Igor Lebedev | San Cordero | 3,171 | 7A |
 | Ruby Stokes | San Cordero | 3,596 | 7A |
 | San Cordero | San Cordero | 2,680 | 7A |
-| San Cordero Maritime Academy | San Cordero | 3,025 | 7A |
-| San Cordero School of Commerce | San Cordero | 2,347 | 6A |
+| San Cordero North | San Cordero | 3,025 | 7A |
+| San Cordero South | San Cordero | 2,347 | 6A |
 | St. Genevieve High School | San Cordero | 1,544 | 4A |
 | Svenja Bianchi | San Cordero | 2,443 | 6A |
 | Thurgood Marshall | San Cordero | 2,703 | 7A |
@@ -167,7 +167,7 @@ Existing schools keep their current conference and classification in this planni
 | Mary McLeod Bethune | Barclay | 1,565 | 4A |
 | Eleanor Tillman | Las Norias | 1,031 | 3A |
 | Las Norias | Las Norias | 1,198 | 3A |
-| Las Norias Foundry High | Las Norias | 1,011 | 3A |
+| Las Norias East | Las Norias | 1,011 | 3A |
 | Naomi Moss | San Tomás | 1,255 | 3A |
 | San Tomás | San Tomás | 1,038 | 3A |
 | Xavier Robles | San Tomás | 1,308 | 3A |
@@ -182,7 +182,7 @@ Existing schools keep their current conference and classification in this planni
 | Fellows Mill | Fellows Mill | 1,052 | 3A |
 | Fellows Mill Civic Leadership Academy | Fellows Mill | 1,090 | 3A |
 | Gagarin | Gagarin | 1,102 | 3A |
-| Gagarin School of Public Service | Gagarin | 1,370 | 3A |
+| Gagarin East | Gagarin | 1,370 | 3A |
 | Mother Lode | Gagarin | 1,099 | 3A |
 | Naomi Ellison | Gagarin | 1,469 | 4A |
 
@@ -192,7 +192,7 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Barclay | Barclay | 1,025 | 3A |
 | Barclay Golden Gate | Barclay | 1,369 | 3A |
-| Fellows Mill International School | Fellows Mill | 971 | 2A |
+| Fellows Mill South | Fellows Mill | 971 | 2A |
 | Katherine Davenport | Fellows Mill | 1,207 | 3A |
 | Leidesdorff Academy of Music and Media | Leidesdorff | 1,351 | 3A |
 | Claudette Freeman | Monte Blanco | 965 | 2A |
@@ -209,7 +209,7 @@ Existing schools keep their current conference and classification in this planni
 | Lars Bellini | Montelago | 2,382 | 6A |
 | Matteo Dahl | Montelago | 1,796 | 4A |
 | Montelago | Montelago | 2,035 | 5A |
-| Montelago Agricultural Sciences Academy | Montelago | 1,662 | 4A |
+| Montelago South | Montelago | 1,662 | 4A |
 | Rafael Escobedo | Montelago | 2,072 | 5A |
 | St. Agnes Preparatory | Montelago | 1,137 | 3A |
 | St. Helena Academy | Montelago | 1,233 | 3A |
@@ -225,7 +225,7 @@ Existing schools keep their current conference and classification in this planni
 | Lillian Stokes | Mercer City | 1,952 | 5A |
 | Mercer City | Mercer City | 1,747 | 4A |
 | Mercer City School of Design and Engineering | Mercer City | 1,831 | 5A |
-| Mercer City Technical Arts Academy | Mercer City | 2,319 | 6A |
+| Mercer City North | Mercer City | 2,319 | 6A |
 | Petra Jansen | Mercer City | 2,320 | 6A |
 | St. Olga College Prep | Mercer City | 1,312 | 3A |
 | Thomas Halvorsen | Mercer City | 2,072 | 5A |
@@ -237,7 +237,7 @@ Existing schools keep their current conference and classification in this planni
 | Lillian Price | Moriarty | 2,069 | 5A |
 | Lorna Booker | Moriarty | 1,568 | 4A |
 | Moriarty | Moriarty | 1,559 | 4A |
-| Moriarty Foundry High | Moriarty | 1,595 | 4A |
+| Moriarty West | Moriarty | 1,595 | 4A |
 | Ruby Mercer | Moriarty | 1,797 | 4A |
 | Vineyard High | Moriarty | 2,213 | 6A |
 
@@ -248,7 +248,7 @@ Existing schools keep their current conference and classification in this planni
 | Foundry High | Lake Esperanza | 2,593 | 6A |
 | Gabriel Zúñiga | Lake Esperanza | 1,919 | 5A |
 | Lake Esperanza | Lake Esperanza | 2,751 | 7A |
-| Lake Esperanza School of Science and Industry | Lake Esperanza | 2,949 | 7A |
+| Lake Esperanza North | Lake Esperanza | 2,949 | 7A |
 | Marcus Price | Lake Esperanza | 2,754 | 7A |
 | Thomas Jansen | Lake Esperanza | 2,874 | 7A |
 
@@ -301,8 +301,8 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Cortland | Cortland | 2,606 | 7A |
-| Cortland Environmental Sciences Academy | Cortland | 2,715 | 7A |
-| Cortland Foundry High | Cortland | 2,729 | 7A |
+| Cortland North | Cortland | 2,715 | 7A |
+| Harry S. Truman | Cortland | 2,729 | 7A |
 | Nathaniel Ward | Cortland | 1,715 | 4A |
 | Oskar Weiss | Cortland | 1,955 | 5A |
 | Svenja Ekström | Cortland | 1,961 | 5A |
@@ -317,8 +317,8 @@ Existing schools keep their current conference and classification in this planni
 | Petra Weiss | Valderra | 3,189 | 7A |
 | St. Gabriel Preparatory | Valderra | 1,461 | 4A |
 | Valderra | Valderra | 1,980 | 5A |
-| Valderra Aviation and Engineering Academy | Valderra | 2,370 | 6A |
-| Valderra Technical Arts Academy | Valderra | 2,144 | 5A |
+| Valderra North | Valderra | 2,370 | 6A |
+| Dwight Eisenhower | Valderra | 2,144 | 5A |
 | Winifred Browne | Valderra | 2,492 | 6A |
 
 ## Halbrook Basin
@@ -344,7 +344,7 @@ Existing schools keep their current conference and classification in this planni
 | Aitor Zubieta | Belyakov | 2,156 | 5A |
 | Belyakov Agricultural Sciences Academy | Belyakov | 2,258 | 6A |
 | Belyakov Depot High | Belyakov | 1,940 | 5A |
-| Belyakov School of Public Service | Belyakov | 2,260 | 6A |
+| Abraham Lincoln | Belyakov | 2,260 | 6A |
 | Carmen Cordero | Belyakov | 2,220 | 6A |
 | Mikhail Sidorov | Belyakov | 3,071 | 7A |
 | Orchard Gate | Belyakov | 3,155 | 7A |
@@ -386,11 +386,11 @@ Existing schools keep their current conference and classification in this planni
 | Adela Villaseñor | Caswell | 3,342 | 7A |
 | Andrés Valera | Caswell | 2,627 | 7A |
 | Caswell | Caswell | 3,802 | 7A |
-| Caswell Classical School | Caswell | 3,127 | 7A |
-| Caswell Depot High | Caswell | 3,336 | 7A |
-| Caswell I-50 Technical | Caswell | 2,855 | 7A |
-| Caswell School of Science and Industry | Caswell | 3,561 | 7A |
-| Caswell University Prep | Caswell | 2,444 | 6A |
+| Cherry Hill | Caswell | 3,127 | 7A |
+| Cherry Hill North | Caswell | 3,336 | 7A |
+| Cherry Hill South | Caswell | 2,855 | 7A |
+| Andrew Jackson | Caswell | 3,561 | 7A |
+| Caswell West | Caswell | 2,444 | 6A |
 | Salvador Montalvo | Caswell | 3,236 | 7A |
 | Tatiana Moroz | Caswell | 4,070 | 7A |
 
@@ -400,9 +400,9 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Amaia Echevarria | Echevarria | 2,394 | 6A |
 | Echevarria | Echevarria | 2,473 | 6A |
-| Echevarria Foundry High | Echevarria | 2,528 | 6A |
-| Echevarria I-50 Technical | Echevarria | 1,963 | 5A |
-| Echevarria School of Commerce | Echevarria | 1,617 | 4A |
+| Echevarria North | Echevarria | 2,528 | 6A |
+| Echevarria South | Echevarria | 1,963 | 5A |
+| William McKinley | Echevarria | 1,617 | 4A |
 | Harold Tillman | Echevarria | 2,631 | 7A |
 | Leire Aramburu | Echevarria | 2,354 | 6A |
 | Mae Jemison | Echevarria | 2,008 | 5A |
@@ -414,9 +414,9 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Andrés Ibarra | Belmonte | 2,908 | 7A |
-| Belmonte Civic Leadership Academy | Belmonte | 2,364 | 6A |
+| Belmonte East | Belmonte | 2,364 | 6A |
 | Belmonte Collegiate Academy | Belmonte | 1,399 | 3A |
-| Belmonte Health Sciences Academy | Belmonte | 2,697 | 7A |
+| Belmonte West | Belmonte | 2,697 | 7A |
 | Belmonte River Plain | Belmonte | 2,217 | 6A |
 | I-50 Technical | Belmonte | 2,849 | 7A |
 | Iker Aramburu | Belmonte | 3,395 | 7A |
@@ -428,11 +428,11 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Bayard Rustin | Belyakov | 2,376 | 6A |
-| Belyakov Environmental Sciences Academy | Belyakov | 2,284 | 6A |
-| Belyakov I-50 Technical | Belyakov | 3,154 | 7A |
+| Belyakov South | Belyakov | 2,284 | 6A |
+| Belyakov East | Belyakov | 3,154 | 7A |
 | Belyakov Manufacturing and Technology Academy | Belyakov | 2,498 | 6A |
 | Belyakov River Plain | Belyakov | 2,909 | 7A |
-| Belyakov School of Science and Industry | Belyakov | 1,919 | 5A |
+| Belyakov Technical | Belyakov | 1,919 | 5A |
 | Dorothy Height | Belyakov | 2,331 | 6A |
 | José Martí | Belyakov | 3,067 | 7A |
 | Unai Etxeberria | Belyakov | 2,154 | 5A |
@@ -458,10 +458,10 @@ Existing schools keep their current conference and classification in this planni
 | Anya Belov | Llerena | 3,180 | 7A |
 | Ella Baker | Llerena | 2,734 | 7A |
 | Javier Cárdenas | Llerena | 2,848 | 7A |
-| Javier Villalba | Llerena | 2,418 | 6A |
+| Alonso Villalba | Llerena | 2,418 | 6A |
 | Llerena | Llerena | 3,490 | 7A |
-| Llerena Civic Leadership Academy | Llerena | 2,828 | 7A |
-| Llerena School of Science and Industry | Llerena | 2,095 | 5A |
+| Llerena North | Llerena | 2,828 | 7A |
+| Llerena South | Llerena | 2,095 | 5A |
 | St. Brigid Preparatory | Llerena | 1,586 | 4A |
 | Viktor Kareva | Llerena | 3,554 | 7A |
 | West Bench | Llerena | 2,626 | 7A |
@@ -513,8 +513,8 @@ Existing schools keep their current conference and classification in this planni
 | Mikel Elorriaga | Orellana | 1,810 | 5A |
 | Orellana | Orellana | 2,023 | 5A |
 | Orellana Canal View | Orellana | 2,473 | 6A |
-| Orellana Foundry High | Orellana | 2,859 | 7A |
-| Orellana School of Commerce | Orellana | 2,078 | 5A |
+| Orellana North | Orellana | 2,859 | 7A |
+| Orellana South | Orellana | 2,078 | 5A |
 | Orellana Treasure Valley | Orellana | 2,450 | 6A |
 
 ### Pomar Central Conference
@@ -526,9 +526,9 @@ Existing schools keep their current conference and classification in this planni
 | Berrio | Berrio | 720 | 2A |
 | Carmina | Carmina | 720 | 2A |
 | Eagleton | Eagleton | 484 | 1A |
-| Eagleton School of Science and Industry | Eagleton | 596 | 1A |
+| Eagleton West | Eagleton | 596 | 1A |
 | Greaves Junction | Greaves Junction | 501 | 1A |
-| Greaves Junction Treasure Valley | Greaves Junction | 363 | 1A |
+| Greaves Junction South | Greaves Junction | 363 | 1A |
 | Meridia | Meridia | 436 | 1A |
 | Meridia Manufacturing and Technology Academy | Meridia | 428 | 1A |
 | St. Francis Xavier College Prep | Pomar | 406 | 1A |
@@ -546,8 +546,8 @@ Existing schools keep their current conference and classification in this planni
 | Nicolás Salcedo | Serrano | 2,348 | 6A |
 | Romare Bearden | Serrano | 1,678 | 4A |
 | Serrano | Serrano | 2,681 | 7A |
-| Serrano Applied Sciences Institute | Serrano | 2,538 | 6A |
-| Serrano Depot High | Serrano | 2,779 | 7A |
+| Serrano North | Serrano | 2,538 | 6A |
+| Serrano South | Serrano | 2,779 | 7A |
 | St. Isidore Academy | Serrano | 1,871 | 5A |
 
 ### Snake Plain League
@@ -555,17 +555,17 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Amaia Aramburu | Belmonte | 2,932 | 7A |
-| Belmonte Agricultural Sciences Academy | Belmonte | 2,645 | 7A |
-| Belmonte Applied Sciences Institute | Belmonte | 2,827 | 7A |
-| Belmonte Classical Academy | Belmonte | 2,987 | 7A |
-| Belmonte Technical Arts Academy | Belmonte | 2,689 | 7A |
+| Belmonte North | Belmonte | 2,645 | 7A |
+| Belmonte South | Belmonte | 2,827 | 7A |
+| James Madison | Belmonte | 2,987 | 7A |
+| Woodrow Wilson | Belmonte | 2,689 | 7A |
 | Depot High | Belmonte | 2,847 | 7A |
 | Jon Etxeberria | Belmonte | 3,124 | 7A |
 | Leire Garmendia | Belmonte | 2,572 | 6A |
 | Nerea Mendizabal | Belmonte | 2,504 | 6A |
 | Shirley Chisholm | Belmonte | 2,080 | 5A |
 | St. Basil Academy | Belmonte | 1,070 | 3A |
-| St. Basil School | Belmonte | 1,607 | 4A |
+| St. Ignatius | Belmonte | 1,607 | 4A |
 | Treasure Valley | Belmonte | 3,365 | 7A |
 
 ### Tolland Western League
@@ -588,9 +588,9 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Aitor Echevarria | Aldecoa | 2,304 | 6A |
 | Aldecoa | Aldecoa | 2,049 | 5A |
-| Aldecoa Academy of Arts and Letters | Aldecoa | 1,888 | 5A |
-| Aldecoa Applied Sciences Institute | Aldecoa | 2,289 | 6A |
-| Aldecoa Depot High | Aldecoa | 1,892 | 5A |
+| Aldecoa North | Aldecoa | 1,888 | 5A |
+| Aldecoa South | Aldecoa | 2,289 | 6A |
+| Ulysses Grant | Aldecoa | 1,892 | 5A |
 | Esteban Téllez | Aldecoa | 1,457 | 4A |
 | Fannie Lou Hamer | Aldecoa | 1,545 | 4A |
 | Jon Garmendia | Aldecoa | 1,521 | 4A |
@@ -604,9 +604,9 @@ Existing schools keep their current conference and classification in this planni
 | Amalia Escobedo | Belyakov | 3,061 | 7A |
 | Anya Orlov | Belyakov | 2,914 | 7A |
 | Belyakov | Belyakov | 2,116 | 5A |
-| Belyakov Academy of Music and Media | Belyakov | 3,172 | 7A |
-| Belyakov Polytechnic Institute | Belyakov | 3,165 | 7A |
-| Belyakov School of Design and Engineering | Belyakov | 2,268 | 6A |
+| Belyakov North | Belyakov | 3,172 | 7A |
+| Belyakov West | Belyakov | 3,165 | 7A |
+| Theodore Roosevelt | Belyakov | 2,268 | 6A |
 | Lorraine Calder | Belyakov | 1,866 | 5A |
 | Mila Chernov | Belyakov | 2,891 | 7A |
 | St. Agnes Academy | Belyakov | 1,749 | 4A |
@@ -648,7 +648,7 @@ Existing schools keep their current conference and classification in this planni
 | Janice Davenport | Port Veles | 3,233 | 7A |
 | Marcus Langston | Port Veles | 2,618 | 7A |
 | Marina Moroz | Port Veles | 2,749 | 7A |
-| Port Veles Civic Leadership Academy | Port Veles | 2,682 | 7A |
+| Port Veles South | Port Veles | 2,682 | 7A |
 | Port Veles Foundry High | Port Veles | 1,948 | 5A |
 | Port Veles Health Sciences Academy | Port Veles | 2,001 | 5A |
 
@@ -659,7 +659,7 @@ Existing schools keep their current conference and classification in this planni
 | Aleksandr Lebedev | Port Veles | 3,189 | 7A |
 | Geraldine Cross | Port Veles | 2,063 | 5A |
 | Harbor Gate | Port Veles | 3,257 | 7A |
-| Port Veles Agricultural Sciences Academy | Port Veles | 2,625 | 7A |
+| Port Veles North | Port Veles | 2,625 | 7A |
 | Port Veles International Academy | Port Veles | 973 | 2A |
 | Ralph Booker | Port Veles | 2,939 | 7A |
 | Sofia Romanov | Port Veles | 2,784 | 7A |
@@ -719,7 +719,7 @@ Existing schools keep their current conference and classification in this planni
 | Igor Chernov | Port Veles | 3,000 | 7A |
 | Katherine Williams | Port Veles | 2,353 | 6A |
 | Nadia Chernov | Port Veles | 3,100 | 7A |
-| Nadia Sidorov | Port Veles | 2,769 | 7A |
+| Anton Sidorov | Port Veles | 2,769 | 7A |
 | Nathaniel Cross | Port Veles | 2,999 | 7A |
 | Port Veles Civic Academy | Port Veles | 1,557 | 4A |
 | Port Veles Maritime Academy | Port Veles | 2,333 | 6A |
@@ -836,8 +836,8 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Frontier High | Harriman | 2,854 | 7A |
 | Harriman | Harriman | 3,792 | 7A |
-| Harriman Civic Leadership Academy | Harriman | 4,219 | 7A |
-| Harriman Maritime Academy | Harriman | 4,072 | 7A |
+| Harriman North | Harriman | 4,219 | 7A |
+| John F. Kennedy | Harriman | 4,072 | 7A |
 | Homestead | Harriman | 2,970 | 7A |
 | Katya Moroz | Harriman | 3,850 | 7A |
 | Naomi Price | Harriman | 2,832 | 7A |
@@ -850,7 +850,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Fort Valois | Fort Valois | 2,265 | 6A |
-| Fort Valois School of Design and Engineering | Fort Valois | 2,459 | 6A |
+| Fort Valois North | Fort Valois | 2,459 | 6A |
 | Fort Valois School of Public Service | Fort Valois | 2,436 | 6A |
 | Galina Romanov | Fort Valois | 2,560 | 6A |
 | Lev Voronin | Fort Valois | 2,332 | 6A |
@@ -863,7 +863,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Bahía Leal | Bahía Leal | 1,664 | 4A |
-| Bahía Leal Costa Verde | Bahía Leal | 2,403 | 6A |
+| Housatonic HS | Bahía Leal | 2,403 | 6A |
 | Costa Verde | Bahía Leal | 2,635 | 7A |
 | Isabel Lucero | Bahía Leal | 1,796 | 4A |
 | James Gaines | Bahía Leal | 2,559 | 6A |
@@ -879,8 +879,8 @@ Existing schools keep their current conference and classification in this planni
 | Oksana Romanov | Puerto de los Reyes | 2,123 | 5A |
 | Puerto de los Reyes | Puerto de los Reyes | 2,193 | 5A |
 | Puerto de los Reyes Civic Leadership Academy | Puerto de los Reyes | 2,281 | 6A |
-| Puerto de los Reyes International School | Puerto de los Reyes | 1,748 | 4A |
-| Puerto de los Reyes School of Commerce | Puerto de los Reyes | 1,878 | 5A |
+| Puerto de los Reyes North | Puerto de los Reyes | 1,748 | 4A |
+| Puerto de los Reyes South | Puerto de los Reyes | 1,878 | 5A |
 | Rosa Salcedo | Puerto de los Reyes | 1,990 | 5A |
 | Sofía Aranda | Puerto de los Reyes | 2,128 | 5A |
 
@@ -935,10 +935,10 @@ Existing schools keep their current conference and classification in this planni
 | George Nakashima | San Borondón | 2,253 | 6A |
 | Redwood Coast | San Borondón | 2,575 | 6A |
 | San Borondón | San Borondón | 3,089 | 7A |
-| San Borondón Agricultural Sciences Academy | San Borondón | 3,064 | 7A |
+| San Borondón North | San Borondón | 3,064 | 7A |
 | San Borondón Civic Academy | San Borondón | 1,685 | 4A |
 | San Borondón Country Day School | San Borondón | 1,809 | 5A |
-| San Borondón Environmental Sciences Academy | San Borondón | 2,109 | 5A |
+| San Borondón South | San Borondón | 2,109 | 5A |
 | Sergei Belov | San Borondón | 2,136 | 5A |
 | St. Casimir Preparatory | San Borondón | 1,437 | 4A |
 

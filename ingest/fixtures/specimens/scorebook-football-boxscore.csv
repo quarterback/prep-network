@@ -1,9 +1,9 @@
 # JHSAA Electronic Scorebook — Game Export v2.4
-# Generated for Abbey Prep at Port Veles Agricultural Sciences Academy
+# Generated for Abbey Prep at Port Veles North
 GAME,gameId,date,sport,level,venue,attendance,status
-GAME,JHSAA-FOO-20260828,2026-08-28,Football,Varsity,Port Veles Agricultural Sciences Academy Memorial Field,379,Final
+GAME,JHSAA-FOO-20260828,2026-08-28,Football,Varsity,Port Veles North Memorial Field,379,Final
 TEAM,role,school,schoolCode,conference,final
-TEAM,home,Port Veles Agricultural Sciences Academy,PVA,—,20
+TEAM,home,Port Veles North,PVA,—,20
 TEAM,away,Abbey Prep,AP,—,16
 LINESCORE,teamCode,Q1,Q2,Q3,Q4,OT,FINAL
 LINESCORE,PVA,7,6,0,7,,20
