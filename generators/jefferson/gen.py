@@ -1282,9 +1282,21 @@ class Gen:
         total public enrollment x 15-22, jittered on a stable hash of the name
         (crc32, not the RNG stream — the gazetteer must not perturb the
         season). Anchor and owner-specified cities keep their stated figures.
-        Emitted as records/orgs/cities.json and rendered to
-        docs/GAZETTEER-jefferson.md so the document can never drift from the
-        records.
+
+        COORDINATES are assigned by RANK against the real ground (owner rule
+        2027-08). Each Jefferson county names a real county; `data/geo_anchors
+        .json` holds that real county's own populated places, largest first,
+        and a Jefferson city takes the coordinates of the real place at its own
+        population rank. So Ashbury sits where Medford sits, Port Veles where
+        Coos Bay sits, and a 4,000-person Antler County mill town lands on a
+        real 4,000-person Douglas County mill town. Nothing is scattered or
+        jittered — every coordinate in the state is a real place's coordinate,
+        which is what keeps coastal towns out of the Pacific and desert towns
+        off the ridge lines without a single special case.
+
+        Emitted as records/orgs/cities.json, records/orgs/cities.geojson (drop
+        it on any map) and rendered to docs/GAZETTEER-jefferson.md, so no
+        document can drift from the records.
         """
         import json
         stated = {N.ANCHORS["inland_metro"][0]: N.ANCHORS["inland_metro"][1],
@@ -1325,9 +1337,41 @@ class Gen:
                                area=area, population=pop))
         cities.sort(key=lambda c: (c["county"], -c["population"], c["name"]))
 
+        # rank-match onto the real ground. `cities` is already ordered by
+        # (county, -population), so a county's rank IS its index within its run.
+        anchors = json.loads((ROOT / "generators/jefferson/data/geo_anchors.json")
+                             .read_text())["counties"]
+        rank: dict[str, int] = {}
+        for c in cities:
+            real = c["real_county"]
+            i = rank[real] = rank.get(real, -1) + 1
+            pool = anchors.get(real)
+            if not pool:
+                raise SystemExit(
+                    f"no geo anchors for {real}; add it to scripts/"
+                    f"build_geo_anchors.py::SEATS and re-run that script")
+            if i >= len(pool):
+                # Never silently wrap: two towns would share a coordinate and
+                # the map would quietly lie. Lake County, OR is the tight one
+                # (14 real places), so this is a live possibility, not a hedge.
+                raise SystemExit(
+                    f"{c['county']} County has {i + 1}+ cities but {real} only "
+                    f"supplies {len(pool)} anchors — re-run scripts/"
+                    f"build_geo_anchors.py with a larger --per-county")
+            _site, c["lat"], c["lon"] = pool[i]
+
         (RECORDS / "orgs").mkdir(parents=True, exist_ok=True)
         (RECORDS / "orgs/cities.json").write_text(json.dumps(
             {"$type": "org.prepnet.temp.org.cities", "cities": cities},
+            indent=1, sort_keys=True) + "\n")
+        (RECORDS / "orgs/cities.geojson").write_text(json.dumps({
+            "type": "FeatureCollection",
+            "features": [{"type": "Feature",
+                          "geometry": {"type": "Point",
+                                       "coordinates": [c["lon"], c["lat"]]},
+                          "properties": {k: v for k, v in c.items()
+                                         if k not in ("lat", "lon")}}
+                         for c in cities]},
             indent=1, sort_keys=True) + "\n")
 
         lines = ["# Jefferson gazetteer — cities and towns by county",
@@ -1337,6 +1381,11 @@ class Gen:
                  "names the real county whose ground it stands on. Owner-stated",
                  "populations are authoritative; only unstated towns derive from",
                  "school enrollment.",
+                 "",
+                 "Coordinates are real. A Jefferson city stands on the real place",
+                 "at its own population rank inside its real county, so the state",
+                 "sits on actual valley floors, river bends and harbours. Drop",
+                 "`records/orgs/cities.geojson` on any map to see it.",
                  "",
                  "**The ~17.6M state total is a design decision, not an error**",
                  "(owner rule 2027-08: Jefferson is West Coast Texas). Do not",
@@ -1350,10 +1399,11 @@ class Gen:
             total += csum
             lines.append(f"## {county} County ({real}) — {csum:,}")
             lines.append("")
-            lines.append("| City or town | Population | Area |")
-            lines.append("| --- | ---: | --- |")
+            lines.append("| City or town | Population | Area | Latitude | Longitude |")
+            lines.append("| --- | ---: | --- | ---: | ---: |")
             for r in rows:
-                lines.append(f"| {r['name']} | {r['population']:,} | {r['area']} |")
+                lines.append(f"| {r['name']} | {r['population']:,} | {r['area']} "
+                             f"| {r['lat']:.4f} | {r['lon']:.4f} |")
             lines.append("")
         lines.append(f"**State total: {total:,}** across {len(cities)} places, "
                      f"{len(bycounty)} counties.")
