@@ -1294,51 +1294,83 @@ class Gen:
         "<Town> East East" is not a school.
         """
         from app.sports import MAX_ENROLLMENT
-        pairs = [("East", "West"), ("North", "South"),
-                 ("Northeast", "Southwest"), ("Northwest", "Southeast")]
+        DIRS = ("North", "South", "East", "West", "Northwest", "Southeast")
+        FEATURES = ("Bellows Lake", "Kettle Ridge", "Antelope Butte", "Willow Creek",
+                    "Sandhill Marsh", "Heron Slough", "Manzanita Ridge", "Buckeye Bend",
+                    "Sycamore Flat", "Deer Hollow", "Sulphur Springs", "Indigo Rim",
+                    "Vernal Falls", "Lonepine Mesa", "Redbank Bluffs", "Coyote Draw",
+                    "Foxtail Meadows", "Cathedral Point", "Gravel Narrows",
+                    "Blackbird Canyon", "Cinnabar Divide", "Whiskey Bar")
+        FAITHS = ("Catholic", "Christian", "Methodist", "Lutheran", "Episcopal")
+
         out, made = [], 0
+        feats = list(FEATURES)
         for s in self.schools:
             if s["enrollment"] <= MAX_ENROLLMENT:
                 out.append(s)
                 continue
             n = -(-s["enrollment"] // MAX_ENROLLMENT)          # ceil
-            # never append a direction the name already ends in: half of these
-            # are "<Town> East" already, and "Ashbury East East" is not a school
+            # The school KEEPS ITS NAME and shrinks; the district opens n-1 more
+            # beside it. ⚠️ Never stack a second direction on a name that already
+            # carries one — "Ashbury East West" is not a school and nothing in
+            # the country is named that way (owner, 2027-08). A town whose
+            # obvious directional names are used up opens a school named for
+            # nearby ground, or a parish/independent school, which is what
+            # actually happens.
             last = s["name"].rsplit(" ", 1)[-1]
-            free = [d for pair in pairs for d in pair if d != last]
-            names = None
-            for i in range(len(free) - n + 1):
-                cand = [f"{s['name']} {d}" for d in free[i:i + n]]
-                if not any(c.lower() in self.used_schools for c in cand):
-                    names = cand
+            directional = last in DIRS
+            names = []
+            while len(names) < n - 1:
+                cand = None
+                if not directional:
+                    for d in DIRS:
+                        if f"{s['name']} {d}".lower() not in self.used_schools:
+                            cand = f"{s['name']} {d}"
+                            break
+                if cand is None:
+                    while feats and cand is None:
+                        f = feats.pop(0)
+                        if f.lower() not in self.used_schools:
+                            cand = f
+                if cand is None:
+                    for faith in FAITHS:
+                        for stem in (s["city"], s["area"].split()[0]):
+                            t = f"{stem} {faith}"
+                            if t.lower() not in self.used_schools:
+                                cand = t
+                                break
+                        if cand:
+                            break
+                if cand is None:
                     break
-            if names is None:                                  # nothing free
-                out.append(s)
-                continue
-            # The parts do NOT have to sum to the parent — enrollment is
-            # fictional (owner, 2027-08), and a district that splits a school
-            # is not conserving a headcount, it is building two normal schools.
-            # Sized off each part's own name hash so it is stable and the
-            # results spread instead of piling on one figure.
-            base = s["enrollment"] / n
+                self.used_schools.add(cand.lower())
+                names.append(cand)
+
+            # The parts do NOT sum to the parent — enrollment is fictional
+            # (owner, 2027-08) and a district splitting a school is not
+            # conserving a headcount, it is running two normal schools. Sized
+            # off each name's own hash, so figures are stable and spread.
+            def sized(nm, base):
+                h = zlib.crc32(nm.encode())
+                return max(120, min(MAX_ENROLLMENT,
+                                    int(base * (0.72 + (h % 1000) / 1000 * 0.5))))
+            base = s["enrollment"] / (len(names) + 1)
+            s["enrollment"] = sized(s["name"], base)
+            out.append(s)
             for nm in names:
                 part = dict(s)
                 part["name"] = nm
-                h = zlib.crc32(nm.encode())
-                part["enrollment"] = max(
-                    120, min(MAX_ENROLLMENT,
-                             int(base * (0.72 + (h % 1000) / 1000 * 0.5))))
-                self.used_schools.add(nm.lower())
+                part["enrollment"] = sized(nm, base)
+                part["private"] = any(nm.endswith(" " + f) for f in FAITHS)
                 self.by_name[nm] = part
                 out.append(part)
                 made += 1
-            self.by_name.pop(s["name"], None)
-            for c in self.confs:
-                if s["name"] in c.get("members", []):
-                    c["members"].remove(s["name"])
-                    c["members"].extend(names)
+                for c in self.confs:
+                    if s["name"] in c.get("members", []):
+                        c["members"].append(nm)
+                        break
         self.schools = out
-        print(f"  split {made // 2} oversize schools into {made}")
+        print(f"  opened {made} schools beside oversize ones")
 
     def reclassify(self, records_dir=None):
         """Put every school on the owner's ladder (2027-08), founding and

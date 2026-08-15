@@ -1533,6 +1533,208 @@
     "Wolf Gap International School",
     "Astrid Bianchi"
    ]
+  },
+  {
+   "name": "Vermilion Valley Conference",
+   "slug": "vermilion-valley-conference",
+   "area": "Vermilion Valley",
+   "members": [
+    "Garrow",
+    "Garrow Southwest",
+    "Cottonrock Point",
+    "Blackbird Bar",
+    "Garret Hobart",
+    "Garrow West",
+    "Jimmy Carter",
+    "Lyndon Johnson",
+    "Kernwood County Catholic",
+    "Kernwood County Christian",
+    "Calvary Chapel Kernwood",
+    "All Saints Episcopal",
+    "Bishop Ferraro",
+    "Presentation Academy",
+    "St. Veronica",
+    "Olive Reach",
+    "Olive Reach North",
+    "Coolidge",
+    "Olive Reach Baptist",
+    "Trinity Christian",
+    "Kilbride Hall",
+    "Barleyfield",
+    "Steelhead Divide",
+    "Kernwood Lutheran",
+    "St. Cecilia",
+    "Olive Head",
+    "Kernwood County",
+    "St. Dominic",
+    "Corliss Junction",
+    "Heritage Christian",
+    "Tule Flat",
+    "Tule Flat Lutheran",
+    "Corliss",
+    "Marsh Depot",
+    "Chaff Head",
+    "Chaff Crossing",
+    "Lanphere"
+   ]
+  },
+  {
+   "name": "Olive Belt League",
+   "slug": "olive-belt-league",
+   "area": "Vermilion Valley",
+   "members": [
+    "Kilbride Switch",
+    "Kilbride Switch South",
+    "Indigo Falls",
+    "Harry Truman",
+    "Christ the King",
+    "Calvary Chapel Kilbride Switch",
+    "Olivet County",
+    "Calvary Chapel Olivet",
+    "Olivet County Christian",
+    "Clover Reach",
+    "Garrow Switch",
+    "Wardlow Depot",
+    "Jessup Bar",
+    "Walnut Yard",
+    "Prune Siding",
+    "Barley Gap"
+   ]
+  },
+  {
+   "name": "Paddock County League",
+   "slug": "paddock-county-league",
+   "area": "Vermilion Valley",
+   "members": [
+    "Welsh Plains",
+    "Welsh Plains Northwest",
+    "Welsh Plains West",
+    "Paddock County Catholic",
+    "Paddock Institute",
+    "Paddock County",
+    "Goodman",
+    "Shiloh",
+    "Zion Hill",
+    "Canaan Bend",
+    "Beulah Landing",
+    "Free Hill",
+    "Promise Land",
+    "Camden Flat",
+    "Rentie Grove"
+   ]
+  },
+  {
+   "name": "Bardsley Union League",
+   "slug": "bardsley-union-league",
+   "area": "Vermilion Valley",
+   "members": [
+    "Prune Springs",
+    "Steelhead Creek",
+    "Prune Springs Seminary",
+    "Grace Christian",
+    "Bardsley County",
+    "Bardsley Classical Academy",
+    "Sutter Reach",
+    "Fig Gap",
+    "Sutter Basin",
+    "Levee Bluff"
+   ]
+  },
+  {
+   "name": "Mother Lode Conference",
+   "slug": "mother-lode-conference",
+   "area": "Mother Lode",
+   "members": [
+    "Tunnel Diggings",
+    "Walter Mondale",
+    "Lonepine Canyon",
+    "Tunnel Diggings Southwest",
+    "Tunnel Diggings Northeast",
+    "Alben Barkley",
+    "Tunnel Diggings Hall",
+    "Goldbank Hall",
+    "Bethel Christian",
+    "St. Cecilia Academy",
+    "Sluice Crossing",
+    "Eisenhower",
+    "Monsignor Barrow",
+    "Ditch Fork",
+    "Martin Luther",
+    "Calvary Chapel Ditch Fork",
+    "Gulch Bend",
+    "Foothills Christian",
+    "Goldbank County",
+    "Ewartville",
+    "Tunnelton",
+    "Cradle Reach",
+    "Tailing Crossing",
+    "Tailing Crossing-Ewart Bar Union"
+   ]
+  },
+  {
+   "name": "Feather River League",
+   "slug": "feather-river-league",
+   "area": "Mother Lode",
+   "members": [
+    "Ewart City",
+    "Madison",
+    "Featherstone Institute",
+    "Caverly",
+    "Serra Caverly",
+    "Tunnelwood",
+    "Featherton",
+    "Gilhooly",
+    "Hydraulicwood",
+    "Hydraulicwood-Caverlyville Union"
+   ]
+  },
+  {
+   "name": "High Sierra League",
+   "slug": "high-sierra-league",
+   "area": "Mother Lode",
+   "members": [
+    "Vessey Switch",
+    "St. Perpetua Preparatory",
+    "Sluice Landing",
+    "Vessey Junction",
+    "Vessey Junction-Tailingford Union"
+   ]
+  },
+  {
+   "name": "Sink Valley League",
+   "slug": "sink-valley-league",
+   "area": "North Range",
+   "members": [
+    "Scheelite County",
+    "Mirage Siding",
+    "Tungsten Reach",
+    "Mirage Crossing",
+    "Saltbush Reach"
+   ]
+  },
+  {
+   "name": "Barlowe Bench League",
+   "slug": "barlowe-bench-league",
+   "area": "Halbrook Basin",
+   "members": [
+    "Furrow Crossing",
+    "Indigo Bend",
+    "Herbert Hoover",
+    "Ronald Reagan",
+    "Archbishop Quinlan",
+    "St. Lucy",
+    "Veritas Academy",
+    "Barlowe County Christian",
+    "Pear Slough",
+    "Pear Slough Northeast",
+    "New Hope Christian",
+    "Benchton",
+    "St. Genevieve",
+    "Ciderhaven",
+    "Bench Head",
+    "Haddon Siding",
+    "Garrow Depot"
+   ]
   }
  ]
 }
