@@ -2672,8 +2672,8 @@
     "real_county": "Plumas County, CA",
     "state": "CA",
     "fips": "06063",
-    "county": null,
-    "area": null
+    "county": "Featherstone",
+    "area": "Mother Lode"
    },
    "geometry": {
     "type": "Polygon",
@@ -2805,8 +2805,8 @@
     "real_county": "Colusa County, CA",
     "state": "CA",
     "fips": "06011",
-    "county": null,
-    "area": null
+    "county": "Bardsley",
+    "area": "Vermilion Valley"
    },
    "geometry": {
     "type": "Polygon",
@@ -2886,8 +2886,8 @@
     "real_county": "Tehama County, CA",
     "state": "CA",
     "fips": "06103",
-    "county": null,
-    "area": null
+    "county": "Olivet",
+    "area": "Vermilion Valley"
    },
    "geometry": {
     "type": "Polygon",
@@ -3011,8 +3011,8 @@
     "real_county": "Butte County, CA",
     "state": "CA",
     "fips": "06007",
-    "county": null,
-    "area": null
+    "county": "Kernwood",
+    "area": "Vermilion Valley"
    },
    "geometry": {
     "type": "Polygon",
@@ -3116,8 +3116,8 @@
     "real_county": "Glenn County, CA",
     "state": "CA",
     "fips": "06021",
-    "county": null,
-    "area": null
+    "county": "Paddock",
+    "area": "Vermilion Valley"
    },
    "geometry": {
     "type": "Polygon",
@@ -3543,8 +3543,8 @@
     "real_county": "Sierra County, CA",
     "state": "CA",
     "fips": "06091",
-    "county": null,
-    "area": null
+    "county": "Highgrade",
+    "area": "Mother Lode"
    },
    "geometry": {
     "type": "Polygon",
@@ -3616,8 +3616,8 @@
     "real_county": "Nevada County, CA",
     "state": "CA",
     "fips": "06057",
-    "county": null,
-    "area": null
+    "county": "Goldbank",
+    "area": "Mother Lode"
    },
    "geometry": {
     "type": "Polygon",
@@ -4051,8 +4051,8 @@
     "real_county": "Pershing County, NV",
     "state": "NV",
     "fips": "32027",
-    "county": null,
-    "area": null
+    "county": "Scheelite",
+    "area": "North Range"
    },
    "geometry": {
     "type": "Polygon",
@@ -4373,8 +4373,8 @@
     "real_county": "Payette County, ID",
     "state": "ID",
     "fips": "16075",
-    "county": null,
-    "area": null
+    "county": "Barlowe",
+    "area": "Halbrook Basin"
    },
    "geometry": {
     "type": "Polygon",

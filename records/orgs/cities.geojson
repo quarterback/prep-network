@@ -530,6 +530,227 @@
   {
    "geometry": {
     "coordinates": [
+     -122.0094,
+     39.2143
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Bardsley",
+    "name": "Prune Springs",
+    "population": 35400,
+    "real_county": "Colusa County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1494,
+     39.1546
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Bardsley",
+    "name": "Sutter Yard",
+    "population": 13900,
+    "real_county": "Colusa County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.0577,
+     39.0174
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Bardsley",
+    "name": "Sutter Reach",
+    "population": 8000,
+    "real_county": "Colusa County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1914,
+     39.2763
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Bardsley",
+    "name": "Fig Gap",
+    "population": 5500,
+    "real_county": "Colusa County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.8939,
+     39.0743
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Bardsley",
+    "name": "Sutter Basin",
+    "population": 4000,
+    "real_county": "Colusa County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.01,
+     39.4032
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Bardsley",
+    "name": "Levee Bluff",
+    "population": 3200,
+    "real_county": "Colusa County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -116.9338,
+     44.0782
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Halbrook Basin",
+    "county": "Barlowe",
+    "name": "Furrow Crossing",
+    "population": 92800,
+    "real_county": "Payette County, ID"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -116.9166,
+     44.0077
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Halbrook Basin",
+    "county": "Barlowe",
+    "name": "Pear Slough",
+    "population": 36400,
+    "real_county": "Payette County, ID"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -116.819,
+     43.9699
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Halbrook Basin",
+    "county": "Barlowe",
+    "name": "Benchton",
+    "population": 21000,
+    "real_county": "Payette County, ID"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -116.8935,
+     43.989
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Halbrook Basin",
+    "county": "Barlowe",
+    "name": "Ciderhaven",
+    "population": 14300,
+    "real_county": "Payette County, ID"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -116.9182,
+     44.0254
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Halbrook Basin",
+    "county": "Barlowe",
+    "name": "Bench Head",
+    "population": 10600,
+    "real_county": "Payette County, ID"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -116.8452,
+     44.029
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Halbrook Basin",
+    "county": "Barlowe",
+    "name": "Haddon Siding",
+    "population": 8300,
+    "real_county": "Payette County, ID"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -116.5804,
+     44.0574
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Halbrook Basin",
+    "county": "Barlowe",
+    "name": "Garrow Depot",
+    "population": 6700,
+    "real_county": "Payette County, ID"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
      -124.2179,
      43.3665
     ],
@@ -1244,6 +1465,125 @@
   {
    "geometry": {
     "coordinates": [
+     -120.898,
+     39.9341
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Featherstone",
+    "name": "Ewart City",
+    "population": 51300,
+    "real_county": "Plumas County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.2319,
+     40.3063
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Featherstone",
+    "name": "Caverly",
+    "population": 20100,
+    "real_county": "Plumas County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.4691,
+     39.8105
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Featherstone",
+    "name": "Tunnelwood",
+    "population": 11600,
+    "real_county": "Plumas County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.9465,
+     39.9368
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Featherstone",
+    "name": "Featherton",
+    "population": 7900,
+    "real_county": "Plumas County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.9511,
+     40.1396
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Featherstone",
+    "name": "Gilhooly",
+    "population": 5800,
+    "real_county": "Plumas County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.6185,
+     39.7663
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Featherstone",
+    "name": "Hydraulicwood",
+    "population": 4600,
+    "real_county": "Plumas County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.498,
+     39.8088
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Featherstone",
+    "name": "Caverlyville",
+    "population": 3700,
+    "real_county": "Plumas County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
      -122.3917,
      40.5865
     ],
@@ -1805,6 +2145,176 @@
   {
    "geometry": {
     "coordinates": [
+     -120.1833,
+     39.328
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Tunnel Diggings",
+    "population": 136100,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.0611,
+     39.2191
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Sluice Crossing",
+    "population": 53400,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.0538,
+     39.1416
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Ditch Fork",
+    "population": 30900,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.2005,
+     39.233
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Gulch Bend",
+    "population": 20900,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.0566,
+     39.0396
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Hydraulic Gap",
+    "population": 15500,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.0178,
+     39.2617
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Ewartville",
+    "population": 12100,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.1911,
+     39.196
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Tunnelton",
+    "population": 9800,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.1361,
+     39.2302
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Cradle Reach",
+    "population": 8200,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.1038,
+     39.3693
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Tailing Crossing",
+    "population": 7000,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.7991,
+     39.3593
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Goldbank",
+    "name": "Ewart Bar",
+    "population": 6100,
+    "real_county": "Nevada County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
      -116.5635,
      43.5407
     ],
@@ -2043,6 +2553,74 @@
   {
    "geometry": {
     "coordinates": [
+     -120.241,
+     39.6763
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Highgrade",
+    "name": "Vessey Switch",
+    "population": 21400,
+    "real_county": "Sierra County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.2166,
+     39.6424
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Highgrade",
+    "name": "Sluice Landing",
+    "population": 8400,
+    "real_county": "Sierra County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.8269,
+     39.5593
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Highgrade",
+    "name": "Vessey Junction",
+    "population": 4900,
+    "real_county": "Sierra County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -120.6338,
+     39.5657
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Mother Lode",
+    "county": "Highgrade",
+    "name": "Tailingford",
+    "population": 3300,
+    "real_county": "Sierra County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
      -120.5435,
      41.4871
     ],
@@ -2241,6 +2819,210 @@
     "name": "Copper Crossing",
     "population": 600,
     "real_county": "Modoc County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.8375,
+     39.7285
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Garrow",
+    "population": 184300,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.6219,
+     39.7596
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Olive Reach",
+    "population": 72300,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.5578,
+     39.5139
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Barleyfield",
+    "population": 41800,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.5783,
+     39.8121
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Olive Head",
+    "population": 28400,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.4752,
+     39.5113
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Quill",
+    "population": 21000,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.5869,
+     39.5113
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Corliss Junction",
+    "population": 16400,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.6936,
+     39.3638
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Tule Flat",
+    "population": 13300,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.536,
+     39.481
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Corliss",
+    "population": 11100,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.8,
+     39.6463
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Marsh Depot",
+    "population": 9500,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.538,
+     39.4354
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Chaff Head",
+    "population": 8200,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.7127,
+     39.4124
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Chaff Crossing",
+    "population": 7200,
+    "real_county": "Butte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.4033,
+     39.6452
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Kernwood",
+    "name": "Lanphere",
+    "population": 6400,
+    "real_county": "Butte County, CA"
    },
    "type": "Feature"
   },
@@ -2570,6 +3352,159 @@
   {
    "geometry": {
     "coordinates": [
+     -122.2358,
+     40.1785
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Kilbride Switch",
+    "population": 83300,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1792,
+     39.9277
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Bracken",
+    "population": 32700,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1003,
+     40.0213
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Clover Reach",
+    "population": 18900,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.4007,
+     40.0157
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Garrow Switch",
+    "population": 12800,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1503,
+     40.0563
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Wardlow Depot",
+    "population": 9500,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.2086,
+     40.2552
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Jessup Bar",
+    "population": 7400,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1233,
+     40.0271
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Walnut Yard",
+    "population": 6000,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.87,
+     40.4352
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Prune Siding",
+    "population": 5000,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1767,
+     39.9749
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Olivet",
+    "name": "Barley Gap",
+    "population": 4300,
+    "real_county": "Tehama County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
      -124.2018,
      41.7559
     ],
@@ -2666,6 +3601,193 @@
     "name": "Ashfield",
     "population": 3500,
     "real_county": "Del Norte County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1964,
+     39.7474
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Welsh Plains",
+    "population": 62400,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1936,
+     39.5243
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "New Piscataway",
+    "population": 24500,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.0136,
+     39.7427
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Goodman",
+    "population": 14200,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1948,
+     39.6198
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Shiloh",
+    "population": 9600,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.5392,
+     39.6052
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Zion Hill",
+    "population": 7100,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.9664,
+     39.4199
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Canaan Bend",
+    "population": 5600,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.7255,
+     39.651
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Beulah Landing",
+    "population": 4500,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.0458,
+     39.5827
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Free Hill",
+    "population": 3800,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.1933,
+     39.5835
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Promise Land",
+    "population": 3200,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -121.99,
+     39.4646
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Camden Flat",
+    "population": 2800,
+    "real_county": "Glenn County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -122.0844,
+     39.7966
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "Vermilion Valley",
+    "county": "Paddock",
+    "name": "Rentie Grove",
+    "population": 2500,
+    "real_county": "Glenn County, CA"
    },
    "type": "Feature"
   },
@@ -3363,6 +4485,91 @@
     "name": "Alder Flat",
     "population": 3600,
     "real_county": "Humboldt County, CA"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -118.4735,
+     40.1793
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "North Range",
+    "county": "Scheelite",
+    "name": "Dry Bar",
+    "population": 27600,
+    "real_county": "Pershing County, NV"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -118.1504,
+     40.6607
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "North Range",
+    "county": "Scheelite",
+    "name": "Mirage Siding",
+    "population": 10800,
+    "real_county": "Pershing County, NV"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -118.2518,
+     40.603
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "North Range",
+    "county": "Scheelite",
+    "name": "Tungsten Reach",
+    "population": 6300,
+    "real_county": "Pershing County, NV"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -118.3927,
+     40.3635
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "North Range",
+    "county": "Scheelite",
+    "name": "Mirage Crossing",
+    "population": 4200,
+    "real_county": "Pershing County, NV"
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     -118.3929,
+     40.2455
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "area": "North Range",
+    "county": "Scheelite",
+    "name": "Saltbush Reach",
+    "population": 3100,
+    "real_county": "Pershing County, NV"
    },
    "type": "Feature"
   },

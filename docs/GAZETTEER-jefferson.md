@@ -51,6 +51,29 @@ rescale it.
 | Aspen Spur | 2,100 | Timber Valley | 43.2659 | -123.6098 |
 | Bidwell City | 1,400 | Timber Valley | 43.0343 | -123.6740 |
 
+## Bardsley County (Colusa County, CA) — 70,000
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Prune Springs | 35,400 | Vermilion Valley | 39.2143 | -122.0094 |
+| Sutter Yard | 13,900 | Vermilion Valley | 39.1546 | -122.1494 |
+| Sutter Reach | 8,000 | Vermilion Valley | 39.0174 | -122.0577 |
+| Fig Gap | 5,500 | Vermilion Valley | 39.2763 | -122.1914 |
+| Sutter Basin | 4,000 | Vermilion Valley | 39.0743 | -121.8939 |
+| Levee Bluff | 3,200 | Vermilion Valley | 39.4032 | -122.0100 |
+
+## Barlowe County (Payette County, ID) — 190,100
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Furrow Crossing | 92,800 | Halbrook Basin | 44.0782 | -116.9338 |
+| Pear Slough | 36,400 | Halbrook Basin | 44.0077 | -116.9166 |
+| Benchton | 21,000 | Halbrook Basin | 43.9699 | -116.8190 |
+| Ciderhaven | 14,300 | Halbrook Basin | 43.9890 | -116.8935 |
+| Bench Head | 10,600 | Halbrook Basin | 44.0254 | -116.9182 |
+| Haddon Siding | 8,300 | Halbrook Basin | 44.0290 | -116.8452 |
+| Garrow Depot | 6,700 | Halbrook Basin | 44.0574 | -116.5804 |
+
 ## Bidwell County (Coos County, OR) — 1,884,651
 
 | City or town | Population | Area | Latitude | Longitude |
@@ -113,6 +136,18 @@ rescale it.
 | Ninemile | 2,000 | Sage Plains | 43.5415 | -119.5038 |
 | Ashbrook | 1,900 | Sage Plains | 43.5907 | -119.6302 |
 
+## Featherstone County (Plumas County, CA) — 105,000
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Ewart City | 51,300 | Mother Lode | 39.9341 | -120.8980 |
+| Caverly | 20,100 | Mother Lode | 40.3063 | -121.2319 |
+| Tunnelwood | 11,600 | Mother Lode | 39.8105 | -120.4691 |
+| Featherton | 7,900 | Mother Lode | 39.9368 | -120.9465 |
+| Gilhooly | 5,800 | Mother Lode | 40.1396 | -120.9511 |
+| Hydraulicwood | 4,600 | Mother Lode | 39.7663 | -120.6185 |
+| Caverlyville | 3,700 | Mother Lode | 39.8088 | -120.4980 |
+
 ## Ferris County (Shasta County, CA) — 2,277,000
 
 | City or town | Population | Area | Latitude | Longitude |
@@ -156,6 +191,21 @@ rescale it.
 | Huckle Butte | 3,100 | North Range | 39.6360 | -119.8432 |
 | Windrow | 2,800 | North Range | 39.6155 | -119.8266 |
 
+## Goldbank County (Nevada County, CA) — 300,000
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Tunnel Diggings | 136,100 | Mother Lode | 39.3280 | -120.1833 |
+| Sluice Crossing | 53,400 | Mother Lode | 39.2191 | -121.0611 |
+| Ditch Fork | 30,900 | Mother Lode | 39.1416 | -121.0538 |
+| Gulch Bend | 20,900 | Mother Lode | 39.2330 | -121.2005 |
+| Hydraulic Gap | 15,500 | Mother Lode | 39.0396 | -121.0566 |
+| Ewartville | 12,100 | Mother Lode | 39.2617 | -121.0178 |
+| Tunnelton | 9,800 | Mother Lode | 39.1960 | -121.1911 |
+| Cradle Reach | 8,200 | Mother Lode | 39.2302 | -121.1361 |
+| Tailing Crossing | 7,000 | Mother Lode | 39.3693 | -121.1038 |
+| Ewart Bar | 6,100 | Mother Lode | 39.3593 | -120.7991 |
+
 ## Halbrook County (Canyon County, ID) — 2,950,000
 
 | City or town | Population | Area | Latitude | Longitude |
@@ -175,6 +225,15 @@ rescale it.
 | Greaves Junction | 12,000 | Halbrook Basin | 43.6071 | -116.8626 |
 | Berrio | 10,000 | Halbrook Basin | 43.5065 | -116.5415 |
 
+## Highgrade County (Sierra County, CA) — 38,000
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Vessey Switch | 21,400 | Mother Lode | 39.6763 | -120.2410 |
+| Sluice Landing | 8,400 | Mother Lode | 39.6424 | -120.2166 |
+| Vessey Junction | 4,900 | Mother Lode | 39.5593 | -120.8269 |
+| Tailingford | 3,300 | Mother Lode | 39.5657 | -120.6338 |
+
 ## Juniper County (Modoc County, CA) — 245,400
 
 | City or town | Population | Area | Latitude | Longitude |
@@ -191,6 +250,23 @@ rescale it.
 | Clear Prairie | 2,000 | Juniper Highlands | 41.2079 | -121.1552 |
 | Norbrook | 900 | Juniper Highlands | 41.2304 | -120.5041 |
 | Copper Crossing | 600 | Juniper Highlands | 41.6427 | -120.2169 |
+
+## Kernwood County (Butte County, CA) — 419,900
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Garrow | 184,300 | Vermilion Valley | 39.7285 | -121.8375 |
+| Olive Reach | 72,300 | Vermilion Valley | 39.7596 | -121.6219 |
+| Barleyfield | 41,800 | Vermilion Valley | 39.5139 | -121.5578 |
+| Olive Head | 28,400 | Vermilion Valley | 39.8121 | -121.5783 |
+| Quill | 21,000 | Vermilion Valley | 39.5113 | -121.4752 |
+| Corliss Junction | 16,400 | Vermilion Valley | 39.5113 | -121.5869 |
+| Tule Flat | 13,300 | Vermilion Valley | 39.3638 | -121.6936 |
+| Corliss | 11,100 | Vermilion Valley | 39.4810 | -121.5360 |
+| Marsh Depot | 9,500 | Vermilion Valley | 39.6463 | -121.8000 |
+| Chaff Head | 8,200 | Vermilion Valley | 39.4354 | -121.5380 |
+| Chaff Crossing | 7,200 | Vermilion Valley | 39.4124 | -121.7127 |
+| Lanphere | 6,400 | Vermilion Valley | 39.6452 | -121.4033 |
 
 ## Lodestone County (Humboldt County, NV) — 50,932
 
@@ -221,6 +297,20 @@ rescale it.
 | Purcell | 39,905 | Ashbury Metro | 42.2463 | -123.0349 |
 | San Lorenzo | 10,000 | Ashbury Metro | 42.4048 | -123.1389 |
 
+## Olivet County (Tehama County, CA) — 179,900
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Kilbride Switch | 83,300 | Vermilion Valley | 40.1785 | -122.2358 |
+| Bracken | 32,700 | Vermilion Valley | 39.9277 | -122.1792 |
+| Clover Reach | 18,900 | Vermilion Valley | 40.0213 | -122.1003 |
+| Garrow Switch | 12,800 | Vermilion Valley | 40.0157 | -122.4007 |
+| Wardlow Depot | 9,500 | Vermilion Valley | 40.0563 | -122.1503 |
+| Jessup Bar | 7,400 | Vermilion Valley | 40.2552 | -122.2086 |
+| Walnut Yard | 6,000 | Vermilion Valley | 40.0271 | -122.1233 |
+| Prune Siding | 5,000 | Vermilion Valley | 40.4352 | -121.8700 |
+| Barley Gap | 4,300 | Vermilion Valley | 39.9749 | -122.1767 |
+
 ## Ostrander County (Del Norte County, CA) — 46,300
 
 | City or town | Population | Area | Latitude | Longitude |
@@ -231,6 +321,22 @@ rescale it.
 | Halfway House | 5,000 | South Coast | 41.9282 | -124.1470 |
 | Elk Prairie | 4,800 | South Coast | 41.5265 | -124.0384 |
 | Ashfield | 3,500 | South Coast | 41.8454 | -123.9695 |
+
+## Paddock County (Glenn County, CA) — 140,200
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Welsh Plains | 62,400 | Vermilion Valley | 39.7474 | -122.1964 |
+| New Piscataway | 24,500 | Vermilion Valley | 39.5243 | -122.1936 |
+| Goodman | 14,200 | Vermilion Valley | 39.7427 | -122.0136 |
+| Shiloh | 9,600 | Vermilion Valley | 39.6198 | -122.1948 |
+| Zion Hill | 7,100 | Vermilion Valley | 39.6052 | -122.5392 |
+| Canaan Bend | 5,600 | Vermilion Valley | 39.4199 | -121.9664 |
+| Beulah Landing | 4,500 | Vermilion Valley | 39.6510 | -122.7255 |
+| Free Hill | 3,800 | Vermilion Valley | 39.5827 | -122.0458 |
+| Promise Land | 3,200 | Vermilion Valley | 39.5835 | -122.1933 |
+| Camden Flat | 2,800 | Vermilion Valley | 39.4646 | -121.9900 |
+| Rentie Grove | 2,500 | Vermilion Valley | 39.7966 | -122.0844 |
 
 ## Rimrock County (Lake County, OR) — 491,533
 
@@ -287,6 +393,16 @@ rescale it.
 | San Benicio | 5,000 | South Coast | 40.8829 | -123.9839 |
 | San Aurelio | 3,700 | South Coast | 40.5476 | -124.0973 |
 | Alder Flat | 3,600 | South Coast | 40.1201 | -123.8234 |
+
+## Scheelite County (Pershing County, NV) — 52,000
+
+| City or town | Population | Area | Latitude | Longitude |
+| --- | ---: | --- | ---: | ---: |
+| Dry Bar | 27,600 | North Range | 40.1793 | -118.4735 |
+| Mirage Siding | 10,800 | North Range | 40.6607 | -118.1504 |
+| Tungsten Reach | 6,300 | North Range | 40.6030 | -118.2518 |
+| Mirage Crossing | 4,200 | North Range | 40.3635 | -118.3927 |
+| Saltbush Reach | 3,100 | North Range | 40.2455 | -118.3929 |
 
 ## Stagewater County (Malheur County, OR) — 305,411
 
@@ -387,4 +503,4 @@ rescale it.
 | Sage Lake | 3,200 | North Range | 40.1435 | -120.1346 |
 | Doyleville | 3,000 | North Range | 40.3827 | -120.3872 |
 
-**State total: 17,640,937** across 272 places, 20 counties.
+**State total: 19,136,037** across 343 places, 29 counties.

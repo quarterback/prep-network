@@ -281,6 +281,123 @@
    "real_county": "Douglas County, OR"
   },
   {
+   "area": "Vermilion Valley",
+   "county": "Bardsley",
+   "lat": 39.2143,
+   "lon": -122.0094,
+   "name": "Prune Springs",
+   "population": 35400,
+   "real_county": "Colusa County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Bardsley",
+   "lat": 39.1546,
+   "lon": -122.1494,
+   "name": "Sutter Yard",
+   "population": 13900,
+   "real_county": "Colusa County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Bardsley",
+   "lat": 39.0174,
+   "lon": -122.0577,
+   "name": "Sutter Reach",
+   "population": 8000,
+   "real_county": "Colusa County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Bardsley",
+   "lat": 39.2763,
+   "lon": -122.1914,
+   "name": "Fig Gap",
+   "population": 5500,
+   "real_county": "Colusa County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Bardsley",
+   "lat": 39.0743,
+   "lon": -121.8939,
+   "name": "Sutter Basin",
+   "population": 4000,
+   "real_county": "Colusa County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Bardsley",
+   "lat": 39.4032,
+   "lon": -122.01,
+   "name": "Levee Bluff",
+   "population": 3200,
+   "real_county": "Colusa County, CA"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Barlowe",
+   "lat": 44.0782,
+   "lon": -116.9338,
+   "name": "Furrow Crossing",
+   "population": 92800,
+   "real_county": "Payette County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Barlowe",
+   "lat": 44.0077,
+   "lon": -116.9166,
+   "name": "Pear Slough",
+   "population": 36400,
+   "real_county": "Payette County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Barlowe",
+   "lat": 43.9699,
+   "lon": -116.819,
+   "name": "Benchton",
+   "population": 21000,
+   "real_county": "Payette County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Barlowe",
+   "lat": 43.989,
+   "lon": -116.8935,
+   "name": "Ciderhaven",
+   "population": 14300,
+   "real_county": "Payette County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Barlowe",
+   "lat": 44.0254,
+   "lon": -116.9182,
+   "name": "Bench Head",
+   "population": 10600,
+   "real_county": "Payette County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Barlowe",
+   "lat": 44.029,
+   "lon": -116.8452,
+   "name": "Haddon Siding",
+   "population": 8300,
+   "real_county": "Payette County, ID"
+  },
+  {
+   "area": "Halbrook Basin",
+   "county": "Barlowe",
+   "lat": 44.0574,
+   "lon": -116.5804,
+   "name": "Garrow Depot",
+   "population": 6700,
+   "real_county": "Payette County, ID"
+  },
+  {
    "area": "Harborline",
    "county": "Bidwell",
    "lat": 43.3665,
@@ -659,6 +776,69 @@
    "real_county": "Harney County, OR"
   },
   {
+   "area": "Mother Lode",
+   "county": "Featherstone",
+   "lat": 39.9341,
+   "lon": -120.898,
+   "name": "Ewart City",
+   "population": 51300,
+   "real_county": "Plumas County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Featherstone",
+   "lat": 40.3063,
+   "lon": -121.2319,
+   "name": "Caverly",
+   "population": 20100,
+   "real_county": "Plumas County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Featherstone",
+   "lat": 39.8105,
+   "lon": -120.4691,
+   "name": "Tunnelwood",
+   "population": 11600,
+   "real_county": "Plumas County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Featherstone",
+   "lat": 39.9368,
+   "lon": -120.9465,
+   "name": "Featherton",
+   "population": 7900,
+   "real_county": "Plumas County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Featherstone",
+   "lat": 40.1396,
+   "lon": -120.9511,
+   "name": "Gilhooly",
+   "population": 5800,
+   "real_county": "Plumas County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Featherstone",
+   "lat": 39.7663,
+   "lon": -120.6185,
+   "name": "Hydraulicwood",
+   "population": 4600,
+   "real_county": "Plumas County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Featherstone",
+   "lat": 39.8088,
+   "lon": -120.498,
+   "name": "Caverlyville",
+   "population": 3700,
+   "real_county": "Plumas County, CA"
+  },
+  {
    "area": "Gold Valley",
    "county": "Ferris",
    "lat": 40.5865,
@@ -956,6 +1136,96 @@
    "real_county": "Washoe County, NV"
   },
   {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.328,
+   "lon": -120.1833,
+   "name": "Tunnel Diggings",
+   "population": 136100,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.2191,
+   "lon": -121.0611,
+   "name": "Sluice Crossing",
+   "population": 53400,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.1416,
+   "lon": -121.0538,
+   "name": "Ditch Fork",
+   "population": 30900,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.233,
+   "lon": -121.2005,
+   "name": "Gulch Bend",
+   "population": 20900,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.0396,
+   "lon": -121.0566,
+   "name": "Hydraulic Gap",
+   "population": 15500,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.2617,
+   "lon": -121.0178,
+   "name": "Ewartville",
+   "population": 12100,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.196,
+   "lon": -121.1911,
+   "name": "Tunnelton",
+   "population": 9800,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.2302,
+   "lon": -121.1361,
+   "name": "Cradle Reach",
+   "population": 8200,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.3693,
+   "lon": -121.1038,
+   "name": "Tailing Crossing",
+   "population": 7000,
+   "real_county": "Nevada County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Goldbank",
+   "lat": 39.3593,
+   "lon": -120.7991,
+   "name": "Ewart Bar",
+   "population": 6100,
+   "real_county": "Nevada County, CA"
+  },
+  {
    "area": "Halbrook Basin",
    "county": "Halbrook",
    "lat": 43.5407,
@@ -1082,6 +1352,42 @@
    "real_county": "Canyon County, ID"
   },
   {
+   "area": "Mother Lode",
+   "county": "Highgrade",
+   "lat": 39.6763,
+   "lon": -120.241,
+   "name": "Vessey Switch",
+   "population": 21400,
+   "real_county": "Sierra County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Highgrade",
+   "lat": 39.6424,
+   "lon": -120.2166,
+   "name": "Sluice Landing",
+   "population": 8400,
+   "real_county": "Sierra County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Highgrade",
+   "lat": 39.5593,
+   "lon": -120.8269,
+   "name": "Vessey Junction",
+   "population": 4900,
+   "real_county": "Sierra County, CA"
+  },
+  {
+   "area": "Mother Lode",
+   "county": "Highgrade",
+   "lat": 39.5657,
+   "lon": -120.6338,
+   "name": "Tailingford",
+   "population": 3300,
+   "real_county": "Sierra County, CA"
+  },
+  {
    "area": "Juniper Highlands",
    "county": "Juniper",
    "lat": 41.4871,
@@ -1188,6 +1494,114 @@
    "name": "Copper Crossing",
    "population": 600,
    "real_county": "Modoc County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.7285,
+   "lon": -121.8375,
+   "name": "Garrow",
+   "population": 184300,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.7596,
+   "lon": -121.6219,
+   "name": "Olive Reach",
+   "population": 72300,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.5139,
+   "lon": -121.5578,
+   "name": "Barleyfield",
+   "population": 41800,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.8121,
+   "lon": -121.5783,
+   "name": "Olive Head",
+   "population": 28400,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.5113,
+   "lon": -121.4752,
+   "name": "Quill",
+   "population": 21000,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.5113,
+   "lon": -121.5869,
+   "name": "Corliss Junction",
+   "population": 16400,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.3638,
+   "lon": -121.6936,
+   "name": "Tule Flat",
+   "population": 13300,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.481,
+   "lon": -121.536,
+   "name": "Corliss",
+   "population": 11100,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.6463,
+   "lon": -121.8,
+   "name": "Marsh Depot",
+   "population": 9500,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.4354,
+   "lon": -121.538,
+   "name": "Chaff Head",
+   "population": 8200,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.4124,
+   "lon": -121.7127,
+   "name": "Chaff Crossing",
+   "population": 7200,
+   "real_county": "Butte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Kernwood",
+   "lat": 39.6452,
+   "lon": -121.4033,
+   "name": "Lanphere",
+   "population": 6400,
+   "real_county": "Butte County, CA"
   },
   {
    "area": "North Range",
@@ -1361,6 +1775,87 @@
    "real_county": "Jackson County, OR"
   },
   {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 40.1785,
+   "lon": -122.2358,
+   "name": "Kilbride Switch",
+   "population": 83300,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 39.9277,
+   "lon": -122.1792,
+   "name": "Bracken",
+   "population": 32700,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 40.0213,
+   "lon": -122.1003,
+   "name": "Clover Reach",
+   "population": 18900,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 40.0157,
+   "lon": -122.4007,
+   "name": "Garrow Switch",
+   "population": 12800,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 40.0563,
+   "lon": -122.1503,
+   "name": "Wardlow Depot",
+   "population": 9500,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 40.2552,
+   "lon": -122.2086,
+   "name": "Jessup Bar",
+   "population": 7400,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 40.0271,
+   "lon": -122.1233,
+   "name": "Walnut Yard",
+   "population": 6000,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 40.4352,
+   "lon": -121.87,
+   "name": "Prune Siding",
+   "population": 5000,
+   "real_county": "Tehama County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Olivet",
+   "lat": 39.9749,
+   "lon": -122.1767,
+   "name": "Barley Gap",
+   "population": 4300,
+   "real_county": "Tehama County, CA"
+  },
+  {
    "area": "South Coast",
    "county": "Ostrander",
    "lat": 41.7559,
@@ -1413,6 +1908,105 @@
    "name": "Ashfield",
    "population": 3500,
    "real_county": "Del Norte County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.7474,
+   "lon": -122.1964,
+   "name": "Welsh Plains",
+   "population": 62400,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.5243,
+   "lon": -122.1936,
+   "name": "New Piscataway",
+   "population": 24500,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.7427,
+   "lon": -122.0136,
+   "name": "Goodman",
+   "population": 14200,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.6198,
+   "lon": -122.1948,
+   "name": "Shiloh",
+   "population": 9600,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.6052,
+   "lon": -122.5392,
+   "name": "Zion Hill",
+   "population": 7100,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.4199,
+   "lon": -121.9664,
+   "name": "Canaan Bend",
+   "population": 5600,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.651,
+   "lon": -122.7255,
+   "name": "Beulah Landing",
+   "population": 4500,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.5827,
+   "lon": -122.0458,
+   "name": "Free Hill",
+   "population": 3800,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.5835,
+   "lon": -122.1933,
+   "name": "Promise Land",
+   "population": 3200,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.4646,
+   "lon": -121.99,
+   "name": "Camden Flat",
+   "population": 2800,
+   "real_county": "Glenn County, CA"
+  },
+  {
+   "area": "Vermilion Valley",
+   "county": "Paddock",
+   "lat": 39.7966,
+   "lon": -122.0844,
+   "name": "Rentie Grove",
+   "population": 2500,
+   "real_county": "Glenn County, CA"
   },
   {
    "area": "Juniper Highlands",
@@ -1782,6 +2376,51 @@
    "name": "Alder Flat",
    "population": 3600,
    "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "North Range",
+   "county": "Scheelite",
+   "lat": 40.1793,
+   "lon": -118.4735,
+   "name": "Dry Bar",
+   "population": 27600,
+   "real_county": "Pershing County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Scheelite",
+   "lat": 40.6607,
+   "lon": -118.1504,
+   "name": "Mirage Siding",
+   "population": 10800,
+   "real_county": "Pershing County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Scheelite",
+   "lat": 40.603,
+   "lon": -118.2518,
+   "name": "Tungsten Reach",
+   "population": 6300,
+   "real_county": "Pershing County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Scheelite",
+   "lat": 40.3635,
+   "lon": -118.3927,
+   "name": "Mirage Crossing",
+   "population": 4200,
+   "real_county": "Pershing County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Scheelite",
+   "lat": 40.2455,
+   "lon": -118.3929,
+   "name": "Saltbush Reach",
+   "population": 3100,
+   "real_county": "Pershing County, NV"
   },
   {
    "area": "Sage Plains",

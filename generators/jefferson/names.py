@@ -117,8 +117,24 @@ COUNTY_GEO = {
                           ("Ferris", "Shasta County, CA")],
     "North Range":       [("Windrow", "Lassen County, CA"),
                           ("Lodestone", "Humboldt County, NV"),
-                          ("Galena", "Washoe County, NV")],
+                          ("Galena", "Washoe County, NV"),
+                          ("Scheelite", "Pershing County, NV")],
+    # ── the 2027-08 expansion ────────────────────────────────────────────────
+    # The state map claimed twenty-nine real counties and only twenty carried a
+    # Jefferson county; these are the other nine. Two are fill-ins for areas
+    # that already existed (Scheelite above, Barlowe below); the other seven
+    # are genuinely new country and get two new areas of their own — the
+    # rice-and-orchard valley in the far south, and the gold country in the
+    # northern Sierra.
+    "Vermilion Valley":  [("Kernwood", "Butte County, CA"),
+                          ("Olivet", "Tehama County, CA"),
+                          ("Paddock", "Glenn County, CA"),
+                          ("Bardsley", "Colusa County, CA")],
+    "Mother Lode":       [("Goldbank", "Nevada County, CA"),
+                          ("Featherstone", "Plumas County, CA"),
+                          ("Highgrade", "Sierra County, CA")],
 }
+COUNTY_GEO["Halbrook Basin"].append(("Barlowe", "Payette County, ID"))
 
 # metro/anchor cities pinned to their county (the rest hash into their area's)
 COUNTY_PINS = {

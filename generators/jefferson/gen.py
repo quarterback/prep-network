@@ -45,12 +45,16 @@ TODAY = dt.date(2027, 5, 13)
 RECORDS = ROOT / "records"
 
 # The founding 256 keep their classes; 7A exists only via the expansion roster
-CLASS_TARGETS = {"7A": 0, "6A": 38, "5A": 42, "4A": 44, "3A": 38, "2A": 36, "1A": 58}
-ENROLL = {"7A": (2600, 4300), "6A": (1800, 3200), "5A": (1200, 1799), "4A": (700, 1199),
+CLASS_TARGETS = {"9A": 0, "8A": 0, "7A": 0, "6A": 38, "5A": 42, "4A": 44, "3A": 38, "2A": 36, "1A": 58}
+#: ⚠️ The FOUNDING draw only. Classification is decided afterwards by
+#: app.sports.classify() on the enrollment this produces — these bands stay
+#: as they are because changing them re-deals the founding RNG stream.
+ENROLL = {"9A": (2600, 4300), "8A": (2600, 4300), "7A": (2600, 4300),
+          "6A": (1800, 3200), "5A": (1200, 1799), "4A": (700, 1199),
           "3A": (400, 699), "2A": (220, 399), "1A": (60, 219)}
-OFFER_RANGE = {"7A": (24, 32), "6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
+OFFER_RANGE = {"9A": (24, 32), "8A": (24, 32), "7A": (24, 32), "6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
                "3A": (11, 15), "2A": (8, 12), "1A": (6, 10)}
-POOL = {"7A": 84, "6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
+POOL = {"9A": 84, "8A": 84, "7A": 84, "6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
 
 #: State championship weekend for the MEET sports, by season. These mirror the
 #: bracket sports' finals in ``generators.jefferson.postseason``, so a title
@@ -1273,6 +1277,31 @@ class Gen:
                 self.make_meet(sport, f"JHSAA {group} {sport.name} Championships",
                                "Ashbury", champ_date, sorted(field), champ_date <= TODAY)
 
+    def reclassify(self, records_dir=None):
+        """Put every school on the owner's ladder (2027-08), founding and
+        expansion alike, by its own enrollment.
+
+        A POST-PASS, like the mascots, and for the same reason: classification
+        used to be dealt by quota slice here and stated in a column there, so
+        the two halves of the state ran on different ladders under one set of
+        labels — an expansion "1A" (357-649 students) was bigger than a founding
+        "3A", and a "3A" of 1,399 outweighed a "5A" of 1,209. Deriving it from
+        enrollment is what makes a classification mean one thing. Doing it at
+        emit costs no RNG draw and so cannot move a result.
+        """
+        import json
+        from app.sports import classify
+        for s in self.schools:
+            s["classification"] = classify(s["enrollment"])
+        if records_dir is not None:
+            path = records_dir / "orgs" / "schools.json"
+            if path.exists():
+                doc = json.loads(path.read_text())
+                by = {s["name"]: s["classification"] for s in self.schools}
+                for row in doc["schools"]:
+                    row["classification"] = by.get(row["name"], row["classification"])
+                path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+
     # ---------------------------------------------------------- gazetteer
     def write_gazetteer(self):
         """Counties and populations, derived from the state that exists.
@@ -1310,6 +1339,14 @@ class Gen:
         stated_county = {c: by_county_name[cty]
                          for c, (_pop, cty) in self.expansion_city_data.items()
                          if cty in by_county_name}
+        # ⚠️ Cities published before the county map grew are FROZEN to the county
+        # they were published under. An unpinned city hashes into its area's
+        # county list, so adding a county to an existing area re-deals every
+        # unpinned city in it — the gazetteer, the districts named after a
+        # dominant county and every archived season referencing them would move
+        # at once, for a change that was meant to be purely additive.
+        frozen = json.loads((ROOT / "generators/jefferson/data/county_assignments.json")
+                            .read_text())["cities"]
 
         towns = {}
         for s in self.schools:
@@ -1323,6 +1360,8 @@ class Gen:
             h = zlib.crc32(city.encode())
             if city in stated_county:
                 county, real = stated_county[city]
+            elif city in frozen:
+                county, real = by_county_name[frozen[city]]
             elif city in N.COUNTY_PINS:
                 county, real = next((c, r) for c, r in sum(N.COUNTY_GEO.values(), [])
                                     if c == N.COUNTY_PINS[city])
@@ -1411,14 +1450,21 @@ class Gen:
 
     # ---------------------------------------------------------- expansion
     def load_expansion(self):
-        """The 7A planning roster (owner data, 2027-08): 584 schools, 67
-        conferences, new cities with stated populations and counties. Loaded
+        """The expansion rosters (owner data, 2027-08): the 7A planning file's
+        584 schools and 67 conferences, plus the nine new counties' towns and
+        schools. New cities carry stated populations and counties. Loaded
         AFTER the founding 256 are built and never through the shared RNG —
         everything a new school needs that the file doesn't state is derived
         from a name hash, so the founding state stays byte-stable."""
         import csv
-        path = ROOT / "generators/jefferson/data/expansion_schools.csv"
-        rows = list(csv.DictReader(open(path)))
+        # Two rosters: the 7A planning file, and the nine counties added to the
+        # map in 2027-08 (scripts/build_county_expansion.py). Both load the same
+        # way for the same reason — after the founding RNG stream, never inside it.
+        rows = []
+        for fn in ("expansion_schools.csv", "expansion_counties.csv"):
+            path = ROOT / "generators/jefferson/data" / fn
+            if path.exists():
+                rows += list(csv.DictReader(open(path)))
         confs_new: dict[str, dict] = {}
         for r in rows:
             name = r["school"]
@@ -1522,6 +1568,7 @@ class Gen:
         # frequency curve and the regional tail matter.
         from generators.jefferson import mascots as _mascots
         _mascots.apply(RECORDS)
+        self.reclassify(RECORDS)
         self.write_gazetteer()
         games = sum(1 for c in self.contests if isinstance(c, Game))
         duals = sum(1 for c in self.contests if isinstance(c, Dual))

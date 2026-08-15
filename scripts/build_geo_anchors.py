@@ -69,6 +69,18 @@ SEATS = {
     "Humboldt County, NV":   ("Winnemucca", "NV"),
     "Canyon County, ID":     ("Caldwell", "ID"),
     "Owyhee County, ID":     ("Homedale", "ID"),
+    # the nine counties the state map claimed before a Jefferson county stood
+    # on them (2027-08) — the northern valley, the Mother Lode, and the two
+    # that fill out North Range and the Halbrook Basin
+    "Butte County, CA":      ("Oroville", "CA"),
+    "Tehama County, CA":     ("Red Bluff", "CA"),
+    "Glenn County, CA":      ("Willows", "CA"),
+    "Colusa County, CA":     ("Colusa", "CA"),
+    "Plumas County, CA":     ("Quincy", "CA"),
+    "Sierra County, CA":     ("Loyalton", "CA"),
+    "Nevada County, CA":     ("Nevada City", "CA"),
+    "Pershing County, NV":   ("Lovelock", "NV"),
+    "Payette County, ID":    ("Payette", "ID"),
 }
 
 # GeoNames feature codes to skip. PPLH is a place that no longer exists, which

@@ -39,7 +39,7 @@ BOUNDARY = ROOT / "records/orgs/jefferson_boundary.geojson"
 OUT_SVG = ROOT / "docs/jefferson-map.svg"
 OUT_GEO = ROOT / "records/orgs/jefferson_counties.geojson"
 
-W, H, PAD = 1400, 1340, 34
+W, H, PAD = 1400, 1380, 34
 PAD_L = 150          # coastal towns hang their labels out over the ocean
 LABEL_MIN = 60_000          # cities named on the map
 DOT_MIN, DOT_MAX = 2.2, 17.0
@@ -55,6 +55,8 @@ AREA_COLOR = {
     "Sage Plains":       "#A9752F",
     "Juniper Highlands": "#8C6B4A",
     "North Range":       "#4A5A72",
+    "Vermilion Valley":  "#B0492F",
+    "Mother Lode":       "#8A7B2E",
 }
 UNASSIGNED = "#D8D5CE"
 
@@ -226,14 +228,15 @@ def main() -> int:
                f"{len(cities)} cities and towns · {len([f for f in counties if f['properties']['county']])} "
                f"counties · 10 areas · every position a real place's coordinates</text>")
     for i, (a, col) in enumerate(AREA_COLOR.items()):
-        cx = PAD + (i % 5) * 255
-        cy = ly + (i // 5) * 26
+        cx = PAD + (i % 4) * 300
+        cy = ly + (i // 4) * 26
         svg.append(f"<circle cx='{cx + 6}' cy='{cy}' r='6' fill='{col}'/>"
                    f"<text x='{cx + 18}' y='{cy + 4}' font-size='13' fill='#3A3630'>{a}</text>")
     unass = [f["properties"]["real_county"] for f in counties if not f["properties"]["county"]]
-    svg.append(f"<circle cx='{PAD + 6}' cy='{ly + 60}' r='6' fill='{UNASSIGNED}' "
+    if unass:
+      svg.append(f"<circle cx='{PAD + 6}' cy='{ly + 86}' r='6' fill='{UNASSIGNED}' "
                f"stroke='#B5B1A9'/>"
-               f"<text x='{PAD + 18}' y='{ly + 64}' font-size='12.5' fill='#77726A'>"
+               f"<text x='{PAD + 18}' y='{ly + 90}' font-size='12.5' fill='#77726A'>"
                f"claimed ground with no Jefferson county drawn on it yet — "
                f"{', '.join(u.split(' County')[0] for u in unass)}</text>")
     svg.append("</svg>")
