@@ -1277,6 +1277,69 @@ class Gen:
                 self.make_meet(sport, f"JHSAA {group} {sport.name} Championships",
                                "Ashbury", champ_date, sorted(field), champ_date <= TODAY)
 
+    def split_oversize(self):
+        """No school is larger than sports.MAX_ENROLLMENT (owner rule 2027-08).
+
+        A district does not let one high school reach 3,000 — it opens another
+        and splits the attendance area, which is why the state is full of
+        "<Town> East" and "<Town> West". So an oversize school BECOMES two (or
+        more), sharing its town, its league and its activities, rather than
+        having its enrollment quietly rescaled: the students are real either
+        way, and rescaling would have shrunk a city's schools instead of giving
+        it the schools a city that size actually has.
+
+        A post-pass, like the mascots and the ladder, so it costs no RNG draw.
+        Directions are tried in pairs and the first pair whose names are all
+        free wins — many of these schools are already "<Town> East", and
+        "<Town> East East" is not a school.
+        """
+        from app.sports import MAX_ENROLLMENT
+        pairs = [("East", "West"), ("North", "South"),
+                 ("Northeast", "Southwest"), ("Northwest", "Southeast")]
+        out, made = [], 0
+        for s in self.schools:
+            if s["enrollment"] <= MAX_ENROLLMENT:
+                out.append(s)
+                continue
+            n = -(-s["enrollment"] // MAX_ENROLLMENT)          # ceil
+            # never append a direction the name already ends in: half of these
+            # are "<Town> East" already, and "Ashbury East East" is not a school
+            last = s["name"].rsplit(" ", 1)[-1]
+            free = [d for pair in pairs for d in pair if d != last]
+            names = None
+            for i in range(len(free) - n + 1):
+                cand = [f"{s['name']} {d}" for d in free[i:i + n]]
+                if not any(c.lower() in self.used_schools for c in cand):
+                    names = cand
+                    break
+            if names is None:                                  # nothing free
+                out.append(s)
+                continue
+            # The parts do NOT have to sum to the parent — enrollment is
+            # fictional (owner, 2027-08), and a district that splits a school
+            # is not conserving a headcount, it is building two normal schools.
+            # Sized off each part's own name hash so it is stable and the
+            # results spread instead of piling on one figure.
+            base = s["enrollment"] / n
+            for nm in names:
+                part = dict(s)
+                part["name"] = nm
+                h = zlib.crc32(nm.encode())
+                part["enrollment"] = max(
+                    120, min(MAX_ENROLLMENT,
+                             int(base * (0.72 + (h % 1000) / 1000 * 0.5))))
+                self.used_schools.add(nm.lower())
+                self.by_name[nm] = part
+                out.append(part)
+                made += 1
+            self.by_name.pop(s["name"], None)
+            for c in self.confs:
+                if s["name"] in c.get("members", []):
+                    c["members"].remove(s["name"])
+                    c["members"].extend(names)
+        self.schools = out
+        print(f"  split {made // 2} oversize schools into {made}")
+
     def reclassify(self, records_dir=None):
         """Put every school on the owner's ladder (2027-08), founding and
         expansion alike, by its own enrollment.
@@ -1568,6 +1631,7 @@ class Gen:
         # frequency curve and the regional tail matter.
         from generators.jefferson import mascots as _mascots
         _mascots.apply(RECORDS)
+        self.split_oversize()
         self.reclassify(RECORDS)
         self.write_gazetteer()
         games = sum(1 for c in self.contests if isinstance(c, Game))

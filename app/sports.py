@@ -38,6 +38,12 @@ BANDS = [("9A", 2200, None), ("8A", 1700, 2199), ("7A", 1350, 1699),
          ("3A",  350,  549), ("2A",  200,  349), ("1A",    0,  199)]
 
 
+#: Hard ceiling on a single school (owner rule 2027-08). No school in the state
+#: is larger than this; a district that would exceed it opens another school and
+#: splits the attendance area instead — see Gen.split_oversize.
+MAX_ENROLLMENT = 2613
+
+
 def classify(enrollment: int) -> str:
     """The class an enrollment falls in. One ladder, one answer, everywhere."""
     for cls, lo, hi in BANDS:
