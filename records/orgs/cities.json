@@ -79,7 +79,7 @@
    "lat": 42.9273,
    "lon": -123.2812,
    "name": "Kendrickville",
-   "population": 11600,
+   "population": 9000,
    "real_county": "Douglas County, OR"
   },
   {
@@ -88,7 +88,7 @@
    "lat": 43.3015,
    "lon": -123.1012,
    "name": "Gold Hollow",
-   "population": 10500,
+   "population": 5800,
    "real_county": "Douglas County, OR"
   },
   {
@@ -97,7 +97,7 @@
    "lat": 42.9509,
    "lon": -123.3642,
    "name": "Ashwood",
-   "population": 9000,
+   "population": 5700,
    "real_county": "Douglas County, OR"
   },
   {
@@ -105,8 +105,8 @@
    "county": "Antler",
    "lat": 43.6587,
    "lon": -123.3187,
-   "name": "Purcell Crossing",
-   "population": 8700,
+   "name": "Bidwell",
+   "population": 5300,
    "real_county": "Douglas County, OR"
   },
   {
@@ -114,8 +114,8 @@
    "county": "Antler",
    "lat": 43.5984,
    "lon": -123.2834,
-   "name": "Harmon",
-   "population": 7300,
+   "name": "Purcell Crossing",
+   "population": 5200,
    "real_county": "Douglas County, OR"
   },
   {
@@ -123,8 +123,8 @@
    "county": "Antler",
    "lat": 43.4221,
    "lon": -123.2984,
-   "name": "Huckle Glen",
-   "population": 6600,
+   "name": "Harmon",
+   "population": 4800,
    "real_county": "Douglas County, OR"
   },
   {
@@ -132,8 +132,8 @@
    "county": "Antler",
    "lat": 42.7362,
    "lon": -123.4234,
-   "name": "Salmonberry Glen",
-   "population": 6100,
+   "name": "Ransoms Landing",
+   "population": 4600,
    "real_county": "Douglas County, OR"
   },
   {
@@ -141,8 +141,8 @@
    "county": "Antler",
    "lat": 43.1784,
    "lon": -123.4862,
-   "name": "Cinder",
-   "population": 5900,
+   "name": "Harmon Siding",
+   "population": 4000,
    "real_county": "Douglas County, OR"
   },
   {
@@ -150,8 +150,8 @@
    "county": "Antler",
    "lat": 43.2476,
    "lon": -123.459,
-   "name": "Ansotegui",
-   "population": 5800,
+   "name": "Pine Siding",
+   "population": 4000,
    "real_county": "Douglas County, OR"
   },
   {
@@ -159,8 +159,8 @@
    "county": "Antler",
    "lat": 43.1029,
    "lon": -123.4279,
-   "name": "Camas Crossing",
-   "population": 5100,
+   "name": "Bidwell City",
+   "population": 3900,
    "real_county": "Douglas County, OR"
   },
   {
@@ -168,8 +168,8 @@
    "county": "Antler",
    "lat": 43.6771,
    "lon": -124.1748,
-   "name": "Manzanita Junction",
-   "population": 5100,
+   "name": "Huckle Glen",
+   "population": 3900,
    "real_county": "Douglas County, OR"
   },
   {
@@ -177,8 +177,8 @@
    "county": "Antler",
    "lat": 43.4173,
    "lon": -123.2134,
-   "name": "Harmon Siding",
-   "population": 5000,
+   "name": "Pellmont",
+   "population": 3900,
    "real_county": "Douglas County, OR"
   },
   {
@@ -186,8 +186,8 @@
    "county": "Antler",
    "lat": 42.9723,
    "lon": -123.1723,
-   "name": "Alderwell",
-   "population": 4900,
+   "name": "Salmonberry Glen",
+   "population": 3700,
    "real_county": "Douglas County, OR"
   },
   {
@@ -195,8 +195,8 @@
    "county": "Antler",
    "lat": 43.7301,
    "lon": -124.1104,
-   "name": "Pine Siding",
-   "population": 4800,
+   "name": "Alderwell",
+   "population": 3500,
    "real_county": "Douglas County, OR"
   },
   {
@@ -204,8 +204,8 @@
    "county": "Antler",
    "lat": 43.6376,
    "lon": -123.5682,
-   "name": "Ransoms Landing",
-   "population": 4700,
+   "name": "Whistle Stop",
+   "population": 3300,
    "real_county": "Douglas County, OR"
   },
   {
@@ -213,8 +213,8 @@
    "county": "Antler",
    "lat": 43.3654,
    "lon": -123.4684,
-   "name": "Whistle Stop",
-   "population": 4600,
+   "name": "Winvale",
+   "population": 3100,
    "real_county": "Douglas County, OR"
   },
   {
@@ -222,8 +222,8 @@
    "county": "Antler",
    "lat": 43.7109,
    "lon": -123.2237,
-   "name": "Bidwell",
-   "population": 4500,
+   "name": "Camas Crossing",
+   "population": 2800,
    "real_county": "Douglas County, OR"
   },
   {
@@ -231,8 +231,8 @@
    "county": "Antler",
    "lat": 43.5523,
    "lon": -123.8218,
-   "name": "Flume",
-   "population": 3600,
+   "name": "Manzanita Junction",
+   "population": 2800,
    "real_county": "Douglas County, OR"
   },
   {
@@ -240,8 +240,8 @@
    "county": "Antler",
    "lat": 42.7954,
    "lon": -123.2603,
-   "name": "Pellmont",
-   "population": 3300,
+   "name": "Ansotegui",
+   "population": 2500,
    "real_county": "Douglas County, OR"
   },
   {
@@ -249,8 +249,8 @@
    "county": "Antler",
    "lat": 43.109,
    "lon": -123.4553,
-   "name": "Harmons Landing",
-   "population": 2700,
+   "name": "Cinder",
+   "population": 2400,
    "real_county": "Douglas County, OR"
   },
   {
@@ -258,8 +258,8 @@
    "county": "Antler",
    "lat": 43.2215,
    "lon": -123.4087,
-   "name": "Winvale",
-   "population": 2200,
+   "name": "Harmons Landing",
+   "population": 2400,
    "real_county": "Douglas County, OR"
   },
   {
@@ -267,8 +267,8 @@
    "county": "Antler",
    "lat": 43.2659,
    "lon": -123.6098,
-   "name": "Aspen Spur",
-   "population": 2100,
+   "name": "Flume",
+   "population": 2000,
    "real_county": "Douglas County, OR"
   },
   {
@@ -276,7 +276,7 @@
    "county": "Antler",
    "lat": 43.0343,
    "lon": -123.674,
-   "name": "Bidwell City",
+   "name": "Aspen Spur",
    "population": 1400,
    "real_county": "Douglas County, OR"
   },
@@ -466,7 +466,7 @@
    "lat": 43.3559,
    "lon": -124.2048,
    "name": "Rimrock",
-   "population": 6100,
+   "population": 5500,
    "real_county": "Coos County, OR"
   },
   {
@@ -565,7 +565,7 @@
    "lat": 41.3102,
    "lon": -122.3123,
    "name": "Draybrook",
-   "population": 8300,
+   "population": 5600,
    "real_county": "Siskiyou County, CA"
   },
   {
@@ -573,8 +573,8 @@
    "county": "Cinder",
    "lat": 41.4226,
    "lon": -122.3861,
-   "name": "Naylor City",
-   "population": 5900,
+   "name": "Ashstead",
+   "population": 3900,
    "real_county": "Siskiyou County, CA"
   },
   {
@@ -582,8 +582,8 @@
    "county": "Cinder",
    "lat": 41.2082,
    "lon": -122.272,
-   "name": "Huckle Lake",
-   "population": 3600,
+   "name": "Naylor City",
+   "population": 2500,
    "real_county": "Siskiyou County, CA"
   },
   {
@@ -591,8 +591,8 @@
    "county": "Cinder",
    "lat": 41.7282,
    "lon": -122.5278,
-   "name": "Sage Spur",
-   "population": 3500,
+   "name": "Huckle Lake",
+   "population": 1700,
    "real_county": "Siskiyou County, CA"
   },
   {
@@ -600,8 +600,8 @@
    "county": "Cinder",
    "lat": 41.7927,
    "lon": -123.3808,
-   "name": "Ashstead",
-   "population": 2100,
+   "name": "Sage Spur",
+   "population": 1400,
    "real_county": "Siskiyou County, CA"
   },
   {
@@ -663,24 +663,6 @@
    "county": "Emigrant",
    "lat": 43.8066,
    "lon": -118.3774,
-   "name": "Ulery Junction",
-   "population": 12400,
-   "real_county": "Harney County, OR"
-  },
-  {
-   "area": "Sage Plains",
-   "county": "Emigrant",
-   "lat": 43.4321,
-   "lon": -118.2619,
-   "name": "Lodestone",
-   "population": 10200,
-   "real_county": "Harney County, OR"
-  },
-  {
-   "area": "Sage Plains",
-   "county": "Emigrant",
-   "lat": 42.2643,
-   "lon": -118.6752,
    "name": "San Vito",
    "population": 10000,
    "real_county": "Harney County, OR"
@@ -688,17 +670,8 @@
   {
    "area": "Sage Plains",
    "county": "Emigrant",
-   "lat": 42.8268,
-   "lon": -118.9155,
-   "name": "Elmfield",
-   "population": 8300,
-   "real_county": "Harney County, OR"
-  },
-  {
-   "area": "Sage Plains",
-   "county": "Emigrant",
-   "lat": 44.0307,
-   "lon": -118.6377,
+   "lat": 43.4321,
+   "lon": -118.2619,
    "name": "Diamante",
    "population": 8000,
    "real_county": "Harney County, OR"
@@ -706,8 +679,17 @@
   {
    "area": "Sage Plains",
    "county": "Emigrant",
-   "lat": 43.6432,
-   "lon": -118.8227,
+   "lat": 42.2643,
+   "lon": -118.6752,
+   "name": "Kelview",
+   "population": 6100,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "lat": 42.8268,
+   "lon": -118.9155,
    "name": "Wheatley",
    "population": 6000,
    "real_county": "Harney County, OR"
@@ -715,17 +697,17 @@
   {
    "area": "Sage Plains",
    "county": "Emigrant",
-   "lat": 43.5849,
-   "lon": -119.0786,
-   "name": "Kelview",
+   "lat": 44.0307,
+   "lon": -118.6377,
+   "name": "Ulery Junction",
    "population": 5800,
    "real_county": "Harney County, OR"
   },
   {
    "area": "Sage Plains",
    "county": "Emigrant",
-   "lat": 43.4429,
-   "lon": -118.801,
+   "lat": 43.6432,
+   "lon": -118.8227,
    "name": "Agate",
    "population": 5000,
    "real_county": "Harney County, OR"
@@ -733,10 +715,28 @@
   {
    "area": "Sage Plains",
    "county": "Emigrant",
+   "lat": 43.5849,
+   "lon": -119.0786,
+   "name": "Lodestone",
+   "population": 5000,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
+   "lat": 43.4429,
+   "lon": -118.801,
+   "name": "Elmfield",
+   "population": 4300,
+   "real_county": "Harney County, OR"
+  },
+  {
+   "area": "Sage Plains",
+   "county": "Emigrant",
    "lat": 42.0476,
    "lon": -118.8013,
-   "name": "Sage Meadows",
-   "population": 4400,
+   "name": "Yandell City",
+   "population": 4000,
    "real_county": "Harney County, OR"
   },
   {
@@ -744,8 +744,8 @@
    "county": "Emigrant",
    "lat": 43.279,
    "lon": -118.9621,
-   "name": "Yandell City",
-   "population": 4100,
+   "name": "Ashbrook",
+   "population": 3900,
    "real_county": "Harney County, OR"
   },
   {
@@ -753,8 +753,8 @@
    "county": "Emigrant",
    "lat": 43.2829,
    "lon": -118.5827,
-   "name": "Millview",
-   "population": 3500,
+   "name": "Sage Meadows",
+   "population": 2800,
    "real_county": "Harney County, OR"
   },
   {
@@ -762,8 +762,8 @@
    "county": "Emigrant",
    "lat": 43.5415,
    "lon": -119.5038,
-   "name": "Ninemile",
-   "population": 2000,
+   "name": "Millview",
+   "population": 2400,
    "real_county": "Harney County, OR"
   },
   {
@@ -771,8 +771,8 @@
    "county": "Emigrant",
    "lat": 43.5907,
    "lon": -119.6302,
-   "name": "Ashbrook",
-   "population": 1900,
+   "name": "Ninemile",
+   "population": 2100,
    "real_county": "Harney County, OR"
   },
   {
@@ -1014,8 +1014,8 @@
    "county": "Ferris",
    "lat": 40.794,
    "lon": -121.9419,
-   "name": "Hawk Bar",
-   "population": 10500,
+   "name": "Velasco",
+   "population": 8000,
    "real_county": "Shasta County, CA"
   },
   {
@@ -1024,7 +1024,7 @@
    "lat": 41.0207,
    "lon": -121.9111,
    "name": "High Bar",
-   "population": 9100,
+   "population": 6800,
    "real_county": "Shasta County, CA"
   },
   {
@@ -1032,8 +1032,8 @@
    "county": "Ferris",
    "lat": 40.6752,
    "lon": -121.4308,
-   "name": "Velasco",
-   "population": 8000,
+   "name": "Hawk Bar",
+   "population": 6400,
    "real_county": "Shasta County, CA"
   },
   {
@@ -1051,7 +1051,7 @@
    "lat": 40.8954,
    "lon": -122.3711,
    "name": "Ansoteguiville",
-   "population": 4100,
+   "population": 4000,
    "real_county": "Shasta County, CA"
   },
   {
@@ -1060,7 +1060,7 @@
    "lat": 40.4186,
    "lon": -122.1953,
    "name": "Basalt Fork",
-   "population": 3800,
+   "population": 3400,
    "real_county": "Shasta County, CA"
   },
   {
@@ -1078,7 +1078,7 @@
    "lat": 39.5349,
    "lon": -119.7527,
    "name": "Norford",
-   "population": 11100,
+   "population": 6800,
    "real_county": "Washoe County, NV"
   },
   {
@@ -1087,7 +1087,7 @@
    "lat": 39.5963,
    "lon": -119.776,
    "name": "Norstead",
-   "population": 5400,
+   "population": 5300,
    "real_county": "Washoe County, NV"
   },
   {
@@ -1095,15 +1095,6 @@
    "county": "Galena",
    "lat": 39.6491,
    "lon": -119.7074,
-   "name": "Farleyford",
-   "population": 5300,
-   "real_county": "Washoe County, NV"
-  },
-  {
-   "area": "North Range",
-   "county": "Galena",
-   "lat": 39.2513,
-   "lon": -119.973,
    "name": "Ferris",
    "population": 4100,
    "real_county": "Washoe County, NV"
@@ -1111,10 +1102,19 @@
   {
    "area": "North Range",
    "county": "Galena",
+   "lat": 39.2513,
+   "lon": -119.973,
+   "name": "Huckle Butte",
+   "population": 3600,
+   "real_county": "Washoe County, NV"
+  },
+  {
+   "area": "North Range",
+   "county": "Galena",
    "lat": 39.6802,
    "lon": -119.9766,
-   "name": "Mabryville",
-   "population": 3700,
+   "name": "Farleyford",
+   "population": 3300,
    "real_county": "Washoe County, NV"
   },
   {
@@ -1122,8 +1122,8 @@
    "county": "Galena",
    "lat": 39.636,
    "lon": -119.8432,
-   "name": "Huckle Butte",
-   "population": 3100,
+   "name": "Windrow",
+   "population": 2700,
    "real_county": "Washoe County, NV"
   },
   {
@@ -1131,8 +1131,8 @@
    "county": "Galena",
    "lat": 39.6155,
    "lon": -119.8266,
-   "name": "Windrow",
-   "population": 2800,
+   "name": "Mabryville",
+   "population": 1800,
    "real_county": "Washoe County, NV"
   },
   {
@@ -1411,7 +1411,7 @@
    "lat": 41.5291,
    "lon": -120.1733,
    "name": "Sage Point",
-   "population": 11100,
+   "population": 7200,
    "real_county": "Modoc County, CA"
   },
   {
@@ -1419,8 +1419,8 @@
    "county": "Juniper",
    "lat": 41.8882,
    "lon": -121.3722,
-   "name": "Gold Junction",
-   "population": 10400,
+   "name": "Elmburg",
+   "population": 6400,
    "real_county": "Modoc County, CA"
   },
   {
@@ -1429,7 +1429,7 @@
    "lat": 41.4438,
    "lon": -120.8702,
    "name": "Elk Spur",
-   "population": 7000,
+   "population": 4400,
    "real_county": "Modoc County, CA"
   },
   {
@@ -1437,8 +1437,8 @@
    "county": "Juniper",
    "lat": 41.1938,
    "lon": -120.9452,
-   "name": "Thornford",
-   "population": 6700,
+   "name": "Gold Junction",
+   "population": 4400,
    "real_county": "Modoc County, CA"
   },
   {
@@ -1446,8 +1446,8 @@
    "county": "Juniper",
    "lat": 41.5091,
    "lon": -120.545,
-   "name": "Elmburg",
-   "population": 6200,
+   "name": "Farleymere",
+   "population": 3700,
    "real_county": "Modoc County, CA"
   },
   {
@@ -1455,8 +1455,8 @@
    "county": "Juniper",
    "lat": 41.8605,
    "lon": -120.1513,
-   "name": "Farleymere",
-   "population": 4700,
+   "name": "Thornford",
+   "population": 2800,
    "real_county": "Modoc County, CA"
   },
   {
@@ -1464,8 +1464,8 @@
    "county": "Juniper",
    "lat": 41.9927,
    "lon": -120.2972,
-   "name": "Silvale",
-   "population": 2800,
+   "name": "Clear Prairie",
+   "population": 2400,
    "real_county": "Modoc County, CA"
   },
   {
@@ -1473,7 +1473,7 @@
    "county": "Juniper",
    "lat": 41.2079,
    "lon": -121.1552,
-   "name": "Clear Prairie",
+   "name": "Silvale",
    "population": 2000,
    "real_county": "Modoc County, CA"
   },
@@ -1617,8 +1617,8 @@
    "county": "Lodestone",
    "lat": 40.9532,
    "lon": -117.4893,
-   "name": "Etchart",
-   "population": 10000,
+   "name": "Wellers Landing",
+   "population": 5500,
    "real_county": "Humboldt County, NV"
   },
   {
@@ -1626,8 +1626,8 @@
    "county": "Lodestone",
    "lat": 41.9974,
    "lon": -117.7182,
-   "name": "Wellers Landing",
-   "population": 8900,
+   "name": "Etchart",
+   "population": 4600,
    "real_county": "Humboldt County, NV"
   },
   {
@@ -1636,7 +1636,7 @@
    "lat": 41.5699,
    "lon": -117.7854,
    "name": "Copper Bar",
-   "population": 8700,
+   "population": 4500,
    "real_county": "Humboldt County, NV"
   },
   {
@@ -1645,7 +1645,7 @@
    "lat": 41.4935,
    "lon": -117.5346,
    "name": "Pellburg",
-   "population": 5800,
+   "population": 3600,
    "real_county": "Humboldt County, NV"
   },
   {
@@ -1861,7 +1861,7 @@
    "lat": 41.7559,
    "lon": -124.2018,
    "name": "Mesa Dorada",
-   "population": 11500,
+   "population": 9400,
    "real_county": "Del Norte County, CA"
   },
   {
@@ -1870,7 +1870,7 @@
    "lat": 41.7525,
    "lon": -124.1587,
    "name": "Quarmont",
-   "population": 11200,
+   "population": 7500,
    "real_county": "Del Norte County, CA"
   },
   {
@@ -1879,7 +1879,7 @@
    "lat": 41.8679,
    "lon": -124.149,
    "name": "Tindall Spur",
-   "population": 10300,
+   "population": 6000,
    "real_county": "Del Norte County, CA"
   },
   {
@@ -1888,7 +1888,7 @@
    "lat": 41.9282,
    "lon": -124.147,
    "name": "Halfway House",
-   "population": 5000,
+   "population": 4900,
    "real_county": "Del Norte County, CA"
   },
   {
@@ -1896,8 +1896,8 @@
    "county": "Ostrander",
    "lat": 41.5265,
    "lon": -124.0384,
-   "name": "Elk Prairie",
-   "population": 4800,
+   "name": "Ashfield",
+   "population": 3800,
    "real_county": "Del Norte County, CA"
   },
   {
@@ -1905,8 +1905,8 @@
    "county": "Ostrander",
    "lat": 41.8454,
    "lon": -123.9695,
-   "name": "Ashfield",
-   "population": 3500,
+   "name": "Elk Prairie",
+   "population": 2300,
    "real_county": "Del Norte County, CA"
   },
   {
@@ -2085,8 +2085,8 @@
    "county": "Rimrock",
    "lat": 42.1863,
    "lon": -120.4341,
-   "name": "Camas Landing",
-   "population": 10100,
+   "name": "Trout Lake",
+   "population": 6800,
    "real_county": "Lake County, OR"
   },
   {
@@ -2094,8 +2094,8 @@
    "county": "Rimrock",
    "lat": 43.3565,
    "lon": -121.0539,
-   "name": "Trout Lake",
-   "population": 6900,
+   "name": "Camas Landing",
+   "population": 6200,
    "real_county": "Lake County, OR"
   },
   {
@@ -2103,7 +2103,7 @@
    "county": "Rimrock",
    "lat": 42.3224,
    "lon": -120.8155,
-   "name": "Silton",
+   "name": "Stovepipe",
    "population": 2700,
    "real_county": "Lake County, OR"
   },
@@ -2112,8 +2112,8 @@
    "county": "Rimrock",
    "lat": 42.9729,
    "lon": -120.7775,
-   "name": "Stovepipe",
-   "population": 2000,
+   "name": "Silton",
+   "population": 1400,
    "real_county": "Lake County, OR"
   },
   {
@@ -2184,8 +2184,8 @@
    "county": "Sablewood",
    "lat": 40.809,
    "lon": -123.4742,
-   "name": "Sage Springs",
-   "population": 11500,
+   "name": "Pasquale",
+   "population": 10000,
    "real_county": "Trinity County, CA"
   },
   {
@@ -2193,7 +2193,7 @@
    "county": "Sablewood",
    "lat": 40.9832,
    "lon": -122.6997,
-   "name": "Pasquale",
+   "name": "Porterfield",
    "population": 10000,
    "real_county": "Trinity County, CA"
   },
@@ -2202,8 +2202,8 @@
    "county": "Sablewood",
    "lat": 40.6174,
    "lon": -123.4525,
-   "name": "Porterfield",
-   "population": 10000,
+   "name": "Sage Springs",
+   "population": 7300,
    "real_county": "Trinity County, CA"
   },
   {
@@ -2212,7 +2212,7 @@
    "lat": 41.089,
    "lon": -122.7089,
    "name": "Copper Prairie",
-   "population": 5000,
+   "population": 4700,
    "real_county": "Trinity County, CA"
   },
   {
@@ -2329,7 +2329,7 @@
    "lat": 40.7726,
    "lon": -124.1839,
    "name": "Ransom Spur",
-   "population": 9000,
+   "population": 6200,
    "real_county": "Humboldt County, CA"
   },
   {
@@ -2337,8 +2337,8 @@
    "county": "San Marcos",
    "lat": 40.9396,
    "lon": -123.6314,
-   "name": "Puerto Alma",
-   "population": 8300,
+   "name": "Camas Ridge",
+   "population": 5900,
    "real_county": "Humboldt County, CA"
   },
   {
@@ -2346,15 +2346,6 @@
    "county": "San Marcos",
    "lat": 40.5762,
    "lon": -124.2639,
-   "name": "Camas Ridge",
-   "population": 6200,
-   "real_county": "Humboldt County, CA"
-  },
-  {
-   "area": "South Coast",
-   "county": "San Marcos",
-   "lat": 40.8829,
-   "lon": -123.9839,
    "name": "San Benicio",
    "population": 5000,
    "real_county": "Humboldt County, CA"
@@ -2362,10 +2353,19 @@
   {
    "area": "South Coast",
    "county": "San Marcos",
+   "lat": 40.8829,
+   "lon": -123.9839,
+   "name": "Puerto Alma",
+   "population": 3800,
+   "real_county": "Humboldt County, CA"
+  },
+  {
+   "area": "South Coast",
+   "county": "San Marcos",
    "lat": 40.5476,
    "lon": -124.0973,
-   "name": "San Aurelio",
-   "population": 3700,
+   "name": "Alder Flat",
+   "population": 2500,
    "real_county": "Humboldt County, CA"
   },
   {
@@ -2373,8 +2373,8 @@
    "county": "San Marcos",
    "lat": 40.1201,
    "lon": -123.8234,
-   "name": "Alder Flat",
-   "population": 3600,
+   "name": "San Aurelio",
+   "population": 2000,
    "real_county": "Humboldt County, CA"
   },
   {
@@ -2464,7 +2464,7 @@
    "lat": 42.974,
    "lon": -117.0543,
    "name": "Naylors Landing",
-   "population": 8000,
+   "population": 6200,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2473,7 +2473,7 @@
    "lat": 43.7407,
    "lon": -117.0718,
    "name": "Milldale",
-   "population": 6100,
+   "population": 4800,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2482,7 +2482,7 @@
    "lat": 43.8632,
    "lon": -117.6099,
    "name": "Mabry",
-   "population": 5700,
+   "population": 4700,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2490,8 +2490,8 @@
    "county": "Stagewater",
    "lat": 44.2463,
    "lon": -117.5171,
-   "name": "Stone Meadows",
-   "population": 5200,
+   "name": "Trout Point",
+   "population": 4700,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2499,8 +2499,8 @@
    "county": "Stagewater",
    "lat": 43.7446,
    "lon": -118.0796,
-   "name": "Trout Point",
-   "population": 5000,
+   "name": "Silver Junction",
+   "population": 4500,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2508,8 +2508,8 @@
    "county": "Stagewater",
    "lat": 43.9243,
    "lon": -116.9854,
-   "name": "Kendricks Landing",
-   "population": 4700,
+   "name": "Antler Prairie",
+   "population": 4000,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2517,8 +2517,8 @@
    "county": "Stagewater",
    "lat": 42.914,
    "lon": -117.5251,
-   "name": "Silver Junction",
-   "population": 3000,
+   "name": "Sixes",
+   "population": 3300,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2526,8 +2526,8 @@
    "county": "Stagewater",
    "lat": 42.4107,
    "lon": -117.8685,
-   "name": "Sage Junction",
-   "population": 2500,
+   "name": "Basalt Prairie",
+   "population": 3000,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2535,8 +2535,8 @@
    "county": "Stagewater",
    "lat": 43.9066,
    "lon": -118.1527,
-   "name": "Basalt Prairie",
-   "population": 2400,
+   "name": "Kendricks Landing",
+   "population": 3000,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2544,8 +2544,8 @@
    "county": "Stagewater",
    "lat": 44.2524,
    "lon": -117.8338,
-   "name": "Antler Prairie",
-   "population": 2300,
+   "name": "Sage Junction",
+   "population": 2400,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2553,8 +2553,8 @@
    "county": "Stagewater",
    "lat": 43.996,
    "lon": -117.0091,
-   "name": "Sixes",
-   "population": 2000,
+   "name": "Stone Meadows",
+   "population": 2400,
    "real_county": "Malheur County, OR"
   },
   {
@@ -2644,7 +2644,7 @@
    "lat": 42.3976,
    "lon": -121.0417,
    "name": "Ransom",
-   "population": 9300,
+   "population": 5200,
    "real_county": "Klamath County, OR"
   },
   {
@@ -2653,7 +2653,7 @@
    "lat": 43.2165,
    "lon": -121.7828,
    "name": "Tamarack Springs",
-   "population": 6900,
+   "population": 5100,
    "real_county": "Klamath County, OR"
   },
   {
@@ -2661,7 +2661,7 @@
    "county": "Tamarack",
    "lat": 43.4624,
    "lon": -121.6956,
-   "name": "Yarmere",
+   "name": "Juniper Bar",
    "population": 4600,
    "real_county": "Klamath County, OR"
   },
@@ -2670,8 +2670,8 @@
    "county": "Tamarack",
    "lat": 43.4976,
    "lon": -121.9527,
-   "name": "Brackwood",
-   "population": 3400,
+   "name": "Alderfield",
+   "population": 4400,
    "real_county": "Klamath County, OR"
   },
   {
@@ -2688,8 +2688,8 @@
    "county": "Tamarack",
    "lat": 42.1832,
    "lon": -121.8231,
-   "name": "Alderfield",
-   "population": 2900,
+   "name": "Ransom City",
+   "population": 3100,
    "real_county": "Klamath County, OR"
   },
   {
@@ -2697,8 +2697,8 @@
    "county": "Tamarack",
    "lat": 42.1374,
    "lon": -121.7567,
-   "name": "Ransom City",
-   "population": 2900,
+   "name": "Brackwood",
+   "population": 3000,
    "real_county": "Klamath County, OR"
   },
   {
@@ -2706,8 +2706,8 @@
    "county": "Tamarack",
    "lat": 42.7046,
    "lon": -121.9959,
-   "name": "Juniper Bar",
-   "population": 2300,
+   "name": "Yarmere",
+   "population": 1600,
    "real_county": "Klamath County, OR"
   },
   {
@@ -2716,7 +2716,7 @@
    "lat": 43.4771,
    "lon": -121.6853,
    "name": "Alderton",
-   "population": 2000,
+   "population": 1500,
    "real_county": "Klamath County, OR"
   },
   {
@@ -2958,8 +2958,8 @@
    "county": "Weller",
    "lat": 42.5565,
    "lon": -124.069,
-   "name": "Garrity",
-   "population": 9800,
+   "name": "Bah\u00eda Az\u00fal",
+   "population": 7000,
    "real_county": "Curry County, OR"
   },
   {
@@ -2968,7 +2968,7 @@
    "lat": 42.4665,
    "lon": -124.3679,
    "name": "Aldermont",
-   "population": 7500,
+   "population": 5700,
    "real_county": "Curry County, OR"
   },
   {
@@ -2976,8 +2976,8 @@
    "county": "Weller",
    "lat": 42.2201,
    "lon": -124.3396,
-   "name": "Bah\u00eda Az\u00fal",
-   "population": 7000,
+   "name": "Garrity",
+   "population": 4600,
    "real_county": "Curry County, OR"
   },
   {
@@ -2985,8 +2985,8 @@
    "county": "Weller",
    "lat": 42.8907,
    "lon": -124.4626,
-   "name": "Pellford",
-   "population": 5700,
+   "name": "Granite Bar",
+   "population": 3600,
    "real_county": "Curry County, OR"
   },
   {
@@ -2994,8 +2994,8 @@
    "county": "Weller",
    "lat": 42.3873,
    "lon": -124.4179,
-   "name": "Wickbrook",
-   "population": 4400,
+   "name": "Pellford",
+   "population": 2600,
    "real_county": "Curry County, OR"
   },
   {
@@ -3003,8 +3003,8 @@
    "county": "Weller",
    "lat": 42.6287,
    "lon": -124.0576,
-   "name": "Granite Bar",
-   "population": 2500,
+   "name": "Wickbrook",
+   "population": 2000,
    "real_county": "Curry County, OR"
   },
   {
@@ -3039,8 +3039,8 @@
    "county": "Windrow",
    "lat": 40.3843,
    "lon": -120.5875,
-   "name": "Cutbank",
-   "population": 8600,
+   "name": "Aspen Harbor",
+   "population": 5000,
    "real_county": "Lassen County, CA"
   },
   {
@@ -3048,8 +3048,8 @@
    "county": "Windrow",
    "lat": 40.141,
    "lon": -120.1549,
-   "name": "Aspen Harbor",
-   "population": 7000,
+   "name": "Cutbank",
+   "population": 4800,
    "real_county": "Lassen County, CA"
   },
   {
@@ -3057,8 +3057,8 @@
    "county": "Windrow",
    "lat": 40.028,
    "lon": -120.1038,
-   "name": "Placer",
-   "population": 4200,
+   "name": "Doyleville",
+   "population": 4500,
    "real_county": "Lassen County, CA"
   },
   {
@@ -3066,7 +3066,7 @@
    "county": "Windrow",
    "lat": 41.1213,
    "lon": -121.1441,
-   "name": "Assay",
+   "name": "Sage Lake",
    "population": 3200,
    "real_county": "Lassen County, CA"
   },
@@ -3075,8 +3075,8 @@
    "county": "Windrow",
    "lat": 40.1435,
    "lon": -120.1346,
-   "name": "Sage Lake",
-   "population": 3200,
+   "name": "Assay",
+   "population": 2200,
    "real_county": "Lassen County, CA"
   },
   {
@@ -3084,8 +3084,8 @@
    "county": "Windrow",
    "lat": 40.3827,
    "lon": -120.3872,
-   "name": "Doyleville",
-   "population": 3000,
+   "name": "Placer",
+   "population": 1400,
    "real_county": "Lassen County, CA"
   }
  ]

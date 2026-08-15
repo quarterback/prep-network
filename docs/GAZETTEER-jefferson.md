@@ -15,7 +15,7 @@ sits on actual valley floors, river bends and harbours. Drop
 (owner rule 2027-08: Jefferson is West Coast Texas). Do not
 rescale it.
 
-## Antler County (Douglas County, OR) — 413,084
+## Antler County (Douglas County, OR) — 377,584
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -27,29 +27,29 @@ rescale it.
 | Aspen Meadows | 18,574 | Timber Valley | 43.7023 | -124.0968 |
 | Wolf Gap | 14,653 | Timber Valley | 42.9846 | -123.3117 |
 | Yarburg | 12,493 | Timber Valley | 43.0201 | -123.2931 |
-| Kendrickville | 11,600 | Timber Valley | 42.9273 | -123.2812 |
-| Gold Hollow | 10,500 | Timber Valley | 43.3015 | -123.1012 |
-| Ashwood | 9,000 | Timber Valley | 42.9509 | -123.3642 |
-| Purcell Crossing | 8,700 | Timber Valley | 43.6587 | -123.3187 |
-| Harmon | 7,300 | Timber Valley | 43.5984 | -123.2834 |
-| Huckle Glen | 6,600 | Timber Valley | 43.4221 | -123.2984 |
-| Salmonberry Glen | 6,100 | Timber Valley | 42.7362 | -123.4234 |
-| Cinder | 5,900 | Timber Valley | 43.1784 | -123.4862 |
-| Ansotegui | 5,800 | Timber Valley | 43.2476 | -123.4590 |
-| Camas Crossing | 5,100 | Timber Valley | 43.1029 | -123.4279 |
-| Manzanita Junction | 5,100 | Timber Valley | 43.6771 | -124.1748 |
-| Harmon Siding | 5,000 | Timber Valley | 43.4173 | -123.2134 |
-| Alderwell | 4,900 | Timber Valley | 42.9723 | -123.1723 |
-| Pine Siding | 4,800 | Timber Valley | 43.7301 | -124.1104 |
-| Ransoms Landing | 4,700 | Timber Valley | 43.6376 | -123.5682 |
-| Whistle Stop | 4,600 | Timber Valley | 43.3654 | -123.4684 |
-| Bidwell | 4,500 | Timber Valley | 43.7109 | -123.2237 |
-| Flume | 3,600 | Timber Valley | 43.5523 | -123.8218 |
-| Pellmont | 3,300 | Timber Valley | 42.7954 | -123.2603 |
-| Harmons Landing | 2,700 | Timber Valley | 43.1090 | -123.4553 |
-| Winvale | 2,200 | Timber Valley | 43.2215 | -123.4087 |
-| Aspen Spur | 2,100 | Timber Valley | 43.2659 | -123.6098 |
-| Bidwell City | 1,400 | Timber Valley | 43.0343 | -123.6740 |
+| Kendrickville | 9,000 | Timber Valley | 42.9273 | -123.2812 |
+| Gold Hollow | 5,800 | Timber Valley | 43.3015 | -123.1012 |
+| Ashwood | 5,700 | Timber Valley | 42.9509 | -123.3642 |
+| Bidwell | 5,300 | Timber Valley | 43.6587 | -123.3187 |
+| Purcell Crossing | 5,200 | Timber Valley | 43.5984 | -123.2834 |
+| Harmon | 4,800 | Timber Valley | 43.4221 | -123.2984 |
+| Ransoms Landing | 4,600 | Timber Valley | 42.7362 | -123.4234 |
+| Harmon Siding | 4,000 | Timber Valley | 43.1784 | -123.4862 |
+| Pine Siding | 4,000 | Timber Valley | 43.2476 | -123.4590 |
+| Bidwell City | 3,900 | Timber Valley | 43.1029 | -123.4279 |
+| Huckle Glen | 3,900 | Timber Valley | 43.6771 | -124.1748 |
+| Pellmont | 3,900 | Timber Valley | 43.4173 | -123.2134 |
+| Salmonberry Glen | 3,700 | Timber Valley | 42.9723 | -123.1723 |
+| Alderwell | 3,500 | Timber Valley | 43.7301 | -124.1104 |
+| Whistle Stop | 3,300 | Timber Valley | 43.6376 | -123.5682 |
+| Winvale | 3,100 | Timber Valley | 43.3654 | -123.4684 |
+| Camas Crossing | 2,800 | Timber Valley | 43.7109 | -123.2237 |
+| Manzanita Junction | 2,800 | Timber Valley | 43.5523 | -123.8218 |
+| Ansotegui | 2,500 | Timber Valley | 42.7954 | -123.2603 |
+| Cinder | 2,400 | Timber Valley | 43.1090 | -123.4553 |
+| Harmons Landing | 2,400 | Timber Valley | 43.2215 | -123.4087 |
+| Flume | 2,000 | Timber Valley | 43.2659 | -123.6098 |
+| Aspen Spur | 1,400 | Timber Valley | 43.0343 | -123.6740 |
 
 ## Bardsley County (Colusa County, CA) — 70,000
 
@@ -74,7 +74,7 @@ rescale it.
 | Haddon Siding | 8,300 | Halbrook Basin | 44.0290 | -116.8452 |
 | Garrow Depot | 6,700 | Halbrook Basin | 44.0574 | -116.5804 |
 
-## Bidwell County (Coos County, OR) — 1,884,651
+## Bidwell County (Coos County, OR) — 1,884,051
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -85,7 +85,7 @@ rescale it.
 | Los Maderos | 38,000 | Harborline | 43.0648 | -124.1390 |
 | Tule | 18,551 | Harborline | 43.3543 | -124.3132 |
 | Port Ainsley | 15,000 | Harborline | 43.5757 | -124.1751 |
-| Rimrock | 6,100 | Harborline | 43.3559 | -124.2048 |
+| Rimrock | 5,500 | Harborline | 43.3559 | -124.2048 |
 
 ## Camas County (Josephine County, OR) — 513,000
 
@@ -101,18 +101,18 @@ rescale it.
 | Belden Springs | 15,000 | Ashbury Metro | 42.2790 | -123.6159 |
 | Quillan | 12,000 | Ashbury Metro | 42.1943 | -123.6517 |
 
-## Cinder County (Siskiyou County, CA) — 47,820
+## Cinder County (Siskiyou County, CA) — 39,520
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
 | Annie Springs | 24,420 | Cascade Divide | 41.7354 | -122.6345 |
-| Draybrook | 8,300 | Cascade Divide | 41.3102 | -122.3123 |
-| Naylor City | 5,900 | Cascade Divide | 41.4226 | -122.3861 |
-| Huckle Lake | 3,600 | Cascade Divide | 41.2082 | -122.2720 |
-| Sage Spur | 3,500 | Cascade Divide | 41.7282 | -122.5278 |
-| Ashstead | 2,100 | Cascade Divide | 41.7927 | -123.3808 |
+| Draybrook | 5,600 | Cascade Divide | 41.3102 | -122.3123 |
+| Ashstead | 3,900 | Cascade Divide | 41.4226 | -122.3861 |
+| Naylor City | 2,500 | Cascade Divide | 41.2082 | -122.2720 |
+| Huckle Lake | 1,700 | Cascade Divide | 41.7282 | -122.5278 |
+| Sage Spur | 1,400 | Cascade Divide | 41.7927 | -123.3808 |
 
-## Emigrant County (Harney County, OR) — 804,734
+## Emigrant County (Harney County, OR) — 788,534
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -122,19 +122,19 @@ rescale it.
 | Harrow | 45,000 | Sage Plains | 42.4641 | -118.6132 |
 | Rilland | 15,000 | Sage Plains | 43.6424 | -118.6285 |
 | Standale | 13,134 | Sage Plains | 43.0121 | -118.6660 |
-| Ulery Junction | 12,400 | Sage Plains | 43.8066 | -118.3774 |
-| Lodestone | 10,200 | Sage Plains | 43.4321 | -118.2619 |
-| San Vito | 10,000 | Sage Plains | 42.2643 | -118.6752 |
-| Elmfield | 8,300 | Sage Plains | 42.8268 | -118.9155 |
-| Diamante | 8,000 | Sage Plains | 44.0307 | -118.6377 |
-| Wheatley | 6,000 | Sage Plains | 43.6432 | -118.8227 |
-| Kelview | 5,800 | Sage Plains | 43.5849 | -119.0786 |
-| Agate | 5,000 | Sage Plains | 43.4429 | -118.8010 |
-| Sage Meadows | 4,400 | Sage Plains | 42.0476 | -118.8013 |
-| Yandell City | 4,100 | Sage Plains | 43.2790 | -118.9621 |
-| Millview | 3,500 | Sage Plains | 43.2829 | -118.5827 |
-| Ninemile | 2,000 | Sage Plains | 43.5415 | -119.5038 |
-| Ashbrook | 1,900 | Sage Plains | 43.5907 | -119.6302 |
+| San Vito | 10,000 | Sage Plains | 43.8066 | -118.3774 |
+| Diamante | 8,000 | Sage Plains | 43.4321 | -118.2619 |
+| Kelview | 6,100 | Sage Plains | 42.2643 | -118.6752 |
+| Wheatley | 6,000 | Sage Plains | 42.8268 | -118.9155 |
+| Ulery Junction | 5,800 | Sage Plains | 44.0307 | -118.6377 |
+| Agate | 5,000 | Sage Plains | 43.6432 | -118.8227 |
+| Lodestone | 5,000 | Sage Plains | 43.5849 | -119.0786 |
+| Elmfield | 4,300 | Sage Plains | 43.4429 | -118.8010 |
+| Yandell City | 4,000 | Sage Plains | 42.0476 | -118.8013 |
+| Ashbrook | 3,900 | Sage Plains | 43.2790 | -118.9621 |
+| Sage Meadows | 2,800 | Sage Plains | 43.2829 | -118.5827 |
+| Millview | 2,400 | Sage Plains | 43.5415 | -119.5038 |
+| Ninemile | 2,100 | Sage Plains | 43.5907 | -119.6302 |
 
 ## Featherstone County (Plumas County, CA) — 105,000
 
@@ -148,7 +148,7 @@ rescale it.
 | Hydraulicwood | 4,600 | Mother Lode | 39.7663 | -120.6185 |
 | Caverlyville | 3,700 | Mother Lode | 39.8088 | -120.4980 |
 
-## Ferris County (Shasta County, CA) — 2,277,000
+## Ferris County (Shasta County, CA) — 2,270,100
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -171,25 +171,25 @@ rescale it.
 | Elk Crossing | 15,783 | Gold Valley | 40.8304 | -121.5136 |
 | Villard | 15,000 | Gold Valley | 40.9190 | -121.5478 |
 | Abbey Vale | 12,000 | Gold Valley | 40.8415 | -121.9236 |
-| Hawk Bar | 10,500 | Gold Valley | 40.7940 | -121.9419 |
-| High Bar | 9,100 | Gold Valley | 41.0207 | -121.9111 |
-| Velasco | 8,000 | Gold Valley | 40.6752 | -121.4308 |
+| Velasco | 8,000 | Gold Valley | 40.7940 | -121.9419 |
+| High Bar | 6,800 | Gold Valley | 41.0207 | -121.9111 |
+| Hawk Bar | 6,400 | Gold Valley | 40.6752 | -121.4308 |
 | St. Elian | 6,000 | Gold Valley | 40.3983 | -122.2558 |
-| Ansoteguiville | 4,100 | Gold Valley | 40.8954 | -122.3711 |
-| Basalt Fork | 3,800 | Gold Valley | 40.4186 | -122.1953 |
+| Ansoteguiville | 4,000 | Gold Valley | 40.8954 | -122.3711 |
+| Basalt Fork | 3,400 | Gold Valley | 40.4186 | -122.1953 |
 
-## Galena County (Washoe County, NV) — 52,200
+## Galena County (Washoe County, NV) — 44,300
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
 | Galena | 16,700 | North Range | 39.5296 | -119.8138 |
-| Norford | 11,100 | North Range | 39.5349 | -119.7527 |
-| Norstead | 5,400 | North Range | 39.5963 | -119.7760 |
-| Farleyford | 5,300 | North Range | 39.6491 | -119.7074 |
-| Ferris | 4,100 | North Range | 39.2513 | -119.9730 |
-| Mabryville | 3,700 | North Range | 39.6802 | -119.9766 |
-| Huckle Butte | 3,100 | North Range | 39.6360 | -119.8432 |
-| Windrow | 2,800 | North Range | 39.6155 | -119.8266 |
+| Norford | 6,800 | North Range | 39.5349 | -119.7527 |
+| Norstead | 5,300 | North Range | 39.5963 | -119.7760 |
+| Ferris | 4,100 | North Range | 39.6491 | -119.7074 |
+| Huckle Butte | 3,600 | North Range | 39.2513 | -119.9730 |
+| Farleyford | 3,300 | North Range | 39.6802 | -119.9766 |
+| Windrow | 2,700 | North Range | 39.6360 | -119.8432 |
+| Mabryville | 1,800 | North Range | 39.6155 | -119.8266 |
 
 ## Goldbank County (Nevada County, CA) — 300,000
 
@@ -234,20 +234,20 @@ rescale it.
 | Vessey Junction | 4,900 | Mother Lode | 39.5593 | -120.8269 |
 | Tailingford | 3,300 | Mother Lode | 39.5657 | -120.6338 |
 
-## Juniper County (Modoc County, CA) — 245,400
+## Juniper County (Modoc County, CA) — 227,800
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
 | Altamonte | 150,000 | Juniper Highlands | 41.4871 | -120.5435 |
 | Summervale | 43,000 | Juniper Highlands | 41.4099 | -120.6791 |
-| Sage Point | 11,100 | Juniper Highlands | 41.5291 | -120.1733 |
-| Gold Junction | 10,400 | Juniper Highlands | 41.8882 | -121.3722 |
-| Elk Spur | 7,000 | Juniper Highlands | 41.4438 | -120.8702 |
-| Thornford | 6,700 | Juniper Highlands | 41.1938 | -120.9452 |
-| Elmburg | 6,200 | Juniper Highlands | 41.5091 | -120.5450 |
-| Farleymere | 4,700 | Juniper Highlands | 41.8605 | -120.1513 |
-| Silvale | 2,800 | Juniper Highlands | 41.9927 | -120.2972 |
-| Clear Prairie | 2,000 | Juniper Highlands | 41.2079 | -121.1552 |
+| Sage Point | 7,200 | Juniper Highlands | 41.5291 | -120.1733 |
+| Elmburg | 6,400 | Juniper Highlands | 41.8882 | -121.3722 |
+| Elk Spur | 4,400 | Juniper Highlands | 41.4438 | -120.8702 |
+| Gold Junction | 4,400 | Juniper Highlands | 41.1938 | -120.9452 |
+| Farleymere | 3,700 | Juniper Highlands | 41.5091 | -120.5450 |
+| Thornford | 2,800 | Juniper Highlands | 41.8605 | -120.1513 |
+| Clear Prairie | 2,400 | Juniper Highlands | 41.9927 | -120.2972 |
+| Silvale | 2,000 | Juniper Highlands | 41.2079 | -121.1552 |
 | Norbrook | 900 | Juniper Highlands | 41.2304 | -120.5041 |
 | Copper Crossing | 600 | Juniper Highlands | 41.6427 | -120.2169 |
 
@@ -268,15 +268,15 @@ rescale it.
 | Chaff Crossing | 7,200 | Vermilion Valley | 39.4124 | -121.7127 |
 | Lanphere | 6,400 | Vermilion Valley | 39.6452 | -121.4033 |
 
-## Lodestone County (Humboldt County, NV) — 50,932
+## Lodestone County (Humboldt County, NV) — 35,732
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
 | Marshdale | 16,932 | North Range | 40.9730 | -117.7357 |
-| Etchart | 10,000 | North Range | 40.9532 | -117.4893 |
-| Wellers Landing | 8,900 | North Range | 41.9974 | -117.7182 |
-| Copper Bar | 8,700 | North Range | 41.5699 | -117.7854 |
-| Pellburg | 5,800 | North Range | 41.4935 | -117.5346 |
+| Wellers Landing | 5,500 | North Range | 40.9532 | -117.4893 |
+| Etchart | 4,600 | North Range | 41.9974 | -117.7182 |
+| Copper Bar | 4,500 | North Range | 41.5699 | -117.7854 |
+| Pellburg | 3,600 | North Range | 41.4935 | -117.5346 |
 | Graymont | 600 | North Range | 41.9899 | -118.6343 |
 
 ## Marlow County (Jackson County, OR) — 1,457,000
@@ -311,16 +311,16 @@ rescale it.
 | Prune Siding | 5,000 | Vermilion Valley | 40.4352 | -121.8700 |
 | Barley Gap | 4,300 | Vermilion Valley | 39.9749 | -122.1767 |
 
-## Ostrander County (Del Norte County, CA) — 46,300
+## Ostrander County (Del Norte County, CA) — 33,900
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
-| Mesa Dorada | 11,500 | South Coast | 41.7559 | -124.2018 |
-| Quarmont | 11,200 | South Coast | 41.7525 | -124.1587 |
-| Tindall Spur | 10,300 | South Coast | 41.8679 | -124.1490 |
-| Halfway House | 5,000 | South Coast | 41.9282 | -124.1470 |
-| Elk Prairie | 4,800 | South Coast | 41.5265 | -124.0384 |
-| Ashfield | 3,500 | South Coast | 41.8454 | -123.9695 |
+| Mesa Dorada | 9,400 | South Coast | 41.7559 | -124.2018 |
+| Quarmont | 7,500 | South Coast | 41.7525 | -124.1587 |
+| Tindall Spur | 6,000 | South Coast | 41.8679 | -124.1490 |
+| Halfway House | 4,900 | South Coast | 41.9282 | -124.1470 |
+| Ashfield | 3,800 | South Coast | 41.5265 | -124.0384 |
+| Elk Prairie | 2,300 | South Coast | 41.8454 | -123.9695 |
 
 ## Paddock County (Glenn County, CA) — 140,200
 
@@ -338,7 +338,7 @@ rescale it.
 | Camden Flat | 2,800 | Vermilion Valley | 39.4646 | -121.9900 |
 | Rentie Grove | 2,500 | Vermilion Valley | 39.7966 | -122.0844 |
 
-## Rimrock County (Lake County, OR) — 492,533
+## Rimrock County (Lake County, OR) — 487,933
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -350,12 +350,12 @@ rescale it.
 | Three Saints | 50,000 | Juniper Highlands | 42.1774 | -119.8986 |
 | Doyle Junction | 46,000 | Juniper Highlands | 42.3782 | -120.8439 |
 | Clear Springs | 14,833 | Juniper Highlands | 43.2362 | -120.6369 |
-| Camas Landing | 10,100 | Juniper Highlands | 42.1863 | -120.4341 |
-| Trout Lake | 6,900 | Juniper Highlands | 43.3565 | -121.0539 |
-| Silton | 2,700 | Juniper Highlands | 42.3224 | -120.8155 |
-| Stovepipe | 2,000 | Juniper Highlands | 42.9729 | -120.7775 |
+| Trout Lake | 6,800 | Juniper Highlands | 42.1863 | -120.4341 |
+| Camas Landing | 6,200 | Juniper Highlands | 43.3565 | -121.0539 |
+| Stovepipe | 2,700 | Juniper Highlands | 42.3224 | -120.8155 |
+| Silton | 1,400 | Juniper Highlands | 42.9729 | -120.7775 |
 
-## Sablewood County (Trinity County, CA) — 455,304
+## Sablewood County (Trinity County, CA) — 450,804
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -366,14 +366,14 @@ rescale it.
 | Leidesdorff | 56,304 | Gold Valley | 40.7332 | -123.0536 |
 | Benedetti | 15,000 | Gold Valley | 40.4524 | -123.5098 |
 | McCrory | 12,000 | Gold Valley | 40.8754 | -123.5284 |
-| Sage Springs | 11,500 | Gold Valley | 40.8090 | -123.4742 |
-| Pasquale | 10,000 | Gold Valley | 40.9832 | -122.6997 |
-| Porterfield | 10,000 | Gold Valley | 40.6174 | -123.4525 |
-| Copper Prairie | 5,000 | Gold Valley | 41.0890 | -122.7089 |
+| Pasquale | 10,000 | Gold Valley | 40.8090 | -123.4742 |
+| Porterfield | 10,000 | Gold Valley | 40.9832 | -122.6997 |
+| Sage Springs | 7,300 | Gold Valley | 40.6174 | -123.4525 |
+| Copper Prairie | 4,700 | Gold Valley | 41.0890 | -122.7089 |
 | Carverstead | 1,900 | Gold Valley | 40.2696 | -123.3214 |
 | Odellville | 600 | Gold Valley | 40.7410 | -123.2559 |
 
-## San Marcos County (Humboldt County, CA) — 1,613,500
+## San Marcos County (Humboldt County, CA) — 1,603,100
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -387,12 +387,12 @@ rescale it.
 | Copperview | 14,539 | South Coast | 40.4993 | -124.1064 |
 | Tallow | 14,511 | South Coast | 40.7332 | -124.1523 |
 | Los Remolinos | 12,000 | South Coast | 40.7698 | -124.1428 |
-| Ransom Spur | 9,000 | South Coast | 40.7726 | -124.1839 |
-| Puerto Alma | 8,300 | South Coast | 40.9396 | -123.6314 |
-| Camas Ridge | 6,200 | South Coast | 40.5762 | -124.2639 |
-| San Benicio | 5,000 | South Coast | 40.8829 | -123.9839 |
-| San Aurelio | 3,700 | South Coast | 40.5476 | -124.0973 |
-| Alder Flat | 3,600 | South Coast | 40.1201 | -123.8234 |
+| Ransom Spur | 6,200 | South Coast | 40.7726 | -124.1839 |
+| Camas Ridge | 5,900 | South Coast | 40.9396 | -123.6314 |
+| San Benicio | 5,000 | South Coast | 40.5762 | -124.2639 |
+| Puerto Alma | 3,800 | South Coast | 40.8829 | -123.9839 |
+| Alder Flat | 2,500 | South Coast | 40.5476 | -124.0973 |
+| San Aurelio | 2,000 | South Coast | 40.1201 | -123.8234 |
 
 ## Scheelite County (Pershing County, NV) — 52,000
 
@@ -404,7 +404,7 @@ rescale it.
 | Mirage Crossing | 4,200 | North Range | 40.3635 | -118.3927 |
 | Saltbush Reach | 3,100 | North Range | 40.2455 | -118.3929 |
 
-## Stagewater County (Malheur County, OR) — 305,411
+## Stagewater County (Malheur County, OR) — 301,511
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -412,20 +412,20 @@ rescale it.
 | Latgaway | 28,411 | Sage Plains | 43.8768 | -116.9949 |
 | Cordero Wells | 18,000 | Sage Plains | 43.9821 | -117.2382 |
 | Dovetail | 12,000 | Sage Plains | 44.2402 | -116.9843 |
-| Naylors Landing | 8,000 | Sage Plains | 42.9740 | -117.0543 |
-| Milldale | 6,100 | Sage Plains | 43.7407 | -117.0718 |
-| Mabry | 5,700 | Sage Plains | 43.8632 | -117.6099 |
-| Stone Meadows | 5,200 | Sage Plains | 44.2463 | -117.5171 |
-| Trout Point | 5,000 | Sage Plains | 43.7446 | -118.0796 |
-| Kendricks Landing | 4,700 | Sage Plains | 43.9243 | -116.9854 |
-| Silver Junction | 3,000 | Sage Plains | 42.9140 | -117.5251 |
-| Sage Junction | 2,500 | Sage Plains | 42.4107 | -117.8685 |
-| Basalt Prairie | 2,400 | Sage Plains | 43.9066 | -118.1527 |
-| Antler Prairie | 2,300 | Sage Plains | 44.2524 | -117.8338 |
-| Sixes | 2,000 | Sage Plains | 43.9960 | -117.0091 |
+| Naylors Landing | 6,200 | Sage Plains | 42.9740 | -117.0543 |
+| Milldale | 4,800 | Sage Plains | 43.7407 | -117.0718 |
+| Mabry | 4,700 | Sage Plains | 43.8632 | -117.6099 |
+| Trout Point | 4,700 | Sage Plains | 44.2463 | -117.5171 |
+| Silver Junction | 4,500 | Sage Plains | 43.7446 | -118.0796 |
+| Antler Prairie | 4,000 | Sage Plains | 43.9243 | -116.9854 |
+| Sixes | 3,300 | Sage Plains | 42.9140 | -117.5251 |
+| Basalt Prairie | 3,000 | Sage Plains | 42.4107 | -117.8685 |
+| Kendricks Landing | 3,000 | Sage Plains | 43.9066 | -118.1527 |
+| Sage Junction | 2,400 | Sage Plains | 44.2524 | -117.8338 |
+| Stone Meadows | 2,400 | Sage Plains | 43.9960 | -117.0091 |
 | Keldale | 100 | Sage Plains | 43.5013 | -118.0099 |
 
-## Tamarack County (Klamath County, OR) — 856,438
+## Tamarack County (Klamath County, OR) — 850,638
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -437,15 +437,15 @@ rescale it.
 | New Leiden | 35,738 | Cascade Divide | 42.1988 | -121.4061 |
 | Novak | 30,000 | Cascade Divide | 42.3471 | -121.8156 |
 | Klamoya | 25,000 | Cascade Divide | 42.4418 | -121.2708 |
-| Ransom | 9,300 | Cascade Divide | 42.3976 | -121.0417 |
-| Tamarack Springs | 6,900 | Cascade Divide | 43.2165 | -121.7828 |
-| Yarmere | 4,600 | Cascade Divide | 43.4624 | -121.6956 |
-| Brackwood | 3,400 | Cascade Divide | 43.4976 | -121.9527 |
+| Ransom | 5,200 | Cascade Divide | 42.3976 | -121.0417 |
+| Tamarack Springs | 5,100 | Cascade Divide | 43.2165 | -121.7828 |
+| Juniper Bar | 4,600 | Cascade Divide | 43.4624 | -121.6956 |
+| Alderfield | 4,400 | Cascade Divide | 43.4976 | -121.9527 |
 | Halemere | 3,300 | Cascade Divide | 42.2351 | -121.5211 |
-| Alderfield | 2,900 | Cascade Divide | 42.1832 | -121.8231 |
-| Ransom City | 2,900 | Cascade Divide | 42.1374 | -121.7567 |
-| Juniper Bar | 2,300 | Cascade Divide | 42.7046 | -121.9959 |
-| Alderton | 2,000 | Cascade Divide | 43.4771 | -121.6853 |
+| Ransom City | 3,100 | Cascade Divide | 42.1832 | -121.8231 |
+| Brackwood | 3,000 | Cascade Divide | 42.1374 | -121.7567 |
+| Yarmere | 1,600 | Cascade Divide | 42.7046 | -121.9959 |
+| Alderton | 1,500 | Cascade Divide | 43.4771 | -121.6853 |
 | Copperton | 100 | Cascade Divide | 42.1913 | -121.7003 |
 
 ## Vance County (Owyhee County, ID) — 2,620,000
@@ -471,7 +471,7 @@ rescale it.
 | Meridia | 12,000 | Halbrook Basin | 42.0243 | -115.9448 |
 | Carmina | 10,000 | Halbrook Basin | 43.0402 | -116.7623 |
 
-## Weller County (Curry County, OR) — 476,283
+## Weller County (Curry County, OR) — 464,883
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -482,25 +482,25 @@ rescale it.
 | Cabo Esperanza | 25,000 | Harborline | 42.5062 | -124.4134 |
 | Tamarack Harbor | 20,863 | Harborline | 42.9234 | -124.4509 |
 | Alder Landing | 13,491 | Harborline | 42.2771 | -124.3948 |
-| Garrity | 9,800 | Harborline | 42.5565 | -124.0690 |
-| Aldermont | 7,500 | Harborline | 42.4665 | -124.3679 |
-| Bahía Azúl | 7,000 | Harborline | 42.2201 | -124.3396 |
-| Pellford | 5,700 | Harborline | 42.8907 | -124.4626 |
-| Wickbrook | 4,400 | Harborline | 42.3873 | -124.4179 |
-| Granite Bar | 2,500 | Harborline | 42.6287 | -124.0576 |
+| Bahía Azúl | 7,000 | Harborline | 42.5565 | -124.0690 |
+| Aldermont | 5,700 | Harborline | 42.4665 | -124.3679 |
+| Garrity | 4,600 | Harborline | 42.2201 | -124.3396 |
+| Granite Bar | 3,600 | Harborline | 42.8907 | -124.4626 |
+| Pellford | 2,600 | Harborline | 42.3873 | -124.4179 |
+| Wickbrook | 2,000 | Harborline | 42.6287 | -124.0576 |
 
-## Windrow County (Lassen County, CA) — 80,347
+## Windrow County (Lassen County, CA) — 72,247
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
 | Millport | 19,058 | North Range | 40.4163 | -120.6530 |
 | Hetfield | 17,340 | North Range | 40.3060 | -121.0058 |
 | Elk Bluff | 14,749 | North Range | 40.2966 | -120.5241 |
-| Cutbank | 8,600 | North Range | 40.3843 | -120.5875 |
-| Aspen Harbor | 7,000 | North Range | 40.1410 | -120.1549 |
-| Placer | 4,200 | North Range | 40.0280 | -120.1038 |
-| Assay | 3,200 | North Range | 41.1213 | -121.1441 |
-| Sage Lake | 3,200 | North Range | 40.1435 | -120.1346 |
-| Doyleville | 3,000 | North Range | 40.3827 | -120.3872 |
+| Aspen Harbor | 5,000 | North Range | 40.3843 | -120.5875 |
+| Cutbank | 4,800 | North Range | 40.1410 | -120.1549 |
+| Doyleville | 4,500 | North Range | 40.0280 | -120.1038 |
+| Sage Lake | 3,200 | North Range | 41.1213 | -121.1441 |
+| Assay | 2,200 | North Range | 40.1435 | -120.1346 |
+| Placer | 1,400 | North Range | 40.3827 | -120.3872 |
 
-**State total: 19,137,037** across 343 places, 29 counties.
+**State total: 18,967,737** across 343 places, 29 counties.

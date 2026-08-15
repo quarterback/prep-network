@@ -1360,6 +1360,7 @@ class Gen:
             for nm in names:
                 part = dict(s)
                 part["name"] = nm
+                part["_parent"] = s["name"]
                 part["enrollment"] = sized(nm, base)
                 part["private"] = any(nm.endswith(" " + f) for f in FAITHS)
                 self.by_name[nm] = part
@@ -1405,6 +1406,71 @@ class Gen:
                     if row["name"] == old or row["name"].startswith(old + " "):
                         row["name"] = new + row["name"][len(old):]
             path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+
+    def write_orgs_final(self, records_dir):
+        """Rewrite records/orgs/schools.json from the FINAL roster.
+
+        ⚠️ `records_io.write_orgs` runs BEFORE every post-pass, so the file it
+        writes predates the mascots, the oversize splits, the town renames and
+        the ladder. `reclassify` then stamped new class labels onto those stale
+        rows, which is how the records came to hold a "7A" of 4,070 students —
+        a classification from after the cap sitting on an enrollment from
+        before it, with the split schools missing entirely. The records are
+        written once more, at the end, from what the state actually is.
+
+        Marks are read back off the file, since `mascots.apply` writes there and
+        not to `self.schools`; a school opened by a split inherits its parent's.
+        """
+        import json
+        path = records_dir / "orgs" / "schools.json"
+        doc = json.loads(path.read_text())
+        marks = {r["name"]: (r.get("mascot"), r.get("colors")) for r in doc["schools"]}
+        rows = []
+        for s in self.schools:
+            m, c = marks.get(s["name"]) or marks.get(s.get("_parent"), (None, None))
+            rows.append(dict(name=s["name"], city=s["city"], area=s["area"],
+                             mascot=m or s["mascot"],
+                             colors=c or s.get("colors"),
+                             classification=s["classification"],
+                             conference=s.get("conference", ""),
+                             enrollment=s["enrollment"], private=s["private"],
+                             sports=s.get("sports", [])))
+        doc["schools"] = sorted(rows, key=lambda r: r["name"])
+        path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+        print(f"  records rewritten from the final roster: {len(rows)} schools")
+
+    #: How many schools each class should hold. A mild pyramid — more small
+    #: schools than large — summing to the roster. Enrollment is FICTIONAL, so
+    #: the classes are sized first and the numbers made to fit, rather than the
+    #: numbers being treated as given and the classes coming out however they
+    #: fell. The state had 242 schools in 7A against 84 in 3A purely because the
+    #: expansion roster's invented enrollments happened to cluster.
+    CLASS_SHAPE = [("9A", 8), ("8A", 9), ("7A", 11), ("6A", 12), ("5A", 12),
+                   ("4A", 13), ("3A", 13), ("2A", 12), ("1A", 10)]
+
+    def rebalance_enrollments(self):
+        """Spread the roster across the classification bands.
+
+        Order is preserved — the biggest school stays the biggest — so a metro
+        flagship is still a big school and a hamlet is still a small one. Only
+        the NUMBER moves, into the band its rank deserves, spread inside that
+        band by the school's own name hash so figures are stable and varied.
+        """
+        from app.sports import BANDS, MAX_ENROLLMENT
+        band = {c: (max(lo, 55), hi if hi is not None else MAX_ENROLLMENT)
+                for c, lo, hi in BANDS}   # nobody fields a 1-student school
+        order = sorted(self.schools, key=lambda s: (-s["enrollment"], s["name"]))
+        weights = [w for _c, w in self.CLASS_SHAPE]
+        total = sum(weights)
+        n, i = len(order), 0
+        for (cls, w), j in zip(self.CLASS_SHAPE, range(len(weights))):
+            take = round(n * w / total) if j < len(weights) - 1 else n - i
+            lo, hi = band[cls]
+            for s in order[i:i + take]:
+                h = zlib.crc32(s["name"].encode())
+                s["enrollment"] = lo + h % max(1, hi - lo + 1)
+            i += take
+        print(f"  enrollments rebalanced across {len(self.CLASS_SHAPE)} classes")
 
     def reclassify(self, records_dir=None):
         """Put every school on the owner's ladder (2027-08), founding and
@@ -1699,7 +1765,9 @@ class Gen:
         _mascots.apply(RECORDS)
         self.split_oversize()
         self.rename_places()
+        self.rebalance_enrollments()
         self.reclassify(RECORDS)
+        self.write_orgs_final(RECORDS)
         self.write_gazetteer()
         games = sum(1 for c in self.contests if isinstance(c, Game))
         duals = sum(1 for c in self.contests if isinstance(c, Dual))
