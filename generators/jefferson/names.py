@@ -136,6 +136,15 @@ COUNTY_GEO = {
 }
 COUNTY_GEO["Halbrook Basin"].append(("Barlowe", "Payette County, ID"))
 
+# ⚠️ TOWN RENAMES (owner corrections). The town grammar is one RNG stream, so a
+# town cannot be renamed at the point it is drawn without re-dealing the state.
+# These are applied at EMIT instead — the same pattern as the school RENAMES in
+# the tennis association's importer — and they carry the school named for the
+# town with them.
+TOWN_RENAMES = {
+    "Trout Junction": "Trout Lake",     # the Silverlegs' home, owner 2027-08
+}
+
 # metro/anchor cities pinned to their county (the rest hash into their area's)
 COUNTY_PINS = {
     "Ashbury": "Marlow", "Port Meridian": "Bidwell", "Halbrook": "Halbrook",

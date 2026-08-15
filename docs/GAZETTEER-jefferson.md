@@ -338,7 +338,7 @@ rescale it.
 | Camden Flat | 2,800 | Vermilion Valley | 39.4646 | -121.9900 |
 | Rentie Grove | 2,500 | Vermilion Valley | 39.7966 | -122.0844 |
 
-## Rimrock County (Lake County, OR) — 491,533
+## Rimrock County (Lake County, OR) — 492,533
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
@@ -351,7 +351,7 @@ rescale it.
 | Doyle Junction | 46,000 | Juniper Highlands | 42.3782 | -120.8439 |
 | Clear Springs | 14,833 | Juniper Highlands | 43.2362 | -120.6369 |
 | Camas Landing | 10,100 | Juniper Highlands | 42.1863 | -120.4341 |
-| Trout Junction | 5,900 | Juniper Highlands | 43.3565 | -121.0539 |
+| Trout Lake | 6,900 | Juniper Highlands | 43.3565 | -121.0539 |
 | Silton | 2,700 | Juniper Highlands | 42.3224 | -120.8155 |
 | Stovepipe | 2,000 | Juniper Highlands | 42.9729 | -120.7775 |
 
@@ -503,4 +503,4 @@ rescale it.
 | Sage Lake | 3,200 | North Range | 40.1435 | -120.1346 |
 | Doyleville | 3,000 | North Range | 40.3827 | -120.3872 |
 
-**State total: 19,136,037** across 343 places, 29 counties.
+**State total: 19,137,037** across 343 places, 29 counties.

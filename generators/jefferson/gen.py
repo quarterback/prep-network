@@ -1372,6 +1372,40 @@ class Gen:
         self.schools = out
         print(f"  opened {made} schools beside oversize ones")
 
+    def rename_places(self):
+        import json
+        """Apply names.TOWN_RENAMES to towns and to the schools named for them.
+
+        A post-pass, like the mascots and the ladder: the town grammar is a
+        single RNG stream, so renaming at the draw would re-deal the state.
+        """
+        for old, new in N.TOWN_RENAMES.items():
+            for s in self.schools:
+                if s["city"] == old:
+                    s["city"] = new
+                if s["name"] == old or s["name"].startswith(old + " "):
+                    fresh = new + s["name"][len(old):]
+                    self.by_name.pop(s["name"], None)
+                    for c in self.confs:
+                        if s["name"] in c.get("members", []):
+                            c["members"].remove(s["name"])
+                            c["members"].append(fresh)
+                    s["name"] = fresh
+                    self.by_name[fresh] = s
+            self.used_places.add(new.lower())
+        # ⚠️ and in the WRITTEN records: write_orgs runs before every post-pass,
+        # so schools.json still carries the pre-rename town and school name.
+        path = RECORDS / "orgs" / "schools.json"
+        if path.exists():
+            doc = json.loads(path.read_text())
+            for row in doc["schools"]:
+                for old, new in N.TOWN_RENAMES.items():
+                    if row["city"] == old:
+                        row["city"] = new
+                    if row["name"] == old or row["name"].startswith(old + " "):
+                        row["name"] = new + row["name"][len(old):]
+            path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+
     def reclassify(self, records_dir=None):
         """Put every school on the owner's ladder (2027-08), founding and
         expansion alike, by its own enrollment.
@@ -1664,6 +1698,7 @@ class Gen:
         from generators.jefferson import mascots as _mascots
         _mascots.apply(RECORDS)
         self.split_oversize()
+        self.rename_places()
         self.reclassify(RECORDS)
         self.write_gazetteer()
         games = sum(1 for c in self.contests if isinstance(c, Game))

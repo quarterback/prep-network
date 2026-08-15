@@ -35,9 +35,12 @@ from generators.jefferson import names as N   # noqa: E402
 
 REAL = ROOT / "generators/jefferson/data/real_counties.geojson"
 CITIES = ROOT / "records/orgs/cities.json"
-BOUNDARY = ROOT / "records/orgs/jefferson_boundary.geojson"
+# ⚠️ NOT under records/orgs — Gen.run() rmtree's that directory every run,
+# which silently deleted both map layers. Source data lives with the
+# generator; the derived layer is written to docs/ beside the map.
+BOUNDARY = ROOT / "generators/jefferson/data/jefferson_boundary.geojson"
 OUT_SVG = ROOT / "docs/jefferson-map.svg"
-OUT_GEO = ROOT / "records/orgs/jefferson_counties.geojson"
+OUT_GEO = ROOT / "docs/jefferson-counties.geojson"
 
 W, H, PAD = 1400, 1380, 34
 PAD_L = 150          # coastal towns hang their labels out over the ocean
