@@ -117,7 +117,32 @@ COUNTY_GEO = {
                           ("Ferris", "Shasta County, CA")],
     "North Range":       [("Windrow", "Lassen County, CA"),
                           ("Lodestone", "Humboldt County, NV"),
-                          ("Galena", "Washoe County, NV")],
+                          ("Galena", "Washoe County, NV"),
+                          ("Scheelite", "Pershing County, NV")],
+    # ── the 2027-08 expansion ────────────────────────────────────────────────
+    # The state map claimed twenty-nine real counties and only twenty carried a
+    # Jefferson county; these are the other nine. Two are fill-ins for areas
+    # that already existed (Scheelite above, Barlowe below); the other seven
+    # are genuinely new country and get two new areas of their own — the
+    # rice-and-orchard valley in the far south, and the gold country in the
+    # northern Sierra.
+    "Vermilion Valley":  [("Kernwood", "Butte County, CA"),
+                          ("Olivet", "Tehama County, CA"),
+                          ("Paddock", "Glenn County, CA"),
+                          ("Bardsley", "Colusa County, CA")],
+    "Mother Lode":       [("Goldbank", "Nevada County, CA"),
+                          ("Featherstone", "Plumas County, CA"),
+                          ("Highgrade", "Sierra County, CA")],
+}
+COUNTY_GEO["Halbrook Basin"].append(("Barlowe", "Payette County, ID"))
+
+# ⚠️ TOWN RENAMES (owner corrections). The town grammar is one RNG stream, so a
+# town cannot be renamed at the point it is drawn without re-dealing the state.
+# These are applied at EMIT instead — the same pattern as the school RENAMES in
+# the tennis association's importer — and they carry the school named for the
+# town with them.
+TOWN_RENAMES = {
+    "Trout Junction": "Trout Lake",     # the Silverlegs' home, owner 2027-08
 }
 
 # metro/anchor cities pinned to their county (the rest hash into their area's)

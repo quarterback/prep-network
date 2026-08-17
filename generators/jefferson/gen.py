@@ -45,12 +45,16 @@ TODAY = dt.date(2027, 5, 13)
 RECORDS = ROOT / "records"
 
 # The founding 256 keep their classes; 7A exists only via the expansion roster
-CLASS_TARGETS = {"7A": 0, "6A": 38, "5A": 42, "4A": 44, "3A": 38, "2A": 36, "1A": 58}
-ENROLL = {"7A": (2600, 4300), "6A": (1800, 3200), "5A": (1200, 1799), "4A": (700, 1199),
+CLASS_TARGETS = {"9A": 0, "8A": 0, "7A": 0, "6A": 38, "5A": 42, "4A": 44, "3A": 38, "2A": 36, "1A": 58}
+#: ⚠️ The FOUNDING draw only. Classification is decided afterwards by
+#: app.sports.classify() on the enrollment this produces — these bands stay
+#: as they are because changing them re-deals the founding RNG stream.
+ENROLL = {"9A": (2600, 4300), "8A": (2600, 4300), "7A": (2600, 4300),
+          "6A": (1800, 3200), "5A": (1200, 1799), "4A": (700, 1199),
           "3A": (400, 699), "2A": (220, 399), "1A": (60, 219)}
-OFFER_RANGE = {"7A": (24, 32), "6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
+OFFER_RANGE = {"9A": (24, 32), "8A": (24, 32), "7A": (24, 32), "6A": (20, 28), "5A": (17, 24), "4A": (14, 20),
                "3A": (11, 15), "2A": (8, 12), "1A": (6, 10)}
-POOL = {"7A": 84, "6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
+POOL = {"9A": 84, "8A": 84, "7A": 84, "6A": 72, "5A": 60, "4A": 48, "3A": 38, "2A": 30, "1A": 22}
 
 #: State championship weekend for the MEET sports, by season. These mirror the
 #: bracket sports' finals in ``generators.jefferson.postseason``, so a title
@@ -1273,6 +1277,226 @@ class Gen:
                 self.make_meet(sport, f"JHSAA {group} {sport.name} Championships",
                                "Ashbury", champ_date, sorted(field), champ_date <= TODAY)
 
+    def split_oversize(self):
+        """No school is larger than sports.MAX_ENROLLMENT (owner rule 2027-08).
+
+        A district does not let one high school reach 3,000 — it opens another
+        and splits the attendance area, which is why the state is full of
+        "<Town> East" and "<Town> West". So an oversize school BECOMES two (or
+        more), sharing its town, its league and its activities, rather than
+        having its enrollment quietly rescaled: the students are real either
+        way, and rescaling would have shrunk a city's schools instead of giving
+        it the schools a city that size actually has.
+
+        A post-pass, like the mascots and the ladder, so it costs no RNG draw.
+        Directions are tried in pairs and the first pair whose names are all
+        free wins — many of these schools are already "<Town> East", and
+        "<Town> East East" is not a school.
+        """
+        from app.sports import MAX_ENROLLMENT
+        DIRS = ("North", "South", "East", "West", "Northwest", "Southeast")
+        FEATURES = ("Bellows Lake", "Kettle Ridge", "Antelope Butte", "Willow Creek",
+                    "Sandhill Marsh", "Heron Slough", "Manzanita Ridge", "Buckeye Bend",
+                    "Sycamore Flat", "Deer Hollow", "Sulphur Springs", "Indigo Rim",
+                    "Vernal Falls", "Lonepine Mesa", "Redbank Bluffs", "Coyote Draw",
+                    "Foxtail Meadows", "Cathedral Point", "Gravel Narrows",
+                    "Blackbird Canyon", "Cinnabar Divide", "Whiskey Bar")
+        FAITHS = ("Catholic", "Christian", "Methodist", "Lutheran", "Episcopal")
+
+        out, made = [], 0
+        feats = list(FEATURES)
+        for s in self.schools:
+            if s["enrollment"] <= MAX_ENROLLMENT:
+                out.append(s)
+                continue
+            n = -(-s["enrollment"] // MAX_ENROLLMENT)          # ceil
+            # The school KEEPS ITS NAME and shrinks; the district opens n-1 more
+            # beside it. ⚠️ Never stack a second direction on a name that already
+            # carries one — "Ashbury East West" is not a school and nothing in
+            # the country is named that way (owner, 2027-08). A town whose
+            # obvious directional names are used up opens a school named for
+            # nearby ground, or a parish/independent school, which is what
+            # actually happens.
+            last = s["name"].rsplit(" ", 1)[-1]
+            directional = last in DIRS
+            names = []
+            while len(names) < n - 1:
+                cand = None
+                if not directional:
+                    for d in DIRS:
+                        if f"{s['name']} {d}".lower() not in self.used_schools:
+                            cand = f"{s['name']} {d}"
+                            break
+                if cand is None:
+                    while feats and cand is None:
+                        f = feats.pop(0)
+                        if f.lower() not in self.used_schools:
+                            cand = f
+                if cand is None:
+                    for faith in FAITHS:
+                        for stem in (s["city"], s["area"].split()[0]):
+                            t = f"{stem} {faith}"
+                            if t.lower() not in self.used_schools:
+                                cand = t
+                                break
+                        if cand:
+                            break
+                if cand is None:
+                    break
+                self.used_schools.add(cand.lower())
+                names.append(cand)
+
+            # The parts do NOT sum to the parent — enrollment is fictional
+            # (owner, 2027-08) and a district splitting a school is not
+            # conserving a headcount, it is running two normal schools. Sized
+            # off each name's own hash, so figures are stable and spread.
+            def sized(nm, base):
+                h = zlib.crc32(nm.encode())
+                return max(120, min(MAX_ENROLLMENT,
+                                    int(base * (0.72 + (h % 1000) / 1000 * 0.5))))
+            base = s["enrollment"] / (len(names) + 1)
+            s["enrollment"] = sized(s["name"], base)
+            out.append(s)
+            for nm in names:
+                part = dict(s)
+                part["name"] = nm
+                part["_parent"] = s["name"]
+                part["enrollment"] = sized(nm, base)
+                part["private"] = any(nm.endswith(" " + f) for f in FAITHS)
+                self.by_name[nm] = part
+                out.append(part)
+                made += 1
+                for c in self.confs:
+                    if s["name"] in c.get("members", []):
+                        c["members"].append(nm)
+                        break
+        self.schools = out
+        print(f"  opened {made} schools beside oversize ones")
+
+    def rename_places(self):
+        import json
+        """Apply names.TOWN_RENAMES to towns and to the schools named for them.
+
+        A post-pass, like the mascots and the ladder: the town grammar is a
+        single RNG stream, so renaming at the draw would re-deal the state.
+        """
+        for old, new in N.TOWN_RENAMES.items():
+            for s in self.schools:
+                if s["city"] == old:
+                    s["city"] = new
+                if s["name"] == old or s["name"].startswith(old + " "):
+                    fresh = new + s["name"][len(old):]
+                    self.by_name.pop(s["name"], None)
+                    for c in self.confs:
+                        if s["name"] in c.get("members", []):
+                            c["members"].remove(s["name"])
+                            c["members"].append(fresh)
+                    s["name"] = fresh
+                    self.by_name[fresh] = s
+            self.used_places.add(new.lower())
+        # ⚠️ and in the WRITTEN records: write_orgs runs before every post-pass,
+        # so schools.json still carries the pre-rename town and school name.
+        path = RECORDS / "orgs" / "schools.json"
+        if path.exists():
+            doc = json.loads(path.read_text())
+            for row in doc["schools"]:
+                for old, new in N.TOWN_RENAMES.items():
+                    if row["city"] == old:
+                        row["city"] = new
+                    if row["name"] == old or row["name"].startswith(old + " "):
+                        row["name"] = new + row["name"][len(old):]
+            path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+
+    def write_orgs_final(self, records_dir):
+        """Rewrite records/orgs/schools.json from the FINAL roster.
+
+        ⚠️ `records_io.write_orgs` runs BEFORE every post-pass, so the file it
+        writes predates the mascots, the oversize splits, the town renames and
+        the ladder. `reclassify` then stamped new class labels onto those stale
+        rows, which is how the records came to hold a "7A" of 4,070 students —
+        a classification from after the cap sitting on an enrollment from
+        before it, with the split schools missing entirely. The records are
+        written once more, at the end, from what the state actually is.
+
+        Marks are read back off the file, since `mascots.apply` writes there and
+        not to `self.schools`; a school opened by a split inherits its parent's.
+        """
+        import json
+        path = records_dir / "orgs" / "schools.json"
+        doc = json.loads(path.read_text())
+        marks = {r["name"]: (r.get("mascot"), r.get("colors")) for r in doc["schools"]}
+        rows = []
+        for s in self.schools:
+            m, c = marks.get(s["name"]) or marks.get(s.get("_parent"), (None, None))
+            rows.append(dict(name=s["name"], city=s["city"], area=s["area"],
+                             mascot=m or s["mascot"],
+                             colors=c or s.get("colors"),
+                             classification=s["classification"],
+                             conference=s.get("conference", ""),
+                             enrollment=s["enrollment"], private=s["private"],
+                             sports=s.get("sports", [])))
+        doc["schools"] = sorted(rows, key=lambda r: r["name"])
+        path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+        print(f"  records rewritten from the final roster: {len(rows)} schools")
+
+    #: How many schools each class should hold. A mild pyramid — more small
+    #: schools than large — summing to the roster. Enrollment is FICTIONAL, so
+    #: the classes are sized first and the numbers made to fit, rather than the
+    #: numbers being treated as given and the classes coming out however they
+    #: fell. The state had 242 schools in 7A against 84 in 3A purely because the
+    #: expansion roster's invented enrollments happened to cluster.
+    CLASS_SHAPE = [("9A", 8), ("8A", 9), ("7A", 11), ("6A", 12), ("5A", 12),
+                   ("4A", 13), ("3A", 13), ("2A", 12), ("1A", 10)]
+
+    def rebalance_enrollments(self):
+        """Spread the roster across the classification bands.
+
+        Order is preserved — the biggest school stays the biggest — so a metro
+        flagship is still a big school and a hamlet is still a small one. Only
+        the NUMBER moves, into the band its rank deserves, spread inside that
+        band by the school's own name hash so figures are stable and varied.
+        """
+        from app.sports import BANDS, MAX_ENROLLMENT
+        band = {c: (max(lo, 55), hi if hi is not None else MAX_ENROLLMENT)
+                for c, lo, hi in BANDS}   # nobody fields a 1-student school
+        order = sorted(self.schools, key=lambda s: (-s["enrollment"], s["name"]))
+        weights = [w for _c, w in self.CLASS_SHAPE]
+        total = sum(weights)
+        n, i = len(order), 0
+        for (cls, w), j in zip(self.CLASS_SHAPE, range(len(weights))):
+            take = round(n * w / total) if j < len(weights) - 1 else n - i
+            lo, hi = band[cls]
+            for s in order[i:i + take]:
+                h = zlib.crc32(s["name"].encode())
+                s["enrollment"] = lo + h % max(1, hi - lo + 1)
+            i += take
+        print(f"  enrollments rebalanced across {len(self.CLASS_SHAPE)} classes")
+
+    def reclassify(self, records_dir=None):
+        """Put every school on the owner's ladder (2027-08), founding and
+        expansion alike, by its own enrollment.
+
+        A POST-PASS, like the mascots, and for the same reason: classification
+        used to be dealt by quota slice here and stated in a column there, so
+        the two halves of the state ran on different ladders under one set of
+        labels — an expansion "1A" (357-649 students) was bigger than a founding
+        "3A", and a "3A" of 1,399 outweighed a "5A" of 1,209. Deriving it from
+        enrollment is what makes a classification mean one thing. Doing it at
+        emit costs no RNG draw and so cannot move a result.
+        """
+        import json
+        from app.sports import classify
+        for s in self.schools:
+            s["classification"] = classify(s["enrollment"])
+        if records_dir is not None:
+            path = records_dir / "orgs" / "schools.json"
+            if path.exists():
+                doc = json.loads(path.read_text())
+                by = {s["name"]: s["classification"] for s in self.schools}
+                for row in doc["schools"]:
+                    row["classification"] = by.get(row["name"], row["classification"])
+                path.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+
     # ---------------------------------------------------------- gazetteer
     def write_gazetteer(self):
         """Counties and populations, derived from the state that exists.
@@ -1282,9 +1506,21 @@ class Gen:
         total public enrollment x 15-22, jittered on a stable hash of the name
         (crc32, not the RNG stream — the gazetteer must not perturb the
         season). Anchor and owner-specified cities keep their stated figures.
-        Emitted as records/orgs/cities.json and rendered to
-        docs/GAZETTEER-jefferson.md so the document can never drift from the
-        records.
+
+        COORDINATES are assigned by RANK against the real ground (owner rule
+        2027-08). Each Jefferson county names a real county; `data/geo_anchors
+        .json` holds that real county's own populated places, largest first,
+        and a Jefferson city takes the coordinates of the real place at its own
+        population rank. So Ashbury sits where Medford sits, Port Veles where
+        Coos Bay sits, and a 4,000-person Antler County mill town lands on a
+        real 4,000-person Douglas County mill town. Nothing is scattered or
+        jittered — every coordinate in the state is a real place's coordinate,
+        which is what keeps coastal towns out of the Pacific and desert towns
+        off the ridge lines without a single special case.
+
+        Emitted as records/orgs/cities.json, records/orgs/cities.geojson (drop
+        it on any map) and rendered to docs/GAZETTEER-jefferson.md, so no
+        document can drift from the records.
         """
         import json
         stated = {N.ANCHORS["inland_metro"][0]: N.ANCHORS["inland_metro"][1],
@@ -1298,6 +1534,14 @@ class Gen:
         stated_county = {c: by_county_name[cty]
                          for c, (_pop, cty) in self.expansion_city_data.items()
                          if cty in by_county_name}
+        # ⚠️ Cities published before the county map grew are FROZEN to the county
+        # they were published under. An unpinned city hashes into its area's
+        # county list, so adding a county to an existing area re-deals every
+        # unpinned city in it — the gazetteer, the districts named after a
+        # dominant county and every archived season referencing them would move
+        # at once, for a change that was meant to be purely additive.
+        frozen = json.loads((ROOT / "generators/jefferson/data/county_assignments.json")
+                            .read_text())["cities"]
 
         towns = {}
         for s in self.schools:
@@ -1311,6 +1555,8 @@ class Gen:
             h = zlib.crc32(city.encode())
             if city in stated_county:
                 county, real = stated_county[city]
+            elif city in frozen:
+                county, real = by_county_name[frozen[city]]
             elif city in N.COUNTY_PINS:
                 county, real = next((c, r) for c, r in sum(N.COUNTY_GEO.values(), [])
                                     if c == N.COUNTY_PINS[city])
@@ -1325,9 +1571,41 @@ class Gen:
                                area=area, population=pop))
         cities.sort(key=lambda c: (c["county"], -c["population"], c["name"]))
 
+        # rank-match onto the real ground. `cities` is already ordered by
+        # (county, -population), so a county's rank IS its index within its run.
+        anchors = json.loads((ROOT / "generators/jefferson/data/geo_anchors.json")
+                             .read_text())["counties"]
+        rank: dict[str, int] = {}
+        for c in cities:
+            real = c["real_county"]
+            i = rank[real] = rank.get(real, -1) + 1
+            pool = anchors.get(real)
+            if not pool:
+                raise SystemExit(
+                    f"no geo anchors for {real}; add it to scripts/"
+                    f"build_geo_anchors.py::SEATS and re-run that script")
+            if i >= len(pool):
+                # Never silently wrap: two towns would share a coordinate and
+                # the map would quietly lie. Lake County, OR is the tight one
+                # (14 real places), so this is a live possibility, not a hedge.
+                raise SystemExit(
+                    f"{c['county']} County has {i + 1}+ cities but {real} only "
+                    f"supplies {len(pool)} anchors — re-run scripts/"
+                    f"build_geo_anchors.py with a larger --per-county")
+            _site, c["lat"], c["lon"] = pool[i]
+
         (RECORDS / "orgs").mkdir(parents=True, exist_ok=True)
         (RECORDS / "orgs/cities.json").write_text(json.dumps(
             {"$type": "org.prepnet.temp.org.cities", "cities": cities},
+            indent=1, sort_keys=True) + "\n")
+        (RECORDS / "orgs/cities.geojson").write_text(json.dumps({
+            "type": "FeatureCollection",
+            "features": [{"type": "Feature",
+                          "geometry": {"type": "Point",
+                                       "coordinates": [c["lon"], c["lat"]]},
+                          "properties": {k: v for k, v in c.items()
+                                         if k not in ("lat", "lon")}}
+                         for c in cities]},
             indent=1, sort_keys=True) + "\n")
 
         lines = ["# Jefferson gazetteer — cities and towns by county",
@@ -1337,6 +1615,11 @@ class Gen:
                  "names the real county whose ground it stands on. Owner-stated",
                  "populations are authoritative; only unstated towns derive from",
                  "school enrollment.",
+                 "",
+                 "Coordinates are real. A Jefferson city stands on the real place",
+                 "at its own population rank inside its real county, so the state",
+                 "sits on actual valley floors, river bends and harbours. Drop",
+                 "`records/orgs/cities.geojson` on any map to see it.",
                  "",
                  "**The ~17.6M state total is a design decision, not an error**",
                  "(owner rule 2027-08: Jefferson is West Coast Texas). Do not",
@@ -1350,10 +1633,11 @@ class Gen:
             total += csum
             lines.append(f"## {county} County ({real}) — {csum:,}")
             lines.append("")
-            lines.append("| City or town | Population | Area |")
-            lines.append("| --- | ---: | --- |")
+            lines.append("| City or town | Population | Area | Latitude | Longitude |")
+            lines.append("| --- | ---: | --- | ---: | ---: |")
             for r in rows:
-                lines.append(f"| {r['name']} | {r['population']:,} | {r['area']} |")
+                lines.append(f"| {r['name']} | {r['population']:,} | {r['area']} "
+                             f"| {r['lat']:.4f} | {r['lon']:.4f} |")
             lines.append("")
         lines.append(f"**State total: {total:,}** across {len(cities)} places, "
                      f"{len(bycounty)} counties.")
@@ -1361,14 +1645,21 @@ class Gen:
 
     # ---------------------------------------------------------- expansion
     def load_expansion(self):
-        """The 7A planning roster (owner data, 2027-08): 584 schools, 67
-        conferences, new cities with stated populations and counties. Loaded
+        """The expansion rosters (owner data, 2027-08): the 7A planning file's
+        584 schools and 67 conferences, plus the nine new counties' towns and
+        schools. New cities carry stated populations and counties. Loaded
         AFTER the founding 256 are built and never through the shared RNG —
         everything a new school needs that the file doesn't state is derived
         from a name hash, so the founding state stays byte-stable."""
         import csv
-        path = ROOT / "generators/jefferson/data/expansion_schools.csv"
-        rows = list(csv.DictReader(open(path)))
+        # Two rosters: the 7A planning file, and the nine counties added to the
+        # map in 2027-08 (scripts/build_county_expansion.py). Both load the same
+        # way for the same reason — after the founding RNG stream, never inside it.
+        rows = []
+        for fn in ("expansion_schools.csv", "expansion_counties.csv"):
+            path = ROOT / "generators/jefferson/data" / fn
+            if path.exists():
+                rows += list(csv.DictReader(open(path)))
         confs_new: dict[str, dict] = {}
         for r in rows:
             name = r["school"]
@@ -1472,6 +1763,11 @@ class Gen:
         # frequency curve and the regional tail matter.
         from generators.jefferson import mascots as _mascots
         _mascots.apply(RECORDS)
+        self.split_oversize()
+        self.rename_places()
+        self.rebalance_enrollments()
+        self.reclassify(RECORDS)
+        self.write_orgs_final(RECORDS)
         self.write_gazetteer()
         games = sum(1 for c in self.contests if isinstance(c, Game))
         duals = sum(1 for c in self.contests if isinstance(c, Dual))
