@@ -25,14 +25,14 @@ rescale it.
 | Black Springs | 22,142 | Timber Valley | 43.2690 | -123.3510 |
 | Tamarack Flat | 20,129 | Timber Valley | 43.1223 | -123.4126 |
 | Aspen Meadows | 18,574 | Timber Valley | 43.7023 | -124.0968 |
-| Wolf Gap | 14,653 | Timber Valley | 42.9846 | -123.3117 |
+| Corey Canyon | 14,653 | Timber Valley | 42.9846 | -123.3117 |
 | Yarburg | 12,493 | Timber Valley | 43.0201 | -123.2931 |
 | Kendrickville | 9,000 | Timber Valley | 42.9273 | -123.2812 |
 | Gold Hollow | 5,800 | Timber Valley | 43.3015 | -123.1012 |
-| Ashwood | 5,700 | Timber Valley | 42.9509 | -123.3642 |
+| Gruesome Ridge | 5,700 | Timber Valley | 42.9509 | -123.3642 |
 | Bidwell | 5,300 | Timber Valley | 43.6587 | -123.3187 |
 | Purcell Crossing | 5,200 | Timber Valley | 43.5984 | -123.2834 |
-| Harmon | 4,800 | Timber Valley | 43.4221 | -123.2984 |
+| Annes Summit | 4,800 | Timber Valley | 43.4221 | -123.2984 |
 | Ransoms Landing | 4,600 | Timber Valley | 42.7362 | -123.4234 |
 | Harmon Siding | 4,000 | Timber Valley | 43.1784 | -123.4862 |
 | Pine Siding | 4,000 | Timber Valley | 43.2476 | -123.4590 |
@@ -47,7 +47,7 @@ rescale it.
 | Manzanita Junction | 2,800 | Timber Valley | 43.5523 | -123.8218 |
 | Ansotegui | 2,500 | Timber Valley | 42.7954 | -123.2603 |
 | Cinder | 2,400 | Timber Valley | 43.1090 | -123.4553 |
-| Harmons Landing | 2,400 | Timber Valley | 43.2215 | -123.4087 |
+| Annes Summits Landing | 2,400 | Timber Valley | 43.2215 | -123.4087 |
 | Flume | 2,000 | Timber Valley | 43.2659 | -123.6098 |
 | Aspen Spur | 1,400 | Timber Valley | 43.0343 | -123.6740 |
 
@@ -109,7 +109,7 @@ rescale it.
 | Draybrook | 5,600 | Cascade Divide | 41.3102 | -122.3123 |
 | Ashstead | 3,900 | Cascade Divide | 41.4226 | -122.3861 |
 | Naylor City | 2,500 | Cascade Divide | 41.2082 | -122.2720 |
-| Huckle Lake | 1,700 | Cascade Divide | 41.7282 | -122.5278 |
+| Mount Dylan Lake | 1,700 | Cascade Divide | 41.7282 | -122.5278 |
 | Sage Spur | 1,400 | Cascade Divide | 41.7927 | -123.3808 |
 
 ## Emigrant County (Harney County, OR) — 788,534
@@ -121,32 +121,32 @@ rescale it.
 | Aurelia | 80,000 | Sage Plains | 43.4152 | -118.5783 |
 | Harrow | 45,000 | Sage Plains | 42.4641 | -118.6132 |
 | Rilland | 15,000 | Sage Plains | 43.6424 | -118.6285 |
-| Standale | 13,134 | Sage Plains | 43.0121 | -118.6660 |
+| Lieksa | 13,134 | Sage Plains | 43.0121 | -118.6660 |
 | San Vito | 10,000 | Sage Plains | 43.8066 | -118.3774 |
 | Diamante | 8,000 | Sage Plains | 43.4321 | -118.2619 |
 | Kelview | 6,100 | Sage Plains | 42.2643 | -118.6752 |
-| Wheatley | 6,000 | Sage Plains | 42.8268 | -118.9155 |
+| Minnesota City | 6,000 | Sage Plains | 42.8268 | -118.9155 |
 | Ulery Junction | 5,800 | Sage Plains | 44.0307 | -118.6377 |
 | Agate | 5,000 | Sage Plains | 43.6432 | -118.8227 |
 | Lodestone | 5,000 | Sage Plains | 43.5849 | -119.0786 |
-| Elmfield | 4,300 | Sage Plains | 43.4429 | -118.8010 |
+| Nurmes | 4,300 | Sage Plains | 43.4429 | -118.8010 |
 | Yandell City | 4,000 | Sage Plains | 42.0476 | -118.8013 |
 | Ashbrook | 3,900 | Sage Plains | 43.2790 | -118.9621 |
-| Sage Meadows | 2,800 | Sage Plains | 43.2829 | -118.5827 |
-| Millview | 2,400 | Sage Plains | 43.5415 | -119.5038 |
+| Galactica Plains | 2,800 | Sage Plains | 43.2829 | -118.5827 |
+| Kuusamo | 2,400 | Sage Plains | 43.5415 | -119.5038 |
 | Ninemile | 2,100 | Sage Plains | 43.5907 | -119.6302 |
 
 ## Featherstone County (Plumas County, CA) — 105,000
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
-| Ewart City | 51,300 | Mother Lode | 39.9341 | -120.8980 |
-| Caverly | 20,100 | Mother Lode | 40.3063 | -121.2319 |
-| Tunnelwood | 11,600 | Mother Lode | 39.8105 | -120.4691 |
-| Featherton | 7,900 | Mother Lode | 39.9368 | -120.9465 |
-| Gilhooly | 5,800 | Mother Lode | 40.1396 | -120.9511 |
-| Hydraulicwood | 4,600 | Mother Lode | 39.7663 | -120.6185 |
-| Caverlyville | 3,700 | Mother Lode | 39.8088 | -120.4980 |
+| Cook City | 51,300 | Siskiyou Valley | 39.9341 | -120.8980 |
+| Caverly | 20,100 | Siskiyou Valley | 40.3063 | -121.2319 |
+| Tunnelwood | 11,600 | Siskiyou Valley | 39.8105 | -120.4691 |
+| Featherton | 7,900 | Siskiyou Valley | 39.9368 | -120.9465 |
+| Gilhooly | 5,800 | Siskiyou Valley | 40.1396 | -120.9511 |
+| Hydraulicwood | 4,600 | Siskiyou Valley | 39.7663 | -120.6185 |
+| Caverlyville | 3,700 | Siskiyou Valley | 39.8088 | -120.4980 |
 
 ## Ferris County (Shasta County, CA) — 2,270,100
 
@@ -158,7 +158,7 @@ rescale it.
 | Lake Esperanza | 220,000 | Gold Valley | 40.3857 | -122.2808 |
 | Cortland | 190,000 | Gold Valley | 40.8824 | -121.6608 |
 | Moriarty | 150,000 | Gold Valley | 40.6407 | -122.2325 |
-| Cedarport | 96,000 | Gold Valley | 40.4924 | -121.8892 |
+| North San Francisco | 96,000 | Gold Valley | 40.4924 | -121.8892 |
 | San Telmo | 90,000 | Gold Valley | 40.5993 | -122.4920 |
 | Bellacosta | 80,000 | Gold Valley | 40.5638 | -122.2389 |
 | Kelford | 71,000 | Gold Valley | 40.7163 | -122.3317 |
@@ -195,16 +195,16 @@ rescale it.
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
-| Tunnel Diggings | 136,100 | Mother Lode | 39.3280 | -120.1833 |
-| Sluice Crossing | 53,400 | Mother Lode | 39.2191 | -121.0611 |
-| Ditch Fork | 30,900 | Mother Lode | 39.1416 | -121.0538 |
-| Gulch Bend | 20,900 | Mother Lode | 39.2330 | -121.2005 |
-| Hydraulic Gap | 15,500 | Mother Lode | 39.0396 | -121.0566 |
-| Ewartville | 12,100 | Mother Lode | 39.2617 | -121.0178 |
-| Tunnelton | 9,800 | Mother Lode | 39.1960 | -121.1911 |
-| Cradle Reach | 8,200 | Mother Lode | 39.2302 | -121.1361 |
-| Tailing Crossing | 7,000 | Mother Lode | 39.3693 | -121.1038 |
-| Ewart Bar | 6,100 | Mother Lode | 39.3593 | -120.7991 |
+| Tunnel Diggings | 136,100 | Siskiyou Valley | 39.3280 | -120.1833 |
+| Sluice Crossing | 53,400 | Siskiyou Valley | 39.2191 | -121.0611 |
+| Ditch Fork | 30,900 | Siskiyou Valley | 39.1416 | -121.0538 |
+| Gulch Bend | 20,900 | Siskiyou Valley | 39.2330 | -121.2005 |
+| Hydraulic Gap | 15,500 | Siskiyou Valley | 39.0396 | -121.0566 |
+| Fort Tabor | 12,100 | Siskiyou Valley | 39.2617 | -121.0178 |
+| Tunnelton | 9,800 | Siskiyou Valley | 39.1960 | -121.1911 |
+| Cradle Reach | 8,200 | Siskiyou Valley | 39.2302 | -121.1361 |
+| Tailing Crossing | 7,000 | Siskiyou Valley | 39.3693 | -121.1038 |
+| Ewart Bar | 6,100 | Siskiyou Valley | 39.3593 | -120.7991 |
 
 ## Halbrook County (Canyon County, ID) — 2,950,000
 
@@ -229,10 +229,10 @@ rescale it.
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
-| Vessey Switch | 21,400 | Mother Lode | 39.6763 | -120.2410 |
-| Sluice Landing | 8,400 | Mother Lode | 39.6424 | -120.2166 |
-| Vessey Junction | 4,900 | Mother Lode | 39.5593 | -120.8269 |
-| Tailingford | 3,300 | Mother Lode | 39.5657 | -120.6338 |
+| Vessey Switch | 21,400 | Siskiyou Valley | 39.6763 | -120.2410 |
+| Sluice Landing | 8,400 | Siskiyou Valley | 39.6424 | -120.2166 |
+| Vessey Junction | 4,900 | Siskiyou Valley | 39.5593 | -120.8269 |
+| Tailingford | 3,300 | Siskiyou Valley | 39.5657 | -120.6338 |
 
 ## Juniper County (Modoc County, CA) — 227,800
 
@@ -240,16 +240,16 @@ rescale it.
 | --- | ---: | --- | ---: | ---: |
 | Altamonte | 150,000 | Juniper Highlands | 41.4871 | -120.5435 |
 | Summervale | 43,000 | Juniper Highlands | 41.4099 | -120.6791 |
-| Sage Point | 7,200 | Juniper Highlands | 41.5291 | -120.1733 |
-| Elmburg | 6,400 | Juniper Highlands | 41.8882 | -121.3722 |
+| California Canyons | 7,200 | Juniper Highlands | 41.5291 | -120.1733 |
+| Mt Jacqueline | 6,400 | Juniper Highlands | 41.8882 | -121.3722 |
 | Elk Spur | 4,400 | Juniper Highlands | 41.4438 | -120.8702 |
-| Gold Junction | 4,400 | Juniper Highlands | 41.1938 | -120.9452 |
+| Seamus Town | 4,400 | Juniper Highlands | 41.1938 | -120.9452 |
 | Farleymere | 3,700 | Juniper Highlands | 41.5091 | -120.5450 |
-| Thornford | 2,800 | Juniper Highlands | 41.8605 | -120.1513 |
+| Thorn Summit | 2,800 | Juniper Highlands | 41.8605 | -120.1513 |
 | Clear Prairie | 2,400 | Juniper Highlands | 41.9927 | -120.2972 |
-| Silvale | 2,000 | Juniper Highlands | 41.2079 | -121.1552 |
+| Fort Wren | 2,000 | Juniper Highlands | 41.2079 | -121.1552 |
 | Norbrook | 900 | Juniper Highlands | 41.2304 | -120.5041 |
-| Copper Crossing | 600 | Juniper Highlands | 41.6427 | -120.2169 |
+| Copper Gap | 600 | Juniper Highlands | 41.6427 | -120.2169 |
 
 ## Kernwood County (Butte County, CA) — 419,900
 
@@ -263,7 +263,7 @@ rescale it.
 | Corliss Junction | 16,400 | Vermilion Valley | 39.5113 | -121.5869 |
 | Tule Flat | 13,300 | Vermilion Valley | 39.3638 | -121.6936 |
 | Corliss | 11,100 | Vermilion Valley | 39.4810 | -121.5360 |
-| Marsh Depot | 9,500 | Vermilion Valley | 39.6463 | -121.8000 |
+| Jersey City | 9,500 | Vermilion Valley | 39.6463 | -121.8000 |
 | Chaff Head | 8,200 | Vermilion Valley | 39.4354 | -121.5380 |
 | Chaff Crossing | 7,200 | Vermilion Valley | 39.4124 | -121.7127 |
 | Lanphere | 6,400 | Vermilion Valley | 39.6452 | -121.4033 |
@@ -272,12 +272,12 @@ rescale it.
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
-| Marshdale | 16,932 | North Range | 40.9730 | -117.7357 |
+| Fort Lassiter | 16,932 | North Range | 40.9730 | -117.7357 |
 | Wellers Landing | 5,500 | North Range | 40.9532 | -117.4893 |
 | Etchart | 4,600 | North Range | 41.9974 | -117.7182 |
 | Copper Bar | 4,500 | North Range | 41.5699 | -117.7854 |
 | Pellburg | 3,600 | North Range | 41.4935 | -117.5346 |
-| Graymont | 600 | North Range | 41.9899 | -118.6343 |
+| Georgia Mills | 600 | North Range | 41.9899 | -118.6343 |
 
 ## Marlow County (Jackson County, OR) — 1,457,000
 
@@ -307,7 +307,7 @@ rescale it.
 | Garrow Switch | 12,800 | Vermilion Valley | 40.0157 | -122.4007 |
 | Wardlow Depot | 9,500 | Vermilion Valley | 40.0563 | -122.1503 |
 | Jessup Bar | 7,400 | Vermilion Valley | 40.2552 | -122.2086 |
-| Walnut Yard | 6,000 | Vermilion Valley | 40.0271 | -122.1233 |
+| South Simmons | 6,000 | Vermilion Valley | 40.0271 | -122.1233 |
 | Prune Siding | 5,000 | Vermilion Valley | 40.4352 | -121.8700 |
 | Barley Gap | 4,300 | Vermilion Valley | 39.9749 | -122.1767 |
 
@@ -319,8 +319,8 @@ rescale it.
 | Quarmont | 7,500 | South Coast | 41.7525 | -124.1587 |
 | Tindall Spur | 6,000 | South Coast | 41.8679 | -124.1490 |
 | Halfway House | 4,900 | South Coast | 41.9282 | -124.1470 |
-| Ashfield | 3,800 | South Coast | 41.5265 | -124.0384 |
-| Elk Prairie | 2,300 | South Coast | 41.8454 | -123.9695 |
+| California Beach | 3,800 | South Coast | 41.5265 | -124.0384 |
+| Carolina Island | 2,300 | South Coast | 41.8454 | -123.9695 |
 
 ## Paddock County (Glenn County, CA) — 140,200
 
@@ -328,7 +328,7 @@ rescale it.
 | --- | ---: | --- | ---: | ---: |
 | Welsh Plains | 62,400 | Vermilion Valley | 39.7474 | -122.1964 |
 | New Piscataway | 24,500 | Vermilion Valley | 39.5243 | -122.1936 |
-| Goodman | 14,200 | Vermilion Valley | 39.7427 | -122.0136 |
+| Fort Bardsley | 14,200 | Vermilion Valley | 39.7427 | -122.0136 |
 | Shiloh | 9,600 | Vermilion Valley | 39.6198 | -122.1948 |
 | Zion Hill | 7,100 | Vermilion Valley | 39.6052 | -122.5392 |
 | Canaan Bend | 5,600 | Vermilion Valley | 39.4199 | -121.9664 |
@@ -336,7 +336,7 @@ rescale it.
 | Free Hill | 3,800 | Vermilion Valley | 39.5827 | -122.0458 |
 | Promise Land | 3,200 | Vermilion Valley | 39.5835 | -122.1933 |
 | Camden Flat | 2,800 | Vermilion Valley | 39.4646 | -121.9900 |
-| Rentie Grove | 2,500 | Vermilion Valley | 39.7966 | -122.0844 |
+| Jamaica | 2,500 | Vermilion Valley | 39.7966 | -122.0844 |
 
 ## Rimrock County (Lake County, OR) — 487,933
 
@@ -348,7 +348,7 @@ rescale it.
 | Telfair | 65,000 | Juniper Highlands | 41.9941 | -120.2972 |
 | Vesper | 60,000 | Juniper Highlands | 42.4115 | -119.9038 |
 | Three Saints | 50,000 | Juniper Highlands | 42.1774 | -119.8986 |
-| Doyle Junction | 46,000 | Juniper Highlands | 42.3782 | -120.8439 |
+| Doyle Pass | 46,000 | Juniper Highlands | 42.3782 | -120.8439 |
 | Clear Springs | 14,833 | Juniper Highlands | 43.2362 | -120.6369 |
 | Trout Lake | 6,800 | Juniper Highlands | 42.1863 | -120.4341 |
 | Camas Landing | 6,200 | Juniper Highlands | 43.3565 | -121.0539 |
@@ -415,14 +415,14 @@ rescale it.
 | Naylors Landing | 6,200 | Sage Plains | 42.9740 | -117.0543 |
 | Milldale | 4,800 | Sage Plains | 43.7407 | -117.0718 |
 | Mabry | 4,700 | Sage Plains | 43.8632 | -117.6099 |
-| Trout Point | 4,700 | Sage Plains | 44.2463 | -117.5171 |
+| North Simmons | 4,700 | Sage Plains | 44.2463 | -117.5171 |
 | Silver Junction | 4,500 | Sage Plains | 43.7446 | -118.0796 |
 | Antler Prairie | 4,000 | Sage Plains | 43.9243 | -116.9854 |
 | Sixes | 3,300 | Sage Plains | 42.9140 | -117.5251 |
 | Basalt Prairie | 3,000 | Sage Plains | 42.4107 | -117.8685 |
 | Kendricks Landing | 3,000 | Sage Plains | 43.9066 | -118.1527 |
 | Sage Junction | 2,400 | Sage Plains | 44.2524 | -117.8338 |
-| Stone Meadows | 2,400 | Sage Plains | 43.9960 | -117.0091 |
+| Raahe | 2,400 | Sage Plains | 43.9960 | -117.0091 |
 | Keldale | 100 | Sage Plains | 43.5013 | -118.0099 |
 
 ## Tamarack County (Klamath County, OR) — 850,638
@@ -433,14 +433,14 @@ rescale it.
 | Fort Carden | 200,000 | Cascade Divide | 42.2068 | -121.7372 |
 | Redfork | 58,000 | Cascade Divide | 42.0251 | -121.6005 |
 | Orlova | 50,000 | Cascade Divide | 42.0127 | -121.4086 |
-| Dahlberg | 40,000 | Cascade Divide | 42.5776 | -121.8661 |
+| Dahlberg Summit | 40,000 | Cascade Divide | 42.5776 | -121.8661 |
 | New Leiden | 35,738 | Cascade Divide | 42.1988 | -121.4061 |
 | Novak | 30,000 | Cascade Divide | 42.3471 | -121.8156 |
 | Klamoya | 25,000 | Cascade Divide | 42.4418 | -121.2708 |
 | Ransom | 5,200 | Cascade Divide | 42.3976 | -121.0417 |
 | Tamarack Springs | 5,100 | Cascade Divide | 43.2165 | -121.7828 |
 | Juniper Bar | 4,600 | Cascade Divide | 43.4624 | -121.6956 |
-| Alderfield | 4,400 | Cascade Divide | 43.4976 | -121.9527 |
+| Linden | 4,400 | Cascade Divide | 43.4976 | -121.9527 |
 | Halemere | 3,300 | Cascade Divide | 42.2351 | -121.5211 |
 | Ransom City | 3,100 | Cascade Divide | 42.1832 | -121.8231 |
 | Brackwood | 3,000 | Cascade Divide | 42.1374 | -121.7567 |
@@ -462,7 +462,7 @@ rescale it.
 | Greaves | 80,000 | Halbrook Basin | 42.1016 | -115.9401 |
 | Etchartville | 72,741 | Halbrook Basin | 43.5674 | -116.8329 |
 | Northrup | 70,000 | Halbrook Basin | 42.6390 | -116.9804 |
-| Stone Springs | 70,000 | Halbrook Basin | 42.5791 | -116.2404 |
+| Simmons | 70,000 | Halbrook Basin | 42.5791 | -116.2404 |
 | Tolland | 60,000 | Halbrook Basin | 42.5613 | -116.1445 |
 | Drayfield | 52,259 | Halbrook Basin | 42.8257 | -116.4537 |
 | Homecroft | 50,000 | Halbrook Basin | 42.2724 | -115.8323 |
@@ -478,28 +478,28 @@ rescale it.
 | Fort Meriwether | 210,000 | Harborline | 42.0526 | -124.2840 |
 | Wales City | 68,000 | Harborline | 42.0532 | -124.2676 |
 | Newark River | 60,029 | Harborline | 42.4073 | -124.4218 |
-| Fort Salish | 42,000 | Harborline | 42.7457 | -124.4973 |
+| Fort Weller | 42,000 | Harborline | 42.7457 | -124.4973 |
 | Cabo Esperanza | 25,000 | Harborline | 42.5062 | -124.4134 |
 | Tamarack Harbor | 20,863 | Harborline | 42.9234 | -124.4509 |
 | Alder Landing | 13,491 | Harborline | 42.2771 | -124.3948 |
 | Bahía Azúl | 7,000 | Harborline | 42.5565 | -124.0690 |
-| Aldermont | 5,700 | Harborline | 42.4665 | -124.3679 |
-| Garrity | 4,600 | Harborline | 42.2201 | -124.3396 |
-| Granite Bar | 3,600 | Harborline | 42.8907 | -124.4626 |
+| Cape Angeles | 5,700 | Harborline | 42.4665 | -124.3679 |
+| Texas Beach | 4,600 | Harborline | 42.2201 | -124.3396 |
+| New Penzance Island | 3,600 | Harborline | 42.8907 | -124.4626 |
 | Pellford | 2,600 | Harborline | 42.3873 | -124.4179 |
-| Wickbrook | 2,000 | Harborline | 42.6287 | -124.0576 |
+| Salmon Bay | 2,000 | Harborline | 42.6287 | -124.0576 |
 
 ## Windrow County (Lassen County, CA) — 72,247
 
 | City or town | Population | Area | Latitude | Longitude |
 | --- | ---: | --- | ---: | ---: |
-| Millport | 19,058 | North Range | 40.4163 | -120.6530 |
-| Hetfield | 17,340 | North Range | 40.3060 | -121.0058 |
+| Vonjo City | 19,058 | North Range | 40.4163 | -120.6530 |
+| Brynildson Hill | 17,340 | North Range | 40.3060 | -121.0058 |
 | Elk Bluff | 14,749 | North Range | 40.2966 | -120.5241 |
-| Aspen Harbor | 5,000 | North Range | 40.3843 | -120.5875 |
+| East Simmons | 5,000 | North Range | 40.3843 | -120.5875 |
 | Cutbank | 4,800 | North Range | 40.1410 | -120.1549 |
 | Doyleville | 4,500 | North Range | 40.0280 | -120.1038 |
-| Sage Lake | 3,200 | North Range | 41.1213 | -121.1441 |
+| Sage Village | 3,200 | North Range | 41.1213 | -121.1441 |
 | Assay | 2,200 | North Range | 40.1435 | -120.1346 |
 | Placer | 1,400 | North Range | 40.3827 | -120.3872 |
 

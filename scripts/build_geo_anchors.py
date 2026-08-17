@@ -70,7 +70,7 @@ SEATS = {
     "Canyon County, ID":     ("Caldwell", "ID"),
     "Owyhee County, ID":     ("Homedale", "ID"),
     # the nine counties the state map claimed before a Jefferson county stood
-    # on them (2027-08) — the northern valley, the Mother Lode, and the two
+    # on them (2027-08) — the northern valley, the Siskiyou Valley, and the two
     # that fill out North Range and the Halbrook Basin
     "Butte County, CA":      ("Oroville", "CA"),
     "Tehama County, CA":     ("Red Bluff", "CA"),

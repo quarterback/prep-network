@@ -406,7 +406,7 @@
   },
   {
    "area": "Halbrook Basin",
-   "city": "Stone Springs",
+   "city": "Simmons",
    "classification": "6A",
    "colors": [
     "#1e2a4a",
@@ -518,14 +518,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "3A",
    "colors": [
     "#4b2e83",
     "#b7a57a"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 354,
    "mascot": "Green Falcons",
    "name": "Alben Barkley",
@@ -709,7 +709,7 @@
    "conference": "Portside Conference",
    "enrollment": 225,
    "mascot": "Eagles",
-   "name": "Alder Landing Beacon Hill",
+   "name": "Bay Oregon",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -724,7 +724,7 @@
   },
   {
    "area": "Cascade Divide",
-   "city": "Alderfield",
+   "city": "Linden",
    "classification": "1A",
    "colors": [
     "#7f1d1d",
@@ -733,7 +733,7 @@
    "conference": "Cascade Eight",
    "enrollment": 186,
    "mascot": "Crusaders",
-   "name": "Alderfield",
+   "name": "Linden",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -748,7 +748,7 @@
   },
   {
    "area": "Harborline",
-   "city": "Aldermont",
+   "city": "Cape Angeles",
    "classification": "2A",
    "colors": [
     "#167339",
@@ -757,7 +757,7 @@
    "conference": "Cannery Athletic League",
    "enrollment": 309,
    "mascot": "Gillnetters",
-   "name": "Aldermont",
+   "name": "Cape Angeles",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -1247,7 +1247,7 @@
    "conference": "Snake Plain League",
    "enrollment": 815,
    "mascot": "Trojans",
-   "name": "Amaia Aramburu",
+   "name": "Ketanji Brown Jackson",
    "private": false,
    "sports": [
     "baseball",
@@ -1290,7 +1290,7 @@
    "conference": "Snake Plain League",
    "enrollment": 1233,
    "mascot": "Trojans",
-   "name": "Amaia Aramburu North",
+   "name": "Belmonte Catholic",
    "private": false,
    "sports": [
     "baseball",
@@ -1547,7 +1547,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 834,
    "mascot": "Goliath Beetles",
-   "name": "Amelia Freeman North",
+   "name": "Veles Area",
    "private": false,
    "sports": [
     "badminton",
@@ -1624,7 +1624,7 @@
    "conference": "Golden State Conference",
    "enrollment": 2300,
    "mascot": "Smelters",
-   "name": "Amos Cross",
+   "name": "Lyndon B. Johnson",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -1661,7 +1661,7 @@
    "conference": "Ashbury City Conference",
    "enrollment": 1575,
    "mascot": "Ospreys",
-   "name": "Amos Moss",
+   "name": "St. Francis Catholic",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -1692,7 +1692,7 @@
    "conference": "Northrup Regional Athletic Association",
    "enrollment": 1249,
    "mascot": "Panthers",
-   "name": "Ander Aramburu",
+   "name": "Western Sky",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -1801,7 +1801,7 @@
    "conference": "Foundry Conference",
    "enrollment": 2140,
    "mascot": "Buccaneers",
-   "name": "Andrew Jackson North",
+   "name": "Caswell Heights",
    "private": false,
    "sports": [
     "baseball",
@@ -1938,7 +1938,7 @@
    "conference": "Foundry Conference",
    "enrollment": 762,
    "mascot": "Raiders",
-   "name": "Andr\u00e9s Valera",
+   "name": "Cardinal Echevarria",
    "private": false,
    "sports": [
     "baseball",
@@ -2018,7 +2018,7 @@
    "conference": "Coastal Metro Conference",
    "enrollment": 552,
    "mascot": "Trojans",
-   "name": "Anneliese Halvorsen",
+   "name": "George Washington",
    "private": false,
    "sports": [
     "baseball",
@@ -3040,7 +3040,7 @@
   },
   {
    "area": "South Coast",
-   "city": "Ashfield",
+   "city": "California Beach",
    "classification": "1A",
    "colors": [
     "#3a5a78",
@@ -3049,7 +3049,7 @@
    "conference": "Driftwood League",
    "enrollment": 139,
    "mascot": "Eagles",
-   "name": "Ashfield",
+   "name": "California Beach",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -3088,7 +3088,7 @@
   },
   {
    "area": "Timber Valley",
-   "city": "Ashwood",
+   "city": "Gruesome Ridge",
    "classification": "2A",
    "colors": [
     "#0e7490",
@@ -3097,7 +3097,7 @@
    "conference": "Millrace League",
    "enrollment": 297,
    "mascot": "Crusaders",
-   "name": "Ashwood",
+   "name": "Gruesome Ridge",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -3117,7 +3117,7 @@
   },
   {
    "area": "North Range",
-   "city": "Aspen Harbor",
+   "city": "East Simmons",
    "classification": "2A",
    "colors": [
     "#5b2a86",
@@ -3126,7 +3126,7 @@
    "conference": "North Range League",
    "enrollment": 293,
    "mascot": "Wildcats",
-   "name": "Aspen Harbor",
+   "name": "East Simmons",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -3257,7 +3257,7 @@
    "conference": "Golden State Conference",
    "enrollment": 2586,
    "mascot": "Mountaineers",
-   "name": "Astrid Ricci",
+   "name": "Jesuit",
    "private": false,
    "sports": [
     "baseball",
@@ -3292,13 +3292,13 @@
   },
   {
    "area": "Gold Valley",
-   "city": "Cedarport",
+   "city": "North San Francisco",
    "classification": "3A",
    "colors": [
     "#3a5a78",
     "#f5e9d0"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 404,
    "mascot": "Bucks",
    "name": "Augustus Mercer",
@@ -3392,7 +3392,7 @@
     "#3f2a56",
     "#3ba55d"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 738,
    "mascot": "Tigers",
    "name": "Averill",
@@ -3422,7 +3422,7 @@
     "#14532d",
     "#e8c46b"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 551,
    "mascot": "Purple Panthers",
    "name": "Averill East",
@@ -3455,7 +3455,7 @@
     "#1e5631",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 572,
    "mascot": "Mighty Mountaineers",
    "name": "Averill Northwest",
@@ -3567,7 +3567,7 @@
   },
   {
    "area": "North Range",
-   "city": "Hetfield",
+   "city": "Brynildson Hill",
    "classification": "1A",
    "colors": [
     "#0f6a70",
@@ -3576,7 +3576,7 @@
    "conference": "North Range League",
    "enrollment": 195,
    "mascot": "Tahr",
-   "name": "Baptist HS",
+   "name": "Baptist",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -4487,7 +4487,7 @@
    "conference": "Jefferson-Idaho Conference",
    "enrollment": 1257,
    "mascot": "Taipans",
-   "name": "Belmonte International School",
+   "name": "Belmonte International",
    "private": false,
    "sports": [
     "badminton",
@@ -5523,14 +5523,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "2A",
    "colors": [
     "#4b2e83",
     "#b7a57a"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 244,
    "mascot": "Maned Wolves",
    "name": "Bethel Christian",
@@ -6013,7 +6013,7 @@
    "conference": "Timberline League",
    "enrollment": 134,
    "mascot": "Mustangs",
-   "name": "Brackwood Union",
+   "name": "Brackwood Pass",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -6379,16 +6379,16 @@
   },
   {
    "area": "Gold Valley",
-   "city": "Cedarport",
+   "city": "North San Francisco",
    "classification": "3A",
    "colors": [
     "#1d4e9e",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 497,
    "mascot": "Blue Panthers",
-   "name": "Calderwood School",
+   "name": "Calderwood",
    "private": true,
    "sports": [
     "bowling",
@@ -6412,14 +6412,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Ditch Fork",
    "classification": "1A",
    "colors": [
     "#7b1e2b",
     "#e8c46b"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 70,
    "mascot": "Knights",
    "name": "Calvary Chapel Ditch Fork",
@@ -6921,7 +6921,7 @@
    "conference": "Juniper Metro Conference",
    "enrollment": 1029,
    "mascot": "Basalt",
-   "name": "Carroway School of Public Service",
+   "name": "Carroway Public Service",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -7161,7 +7161,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Caverly",
    "classification": "4A",
    "colors": [
@@ -7240,16 +7240,16 @@
   },
   {
    "area": "Gold Valley",
-   "city": "Cedarport",
+   "city": "North San Francisco",
    "classification": "7A",
    "colors": [
     "#0e7490",
     "#fbbf24"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 1587,
    "mascot": "Gators",
-   "name": "Cedarport",
+   "name": "North San Francisco",
    "private": false,
    "sports": [
     "badminton",
@@ -7278,13 +7278,13 @@
   },
   {
    "area": "Gold Valley",
-   "city": "Cedarport",
+   "city": "North San Francisco",
    "classification": "3A",
    "colors": [
     "#6d1a36",
     "#9fb4c7"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 440,
    "mascot": "Claimjumpers",
    "name": "Cedarport Southeast",
@@ -7727,7 +7727,7 @@
    "conference": "Vineyard League",
    "enrollment": 1713,
    "mascot": "Stampeders",
-   "name": "Clara Cross",
+   "name": "Valderra Heights",
    "private": false,
    "sports": [
     "baseball",
@@ -8082,7 +8082,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Copper Crossing",
+   "city": "Copper Gap",
    "classification": "1A",
    "colors": [
     "#8c1d40",
@@ -8091,7 +8091,7 @@
    "conference": "Juniper Athletic Conference",
    "enrollment": 68,
    "mascot": "Servals",
-   "name": "Copper Crossing",
+   "name": "Copper Gap",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -8702,14 +8702,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Cradle Reach",
    "classification": "2A",
    "colors": [
     "#1e2a4a",
     "#c05621"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 282,
    "mascot": "Miners",
    "name": "Cradle Reach",
@@ -8763,7 +8763,7 @@
   },
   {
    "area": "Cascade Divide",
-   "city": "Dahlberg",
+   "city": "Dahlberg Summit",
    "classification": "3A",
    "colors": [
     "#1e5631",
@@ -8867,7 +8867,7 @@
    "conference": "Bellacosta Heritage Athletic Association",
    "enrollment": 736,
    "mascot": "Water Buffalo",
-   "name": "C\u00e9sar Mendoza",
+   "name": "De La Salle",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -8919,7 +8919,7 @@
   },
   {
    "area": "Cascade Divide",
-   "city": "Dahlberg",
+   "city": "Dahlberg Summit",
    "classification": "3A",
    "colors": [
     "#7f1d1d",
@@ -8928,7 +8928,7 @@
    "conference": "High Lakes League",
    "enrollment": 446,
    "mascot": "Crevasse",
-   "name": "Dahlberg",
+   "name": "Dahlberg Summit",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -8944,7 +8944,7 @@
   },
   {
    "area": "Cascade Divide",
-   "city": "Dahlberg",
+   "city": "Dahlberg Summit",
    "classification": "3A",
    "colors": [
     "#8c1d40",
@@ -8953,7 +8953,7 @@
    "conference": "High Lakes League",
    "enrollment": 473,
    "mascot": "Lions",
-   "name": "Dahlberg School of Science and Industry",
+   "name": "Dahlberg Summit Science",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -9278,14 +9278,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Ditch Fork",
    "classification": "7A",
    "colors": [
     "#1e5631",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 1462,
    "mascot": "Maned Wolves",
    "name": "Ditch Fork",
@@ -9424,7 +9424,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Doyle Junction",
+   "city": "Doyle Pass",
    "classification": "4A",
    "colors": [
     "#6d1a36",
@@ -9433,7 +9433,7 @@
    "conference": "High Desert League",
    "enrollment": 620,
    "mascot": "Rockchucks",
-   "name": "Doyle Junction",
+   "name": "Doyle Pass",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -9779,7 +9779,7 @@
   },
   {
    "area": "Gold Valley",
-   "city": "Cedarport",
+   "city": "North San Francisco",
    "classification": "3A",
    "colors": [
     "#204e39",
@@ -9942,7 +9942,7 @@
    "conference": "Serrano Civic Conference",
    "enrollment": 2093,
    "mascot": "Mantids",
-   "name": "Edith Hart",
+   "name": "Bellarmine Prep",
    "private": false,
    "sports": [
     "bowling",
@@ -10066,14 +10066,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Sluice Crossing",
    "classification": "4A",
    "colors": [
     "#1e2a4a",
     "#c05621"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 792,
    "mascot": "Rebels",
    "name": "Eisenhower",
@@ -10450,7 +10450,7 @@
   },
   {
    "area": "South Coast",
-   "city": "Elk Prairie",
+   "city": "Carolina Island",
    "classification": "1A",
    "colors": [
     "#3f2a56",
@@ -10459,7 +10459,7 @@
    "conference": "Driftwood League",
    "enrollment": 73,
    "mascot": "Warriors",
-   "name": "Elk Prairie",
+   "name": "Carolina Island",
    "private": false,
    "sports": [
     "bowling",
@@ -10561,7 +10561,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Elmburg",
+   "city": "Mt Jacqueline",
    "classification": "2A",
    "colors": [
     "#0e7490",
@@ -10570,7 +10570,7 @@
    "conference": "Juniper Athletic Conference",
    "enrollment": 347,
    "mascot": "Pirates",
-   "name": "Elmburg",
+   "name": "Mt Jacqueline",
    "private": false,
    "sports": [
     "badminton",
@@ -10587,7 +10587,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Elmfield",
+   "city": "Nurmes",
    "classification": "2A",
    "colors": [
     "#1e2a4a",
@@ -10596,7 +10596,7 @@
    "conference": "Sagebrush Conference",
    "enrollment": 242,
    "mascot": "White Bulldogs",
-   "name": "Elmfield",
+   "name": "Nurmes",
    "private": false,
    "sports": [
     "boys-alpine-skiing",
@@ -10850,7 +10850,7 @@
    "conference": "Civic League",
    "enrollment": 560,
    "mascot": "Highlanders",
-   "name": "Evelyn Booker",
+   "name": "William Howard Taft",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -10900,8 +10900,8 @@
    ]
   },
   {
-   "area": "Mother Lode",
-   "city": "Ewart City",
+   "area": "Siskiyou Valley",
+   "city": "Cook City",
    "classification": "7A",
    "colors": [
     "#92400e",
@@ -10910,7 +10910,7 @@
    "conference": "Feather River League",
    "enrollment": 1568,
    "mascot": "Bulldogs",
-   "name": "Ewart City",
+   "name": "Cook City",
    "private": false,
    "sports": [
     "baseball",
@@ -10942,17 +10942,17 @@
    ]
   },
   {
-   "area": "Mother Lode",
-   "city": "Ewartville",
+   "area": "Siskiyou Valley",
+   "city": "Fort Tabor",
    "classification": "2A",
    "colors": [
     "#92400e",
     "#1d1d1f"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 288,
    "mascot": "Huntsmen",
-   "name": "Ewartville",
+   "name": "Fort Tabor",
    "private": false,
    "sports": [
     "bowling",
@@ -11039,8 +11039,8 @@
    ]
   },
   {
-   "area": "Mother Lode",
-   "city": "Ewart City",
+   "area": "Siskiyou Valley",
+   "city": "Cook City",
    "classification": "1A",
    "colors": [
     "#0e7490",
@@ -11063,7 +11063,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Featherton",
    "classification": "2A",
    "colors": [
@@ -11260,14 +11260,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Gulch Bend",
    "classification": "1A",
    "colors": [
     "#1e2a4a",
     "#c05621"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 177,
    "mascot": "Rams",
    "name": "Foothills Christian",
@@ -11611,7 +11611,7 @@
   },
   {
    "area": "Harborline",
-   "city": "Fort Salish",
+   "city": "Fort Weller",
    "classification": "4A",
    "colors": [
     "#333d29",
@@ -11620,7 +11620,7 @@
    "conference": "Portside Conference",
    "enrollment": 729,
    "mascot": "Panthers",
-   "name": "Fort Salish",
+   "name": "Fort Weller",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -11642,7 +11642,7 @@
   },
   {
    "area": "Harborline",
-   "city": "Fort Salish",
+   "city": "Fort Weller",
    "classification": "3A",
    "colors": [
     "#4b2e83",
@@ -11651,7 +11651,7 @@
    "conference": "Portside Conference",
    "enrollment": 414,
    "mascot": "Shipwrights",
-   "name": "Fort Salish Independent School",
+   "name": "Fort Weller Independent",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -11760,7 +11760,7 @@
    "conference": "I-50 Plains Conference",
    "enrollment": 2551,
    "mascot": "Bluejays",
-   "name": "Fort Valois School of Public Service",
+   "name": "Fort Valois Public Service",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -12260,7 +12260,7 @@
    "conference": "Coastal Metro Conference",
    "enrollment": 2348,
    "mascot": "Lions",
-   "name": "Galina Markov",
+   "name": "James Monroe",
    "private": false,
    "sports": [
     "bowling",
@@ -12300,7 +12300,7 @@
    "conference": "Humboldt Bay League",
    "enrollment": 226,
    "mascot": "Mustangs",
-   "name": "Galina Moroz",
+   "name": "Our Lady of the Coast",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -12355,7 +12355,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Standale",
+   "city": "Lieksa",
    "classification": "2A",
    "colors": [
     "#1d4e9e",
@@ -12481,7 +12481,7 @@
   },
   {
    "area": "Harborline",
-   "city": "Garrity",
+   "city": "Texas Beach",
    "classification": "2A",
    "colors": [
     "#333d29",
@@ -12490,7 +12490,7 @@
    "conference": "Cannery Athletic League",
    "enrollment": 249,
    "mascot": "Frilled Lizards",
-   "name": "Garrity",
+   "name": "Texas Beach",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -12776,7 +12776,7 @@
    "conference": "Harbor Cities League",
    "enrollment": 1939,
    "mascot": "Bar Pilots",
-   "name": "Geraldine Cross",
+   "name": "Port Veles Episcopal",
    "private": false,
    "sports": [
     "bowling",
@@ -12802,7 +12802,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Gilhooly",
    "classification": "2A",
    "colors": [
@@ -12858,7 +12858,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Gold Junction",
+   "city": "Seamus Town",
    "classification": "2A",
    "colors": [
     "#333d29",
@@ -12867,7 +12867,7 @@
    "conference": "Juniper Athletic Conference",
    "enrollment": 239,
    "mascot": "Raiders",
-   "name": "Gold Junction",
+   "name": "Seamus Town",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -12885,14 +12885,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Hydraulic Gap",
    "classification": "3A",
    "colors": [
     "#14294e",
     "#c8ccd4"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 451,
    "mascot": "Warriors",
    "name": "Goldbank County",
@@ -12923,14 +12923,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "2A",
    "colors": [
     "#6d1a36",
     "#9fb4c7"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 330,
    "mascot": "Ocelots",
    "name": "Goldbank Hall",
@@ -12990,7 +12990,7 @@
   },
   {
    "area": "Vermilion Valley",
-   "city": "Goodman",
+   "city": "Fort Bardsley",
    "classification": "3A",
    "colors": [
     "#1e2a4a",
@@ -12999,7 +12999,7 @@
    "conference": "Paddock County League",
    "enrollment": 522,
    "mascot": "Jaguars",
-   "name": "Goodman",
+   "name": "Fort Bardsley",
    "private": false,
    "sports": [
     "bowling",
@@ -13115,7 +13115,7 @@
   },
   {
    "area": "Harborline",
-   "city": "Granite Bar",
+   "city": "New Penzance Island",
    "classification": "1A",
    "colors": [
     "#0f6a70",
@@ -13124,7 +13124,7 @@
    "conference": "Cannery Athletic League",
    "enrollment": 195,
    "mascot": "Cowboys",
-   "name": "Granite Bar",
+   "name": "New Penzance Island",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -13213,7 +13213,7 @@
   },
   {
    "area": "North Range",
-   "city": "Graymont",
+   "city": "Georgia Mills",
    "classification": "2A",
    "colors": [
     "#167339",
@@ -13222,7 +13222,7 @@
    "conference": "Territorial Conference",
    "enrollment": 279,
    "mascot": "Numbats",
-   "name": "Graymont",
+   "name": "Georgia Mills",
    "private": true,
    "sports": [
     "bowling",
@@ -13459,14 +13459,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Gulch Bend",
    "classification": "6A",
    "colors": [
     "#1d4e9e",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 1297,
    "mascot": "Chamois",
    "name": "Gulch Bend",
@@ -13892,7 +13892,7 @@
    "conference": "Harbor Cities League",
    "enrollment": 2148,
    "mascot": "Timberwolves",
-   "name": "Harbor Gate North",
+   "name": "Martin Van Buren",
    "private": false,
    "sports": [
     "bowling",
@@ -13970,7 +13970,7 @@
    "conference": "Golden State Conference",
    "enrollment": 1646,
    "mascot": "Fireflies",
-   "name": "Harlan Tillman",
+   "name": "Xavier College Prep",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -13993,7 +13993,7 @@
   },
   {
    "area": "Timber Valley",
-   "city": "Harmon",
+   "city": "Annes Summit",
    "classification": "2A",
    "colors": [
     "#4b2e83",
@@ -14002,7 +14002,7 @@
    "conference": "Big Trees Conference",
    "enrollment": 244,
    "mascot": "Knights",
-   "name": "Harmon",
+   "name": "Annes Summit",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -14402,7 +14402,7 @@
    "conference": "Emigrant League",
    "enrollment": 913,
    "mascot": "Grey Chargers",
-   "name": "Harrow School of Design and Engineering",
+   "name": "Harrow Design",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -14815,7 +14815,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 2090,
    "mascot": "Green Saints",
-   "name": "Henrik Keller",
+   "name": "William Henry Harrison",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -14960,7 +14960,7 @@
   },
   {
    "area": "North Range",
-   "city": "Hetfield",
+   "city": "Brynildson Hill",
    "classification": "1A",
    "colors": [
     "#5b2a86",
@@ -14969,7 +14969,7 @@
    "conference": "North Range League",
    "enrollment": 113,
    "mascot": "Iron Pioneers",
-   "name": "Hetfield",
+   "name": "Brynildson Hill",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -15008,7 +15008,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Doyle Junction",
+   "city": "Doyle Pass",
    "classification": "3A",
    "colors": [
     "#6d1a36",
@@ -15256,7 +15256,7 @@
    "conference": "Bah\u00eda Athletic Conference",
    "enrollment": 2474,
    "mascot": "Sandpipers",
-   "name": "Housatonic HS",
+   "name": "Housatonic",
    "private": false,
    "sports": [
     "baseball",
@@ -15310,7 +15310,7 @@
   },
   {
    "area": "Cascade Divide",
-   "city": "Huckle Lake",
+   "city": "Mount Dylan Lake",
    "classification": "1A",
    "colors": [
     "#14532d",
@@ -15319,7 +15319,7 @@
    "conference": "Timberline League",
    "enrollment": 76,
    "mascot": "Red Raiders",
-   "name": "Huckle Lake",
+   "name": "Mount Dylan Lake",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -15334,7 +15334,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Hydraulicwood",
    "classification": "2A",
    "colors": [
@@ -15359,7 +15359,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Caverlyville",
    "classification": "1A",
    "colors": [
@@ -15515,7 +15515,7 @@
    "conference": "Shipwright League",
    "enrollment": 1685,
    "mascot": "Lions",
-   "name": "Igor Chernov",
+   "name": "Zachary Taylor",
    "private": false,
    "sports": [
     "baseball",
@@ -15557,7 +15557,7 @@
    "conference": "Shipwright League",
    "enrollment": 1342,
    "mascot": "Lions",
-   "name": "Igor Chernov North",
+   "name": "Millard Fillmore",
    "private": false,
    "sports": [
     "baseball",
@@ -15685,7 +15685,7 @@
    "conference": "I-50 Metro Conference",
    "enrollment": 1029,
    "mascot": "Warriors",
-   "name": "Iker Aramburu",
+   "name": "Sandra Day O'Connor",
    "private": false,
    "sports": [
     "baseball",
@@ -15726,7 +15726,7 @@
    "conference": "I-50 Metro Conference",
    "enrollment": 985,
    "mascot": "Warriors",
-   "name": "Iker Aramburu North",
+   "name": "Belmonte Heights",
    "private": false,
    "sports": [
     "baseball",
@@ -15767,7 +15767,7 @@
    "conference": "Pacifica Conference",
    "enrollment": 1908,
    "mascot": "Crusaders",
-   "name": "Imani Cross",
+   "name": "San Borondón Heights",
    "private": false,
    "sports": [
     "bowling",
@@ -15967,7 +15967,7 @@
    "conference": "Maritime Athletic Conference",
    "enrollment": 722,
    "mascot": "Tigers",
-   "name": "Irina Kovalenko",
+   "name": "Heritage Christian Academy",
    "private": false,
    "sports": [
     "bowling",
@@ -16126,7 +16126,7 @@
   },
   {
    "area": "Harborline",
-   "city": "Fort Salish",
+   "city": "Fort Weller",
    "classification": "4A",
    "colors": [
     "#1d4e9e",
@@ -16135,7 +16135,7 @@
    "conference": "Portside Conference",
    "enrollment": 667,
    "mascot": "Falcons",
-   "name": "Isaiah Booker",
+   "name": "Earl Warren",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -16440,7 +16440,7 @@
    "conference": "Umpqua Valley League",
    "enrollment": 464,
    "mascot": "Green Warriors",
-   "name": "Janice Bennett",
+   "name": "Calvary Christian",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -16995,7 +16995,7 @@
    "conference": "Capital City League",
    "enrollment": 2162,
    "mascot": "Muntjac",
-   "name": "Jefferson School of Science and Technology",
+   "name": "Jefferson Science",
    "private": false,
    "sports": [
     "badminton",
@@ -17036,7 +17036,7 @@
    "conference": "Capital City League",
    "enrollment": 2181,
    "mascot": "Muntjac",
-   "name": "Jefferson School of Science and Technology North",
+   "name": "Evans Larsen Day",
    "private": false,
    "sports": [
     "badminton",
@@ -17181,7 +17181,7 @@
    "conference": "High Plains League",
    "enrollment": 1274,
    "mascot": "Windmills",
-   "name": "John F. Kennedy North",
+   "name": "Harriman Heights",
    "private": false,
    "sports": [
     "baseball",
@@ -17356,7 +17356,7 @@
    "conference": "Treasure Valley League",
    "enrollment": 1314,
    "mascot": "Kea",
-   "name": "Jon Garmendia",
+   "name": "Pope Leo XIV",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -17557,7 +17557,7 @@
    "conference": "Orellana Pioneer League",
    "enrollment": 2516,
    "mascot": "Puffins",
-   "name": "Katherine Booker",
+   "name": "James K. Polk",
    "private": false,
    "sports": [
     "bowling",
@@ -17681,7 +17681,7 @@
    "conference": "Shipwright League",
    "enrollment": 2213,
    "mascot": "Raiders",
-   "name": "Katherine Williams",
+   "name": "Franklin Pierce",
    "private": false,
    "sports": [
     "badminton",
@@ -17907,7 +17907,7 @@
    "conference": "Sagebrush Conference",
    "enrollment": 324,
    "mascot": "Dingoes",
-   "name": "Kelview Union",
+   "name": "Iisalmi Union",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -18856,7 +18856,7 @@
    "conference": "Gateway League",
    "enrollment": 2422,
    "mascot": "Fighting Tornadoes",
-   "name": "Leire Aramburu",
+   "name": "Echevarria Central",
    "private": false,
    "sports": [
     "baseball",
@@ -18928,7 +18928,7 @@
   },
   {
    "area": "North Range",
-   "city": "Marshdale",
+   "city": "Fort Lassiter",
    "classification": "2A",
    "colors": [
     "#204e39",
@@ -19475,14 +19475,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "4A",
    "colors": [
     "#4b2e83",
     "#b7a57a"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 714,
    "mascot": "Pirates",
    "name": "Lonepine Canyon",
@@ -19670,7 +19670,7 @@
    "conference": "Mission Valley Athletic Conference",
    "enrollment": 1105,
    "mascot": "Maroons",
-   "name": "Lorna Booker",
+   "name": "Moriarty Heights",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -20070,8 +20070,8 @@
    ]
   },
   {
-   "area": "Mother Lode",
-   "city": "Ewart City",
+   "area": "Siskiyou Valley",
+   "city": "Cook City",
    "classification": "3A",
    "colors": [
     "#6d1a36",
@@ -20284,7 +20284,7 @@
    "conference": "Civic League",
    "enrollment": 727,
    "mascot": "Blue Mustangs",
-   "name": "Manuel Cordero",
+   "name": "Sonia Sotomayor",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -20417,7 +20417,7 @@
    "conference": "Coastal Metro Conference",
    "enrollment": 1124,
    "mascot": "Cannerymen",
-   "name": "Marcus Langston",
+   "name": "Rutherford B. Hayes",
    "private": false,
    "sports": [
     "baseball",
@@ -20462,7 +20462,7 @@
    "conference": "Coastal Metro Conference",
    "enrollment": 389,
    "mascot": "Cannerymen",
-   "name": "Marcus Langston North",
+   "name": "James Garfield",
    "private": false,
    "sports": [
     "baseball",
@@ -20507,7 +20507,7 @@
    "conference": "San Telmo Union Conference",
    "enrollment": 1023,
    "mascot": "Bruins",
-   "name": "Marcus Mercer",
+   "name": "Cascade Christian",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -20641,7 +20641,7 @@
    "conference": "I-50 Plains Conference",
    "enrollment": 2306,
    "mascot": "Grey Bulldogs",
-   "name": "Marian Cross",
+   "name": "Fort Valois Heights",
    "private": false,
    "sports": [
     "badminton",
@@ -20684,7 +20684,7 @@
    "conference": "Coastal Metro Conference",
    "enrollment": 1058,
    "mascot": "Mighty Bluejays",
-   "name": "Marina Moroz",
+   "name": "Grover Cleveland",
    "private": false,
    "sports": [
     "baseball",
@@ -20728,7 +20728,7 @@
    "conference": "Coastal Metro Conference",
    "enrollment": 1348,
    "mascot": "Mighty Bluejays",
-   "name": "Marina Moroz North",
+   "name": "Benjamin Harrison",
    "private": false,
    "sports": [
     "baseball",
@@ -20787,7 +20787,7 @@
   },
   {
    "area": "Vermilion Valley",
-   "city": "Marsh Depot",
+   "city": "Jersey City",
    "classification": "3A",
    "colors": [
     "#333d29",
@@ -20796,7 +20796,7 @@
    "conference": "Vermilion Valley Conference",
    "enrollment": 449,
    "mascot": "Honey Badgers",
-   "name": "Marsh Depot",
+   "name": "Jersey City",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -20818,7 +20818,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Doyle Junction",
+   "city": "Doyle Pass",
    "classification": "4A",
    "colors": [
     "#1e5631",
@@ -20849,7 +20849,7 @@
   },
   {
    "area": "North Range",
-   "city": "Marshdale",
+   "city": "Fort Lassiter",
    "classification": "3A",
    "colors": [
     "#0f6a70",
@@ -20858,7 +20858,7 @@
    "conference": "Territorial Conference",
    "enrollment": 355,
    "mascot": "Comets",
-   "name": "Marshdale",
+   "name": "Fort Lassiter",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -20882,14 +20882,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Ditch Fork",
    "classification": "1A",
    "colors": [
     "#1d4e9e",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 187,
    "mascot": "Frilled Lizards",
    "name": "Martin Luther",
@@ -21285,7 +21285,7 @@
    "conference": "Greater Ashbury Conference",
    "enrollment": 1868,
    "mascot": "Hoatzins",
-   "name": "Metropolitan Country Day School",
+   "name": "Metropolitan Country Day",
    "private": true,
    "sports": [
     "badminton",
@@ -21419,7 +21419,7 @@
    "conference": "Rim Country Conference",
    "enrollment": 268,
    "mascot": "Sagebrush",
-   "name": "Mikel Zubieta",
+   "name": "Cornerstone Christian",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -21682,7 +21682,7 @@
    "conference": "Frontier Ten",
    "enrollment": 297,
    "mascot": "Crusaders",
-   "name": "Milldale Union",
+   "name": "Sotkamo Union",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -21698,7 +21698,7 @@
   },
   {
    "area": "North Range",
-   "city": "Millport",
+   "city": "Vonjo City",
    "classification": "3A",
    "colors": [
     "#3f2a56",
@@ -21707,7 +21707,7 @@
    "conference": "Short Line League",
    "enrollment": 548,
    "mascot": "Lions",
-   "name": "Millport",
+   "name": "Vonjo City",
    "private": false,
    "sports": [
     "baseball",
@@ -21730,7 +21730,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Millview",
+   "city": "Kuusamo",
    "classification": "1A",
    "colors": [
     "#92400e",
@@ -21739,7 +21739,7 @@
    "conference": "Frontier Ten",
    "enrollment": 98,
    "mascot": "Bears",
-   "name": "Millview",
+   "name": "Kuusamo",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -21870,7 +21870,7 @@
    "conference": "Tolland Western League",
    "enrollment": 520,
    "mascot": "Goliath Beetles",
-   "name": "Miren Garmendia",
+   "name": "Cardinal Newman",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -22034,14 +22034,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Sluice Crossing",
    "classification": "1A",
    "colors": [
     "#6d1a36",
     "#9fb4c7"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 155,
    "mascot": "Seahawks",
    "name": "Monsignor Barrow",
@@ -22263,7 +22263,7 @@
    "conference": "Bellacosta Heritage Athletic Association",
    "enrollment": 554,
    "mascot": "Panthers",
-   "name": "Mother Lode",
+   "name": "Siskiyou Valley",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -22379,7 +22379,7 @@
    "conference": "Shipwright League",
    "enrollment": 1187,
    "mascot": "Dredgemen",
-   "name": "Nadia Chernov",
+   "name": "Calvin Coolidge",
    "private": false,
    "sports": [
     "badminton",
@@ -22425,7 +22425,7 @@
    "conference": "Shipwright League",
    "enrollment": 1176,
    "mascot": "Dredgemen",
-   "name": "Nadia Chernov North",
+   "name": "Franklin D. Roosevelt",
    "private": false,
    "sports": [
     "badminton",
@@ -22471,7 +22471,7 @@
    "conference": "Bellacosta Heritage Athletic Association",
    "enrollment": 1319,
    "mascot": "Pelicans",
-   "name": "Naomi Ellison",
+   "name": "Providence Catholic",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -22730,7 +22730,7 @@
    "conference": "Shipwright League",
    "enrollment": 1582,
    "mascot": "Dorymen",
-   "name": "Nathaniel Cross",
+   "name": "Veles Harbor",
    "private": false,
    "sports": [
     "baseball",
@@ -22774,7 +22774,7 @@
    "conference": "Shipwright League",
    "enrollment": 865,
    "mascot": "Dorymen",
-   "name": "Nathaniel Cross North",
+   "name": "Port Veles Lutheran",
    "private": false,
    "sports": [
     "baseball",
@@ -22818,7 +22818,7 @@
    "conference": "Rose Valley League",
    "enrollment": 1006,
    "mascot": "Damselflies",
-   "name": "Nathaniel Gaines",
+   "name": "St. Catherine Academy",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -23240,7 +23240,7 @@
    "conference": "Emigrant League",
    "enrollment": 1022,
    "mascot": "Marauders",
-   "name": "Nicol\u00e1s Cordero",
+   "name": "Ruth Bader Ginsburg",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -23390,7 +23390,7 @@
    "conference": "Arrieta Intercity Conference",
    "enrollment": 1662,
    "mascot": "Cougars",
-   "name": "Nicol\u00e1s Trevi\u00f1o",
+   "name": "Bishop Valera",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -23462,7 +23462,7 @@
    "conference": "Pacifica Conference",
    "enrollment": 1461,
    "mascot": "Trojans",
-   "name": "Nikolai Markov",
+   "name": "Christian Brothers",
    "private": false,
    "sports": [
     "baseball",
@@ -23552,7 +23552,7 @@
    "conference": "Ca\u00f1ada Grande Industrial Athletic Association",
    "enrollment": 2550,
    "mascot": "Maned Wolves",
-   "name": "Nikolai Orlov",
+   "name": "Mater Dei",
    "private": false,
    "sports": [
     "badminton",
@@ -24088,7 +24088,7 @@
   },
   {
    "area": "Halbrook Basin",
-   "city": "Stone Springs",
+   "city": "Simmons",
    "classification": "4A",
    "colors": [
     "#333d29",
@@ -24128,7 +24128,7 @@
    "conference": "Costa Norte League",
    "enrollment": 2191,
    "mascot": "Cormorants",
-   "name": "Oksana Romanov",
+   "name": "Archbishop Gregory",
    "private": false,
    "sports": [
     "bowling",
@@ -24376,7 +24376,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 990,
    "mascot": "Cardinals",
-   "name": "Opal Avery",
+   "name": "Gerald Ford",
    "private": false,
    "sports": [
     "baseball",
@@ -24419,7 +24419,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 852,
    "mascot": "Cardinals",
-   "name": "Opal Avery North",
+   "name": "George H. W. Bush",
    "private": false,
    "sports": [
     "baseball",
@@ -24965,7 +24965,7 @@
    "conference": "Commonwealth League",
    "enrollment": 2531,
    "mascot": "Hornets",
-   "name": "Oskar Bellini",
+   "name": "Notre Dame",
    "private": false,
    "sports": [
     "baseball",
@@ -25095,7 +25095,7 @@
    "conference": "Metro Six",
    "enrollment": 1947,
    "mascot": "Foundrymen",
-   "name": "Pacific Friends School",
+   "name": "Pacific Friends",
    "private": true,
    "sports": [
     "badminton",
@@ -25370,7 +25370,7 @@
    "conference": "San Telmo Union Conference",
    "enrollment": 1084,
    "mascot": "Warriors",
-   "name": "Pauli Booker",
+   "name": "Vespertine Heights",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -25807,10 +25807,10 @@
     "#204e39",
     "#c8a24a"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 445,
    "mascot": "Patriots",
-   "name": "Pinecrest School",
+   "name": "Pinecrest",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -26237,7 +26237,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 1346,
    "mascot": "Eagles",
-   "name": "Port Veles East",
+   "name": "Bill Clinton",
    "private": false,
    "sports": [
     "baseball",
@@ -26875,7 +26875,7 @@
    "conference": "Humboldt Bay League",
    "enrollment": 498,
    "mascot": "Combers",
-   "name": "Puerto Gallego School of Science and Industry",
+   "name": "Puerto Gallego Science",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -27313,7 +27313,7 @@
    "conference": "Harbor Cities League",
    "enrollment": 1302,
    "mascot": "Lightkeepers",
-   "name": "Ralph Booker",
+   "name": "Barack Obama",
    "private": false,
    "sports": [
     "badminton",
@@ -27356,7 +27356,7 @@
    "conference": "Harbor Cities League",
    "enrollment": 1117,
    "mascot": "Lightkeepers",
-   "name": "Ralph Booker North",
+   "name": "Port Veles Christian",
    "private": false,
    "sports": [
     "badminton",
@@ -27399,7 +27399,7 @@
    "conference": "Divide Conference",
    "enrollment": 176,
    "mascot": "Panthers",
-   "name": "Ransom City Union",
+   "name": "Ransom Pass",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -27654,7 +27654,7 @@
   },
   {
    "area": "Timber Valley",
-   "city": "Harmons Landing",
+   "city": "Annes Summits Landing",
    "classification": "1A",
    "colors": [
     "#6d1a36",
@@ -27741,7 +27741,7 @@
   },
   {
    "area": "Vermilion Valley",
-   "city": "Rentie Grove",
+   "city": "Jamaica",
    "classification": "1A",
    "colors": [
     "#7f1d1d",
@@ -27750,7 +27750,7 @@
    "conference": "Paddock County League",
    "enrollment": 116,
    "mascot": "Eagles",
-   "name": "Rentie Grove",
+   "name": "Jamaica",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -27971,7 +27971,7 @@
   },
   {
    "area": "Halbrook Basin",
-   "city": "Stone Springs",
+   "city": "Simmons",
    "classification": "6A",
    "colors": [
     "#3a5a78",
@@ -28249,7 +28249,7 @@
    "conference": "Shipwright League",
    "enrollment": 1630,
    "mascot": "Trojans",
-   "name": "Roscoe Bennett North",
+   "name": "Veles Point",
    "private": false,
    "sports": [
     "baseball",
@@ -28674,7 +28674,7 @@
   },
   {
    "area": "North Range",
-   "city": "Sage Lake",
+   "city": "Sage Village",
    "classification": "1A",
    "colors": [
     "#1d4e9e",
@@ -28683,7 +28683,7 @@
    "conference": "Short Line League",
    "enrollment": 107,
    "mascot": "Roundhouse",
-   "name": "Sage Lake",
+   "name": "Sage Village",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -28698,7 +28698,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Sage Meadows",
+   "city": "Galactica Plains",
    "classification": "1A",
    "colors": [
     "#7b1e2b",
@@ -28707,7 +28707,7 @@
    "conference": "Emigrant Trail League",
    "enrollment": 105,
    "mascot": "Trojans",
-   "name": "Sage Meadows",
+   "name": "Galactica Plains",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -28722,7 +28722,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Sage Point",
+   "city": "California Canyons",
    "classification": "3A",
    "colors": [
     "#167339",
@@ -28731,7 +28731,7 @@
    "conference": "Rimrock League",
    "enrollment": 399,
    "mascot": "Bunchgrass",
-   "name": "Sage Point",
+   "name": "California Canyons",
    "private": false,
    "sports": [
     "bowling",
@@ -29168,7 +29168,7 @@
    "conference": "Redwood Coast Conference",
    "enrollment": 1669,
    "mascot": "Tuatara",
-   "name": "San Borond\u00f3n Country Day School",
+   "name": "San Borond\u00f3n Country Day",
    "private": true,
    "sports": [
     "boys-alpine-skiing",
@@ -30187,7 +30187,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Caverly",
    "classification": "1A",
    "colors": [
@@ -30462,7 +30462,7 @@
    "conference": "Rimrock League",
    "enrollment": 59,
    "mascot": "Lions",
-   "name": "Silton Union",
+   "name": "Silton Ridge",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -30477,7 +30477,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Silvale",
+   "city": "Fort Wren",
    "classification": "1A",
    "colors": [
     "#5b2a86",
@@ -30486,7 +30486,7 @@
    "conference": "Rimrock League",
    "enrollment": 118,
    "mascot": "Yellowjackets",
-   "name": "Silvale",
+   "name": "Fort Wren",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -30640,14 +30640,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Sluice Crossing",
    "classification": "7A",
    "colors": [
     "#333d29",
     "#d97706"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 1519,
    "mascot": "Falcons",
    "name": "Sluice Crossing",
@@ -30684,7 +30684,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Sluice Landing",
    "classification": "2A",
    "colors": [
@@ -30772,7 +30772,7 @@
    "conference": "Harbor Cities League",
    "enrollment": 1638,
    "mascot": "Iron Warriors",
-   "name": "Sofia Romanov",
+   "name": "Veles Basin",
    "private": false,
    "sports": [
     "badminton",
@@ -30820,7 +30820,7 @@
    "conference": "Harbor Cities League",
    "enrollment": 899,
    "mascot": "Iron Warriors",
-   "name": "Sofia Romanov North",
+   "name": "Veles Wharf",
    "private": false,
    "sports": [
     "badminton",
@@ -30925,7 +30925,7 @@
    "conference": "Rose Valley League",
    "enrollment": 913,
    "mascot": "Buffaloes",
-   "name": "Sof\u00eda Cordero",
+   "name": "John Quincy Adams",
    "private": false,
    "sports": [
     "bowling",
@@ -31168,7 +31168,7 @@
    "conference": "Emigrant League",
    "enrollment": 412,
    "mascot": "Snow Leopards",
-   "name": "St. Brigid School",
+   "name": "St. Brigid",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -31194,7 +31194,7 @@
    "conference": "High Plains League",
    "enrollment": 1035,
    "mascot": "Ibex",
-   "name": "St. Casimir High School",
+   "name": "St. Casimir",
    "private": true,
    "sports": [
     "baseball",
@@ -31384,14 +31384,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "1A",
    "colors": [
     "#1d4e9e",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 127,
    "mascot": "Wolves",
    "name": "St. Cecilia Academy",
@@ -31436,7 +31436,7 @@
   },
   {
    "area": "North Range",
-   "city": "Millport",
+   "city": "Vonjo City",
    "classification": "3A",
    "colors": [
     "#14294e",
@@ -31548,7 +31548,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 1164,
    "mascot": "Wildcats",
-   "name": "St. Elias School",
+   "name": "St. Elias",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -31720,7 +31720,7 @@
    "conference": "Summit Conference",
    "enrollment": 1280,
    "mascot": "Warriors",
-   "name": "St. Genevieve High School",
+   "name": "St. Genevieve San Cordero",
    "private": true,
    "sports": [
     "boys-alpine-skiing",
@@ -31816,7 +31816,7 @@
    "conference": "Umpqua Valley League",
    "enrollment": 463,
    "mascot": "Tie Hackers",
-   "name": "St. Helena School",
+   "name": "St. Helena",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -31871,7 +31871,7 @@
     "#8c1d40",
     "#f0b323"
    ],
-   "conference": "Mother Lode League",
+   "conference": "Siskiyou Valley League",
    "enrollment": 613,
    "mascot": "Rockets",
    "name": "St. Isidore",
@@ -32361,7 +32361,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Vessey Switch",
    "classification": "1A",
    "colors": [
@@ -32569,7 +32569,7 @@
    "conference": "High Lakes League",
    "enrollment": 370,
    "mascot": "Black Spartans",
-   "name": "St. Sophia School",
+   "name": "St. Sophia",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -32593,7 +32593,7 @@
    "conference": "High Plains League",
    "enrollment": 2150,
    "mascot": "Lions",
-   "name": "St. Teresa High School",
+   "name": "St. Teresa",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -32698,7 +32698,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 1491,
    "mascot": "Panthers",
-   "name": "St. Vincent School",
+   "name": "St. Vincent",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -32720,7 +32720,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Standale",
+   "city": "Lieksa",
    "classification": "3A",
    "colors": [
     "#7f1d1d",
@@ -32729,7 +32729,7 @@
    "conference": "Emigrant Trail League",
    "enrollment": 366,
    "mascot": "Stag Beetles",
-   "name": "Standale",
+   "name": "Lieksa",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -32849,7 +32849,7 @@
    "conference": "Ca\u00f1ada Grande Industrial Athletic Association",
    "enrollment": 1357,
    "mascot": "Saiga",
-   "name": "Starlight School of Science and Industry",
+   "name": "Starlight Science",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -33018,7 +33018,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Stone Meadows",
+   "city": "Raahe",
    "classification": "1A",
    "colors": [
     "#14294e",
@@ -33027,7 +33027,7 @@
    "conference": "Emigrant Trail League",
    "enrollment": 71,
    "mascot": "Knights",
-   "name": "Stone Meadows",
+   "name": "Raahe",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -33042,7 +33042,7 @@
   },
   {
    "area": "Halbrook Basin",
-   "city": "Stone Springs",
+   "city": "Simmons",
    "classification": "7A",
    "colors": [
     "#333d29",
@@ -33051,7 +33051,7 @@
    "conference": "Border League",
    "enrollment": 1429,
    "mascot": "Tigers",
-   "name": "Stone Springs",
+   "name": "Simmons",
    "private": false,
    "sports": [
     "bowling",
@@ -33432,14 +33432,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tailing Crossing",
    "classification": "2A",
    "colors": [
     "#333d29",
     "#d97706"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 339,
    "mascot": "Crusaders",
    "name": "Tailing Crossing",
@@ -33463,17 +33463,17 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Ewart Bar",
    "classification": "2A",
    "colors": [
     "#7f1d1d",
     "#d4d4d8"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 216,
    "mascot": "Falcons",
-   "name": "Tailing Crossing-Ewart Bar Union",
+   "name": "Fountain Park",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -33835,7 +33835,7 @@
    "conference": "High Basin League",
    "enrollment": 415,
    "mascot": "Chukars",
-   "name": "Telfair Country Day School",
+   "name": "Telfair Country Day",
    "private": true,
    "sports": [
     "boys-basketball",
@@ -33919,7 +33919,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 2178,
    "mascot": "Cobras",
-   "name": "Thelma Avery",
+   "name": "Veles Cove",
    "private": false,
    "sports": [
     "baseball",
@@ -34269,7 +34269,7 @@
    "conference": "Silver Glen Industrial Athletic Association",
    "enrollment": 248,
    "mascot": "Wild Trojans",
-   "name": "Thomas Moreau",
+   "name": "Pope Francis",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -34285,7 +34285,7 @@
   },
   {
    "area": "Juniper Highlands",
-   "city": "Thornford",
+   "city": "Thorn Summit",
    "classification": "1A",
    "colors": [
     "#204e39",
@@ -34294,7 +34294,7 @@
    "conference": "Rimrock League",
    "enrollment": 100,
    "mascot": "Bulldogs",
-   "name": "Thornford",
+   "name": "Thorn Summit",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -34930,7 +34930,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Trout Point",
+   "city": "North Simmons",
    "classification": "1A",
    "colors": [
     "#0e7490",
@@ -34939,7 +34939,7 @@
    "conference": "Emigrant Trail League",
    "enrollment": 197,
    "mascot": "Bilbies",
-   "name": "Trout Point",
+   "name": "North Simmons",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -35137,14 +35137,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "4A",
    "colors": [
     "#3f2a56",
     "#3ba55d"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 718,
    "mascot": "Hornbeetles",
    "name": "Tunnel Diggings",
@@ -35179,14 +35179,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "3A",
    "colors": [
     "#167339",
     "#e8e6df"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 519,
    "mascot": "Lions",
    "name": "Tunnel Diggings Hall",
@@ -35212,14 +35212,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "4A",
    "colors": [
     "#3a5a78",
     "#f5e9d0"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 694,
    "mascot": "Bogongs",
    "name": "Tunnel Diggings Northeast",
@@ -35249,14 +35249,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "3A",
    "colors": [
     "#1e5631",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 492,
    "mascot": "Lions",
    "name": "Tunnel Diggings Southwest",
@@ -35288,14 +35288,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnelton",
    "classification": "3A",
    "colors": [
     "#1d4e9e",
     "#f2f2ee"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 437,
    "mascot": "Golden Eagles",
    "name": "Tunnelton",
@@ -35321,7 +35321,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnelwood",
    "classification": "3A",
    "colors": [
@@ -35871,7 +35871,7 @@
    "conference": "Mission Coast League",
    "enrollment": 1311,
    "mascot": "Grey Rams",
-   "name": "Vernon Moss",
+   "name": "Cardinal Mercier",
    "private": false,
    "sports": [
     "baseball",
@@ -36033,7 +36033,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Vessey Junction",
    "classification": "2A",
    "colors": [
@@ -36057,7 +36057,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tailingford",
    "classification": "1A",
    "colors": [
@@ -36081,7 +36081,7 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Vessey Switch",
    "classification": "5A",
    "colors": [
@@ -36135,7 +36135,7 @@
    "conference": "Basin Cities League",
    "enrollment": 1043,
    "mascot": "Army Ants",
-   "name": "Viktor Antonov",
+   "name": "Archbishop Valois",
    "private": false,
    "sports": [
     "baseball",
@@ -36469,7 +36469,7 @@
   },
   {
    "area": "Vermilion Valley",
-   "city": "Walnut Yard",
+   "city": "South Simmons",
    "classification": "2A",
    "colors": [
     "#0e7490",
@@ -36478,7 +36478,7 @@
    "conference": "Olive Belt League",
    "enrollment": 317,
    "mascot": "Honey Badgers",
-   "name": "Walnut Yard",
+   "name": "South Simmons",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -36558,7 +36558,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 1005,
    "mascot": "Pirates",
-   "name": "Walter Hart",
+   "name": "Veles Narrows",
    "private": false,
    "sports": [
     "baseball",
@@ -36599,7 +36599,7 @@
    "conference": "Pacific Gateway Conference",
    "enrollment": 1348,
    "mascot": "Pirates",
-   "name": "Walter Hart North",
+   "name": "Veles Quay",
    "private": false,
    "sports": [
     "baseball",
@@ -36665,14 +36665,14 @@
    ]
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "city": "Tunnel Diggings",
    "classification": "3A",
    "colors": [
     "#0e7490",
     "#fbbf24"
    ],
-   "conference": "Mother Lode Conference",
+   "conference": "Siskiyou Valley Conference",
    "enrollment": 467,
    "mascot": "Hamerkops",
    "name": "Walter Mondale",
@@ -37164,7 +37164,7 @@
   },
   {
    "area": "Sage Plains",
-   "city": "Wheatley",
+   "city": "Minnesota City",
    "classification": "2A",
    "colors": [
     "#0f6a70",
@@ -37173,7 +37173,7 @@
    "conference": "Frontier Metro Conference",
    "enrollment": 215,
    "mascot": "Hornbills",
-   "name": "Wheatley",
+   "name": "Minnesota City",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -37256,7 +37256,7 @@
   },
   {
    "area": "Harborline",
-   "city": "Wickbrook",
+   "city": "Salmon Bay",
    "classification": "1A",
    "colors": [
     "#1d4e9e",
@@ -37265,7 +37265,7 @@
    "conference": "Cannery Athletic League",
    "enrollment": 82,
    "mascot": "Kudu",
-   "name": "Wickbrook",
+   "name": "Salmon Bay",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -37619,7 +37619,7 @@
   },
   {
    "area": "Timber Valley",
-   "city": "Wolf Gap",
+   "city": "Corey Canyon",
    "classification": "3A",
    "colors": [
     "#1d4e9e",
@@ -37628,7 +37628,7 @@
    "conference": "Valley Heritage League",
    "enrollment": 477,
    "mascot": "Mountaineers",
-   "name": "Wolf Gap",
+   "name": "Corey Canyon",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -37648,7 +37648,7 @@
   },
   {
    "area": "Timber Valley",
-   "city": "Wolf Gap",
+   "city": "Corey Canyon",
    "classification": "2A",
    "colors": [
     "#3f2a56",
@@ -37657,7 +37657,7 @@
    "conference": "Umpqua Valley League",
    "enrollment": 258,
    "mascot": "Kokanee",
-   "name": "Wolf Gap International School",
+   "name": "Corey Canyon International",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -37764,7 +37764,7 @@
    "conference": "High Basin League",
    "enrollment": 541,
    "mascot": "Panthers",
-   "name": "Xabier Arregui",
+   "name": "Sinkford",
    "private": false,
    "sports": [
     "boys-basketball",
@@ -38061,7 +38061,7 @@
    "conference": "Maritime Athletic Conference",
    "enrollment": 2100,
    "mascot": "Morpho",
-   "name": "Zoya Orlov",
+   "name": "Sacred Heart Cathedral",
    "private": false,
    "sports": [
     "bowling",

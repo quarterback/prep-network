@@ -426,7 +426,7 @@
 <text x='1273' y='405' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Carden City</text>
 <text x='329' y='659' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Averill</text>
 <text x='1279' y='307' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Cañada Grande</text>
-<text x='501' y='715' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Cedarport</text>
+<text x='501' y='715' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>North San Francisco</text>
 <text x='54' y='638' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Santa Cruz del Norte</text>
 <text x='1186' y='222' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Emerson</text>
 <text x='664' y='410' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Calder</text>
@@ -442,7 +442,7 @@
 <text x='608' y='264' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Navrang</text>
 <text x='383' y='662' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Gagarin</text>
 <text x='1127' y='348' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Northrup</text>
-<text x='1108' y='377' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Stone Springs</text>
+<text x='1108' y='377' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Simmons</text>
 <text x='103' y='467' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Wales City</text>
 <text x='703' y='458' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Telfair</text>
 <text x='337' y='353' font-size='12.5' font-weight='700' fill='#1B1917' stroke='#F7F5F0' stroke-width='3.4' stroke-linejoin='round' paint-order='stroke'>Rye</text>
@@ -462,5 +462,5 @@
 <circle cx='40' cy='1274' r='6' fill='#8C6B4A'/><text x='52' y='1278' font-size='13' fill='#3A3630'>Juniper Highlands</text>
 <circle cx='340' cy='1274' r='6' fill='#4A5A72'/><text x='352' y='1278' font-size='13' fill='#3A3630'>North Range</text>
 <circle cx='640' cy='1274' r='6' fill='#B0492F'/><text x='652' y='1278' font-size='13' fill='#3A3630'>Vermilion Valley</text>
-<circle cx='940' cy='1274' r='6' fill='#8A7B2E'/><text x='952' y='1278' font-size='13' fill='#3A3630'>Mother Lode</text>
+<circle cx='940' cy='1274' r='6' fill='#8A7B2E'/><text x='952' y='1278' font-size='13' fill='#3A3630'>Siskiyou Valley</text>
 </svg>

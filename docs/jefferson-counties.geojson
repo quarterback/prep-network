@@ -2673,7 +2673,7 @@
     "state": "CA",
     "fips": "06063",
     "county": "Featherstone",
-    "area": "Mother Lode"
+    "area": "Siskiyou Valley"
    },
    "geometry": {
     "type": "Polygon",
@@ -3544,7 +3544,7 @@
     "state": "CA",
     "fips": "06091",
     "county": "Highgrade",
-    "area": "Mother Lode"
+    "area": "Siskiyou Valley"
    },
    "geometry": {
     "type": "Polygon",
@@ -3617,7 +3617,7 @@
     "state": "CA",
     "fips": "06057",
     "county": "Goldbank",
-    "area": "Mother Lode"
+    "area": "Siskiyou Valley"
    },
    "geometry": {
     "type": "Polygon",
