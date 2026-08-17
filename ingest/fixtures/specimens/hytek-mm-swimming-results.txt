@@ -53,7 +53,7 @@ Event 3  Girls 200 Yard Freestyle
   7 Whitcombe, Delia        12 Mabryville                         1:57.33    1:57.02       12
   8 Yamashita, Hana         10 Elk Crossing                       1:58.10    1:57.66       11
   9 Beaumont, Claire        11 Farleymere                         1:58.44    1:58.20        9
- 10 Okafor, Chidinma        12 Wickbrook                          1:59.02         NS
+ 10 Okafor, Chidinma        12 Salmon Bay                          1:59.02         NS
 
 Event 4  Boys 200 Yard Freestyle
     Name                    Yr School                           Seed Time  Finals Time  Points
@@ -99,7 +99,7 @@ Girls - 7A-5A - Team Rankings - Through Event 22
     3) Norview                       266     4) Port Meridian South          185
     5) Halbrook                      142     6) Sage Summit                  121
     7) Mabryville                     88     8) Elk Crossing                  74
-    9) Farleymere                     51    10) Wickbrook                     33
+    9) Farleymere                     51    10) Salmon Bay                     33
 
 Boys - 7A-5A - Team Rankings - Through Event 22
 =================================================================================================

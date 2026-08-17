@@ -113,7 +113,7 @@
    "properties": {
     "area": "Timber Valley",
     "county": "Antler",
-    "name": "Wolf Gap",
+    "name": "Corey Canyon",
     "population": 14653,
     "real_county": "Douglas County, OR"
    },
@@ -181,7 +181,7 @@
    "properties": {
     "area": "Timber Valley",
     "county": "Antler",
-    "name": "Ashwood",
+    "name": "Gruesome Ridge",
     "population": 5700,
     "real_county": "Douglas County, OR"
    },
@@ -232,7 +232,7 @@
    "properties": {
     "area": "Timber Valley",
     "county": "Antler",
-    "name": "Harmon",
+    "name": "Annes Summit",
     "population": 4800,
     "real_county": "Douglas County, OR"
    },
@@ -487,7 +487,7 @@
    "properties": {
     "area": "Timber Valley",
     "county": "Antler",
-    "name": "Harmons Landing",
+    "name": "Annes Summits Landing",
     "population": 2400,
     "real_county": "Douglas County, OR"
    },
@@ -1116,7 +1116,7 @@
    "properties": {
     "area": "Cascade Divide",
     "county": "Cinder",
-    "name": "Huckle Lake",
+    "name": "Mount Dylan Lake",
     "population": 1700,
     "real_county": "Siskiyou County, CA"
    },
@@ -1235,7 +1235,7 @@
    "properties": {
     "area": "Sage Plains",
     "county": "Emigrant",
-    "name": "Standale",
+    "name": "Lieksa",
     "population": 13134,
     "real_county": "Harney County, OR"
    },
@@ -1303,7 +1303,7 @@
    "properties": {
     "area": "Sage Plains",
     "county": "Emigrant",
-    "name": "Wheatley",
+    "name": "Minnesota City",
     "population": 6000,
     "real_county": "Harney County, OR"
    },
@@ -1371,7 +1371,7 @@
    "properties": {
     "area": "Sage Plains",
     "county": "Emigrant",
-    "name": "Elmfield",
+    "name": "Nurmes",
     "population": 4300,
     "real_county": "Harney County, OR"
    },
@@ -1422,7 +1422,7 @@
    "properties": {
     "area": "Sage Plains",
     "county": "Emigrant",
-    "name": "Sage Meadows",
+    "name": "Galactica Plains",
     "population": 2800,
     "real_county": "Harney County, OR"
    },
@@ -1439,7 +1439,7 @@
    "properties": {
     "area": "Sage Plains",
     "county": "Emigrant",
-    "name": "Millview",
+    "name": "Kuusamo",
     "population": 2400,
     "real_county": "Harney County, OR"
    },
@@ -1471,9 +1471,9 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Featherstone",
-    "name": "Ewart City",
+    "name": "Cook City",
     "population": 51300,
     "real_county": "Plumas County, CA"
    },
@@ -1488,7 +1488,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Featherstone",
     "name": "Caverly",
     "population": 20100,
@@ -1505,7 +1505,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Featherstone",
     "name": "Tunnelwood",
     "population": 11600,
@@ -1522,7 +1522,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Featherstone",
     "name": "Featherton",
     "population": 7900,
@@ -1539,7 +1539,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Featherstone",
     "name": "Gilhooly",
     "population": 5800,
@@ -1556,7 +1556,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Featherstone",
     "name": "Hydraulicwood",
     "population": 4600,
@@ -1573,7 +1573,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Featherstone",
     "name": "Caverlyville",
     "population": 3700,
@@ -1694,7 +1694,7 @@
    "properties": {
     "area": "Gold Valley",
     "county": "Ferris",
-    "name": "Cedarport",
+    "name": "North San Francisco",
     "population": 96000,
     "real_county": "Shasta County, CA"
    },
@@ -2151,7 +2151,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Tunnel Diggings",
     "population": 136100,
@@ -2168,7 +2168,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Sluice Crossing",
     "population": 53400,
@@ -2185,7 +2185,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Ditch Fork",
     "population": 30900,
@@ -2202,7 +2202,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Gulch Bend",
     "population": 20900,
@@ -2219,7 +2219,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Hydraulic Gap",
     "population": 15500,
@@ -2236,9 +2236,9 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
-    "name": "Ewartville",
+    "name": "Fort Tabor",
     "population": 12100,
     "real_county": "Nevada County, CA"
    },
@@ -2253,7 +2253,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Tunnelton",
     "population": 9800,
@@ -2270,7 +2270,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Cradle Reach",
     "population": 8200,
@@ -2287,7 +2287,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Tailing Crossing",
     "population": 7000,
@@ -2304,7 +2304,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Goldbank",
     "name": "Ewart Bar",
     "population": 6100,
@@ -2559,7 +2559,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Highgrade",
     "name": "Vessey Switch",
     "population": 21400,
@@ -2576,7 +2576,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Highgrade",
     "name": "Sluice Landing",
     "population": 8400,
@@ -2593,7 +2593,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Highgrade",
     "name": "Vessey Junction",
     "population": 4900,
@@ -2610,7 +2610,7 @@
     "type": "Point"
    },
    "properties": {
-    "area": "Mother Lode",
+    "area": "Siskiyou Valley",
     "county": "Highgrade",
     "name": "Tailingford",
     "population": 3300,
@@ -2663,7 +2663,7 @@
    "properties": {
     "area": "Juniper Highlands",
     "county": "Juniper",
-    "name": "Sage Point",
+    "name": "California Canyons",
     "population": 7200,
     "real_county": "Modoc County, CA"
    },
@@ -2680,7 +2680,7 @@
    "properties": {
     "area": "Juniper Highlands",
     "county": "Juniper",
-    "name": "Elmburg",
+    "name": "Mt Jacqueline",
     "population": 6400,
     "real_county": "Modoc County, CA"
    },
@@ -2714,7 +2714,7 @@
    "properties": {
     "area": "Juniper Highlands",
     "county": "Juniper",
-    "name": "Gold Junction",
+    "name": "Seamus Town",
     "population": 4400,
     "real_county": "Modoc County, CA"
    },
@@ -2748,7 +2748,7 @@
    "properties": {
     "area": "Juniper Highlands",
     "county": "Juniper",
-    "name": "Thornford",
+    "name": "Thorn Summit",
     "population": 2800,
     "real_county": "Modoc County, CA"
    },
@@ -2782,7 +2782,7 @@
    "properties": {
     "area": "Juniper Highlands",
     "county": "Juniper",
-    "name": "Silvale",
+    "name": "Fort Wren",
     "population": 2000,
     "real_county": "Modoc County, CA"
    },
@@ -2816,7 +2816,7 @@
    "properties": {
     "area": "Juniper Highlands",
     "county": "Juniper",
-    "name": "Copper Crossing",
+    "name": "Copper Gap",
     "population": 600,
     "real_county": "Modoc County, CA"
    },
@@ -2969,7 +2969,7 @@
    "properties": {
     "area": "Vermilion Valley",
     "county": "Kernwood",
-    "name": "Marsh Depot",
+    "name": "Jersey City",
     "population": 9500,
     "real_county": "Butte County, CA"
    },
@@ -3037,7 +3037,7 @@
    "properties": {
     "area": "North Range",
     "county": "Lodestone",
-    "name": "Marshdale",
+    "name": "Fort Lassiter",
     "population": 16932,
     "real_county": "Humboldt County, NV"
    },
@@ -3122,7 +3122,7 @@
    "properties": {
     "area": "North Range",
     "county": "Lodestone",
-    "name": "Graymont",
+    "name": "Georgia Mills",
     "population": 600,
     "real_county": "Humboldt County, NV"
    },
@@ -3462,7 +3462,7 @@
    "properties": {
     "area": "Vermilion Valley",
     "county": "Olivet",
-    "name": "Walnut Yard",
+    "name": "South Simmons",
     "population": 6000,
     "real_county": "Tehama County, CA"
    },
@@ -3581,7 +3581,7 @@
    "properties": {
     "area": "South Coast",
     "county": "Ostrander",
-    "name": "Ashfield",
+    "name": "California Beach",
     "population": 3800,
     "real_county": "Del Norte County, CA"
    },
@@ -3598,7 +3598,7 @@
    "properties": {
     "area": "South Coast",
     "county": "Ostrander",
-    "name": "Elk Prairie",
+    "name": "Carolina Island",
     "population": 2300,
     "real_county": "Del Norte County, CA"
    },
@@ -3649,7 +3649,7 @@
    "properties": {
     "area": "Vermilion Valley",
     "county": "Paddock",
-    "name": "Goodman",
+    "name": "Fort Bardsley",
     "population": 14200,
     "real_county": "Glenn County, CA"
    },
@@ -3785,7 +3785,7 @@
    "properties": {
     "area": "Vermilion Valley",
     "county": "Paddock",
-    "name": "Rentie Grove",
+    "name": "Jamaica",
     "population": 2500,
     "real_county": "Glenn County, CA"
    },
@@ -3904,7 +3904,7 @@
    "properties": {
     "area": "Juniper Highlands",
     "county": "Rimrock",
-    "name": "Doyle Junction",
+    "name": "Doyle Pass",
     "population": 46000,
     "real_county": "Lake County, OR"
    },
@@ -4703,7 +4703,7 @@
    "properties": {
     "area": "Sage Plains",
     "county": "Stagewater",
-    "name": "Trout Point",
+    "name": "North Simmons",
     "population": 4700,
     "real_county": "Malheur County, OR"
    },
@@ -4822,7 +4822,7 @@
    "properties": {
     "area": "Sage Plains",
     "county": "Stagewater",
-    "name": "Stone Meadows",
+    "name": "Raahe",
     "population": 2400,
     "real_county": "Malheur County, OR"
    },
@@ -4924,7 +4924,7 @@
    "properties": {
     "area": "Cascade Divide",
     "county": "Tamarack",
-    "name": "Dahlberg",
+    "name": "Dahlberg Summit",
     "population": 40000,
     "real_county": "Klamath County, OR"
    },
@@ -5043,7 +5043,7 @@
    "properties": {
     "area": "Cascade Divide",
     "county": "Tamarack",
-    "name": "Alderfield",
+    "name": "Linden",
     "population": 4400,
     "real_county": "Klamath County, OR"
    },
@@ -5332,7 +5332,7 @@
    "properties": {
     "area": "Halbrook Basin",
     "county": "Vance",
-    "name": "Stone Springs",
+    "name": "Simmons",
     "population": 70000,
     "real_county": "Owyhee County, ID"
    },
@@ -5519,7 +5519,7 @@
    "properties": {
     "area": "Harborline",
     "county": "Weller",
-    "name": "Fort Salish",
+    "name": "Fort Weller",
     "population": 42000,
     "real_county": "Curry County, OR"
    },
@@ -5604,7 +5604,7 @@
    "properties": {
     "area": "Harborline",
     "county": "Weller",
-    "name": "Aldermont",
+    "name": "Cape Angeles",
     "population": 5700,
     "real_county": "Curry County, OR"
    },
@@ -5621,7 +5621,7 @@
    "properties": {
     "area": "Harborline",
     "county": "Weller",
-    "name": "Garrity",
+    "name": "Texas Beach",
     "population": 4600,
     "real_county": "Curry County, OR"
    },
@@ -5638,7 +5638,7 @@
    "properties": {
     "area": "Harborline",
     "county": "Weller",
-    "name": "Granite Bar",
+    "name": "New Penzance Island",
     "population": 3600,
     "real_county": "Curry County, OR"
    },
@@ -5672,7 +5672,7 @@
    "properties": {
     "area": "Harborline",
     "county": "Weller",
-    "name": "Wickbrook",
+    "name": "Salmon Bay",
     "population": 2000,
     "real_county": "Curry County, OR"
    },
@@ -5689,7 +5689,7 @@
    "properties": {
     "area": "North Range",
     "county": "Windrow",
-    "name": "Millport",
+    "name": "Vonjo City",
     "population": 19058,
     "real_county": "Lassen County, CA"
    },
@@ -5706,7 +5706,7 @@
    "properties": {
     "area": "North Range",
     "county": "Windrow",
-    "name": "Hetfield",
+    "name": "Brynildson Hill",
     "population": 17340,
     "real_county": "Lassen County, CA"
    },
@@ -5740,7 +5740,7 @@
    "properties": {
     "area": "North Range",
     "county": "Windrow",
-    "name": "Aspen Harbor",
+    "name": "East Simmons",
     "population": 5000,
     "real_county": "Lassen County, CA"
    },
@@ -5791,7 +5791,7 @@
    "properties": {
     "area": "North Range",
     "county": "Windrow",
-    "name": "Sage Lake",
+    "name": "Sage Village",
     "population": 3200,
     "real_county": "Lassen County, CA"
    },

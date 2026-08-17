@@ -13,7 +13,7 @@ of real western cities and schools.
 # A real western map is not one grammar. Its towns came from different decades
 # and different actors: fused compounds platted by land companies (Ashford,
 # Silverton), settler surnames left by homesteads and post offices (Glenn,
-# Merrill), names the railroad assigned (Doyle Junction), and one-word oddities
+# Merrill), names the railroad assigned (Doyle Pass), and one-word oddities
 # nobody can fully explain (Keno, Bly, Drain). One two-word template produces a
 # fantasy map; the mix below produces a state.
 
@@ -41,7 +41,7 @@ FUSE_SUFFIXES = ["ton", "ford", "dale", "burg", "field", "mont", "wood", "view",
 
 # settler-surname towns (a post office named for whoever ran it)
 TOWN_SURNAMES = [
-    "Averill", "Bidwell", "Colby", "Doyle", "Ferris", "Garrity", "Harmon",
+    "Averill", "Bidwell", "Colby", "Doyle", "Ferris", "Texas Beach", "Annes Summit",
     "Kendrick", "Loomis", "Mabry", "Merrick", "Naylor", "Odell", "Purcell",
     "Ransom", "Selby", "Tindall", "Ulery", "Vance", "Weller", "Yandell",
     "Etchart", "Ansotegui",   # Basque ranching country, SE corner — real heritage
@@ -84,7 +84,7 @@ NAMED_CITIES = [
     ("Leidesdorff", 56_304, "Gold Valley", ["Leidesdorff"]),
     ("Newark River", 60_029, "Harborline", None),
     ("Santa Laura", 58_650, "South Coast", None),
-    ("Hetfield", 17_340, "North Range", None),
+    ("Brynildson Hill", 17_340, "North Range", None),
     ("New Leiden", 35_738, "Cascade Divide", None),
     ("Annie Springs", 24_420, "Cascade Divide", None),
     ("Latgaway", 28_411, "Sage Plains", None),
@@ -130,7 +130,7 @@ COUNTY_GEO = {
                           ("Olivet", "Tehama County, CA"),
                           ("Paddock", "Glenn County, CA"),
                           ("Bardsley", "Colusa County, CA")],
-    "Mother Lode":       [("Goldbank", "Nevada County, CA"),
+    "Siskiyou Valley":       [("Goldbank", "Nevada County, CA"),
                           ("Featherstone", "Plumas County, CA"),
                           ("Highgrade", "Sierra County, CA")],
 }
@@ -149,7 +149,7 @@ TOWN_RENAMES = {
 COUNTY_PINS = {
     "Ashbury": "Marlow", "Port Meridian": "Bidwell", "Halbrook": "Halbrook",
     "Plainfield": "Antler", "Leidesdorff": "Sablewood", "Newark River": "Weller",
-    "Santa Laura": "San Marcos", "Hetfield": "Windrow", "New Leiden": "Tamarack",
+    "Santa Laura": "San Marcos", "Brynildson Hill": "Windrow", "New Leiden": "Tamarack",
     "Annie Springs": "Cinder", "San Aurelio": "San Marcos",
     "Puerto Alma": "San Marcos", "Mesa Dorada": "Ostrander",
     "Latgaway": "Stagewater", "Netherwood": "Antler",
@@ -163,7 +163,7 @@ PRIVATE_NAMED = [
     # (name, city, tier)  tier: "metro" | "secondary" | "town"
     ("Romero-Finniski", "Ashbury", "metro"),
     ("Condotti Vanguard Academy", "Ashbury", "metro"),
-    ("Metropolitan Country Day School", "Ashbury", "metro"),
+    ("Metropolitan Country Day", "Ashbury", "metro"),
     ("Chaminade", "Ashbury", "metro"),
     ("Sisters of Mercy", "Ashbury", "metro"),
     ("St. Norbert Abbey", "Ashbury", "metro"),
@@ -172,8 +172,8 @@ PRIVATE_NAMED = [
     ("Abbey Prep", "Port Meridian", "metro"),
     ("Wheeler Academy", "Halbrook", "metro"),
     ("Delbarton", "Halbrook", "metro"),
-    ("Pinecrest School", "Averill", "secondary"),
-    ("Calderwood School", "Cedarport", "secondary"),
+    ("Pinecrest", "Averill", "secondary"),
+    ("Calderwood", "North San Francisco", "secondary"),
     ("Evans Western Institute", "Redfork", "secondary"),
     ("Calasanz Prep", "Plainfield", "secondary"),
     ("Ryken", "Newark River", "secondary"),
@@ -182,20 +182,20 @@ PRIVATE_NAMED = [
 
 # ---- Christian schools dotted around the state ------------------------------
 # Directional/geographic names, the way these schools actually name
-# themselves. One is just Baptist HS — some schools never needed more.
+# themselves. One is just Baptist — some schools never needed more.
 CHRISTIAN_SCHOOLS = [
     ("Northside Christian", "Halbrook", "metro"),
     ("Westside Christian", "Port Meridian", "metro"),
     ("Southridge Christian", "Ashbury", "metro"),
-    ("Eastmont Christian", "Cedarport", "secondary"),
+    ("Eastmont Christian", "North San Francisco", "secondary"),
     ("Western Slope Christian", "Redfork", "secondary"),
-    ("High Desert Christian", "Doyle Junction", "secondary"),
+    ("High Desert Christian", "Doyle Pass", "secondary"),
     ("Central Christian", "Summervale", "secondary"),
     ("Coastal Christian", "Santa Laura", "town"),
     ("North Valley Christian", "Netherwood", "town"),
     ("Valley Christian", "New Leiden", "town"),
     ("Southern Jefferson Christian", "Latgaway", "town"),
-    ("Baptist HS", "Hetfield", "town"),
+    ("Baptist", "Brynildson Hill", "town"),
 ]
 
 # Santa Laura anchors a Spanish-derived naming layer on the southern coast;
@@ -208,8 +208,8 @@ ANCHORS = {
     "coastal_metro": ("Port Meridian", 205_000),  # coastal city, ~330k metro
     "boise_side": ("Halbrook", 185_000),          # Jefferson side of the Boise metro
     "secondary": [
-        ("Averill", 118_000), ("Cedarport", 96_000), ("Blackpine", 84_000),
-        ("Kelford", 71_000), ("Redfork", 58_000), ("Doyle Junction", 46_000),
+        ("Averill", 118_000), ("North San Francisco", 96_000), ("Blackpine", 84_000),
+        ("Kelford", 71_000), ("Redfork", 58_000), ("Doyle Pass", 46_000),
         ("Summervale", 43_000),
     ],
 }
@@ -229,7 +229,7 @@ SAINTS = [
 
 # secular private tradition: founders, benefactors, classical preps
 PREPS = [
-    "Hawthorne Preparatory", "Barrett Academy", "Pacific Friends School",
+    "Hawthorne Preparatory", "Barrett Academy", "Pacific Friends",
     "Ashbury Country Day", "Whittaker Hall", "The Meridian School",
     "Copley Academy", "Jefferson Lutheran", "Sherwood Friends",
 ]
@@ -271,7 +271,7 @@ REGIONAL_FORMS = ["{} County", "Upper {} Union", "{} Regional", "{} Union"]
 
 # ---- magnet / technical / specialty (metros only) ---------------------------
 MAGNETS = [
-    "Jefferson School of Science and Technology", "Port Meridian North",
+    "Jefferson Science", "Port Meridian North",
     "Academy of Arts and Communication", "Ashbury Health Sciences",
     "Port Meridian Maritime", "Ashbury Technical",
 ]
@@ -283,7 +283,7 @@ PROTESTANT = [
 ]
 CIVIC_WORDS = [
     "Frontier", "Pioneer", "Overland", "Prospect", "Pinnacle", "Liberty",
-    "Independence", "Enterprise", "Harmony", "Unity", "Golden Valley",
+    "Independence", "Enterprise", "Annes Summity", "Unity", "Golden Valley",
     "Scarlet Oak", "Blue Spruce", "Silverleaf", "Crimson Ridge",
 ]
 DIRECTIONS = ["North", "South", "East", "West", "Central", "Northwest", "Southeast", "Union", "Heights"]
@@ -387,7 +387,7 @@ CONF_NAMES = {
         "Valley Heritage League",
     ],
     "Gold Valley": [
-        "Mother Lode League", "Gold Valley Conference", "Stagecoach League",
+        "Siskiyou Valley League", "Gold Valley Conference", "Stagecoach League",
     ],
     "North Range": [
         "North Range League", "Territorial Conference", "Short Line League",

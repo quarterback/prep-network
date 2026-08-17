@@ -172,7 +172,7 @@ class Gen:
         rng.shuffle(person)
         hoods = list(N.NEIGHBORHOODS); rng.shuffle(hoods)
         geo = list(N.GEO_SCHOOLS); rng.shuffle(geo)
-        magnets = {"Ashbury": ["Jefferson School of Science and Technology",
+        magnets = {"Ashbury": ["Jefferson Science",
                                "Academy of Arts and Communication"],
                    "Port Meridian": ["Port Meridian North",
                                      "Port Meridian Maritime"],

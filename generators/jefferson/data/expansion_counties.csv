@@ -32,7 +32,7 @@ Heritage Christian,Corliss Junction,Kernwood,Vermilion Valley,16400,59,1A,True,p
 Tule Flat,Tule Flat,Kernwood,Vermilion Valley,13300,737,4A,False,city flagship,Grangers,Vermilion Valley Conference,new
 Tule Flat Lutheran,Tule Flat,Kernwood,Vermilion Valley,13300,58,1A,True,private/independent,Combines,Vermilion Valley Conference,new
 Corliss,Corliss,Kernwood,Vermilion Valley,11100,626,4A,False,city flagship,Egrets,Vermilion Valley Conference,new
-Marsh Depot,Marsh Depot,Kernwood,Vermilion Valley,9500,645,4A,False,city flagship,Combines,Vermilion Valley Conference,new
+Jersey City,Jersey City,Kernwood,Vermilion Valley,9500,645,4A,False,city flagship,Combines,Vermilion Valley Conference,new
 Chaff Head,Chaff Head,Kernwood,Vermilion Valley,8200,461,3A,False,city flagship,Ditchriders,Vermilion Valley Conference,new
 Chaff Crossing,Chaff Crossing,Kernwood,Vermilion Valley,7200,385,3A,False,city flagship,Prune Packers,Vermilion Valley Conference,new
 Lanphere,Lanphere,Kernwood,Vermilion Valley,6400,362,3A,False,city flagship,Balers,Vermilion Valley Conference,new
@@ -49,7 +49,7 @@ Clover Reach,Clover Reach,Olivet,Vermilion Valley,18900,1303,6A,False,city flags
 Garrow Switch,Garrow Switch,Olivet,Vermilion Valley,12800,673,4A,False,city flagship,Snow Geese,Olive Belt League,new
 Wardlow Depot,Wardlow Depot,Olivet,Vermilion Valley,9500,596,4A,False,city flagship,Tule Elk,Olive Belt League,new
 Jessup Bar,Jessup Bar,Olivet,Vermilion Valley,7400,420,3A,False,city flagship,Grangers,Olive Belt League,new
-Walnut Yard,Walnut Yard,Olivet,Vermilion Valley,6000,396,3A,False,city flagship,Balers,Olive Belt League,new
+South Simmons,South Simmons,Olivet,Vermilion Valley,6000,396,3A,False,city flagship,Balers,Olive Belt League,new
 Prune Siding,Prune Siding,Olivet,Vermilion Valley,5000,287,2A,False,city flagship,Grangers,Olive Belt League,new
 Barley Gap,Barley Gap,Olivet,Vermilion Valley,4300,221,2A,False,city flagship,Levee Rats,Olive Belt League,new
 Welsh Plains,Welsh Plains,Paddock,Vermilion Valley,62400,1295,6A,False,city flagship,Balers,Paddock County League,new
@@ -58,7 +58,7 @@ Welsh Plains West,Welsh Plains,Paddock,Vermilion Valley,62400,1061,6A,False,dire
 Paddock County Catholic,Welsh Plains,Paddock,Vermilion Valley,62400,231,2A,True,private/independent,Levee Rats,Paddock County League,new
 Paddock Institute,Welsh Plains,Paddock,Vermilion Valley,62400,294,2A,True,private/independent,Ricebirds,Paddock County League,new
 Paddock County,New Piscataway,Paddock,Vermilion Valley,24500,1474,7A,False,county consolidation,Snow Geese,Paddock County League,new
-Goodman,Goodman,Paddock,Vermilion Valley,14200,986,5A,False,city flagship,Egrets,Paddock County League,new
+Fort Bardsley,Fort Bardsley,Paddock,Vermilion Valley,14200,986,5A,False,city flagship,Egrets,Paddock County League,new
 Shiloh,Shiloh,Paddock,Vermilion Valley,9600,586,4A,False,city flagship,Grangers,Paddock County League,new
 Zion Hill,Zion Hill,Paddock,Vermilion Valley,7100,496,3A,False,city flagship,Tule Elk,Paddock County League,new
 Canaan Bend,Canaan Bend,Paddock,Vermilion Valley,5600,400,3A,False,city flagship,Threshers,Paddock County League,new
@@ -66,7 +66,7 @@ Beulah Landing,Beulah Landing,Paddock,Vermilion Valley,4500,274,2A,False,city fl
 Free Hill,Free Hill,Paddock,Vermilion Valley,3800,208,2A,False,city flagship,Snow Geese,Paddock County League,new
 Promise Land,Promise Land,Paddock,Vermilion Valley,3200,221,2A,False,city flagship,Tule Elk,Paddock County League,new
 Camden Flat,Camden Flat,Paddock,Vermilion Valley,2800,167,1A,False,city flagship,Ditchriders,Paddock County League,new
-Rentie Grove,Rentie Grove,Paddock,Vermilion Valley,2500,145,1A,False,city flagship,Ditchriders,Paddock County League,new
+Jamaica,Jamaica,Paddock,Vermilion Valley,2500,145,1A,False,city flagship,Ditchriders,Paddock County League,new
 Prune Springs,Prune Springs,Bardsley,Vermilion Valley,35400,1130,6A,False,city flagship,Grangers,Bardsley Union League,new
 Steelhead Creek,Prune Springs,Bardsley,Vermilion Valley,35400,771,4A,False,geographic feature,Ricebirds,Bardsley Union League,new
 Prune Springs Seminary,Prune Springs,Bardsley,Vermilion Valley,35400,64,1A,True,private/independent,Threshers,Bardsley Union League,new
@@ -77,45 +77,45 @@ Sutter Reach,Sutter Reach,Bardsley,Vermilion Valley,8000,461,3A,False,city flags
 Fig Gap,Fig Gap,Bardsley,Vermilion Valley,5500,314,2A,False,city flagship,Canal Diggers,Bardsley Union League,new
 Sutter Basin,Sutter Basin,Bardsley,Vermilion Valley,4000,205,2A,False,city flagship,Balers,Bardsley Union League,new
 Levee Bluff,Levee Bluff,Bardsley,Vermilion Valley,3200,226,2A,False,city flagship,Olive Pickers,Bardsley Union League,new
-Tunnel Diggings,Tunnel Diggings,Goldbank,Mother Lode,136100,1186,6A,False,city flagship,Hydraulickers,Mother Lode Conference,new
-Walter Mondale,Tunnel Diggings,Goldbank,Mother Lode,136100,992,5A,False,president/vice president,Pack Mules,Mother Lode Conference,new
-Lonepine Canyon,Tunnel Diggings,Goldbank,Mother Lode,136100,1167,6A,False,geographic feature,Nuggets,Mother Lode Conference,new
-Tunnel Diggings Southwest,Tunnel Diggings,Goldbank,Mother Lode,136100,1009,5A,False,directional,Sluicers,Mother Lode Conference,new
-Tunnel Diggings Northeast,Tunnel Diggings,Goldbank,Mother Lode,136100,1212,6A,False,directional,Sluicers,Mother Lode Conference,new
-Alben Barkley,Tunnel Diggings,Goldbank,Mother Lode,136100,903,5A,False,president/vice president,Hydraulickers,Mother Lode Conference,new
-Tunnel Diggings Hall,Tunnel Diggings,Goldbank,Mother Lode,136100,696,4A,True,private/independent,River Otters,Mother Lode Conference,new
-Goldbank Hall,Tunnel Diggings,Goldbank,Mother Lode,136100,470,3A,True,private/independent,Hydraulickers,Mother Lode Conference,new
-Bethel Christian,Tunnel Diggings,Goldbank,Mother Lode,136100,519,3A,True,private/independent,Highgraders,Mother Lode Conference,new
-St. Cecilia Academy,Tunnel Diggings,Goldbank,Mother Lode,136100,274,2A,True,private/independent,Pack Mules,Mother Lode Conference,new
-Sluice Crossing,Sluice Crossing,Goldbank,Mother Lode,53400,1680,7A,False,city flagship,Nuggets,Mother Lode Conference,new
-Eisenhower,Sluice Crossing,Goldbank,Mother Lode,53400,1141,6A,False,president/vice president,Stampmillers,Mother Lode Conference,new
-Monsignor Barrow,Sluice Crossing,Goldbank,Mother Lode,53400,258,2A,True,private/independent,Quartz Hounds,Mother Lode Conference,new
-Ditch Fork,Ditch Fork,Goldbank,Mother Lode,30900,1619,7A,False,city flagship,Cradlers,Mother Lode Conference,new
-Martin Luther,Ditch Fork,Goldbank,Mother Lode,30900,80,1A,True,private/independent,Bullion,Mother Lode Conference,new
-Calvary Chapel Ditch Fork,Ditch Fork,Goldbank,Mother Lode,30900,63,1A,True,private/independent,Highgraders,Mother Lode Conference,new
-Gulch Bend,Gulch Bend,Goldbank,Mother Lode,20900,1496,7A,False,city flagship,Hydraulickers,Mother Lode Conference,new
-Foothills Christian,Gulch Bend,Goldbank,Mother Lode,20900,79,1A,True,private/independent,Stampmillers,Mother Lode Conference,new
-Goldbank County,Hydraulic Gap,Goldbank,Mother Lode,15500,819,5A,False,county consolidation,Stampmillers,Mother Lode Conference,new
-Ewartville,Ewartville,Goldbank,Mother Lode,12100,626,4A,False,city flagship,Hydraulickers,Mother Lode Conference,new
-Tunnelton,Tunnelton,Goldbank,Mother Lode,9800,674,4A,False,city flagship,Assayers,Mother Lode Conference,new
-Cradle Reach,Cradle Reach,Goldbank,Mother Lode,8200,466,3A,False,city flagship,Nuggets,Mother Lode Conference,new
-Tailing Crossing,Tailing Crossing,Goldbank,Mother Lode,7000,380,3A,False,city flagship,Nuggets,Mother Lode Conference,new
-Tailing Crossing-Ewart Bar Union,Ewart Bar,Goldbank,Mother Lode,6100,368,3A,False,union district,Bullion,Mother Lode Conference,new
-Ewart City,Ewart City,Featherstone,Mother Lode,51300,1706,8A,False,city flagship,Snowshoers,Feather River League,new
-Madison,Ewart City,Featherstone,Mother Lode,51300,1028,5A,False,president/vice president,Sluicers,Feather River League,new
-Featherstone Institute,Ewart City,Featherstone,Mother Lode,51300,177,1A,True,private/independent,Powder Monkeys,Feather River League,new
-Caverly,Caverly,Featherstone,Mother Lode,20100,1147,6A,False,city flagship,Cradlers,Feather River League,new
-Serra Caverly,Caverly,Featherstone,Mother Lode,20100,75,1A,True,private/independent,Pack Mules,Feather River League,new
-Tunnelwood,Tunnelwood,Featherstone,Mother Lode,11600,655,4A,False,city flagship,Ravens,Feather River League,new
-Featherton,Featherton,Featherstone,Mother Lode,7900,509,3A,False,city flagship,Sluicers,Feather River League,new
-Gilhooly,Gilhooly,Featherstone,Mother Lode,5800,336,2A,False,city flagship,Nuggets,Feather River League,new
-Hydraulicwood,Hydraulicwood,Featherstone,Mother Lode,4600,284,2A,False,city flagship,Nuggets,Feather River League,new
-Hydraulicwood-Caverlyville Union,Caverlyville,Featherstone,Mother Lode,3700,263,2A,False,union district,Powder Monkeys,Feather River League,new
-Vessey Switch,Vessey Switch,Highgrade,Mother Lode,21400,1277,6A,False,city flagship,Highgraders,High Sierra League,new
-St. Perpetua Preparatory,Vessey Switch,Highgrade,Mother Lode,21400,61,1A,True,private/independent,Nuggets,High Sierra League,new
-Sluice Landing,Sluice Landing,Highgrade,Mother Lode,8400,604,4A,False,city flagship,Nuggets,High Sierra League,new
-Vessey Junction,Vessey Junction,Highgrade,Mother Lode,4900,287,2A,False,city flagship,Snowshoers,High Sierra League,new
-Vessey Junction-Tailingford Union,Tailingford,Highgrade,Mother Lode,3300,201,2A,False,union district,Argonauts,High Sierra League,new
+Tunnel Diggings,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,1186,6A,False,city flagship,Hydraulickers,Siskiyou Valley Conference,new
+Walter Mondale,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,992,5A,False,president/vice president,Pack Mules,Siskiyou Valley Conference,new
+Lonepine Canyon,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,1167,6A,False,geographic feature,Nuggets,Siskiyou Valley Conference,new
+Tunnel Diggings Southwest,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,1009,5A,False,directional,Sluicers,Siskiyou Valley Conference,new
+Tunnel Diggings Northeast,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,1212,6A,False,directional,Sluicers,Siskiyou Valley Conference,new
+Alben Barkley,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,903,5A,False,president/vice president,Hydraulickers,Siskiyou Valley Conference,new
+Tunnel Diggings Hall,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,696,4A,True,private/independent,River Otters,Siskiyou Valley Conference,new
+Goldbank Hall,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,470,3A,True,private/independent,Hydraulickers,Siskiyou Valley Conference,new
+Bethel Christian,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,519,3A,True,private/independent,Highgraders,Siskiyou Valley Conference,new
+St. Cecilia Academy,Tunnel Diggings,Goldbank,Siskiyou Valley,136100,274,2A,True,private/independent,Pack Mules,Siskiyou Valley Conference,new
+Sluice Crossing,Sluice Crossing,Goldbank,Siskiyou Valley,53400,1680,7A,False,city flagship,Nuggets,Siskiyou Valley Conference,new
+Eisenhower,Sluice Crossing,Goldbank,Siskiyou Valley,53400,1141,6A,False,president/vice president,Stampmillers,Siskiyou Valley Conference,new
+Monsignor Barrow,Sluice Crossing,Goldbank,Siskiyou Valley,53400,258,2A,True,private/independent,Quartz Hounds,Siskiyou Valley Conference,new
+Ditch Fork,Ditch Fork,Goldbank,Siskiyou Valley,30900,1619,7A,False,city flagship,Cradlers,Siskiyou Valley Conference,new
+Martin Luther,Ditch Fork,Goldbank,Siskiyou Valley,30900,80,1A,True,private/independent,Bullion,Siskiyou Valley Conference,new
+Calvary Chapel Ditch Fork,Ditch Fork,Goldbank,Siskiyou Valley,30900,63,1A,True,private/independent,Highgraders,Siskiyou Valley Conference,new
+Gulch Bend,Gulch Bend,Goldbank,Siskiyou Valley,20900,1496,7A,False,city flagship,Hydraulickers,Siskiyou Valley Conference,new
+Foothills Christian,Gulch Bend,Goldbank,Siskiyou Valley,20900,79,1A,True,private/independent,Stampmillers,Siskiyou Valley Conference,new
+Goldbank County,Hydraulic Gap,Goldbank,Siskiyou Valley,15500,819,5A,False,county consolidation,Stampmillers,Siskiyou Valley Conference,new
+Fort Tabor,Fort Tabor,Goldbank,Siskiyou Valley,12100,626,4A,False,city flagship,Hydraulickers,Siskiyou Valley Conference,new
+Tunnelton,Tunnelton,Goldbank,Siskiyou Valley,9800,674,4A,False,city flagship,Assayers,Siskiyou Valley Conference,new
+Cradle Reach,Cradle Reach,Goldbank,Siskiyou Valley,8200,466,3A,False,city flagship,Nuggets,Siskiyou Valley Conference,new
+Tailing Crossing,Tailing Crossing,Goldbank,Siskiyou Valley,7000,380,3A,False,city flagship,Nuggets,Siskiyou Valley Conference,new
+Fountain Park,Ewart Bar,Goldbank,Siskiyou Valley,6100,368,3A,False,union district,Bullion,Siskiyou Valley Conference,new
+Cook City,Cook City,Featherstone,Siskiyou Valley,51300,1706,8A,False,city flagship,Snowshoers,Feather River League,new
+Madison,Cook City,Featherstone,Siskiyou Valley,51300,1028,5A,False,president/vice president,Sluicers,Feather River League,new
+Featherstone Institute,Cook City,Featherstone,Siskiyou Valley,51300,177,1A,True,private/independent,Powder Monkeys,Feather River League,new
+Caverly,Caverly,Featherstone,Siskiyou Valley,20100,1147,6A,False,city flagship,Cradlers,Feather River League,new
+Serra Caverly,Caverly,Featherstone,Siskiyou Valley,20100,75,1A,True,private/independent,Pack Mules,Feather River League,new
+Tunnelwood,Tunnelwood,Featherstone,Siskiyou Valley,11600,655,4A,False,city flagship,Ravens,Feather River League,new
+Featherton,Featherton,Featherstone,Siskiyou Valley,7900,509,3A,False,city flagship,Sluicers,Feather River League,new
+Gilhooly,Gilhooly,Featherstone,Siskiyou Valley,5800,336,2A,False,city flagship,Nuggets,Feather River League,new
+Hydraulicwood,Hydraulicwood,Featherstone,Siskiyou Valley,4600,284,2A,False,city flagship,Nuggets,Feather River League,new
+Hydraulicwood-Caverlyville Union,Caverlyville,Featherstone,Siskiyou Valley,3700,263,2A,False,union district,Powder Monkeys,Feather River League,new
+Vessey Switch,Vessey Switch,Highgrade,Siskiyou Valley,21400,1277,6A,False,city flagship,Highgraders,High Sierra League,new
+St. Perpetua Preparatory,Vessey Switch,Highgrade,Siskiyou Valley,21400,61,1A,True,private/independent,Nuggets,High Sierra League,new
+Sluice Landing,Sluice Landing,Highgrade,Siskiyou Valley,8400,604,4A,False,city flagship,Nuggets,High Sierra League,new
+Vessey Junction,Vessey Junction,Highgrade,Siskiyou Valley,4900,287,2A,False,city flagship,Snowshoers,High Sierra League,new
+Vessey Junction-Tailingford Union,Tailingford,Highgrade,Siskiyou Valley,3300,201,2A,False,union district,Argonauts,High Sierra League,new
 Scheelite County,Dry Bar,Scheelite,North Range,27600,1422,7A,False,county consolidation,Alkali Cats,Sink Valley League,new
 Mirage Siding,Mirage Siding,Scheelite,North Range,10800,621,4A,False,city flagship,Dust Devils,Sink Valley League,new
 Tungsten Reach,Tungsten Reach,Scheelite,North Range,6300,361,3A,False,city flagship,Haywagons,Sink Valley League,new

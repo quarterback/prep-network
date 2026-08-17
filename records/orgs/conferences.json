@@ -6,7 +6,7 @@
    "slug": "capital-city-league",
    "area": "Ashbury Metro",
    "members": [
-    "Jefferson School of Science and Technology",
+    "Jefferson Science",
     "Ashbury East",
     "Ashbury Central",
     "St. Sebastian Prep",
@@ -28,7 +28,7 @@
     "North Fork",
     "Lena Talltree",
     "Tubman",
-    "Metropolitan Country Day School"
+    "Metropolitan Country Day"
    ]
   },
   {
@@ -37,7 +37,7 @@
    "area": "Ashbury Metro",
    "members": [
     "Covenant Christian",
-    "Pacific Friends School",
+    "Pacific Friends",
     "Academy of Arts and Communication",
     "Chaminade",
     "Romero-Finniski",
@@ -122,14 +122,14 @@
    "slug": "cannery-athletic-league",
    "area": "Harborline",
    "members": [
-    "Aldermont",
-    "Garrity",
-    "Granite Bar",
+    "Cape Angeles",
+    "Texas Beach",
+    "New Penzance Island",
     "Halbrook County",
     "Rimrock Valley",
     "Tamarack Harbor",
     "Tule",
-    "Wickbrook"
+    "Salmon Bay"
    ]
   },
   {
@@ -141,10 +141,10 @@
     "Santa Laura North",
     "Coastal Christian",
     "Tamarack Regional",
-    "Ashfield",
+    "California Beach",
     "Camas Ridge",
     "Copperview",
-    "Elk Prairie"
+    "Carolina Island"
    ]
   },
   {
@@ -188,7 +188,7 @@
     "Drayfield",
     "Etchartville",
     "Terrace Park",
-    "Stone Springs",
+    "Simmons",
     "Riverbend"
    ]
   },
@@ -204,7 +204,7 @@
     "Redfork",
     "New Leiden",
     "Valley Christian",
-    "Alderfield"
+    "Linden"
    ]
   },
   {
@@ -215,11 +215,11 @@
     "Alderton",
     "Annie Springs",
     "Ashstead",
-    "Brackwood Union",
+    "Brackwood Pass",
     "Sage Summit",
     "Draybrook Union",
     "Halemere",
-    "Huckle Lake"
+    "Mount Dylan Lake"
    ]
   },
   {
@@ -230,7 +230,7 @@
     "Juniper Bar",
     "Naylor City",
     "Upper Camas Union",
-    "Ransom City Union",
+    "Ransom Pass",
     "Sage Spur",
     "Tamarack Springs",
     "Yarmere"
@@ -247,7 +247,7 @@
     "Summervale",
     "Central Christian",
     "Marshall",
-    "Doyle Junction",
+    "Doyle Pass",
     "High Desert Christian"
    ]
   },
@@ -259,11 +259,11 @@
     "Ostrander Union",
     "Marlow County",
     "Owl Canyon",
-    "Copper Crossing",
+    "Copper Gap",
     "Larchmont Ridge",
-    "Elmburg",
+    "Mt Jacqueline",
     "Farleymere",
-    "Gold Junction"
+    "Seamus Town"
    ]
   },
   {
@@ -272,11 +272,11 @@
    "area": "Juniper Highlands",
    "members": [
     "Norbrook",
-    "Sage Point",
-    "Silton Union",
-    "Silvale",
+    "California Canyons",
+    "Silton Ridge",
+    "Fort Wren",
     "Meridian Regional",
-    "Thornford",
+    "Thorn Summit",
     "Trout Junction"
    ]
   },
@@ -290,9 +290,9 @@
     "Antler Prairie",
     "Ashbrook",
     "Basalt Prairie Union",
-    "Elmfield",
+    "Nurmes",
     "Keldale",
-    "Kelview Union"
+    "Iisalmi Union"
    ]
   },
   {
@@ -303,8 +303,8 @@
     "Kendricks Landing",
     "Lodestone",
     "Mabry",
-    "Milldale Union",
-    "Millview",
+    "Sotkamo Union",
+    "Kuusamo",
     "Naylors Landing",
     "Ninemile",
     "Sage Junction"
@@ -315,12 +315,12 @@
    "slug": "emigrant-trail-league",
    "area": "Sage Plains",
    "members": [
-    "Sage Meadows",
+    "Galactica Plains",
     "Silver Junction",
     "Sixes",
-    "Standale",
-    "Stone Meadows",
-    "Trout Point",
+    "Lieksa",
+    "Raahe",
+    "North Simmons",
     "Twin Rivers",
     "Weller Regional"
    ]
@@ -347,7 +347,7 @@
    "area": "Timber Valley",
    "members": [
     "Ansotegui",
-    "Ashwood",
+    "Gruesome Ridge",
     "Aspen Meadows",
     "Aspen Spur Union",
     "Bidwell",
@@ -364,7 +364,7 @@
    "members": [
     "Cascade View",
     "Gold Hollow",
-    "Harmon",
+    "Annes Summit",
     "Harmon Siding",
     "Redwood Glen",
     "Bidwell County",
@@ -385,24 +385,24 @@
     "Bear Flat",
     "Whistle Stop",
     "Sablewood Union",
-    "Wolf Gap",
+    "Corey Canyon",
     "Yarburg"
    ]
   },
   {
-   "name": "Mother Lode League",
-   "slug": "mother-lode-league",
+   "name": "Siskiyou Valley League",
+   "slug": "siskiyou-valley-league",
    "area": "Gold Valley",
    "members": [
     "Averill East",
     "Averill",
     "St. Isidore",
     "Averill Northwest",
-    "Pinecrest School",
-    "Cedarport",
+    "Pinecrest",
+    "North San Francisco",
     "Augustus Mercer",
     "Cedarport Southeast",
-    "Calderwood School"
+    "Calderwood"
    ]
   },
   {
@@ -441,9 +441,9 @@
    "slug": "north-range-league",
    "area": "North Range",
    "members": [
-    "Hetfield",
-    "Baptist HS",
-    "Aspen Harbor",
+    "Brynildson Hill",
+    "Baptist",
+    "East Simmons",
     "Assay",
     "Copper Bar",
     "Cutbank",
@@ -460,10 +460,10 @@
     "Silver Lake",
     "Ferris Union",
     "Galena",
-    "Graymont",
+    "Georgia Mills",
     "Huckle Butte",
     "Mabryville",
-    "Marshdale"
+    "Fort Lassiter"
    ]
   },
   {
@@ -471,12 +471,12 @@
    "slug": "short-line-league",
    "area": "North Range",
    "members": [
-    "Millport",
+    "Vonjo City",
     "Rimrock",
     "Norstead",
     "Pellburg Union",
     "High Prairie",
-    "Sage Lake",
+    "Sage Village",
     "Wellers Landing",
     "Windrow"
    ]
@@ -486,7 +486,7 @@
    "slug": "ashbury-city-conference",
    "area": "Ashbury Metro",
    "members": [
-    "Amos Moss",
+    "St. Francis Catholic",
     "Dolores Huerta",
     "Los Robles",
     "Los Robles Classical School",
@@ -500,8 +500,8 @@
    "area": "Ashbury Metro",
    "members": [
     "Elias Mercier",
-    "Evelyn Booker",
-    "Manuel Cordero",
+    "William Howard Taft",
+    "Sonia Sotomayor",
     "Mount Horeb",
     "Mount Horeb Academy of Arts and Letters",
     "Rye North",
@@ -520,7 +520,7 @@
     "Leonard Coleman",
     "Octavia Butler",
     "Opal Stokes",
-    "Oskar Bellini"
+    "Notre Dame"
    ]
   },
   {
@@ -563,8 +563,8 @@
     "Commonwealth",
     "Gabriel Montoya",
     "Lars Jansen",
-    "Nathaniel Gaines",
-    "Sof\u00eda Cordero",
+    "St. Catherine Academy",
+    "John Quincy Adams",
     "St. Varian"
    ]
   },
@@ -605,10 +605,10 @@
    "members": [
     "Annie Springs Crater View",
     "Crater View",
-    "Dahlberg",
-    "Dahlberg School of Science and Industry",
+    "Dahlberg Summit",
+    "Dahlberg Summit Science",
     "Klamoya",
-    "St. Sophia School",
+    "St. Sophia",
     "New Leiden Classical Academy",
     "John Lewis",
     "Novak",
@@ -630,7 +630,7 @@
     "San Cordero",
     "San Cordero North",
     "San Cordero South",
-    "St. Genevieve High School",
+    "St. Genevieve San Cordero",
     "Svenja Bianchi",
     "Thurgood Marshall"
    ]
@@ -658,13 +658,13 @@
    "members": [
     "Bellacosta Foundry High",
     "Bellacosta University Prep",
-    "C\u00e9sar Mendoza",
+    "De La Salle",
     "Fellows Mill",
     "Fellows Mill Civic Leadership Academy",
     "Gagarin",
     "Gagarin East",
-    "Mother Lode",
-    "Naomi Ellison"
+    "Siskiyou Valley",
+    "Providence Catholic"
    ]
   },
   {
@@ -705,9 +705,9 @@
    "slug": "golden-state-conference",
    "area": "Gold Valley",
    "members": [
-    "Amos Cross",
-    "Astrid Ricci",
-    "Harlan Tillman",
+    "Lyndon B. Johnson",
+    "Jesuit",
+    "Xavier College Prep",
     "Lillian Stokes",
     "Mercer City",
     "Mercer City School of Design and Engineering",
@@ -723,7 +723,7 @@
    "area": "Gold Valley",
    "members": [
     "Lillian Price",
-    "Lorna Booker",
+    "Moriarty Heights",
     "Moriarty",
     "Moriarty West",
     "Ruby Mercer",
@@ -767,8 +767,8 @@
     "San Telmo Agricultural Sciences Academy",
     "Walter Langston",
     "Evelyn Langston",
-    "Marcus Mercer",
-    "Pauli Booker",
+    "Cascade Christian",
+    "Vespertine Heights",
     "Vespertine"
    ]
   },
@@ -781,7 +781,7 @@
     "Abbey Vale Orchard Hill",
     "Benedetti",
     "Benedetti Orchard Hill",
-    "Thomas Moreau",
+    "Pope Francis",
     "McCrory",
     "Tom\u00e1s Mar\u00edn",
     "Pasquale",
@@ -811,7 +811,7 @@
    "slug": "vineyard-league",
    "area": "Gold Valley",
    "members": [
-    "Clara Cross",
+    "Valderra Heights",
     "Jean Lindgren",
     "Lars Mercier",
     "Petra Weiss",
@@ -828,7 +828,7 @@
    "area": "Halbrook Basin",
    "members": [
     "Jon Arrieta",
-    "Nicol\u00e1s Trevi\u00f1o",
+    "Bishop Valera",
     "Harold Whitaker",
     "Sadie Freeman",
     "Greaves",
@@ -850,7 +850,7 @@
     "Carmen Cordero",
     "Mikhail Sidorov",
     "Orchard Gate",
-    "Viktor Antonov",
+    "Archbishop Valois",
     "Yelena Belov"
    ]
   },
@@ -861,13 +861,13 @@
    "members": [
     "Ca\u00f1ada Grande",
     "Itziar Lertxundi",
-    "Nikolai Orlov",
+    "Mater Dei",
     "St. Gabriel Academy",
     "Emerson",
     "Lorraine Hart",
     "Nicol\u00e1s Villalba",
     "Starlight",
-    "Starlight School of Science and Industry"
+    "Starlight Science"
    ]
   },
   {
@@ -892,7 +892,7 @@
    "area": "Halbrook Basin",
    "members": [
     "Adela Villase\u00f1or",
-    "Andr\u00e9s Valera",
+    "Cardinal Echevarria",
     "Caswell",
     "Cherry Hill",
     "Cherry Hill North",
@@ -914,7 +914,7 @@
     "Echevarria South",
     "William McKinley",
     "Harold Tillman",
-    "Leire Aramburu",
+    "Echevarria Central",
     "Mae Jemison",
     "St. Elias College Prep",
     "St. Raphael Preparatory"
@@ -931,7 +931,7 @@
     "Belmonte West",
     "Belmonte River Plain",
     "I-50 Technical",
-    "Iker Aramburu",
+    "Sandra Day O'Connor",
     "Miren Elorriaga",
     "Nicol\u00e1s Ordo\u00f1ez"
    ]
@@ -958,7 +958,7 @@
    "area": "Halbrook Basin",
    "members": [
     "Belmonte",
-    "Belmonte International School",
+    "Belmonte International",
     "Benjamin Banneker",
     "Elena Mendoza",
     "Javier Alvarado",
@@ -1003,7 +1003,7 @@
    "slug": "northrup-regional-athletic-association",
    "area": "Halbrook Basin",
    "members": [
-    "Ander Aramburu",
+    "Western Sky",
     "Northrup I-50 Technical",
     "St. Martin High School",
     "Ainhoa Mendizabal",
@@ -1024,7 +1024,7 @@
     "Carden City",
     "Carden City West Bench",
     "Opal Tillman",
-    "St. Casimir School"
+    "St. Casimir Carden City"
    ]
   },
   {
@@ -1034,7 +1034,7 @@
    "members": [
     "Alina Antonov",
     "Canal View",
-    "Katherine Booker",
+    "James K. Polk",
     "Lev Kareva",
     "Mikel Elorriaga",
     "Orellana",
@@ -1070,7 +1070,7 @@
    "area": "Halbrook Basin",
    "members": [
     "Beatriz Zamora",
-    "Edith Hart",
+    "Bellarmine Prep",
     "Edith Mercer",
     "In\u00e9s Valera",
     "Nicol\u00e1s Salcedo",
@@ -1086,7 +1086,7 @@
    "slug": "snake-plain-league",
    "area": "Halbrook Basin",
    "members": [
-    "Amaia Aramburu",
+    "Ketanji Brown Jackson",
     "Belmonte North",
     "Belmonte South",
     "James Madison",
@@ -1109,7 +1109,7 @@
     "Drayfield Foundry High",
     "Homecroft",
     "Homecroft Manufacturing and Technology Academy",
-    "Miren Garmendia",
+    "Cardinal Newman",
     "Pomar",
     "Garazi Mendizabal",
     "St. Jerome High School",
@@ -1129,7 +1129,7 @@
     "Ulysses Grant",
     "Esteban T\u00e9llez",
     "Fannie Lou Hamer",
-    "Jon Garmendia",
+    "Pope Leo XIV",
     "Pavel Kovalenko",
     "St. Catherine College Prep"
    ]
@@ -1184,12 +1184,12 @@
    "slug": "coastal-metro-conference",
    "area": "Harborline",
    "members": [
-    "Anneliese Halvorsen",
+    "George Washington",
     "Beacon Hill",
-    "Galina Markov",
+    "James Monroe",
     "Janice Davenport",
-    "Marcus Langston",
-    "Marina Moroz",
+    "Rutherford B. Hayes",
+    "Grover Cleveland",
     "Port Veles South",
     "Port Veles Foundry High",
     "Port Veles Health Sciences Academy"
@@ -1201,12 +1201,12 @@
    "area": "Harborline",
    "members": [
     "Aleksandr Lebedev",
-    "Geraldine Cross",
+    "Port Veles Episcopal",
     "Harbor Gate",
     "Port Veles North",
     "Port Veles International Academy",
-    "Ralph Booker",
-    "Sofia Romanov"
+    "Barack Obama",
+    "Veles Basin"
    ]
   },
   {
@@ -1217,13 +1217,13 @@
     "Admiralty High",
     "Anneliese Ricci",
     "Hazel Bennett",
-    "Irina Kovalenko",
+    "Heritage Christian Academy",
     "Jeannette Freeman",
     "Nathaniel Moss",
     "Santa Michaela",
     "Santa Michaela Admiralty High",
     "Santa Michaela Harbor Gate",
-    "Zoya Orlov"
+    "Sacred Heart Cathedral"
    ]
   },
   {
@@ -1232,14 +1232,14 @@
    "area": "Harborline",
    "members": [
     "Amelia Freeman",
-    "Henrik Keller",
-    "Opal Avery",
+    "William Henry Harrison",
+    "Gerald Ford",
     "Port Veles",
     "Seafarer High",
-    "St. Elias School",
-    "St. Vincent School",
-    "Thelma Avery",
-    "Walter Hart"
+    "St. Elias",
+    "St. Vincent",
+    "Veles Cove",
+    "Veles Narrows"
    ]
   },
   {
@@ -1247,13 +1247,13 @@
    "slug": "portside-conference",
    "area": "Harborline",
    "members": [
-    "Alder Landing Beacon Hill",
+    "Bay Oregon",
     "Bah\u00eda Az\u00fal",
     "Cabo Esperanza",
     "Cabo Esperanza Technical Arts Academy",
-    "Fort Salish",
-    "Fort Salish Independent School",
-    "Isaiah Booker",
+    "Fort Weller",
+    "Fort Weller Independent",
+    "Earl Warren",
     "Hazel Hart",
     "Los Maderos",
     "Maksim Karev",
@@ -1268,11 +1268,11 @@
    "slug": "shipwright-league",
    "area": "Harborline",
    "members": [
-    "Igor Chernov",
-    "Katherine Williams",
-    "Nadia Chernov",
+    "Zachary Taylor",
+    "Franklin Pierce",
+    "Calvin Coolidge",
     "Anton Sidorov",
-    "Nathaniel Cross",
+    "Veles Harbor",
     "Port Veles Civic Academy",
     "Port Veles Maritime Academy",
     "Roscoe Bennett",
@@ -1286,10 +1286,10 @@
    "members": [
     "Gordon Parks",
     "Juniper Ridge",
-    "Xabier Arregui",
+    "Sinkford",
     "Edith Ward",
     "Telfair",
-    "Telfair Country Day School",
+    "Telfair Country Day",
     "Tom\u00e1s Mendoza",
     "Ruby Cross",
     "Vesper"
@@ -1305,7 +1305,7 @@
     "Calder School of Science and Industry",
     "Nicol\u00e1s Qui\u00f1ones",
     "Carroway",
-    "Carroway School of Public Service",
+    "Carroway Public Service",
     "Frances Gaines",
     "Katherine Whitaker",
     "Navrang"
@@ -1329,7 +1329,7 @@
    "slug": "rim-country-conference",
    "area": "Juniper Highlands",
    "members": [
-    "Mikel Zubieta",
+    "Cornerstone Christian",
     "Dry Lake",
     "Isabel Montalvo",
     "Three Saints",
@@ -1369,12 +1369,12 @@
     "Aurelia",
     "Aurelia Classical Academy",
     "Elena Petrenko",
-    "Nicol\u00e1s Cordero",
+    "Ruth Bader Ginsburg",
     "Cordero Wells",
     "St. Isidore College Prep",
     "Harrow",
-    "Harrow School of Design and Engineering",
-    "St. Brigid School"
+    "Harrow Design",
+    "St. Brigid"
    ]
   },
   {
@@ -1390,7 +1390,7 @@
     "Rilland",
     "San Vito",
     "Garazi Aramburu",
-    "Wheatley"
+    "Minnesota City"
    ]
   },
   {
@@ -1405,9 +1405,9 @@
     "Homestead",
     "Katya Moroz",
     "Naomi Price",
-    "St. Casimir High School",
+    "St. Casimir",
     "St. Michael Academy",
-    "St. Teresa High School"
+    "St. Teresa"
    ]
   },
   {
@@ -1417,10 +1417,10 @@
    "members": [
     "Fort Valois",
     "Fort Valois North",
-    "Fort Valois School of Public Service",
+    "Fort Valois Public Service",
     "Galina Romanov",
     "Lev Voronin",
-    "Marian Cross"
+    "Fort Valois Heights"
    ]
   },
   {
@@ -1429,7 +1429,7 @@
    "area": "South Coast",
    "members": [
     "Bah\u00eda Leal",
-    "Housatonic HS",
+    "Housatonic",
     "Costa Verde",
     "Isabel Lucero",
     "James Gaines",
@@ -1444,7 +1444,7 @@
     "Alejandro Zamora",
     "C\u00e9sar Peralta",
     "Janice Cole",
-    "Oksana Romanov",
+    "Archbishop Gregory",
     "Puerto de los Reyes",
     "Puerto de los Reyes Civic Leadership Academy",
     "Puerto de los Reyes North",
@@ -1463,7 +1463,7 @@
     "Los Remolinos Mission Bay",
     "Amelia Whitaker",
     "Puerto Gallego",
-    "Puerto Gallego School of Science and Industry",
+    "Puerto Gallego Science",
     "Alejandro Salcedo",
     "Punta del \u00c1guila",
     "San Benicio",
@@ -1471,7 +1471,7 @@
     "Santa Cruz del Norte",
     "Winifred Ellison",
     "Winifred Stokes",
-    "Galina Moroz"
+    "Our Lady of the Coast"
    ]
   },
   {
@@ -1487,7 +1487,7 @@
     "Mission Bay",
     "St. Sophia Preparatory",
     "Tatiana Chernov",
-    "Vernon Moss"
+    "Cardinal Mercier"
    ]
   },
   {
@@ -1495,10 +1495,10 @@
    "slug": "pacifica-conference",
    "area": "South Coast",
    "members": [
-    "Imani Cross",
+    "San Borondón Heights",
     "Las Palmas",
     "Naomi Langston",
-    "Nikolai Markov",
+    "Christian Brothers",
     "St. Jerome Academy",
     "St. Nicholas College Prep"
    ]
@@ -1513,7 +1513,7 @@
     "San Borond\u00f3n",
     "San Borond\u00f3n North",
     "San Borond\u00f3n Civic Academy",
-    "San Borond\u00f3n Country Day School",
+    "San Borond\u00f3n Country Day",
     "San Borond\u00f3n South",
     "Sergei Belov",
     "St. Casimir Preparatory"
@@ -1524,13 +1524,13 @@
    "slug": "umpqua-valley-league",
    "area": "Timber Valley",
    "members": [
-    "St. Helena School",
+    "St. Helena",
     "Black Springs Classical Academy",
     "Gabriel Villase\u00f1or",
     "Svenja Adler",
-    "Janice Bennett",
+    "Calvary Christian",
     "Mill Creek",
-    "Wolf Gap International School",
+    "Corey Canyon International",
     "Astrid Bianchi"
    ]
   },
@@ -1572,7 +1572,7 @@
     "Tule Flat",
     "Tule Flat Lutheran",
     "Corliss",
-    "Marsh Depot",
+    "Jersey City",
     "Chaff Head",
     "Chaff Crossing",
     "Lanphere"
@@ -1596,7 +1596,7 @@
     "Garrow Switch",
     "Wardlow Depot",
     "Jessup Bar",
-    "Walnut Yard",
+    "South Simmons",
     "Prune Siding",
     "Barley Gap"
    ]
@@ -1612,7 +1612,7 @@
     "Paddock County Catholic",
     "Paddock Institute",
     "Paddock County",
-    "Goodman",
+    "Fort Bardsley",
     "Shiloh",
     "Zion Hill",
     "Canaan Bend",
@@ -1620,7 +1620,7 @@
     "Free Hill",
     "Promise Land",
     "Camden Flat",
-    "Rentie Grove"
+    "Jamaica"
    ]
   },
   {
@@ -1641,9 +1641,9 @@
    ]
   },
   {
-   "name": "Mother Lode Conference",
-   "slug": "mother-lode-conference",
-   "area": "Mother Lode",
+   "name": "Siskiyou Valley Conference",
+   "slug": "siskiyou-valley-conference",
+   "area": "Siskiyou Valley",
    "members": [
     "Tunnel Diggings",
     "Walter Mondale",
@@ -1664,19 +1664,19 @@
     "Gulch Bend",
     "Foothills Christian",
     "Goldbank County",
-    "Ewartville",
+    "Fort Tabor",
     "Tunnelton",
     "Cradle Reach",
     "Tailing Crossing",
-    "Tailing Crossing-Ewart Bar Union"
+    "Fountain Park"
    ]
   },
   {
    "name": "Feather River League",
    "slug": "feather-river-league",
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "members": [
-    "Ewart City",
+    "Cook City",
     "Madison",
     "Featherstone Institute",
     "Caverly",
@@ -1691,7 +1691,7 @@
   {
    "name": "High Sierra League",
    "slug": "high-sierra-league",
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "members": [
     "Vessey Switch",
     "St. Perpetua Preparatory",

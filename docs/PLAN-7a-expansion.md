@@ -24,7 +24,7 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Amos Moss | Los Robles | 1,653 | 4A |
+| St. Francis Catholic | Los Robles | 1,653 | 4A |
 | Dolores Huerta | Los Robles | 2,465 | 6A |
 | Los Robles | Los Robles | 1,646 | 4A |
 | Los Robles Classical School | Los Robles | 1,214 | 3A |
@@ -36,8 +36,8 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Elias Mercier | Loomis City | 1,398 | 3A |
-| Evelyn Booker | Mount Horeb | 1,195 | 3A |
-| Manuel Cordero | Mount Horeb | 1,196 | 3A |
+| William Howard Taft | Mount Horeb | 1,195 | 3A |
+| Sonia Sotomayor | Mount Horeb | 1,196 | 3A |
 | Mount Horeb | Mount Horeb | 1,057 | 3A |
 | Mount Horeb Academy of Arts and Letters | Mount Horeb | 1,232 | 3A |
 | Rye North | Rye | 1,246 | 3A |
@@ -54,7 +54,7 @@ Existing schools keep their current conference and classification in this planni
 | Leonard Coleman | Boyerstown | 2,044 | 5A |
 | Octavia Butler | Boyerstown | 2,475 | 6A |
 | Opal Stokes | Boyerstown | 3,192 | 7A |
-| Oskar Bellini | Boyerstown | 2,270 | 6A |
+| Notre Dame | Boyerstown | 2,270 | 6A |
 
 ### Jefferson Capital Conference
 
@@ -91,8 +91,8 @@ Existing schools keep their current conference and classification in this planni
 | Commonwealth | St. Varian | 1,638 | 4A |
 | Gabriel Montoya | St. Varian | 1,203 | 3A |
 | Lars Jansen | St. Varian | 1,626 | 4A |
-| Nathaniel Gaines | St. Varian | 1,296 | 3A |
-| Sofía Cordero | St. Varian | 1,400 | 4A |
+| St. Catherine Academy | St. Varian | 1,296 | 3A |
+| John Quincy Adams | St. Varian | 1,400 | 4A |
 | St. Varian | St. Varian | 1,477 | 4A |
 
 ### Westside League
@@ -128,11 +128,11 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Annie Springs Crater View | Annie Springs | 879 | 2A |
-| Crater View | Dahlberg | 1,036 | 3A |
-| Dahlberg | Dahlberg | 914 | 2A |
-| Dahlberg School of Science and Industry | Dahlberg | 931 | 2A |
+| Crater View | Dahlberg Summit | 1,036 | 3A |
+| Dahlberg Summit | Dahlberg Summit | 914 | 2A |
+| Dahlberg Summit Science | Dahlberg Summit | 931 | 2A |
 | Klamoya | Klamoya | 1,069 | 3A |
-| St. Sophia School | Klamoya | 731 | 2A |
+| St. Sophia | Klamoya | 731 | 2A |
 | New Leiden Classical Academy | New Leiden | 858 | 2A |
 | John Lewis | Novak | 636 | 1A |
 | Novak | Novak | 806 | 2A |
@@ -152,7 +152,7 @@ Existing schools keep their current conference and classification in this planni
 | San Cordero | San Cordero | 2,680 | 7A |
 | San Cordero North | San Cordero | 3,025 | 7A |
 | San Cordero South | San Cordero | 2,347 | 6A |
-| St. Genevieve High School | San Cordero | 1,544 | 4A |
+| St. Genevieve San Cordero | San Cordero | 1,544 | 4A |
 | Svenja Bianchi | San Cordero | 2,443 | 6A |
 | Thurgood Marshall | San Cordero | 2,703 | 7A |
 
@@ -178,13 +178,13 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Bellacosta Foundry High | Bellacosta | 1,773 | 4A |
 | Bellacosta University Prep | Bellacosta | 1,004 | 3A |
-| César Mendoza | Bellacosta | 1,235 | 3A |
+| De La Salle | Bellacosta | 1,235 | 3A |
 | Fellows Mill | Fellows Mill | 1,052 | 3A |
 | Fellows Mill Civic Leadership Academy | Fellows Mill | 1,090 | 3A |
 | Gagarin | Gagarin | 1,102 | 3A |
 | Gagarin East | Gagarin | 1,370 | 3A |
-| Mother Lode | Gagarin | 1,099 | 3A |
-| Naomi Ellison | Gagarin | 1,469 | 4A |
+| Siskiyou Valley | Gagarin | 1,099 | 3A |
+| Providence Catholic | Gagarin | 1,469 | 4A |
 
 ### Fellows Mill Pioneer League
 
@@ -219,9 +219,9 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Amos Cross | Mercer City | 2,365 | 6A |
-| Astrid Ricci | Mercer City | 2,474 | 6A |
-| Harlan Tillman | Mercer City | 1,769 | 4A |
+| Lyndon B. Johnson | Mercer City | 2,365 | 6A |
+| Jesuit | Mercer City | 2,474 | 6A |
+| Xavier College Prep | Mercer City | 1,769 | 4A |
 | Lillian Stokes | Mercer City | 1,952 | 5A |
 | Mercer City | Mercer City | 1,747 | 4A |
 | Mercer City School of Design and Engineering | Mercer City | 1,831 | 5A |
@@ -235,7 +235,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Lillian Price | Moriarty | 2,069 | 5A |
-| Lorna Booker | Moriarty | 1,568 | 4A |
+| Moriarty Heights | Moriarty | 1,568 | 4A |
 | Moriarty | Moriarty | 1,559 | 4A |
 | Moriarty West | Moriarty | 1,595 | 4A |
 | Ruby Mercer | Moriarty | 1,797 | 4A |
@@ -273,8 +273,8 @@ Existing schools keep their current conference and classification in this planni
 | San Telmo Agricultural Sciences Academy | San Telmo | 1,697 | 4A |
 | Walter Langston | San Telmo | 1,639 | 4A |
 | Evelyn Langston | Vespertine | 1,413 | 4A |
-| Marcus Mercer | Vespertine | 1,380 | 3A |
-| Pauli Booker | Vespertine | 1,520 | 4A |
+| Cascade Christian | Vespertine | 1,380 | 3A |
+| Vespertine Heights | Vespertine | 1,520 | 4A |
 | Vespertine | Vespertine | 1,806 | 5A |
 
 ### Silver Glen Industrial Athletic Association
@@ -285,7 +285,7 @@ Existing schools keep their current conference and classification in this planni
 | Abbey Vale Orchard Hill | Abbey Vale | 430 | 1A |
 | Benedetti | Benedetti | 453 | 1A |
 | Benedetti Orchard Hill | Benedetti | 627 | 1A |
-| Thomas Moreau | Elk Crossing | 568 | 1A |
+| Pope Francis | Elk Crossing | 568 | 1A |
 | McCrory | McCrory | 397 | 1A |
 | Tomás Marín | McCrory | 467 | 1A |
 | Pasquale | Pasquale | 720 | 2A |
@@ -311,7 +311,7 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Clara Cross | Valderra | 2,206 | 6A |
+| Valderra Heights | Valderra | 2,206 | 6A |
 | Jean Lindgren | Valderra | 2,727 | 7A |
 | Lars Mercier | Valderra | 2,394 | 6A |
 | Petra Weiss | Valderra | 3,189 | 7A |
@@ -328,7 +328,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Jon Arrieta | Arrieta | 1,147 | 3A |
-| Nicolás Treviño | Arrieta | 1,752 | 4A |
+| Bishop Valera | Arrieta | 1,752 | 4A |
 | Harold Whitaker | Etchartville | 1,142 | 3A |
 | Sadie Freeman | Etchartville | 1,476 | 4A |
 | Greaves | Greaves | 1,564 | 4A |
@@ -348,7 +348,7 @@ Existing schools keep their current conference and classification in this planni
 | Carmen Cordero | Belyakov | 2,220 | 6A |
 | Mikhail Sidorov | Belyakov | 3,071 | 7A |
 | Orchard Gate | Belyakov | 3,155 | 7A |
-| Viktor Antonov | Belyakov | 2,953 | 7A |
+| Archbishop Valois | Belyakov | 2,953 | 7A |
 | Yelena Belov | Belyakov | 2,494 | 6A |
 
 ### Cañada Grande Industrial Athletic Association
@@ -357,13 +357,13 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Cañada Grande | Cañada Grande | 1,975 | 5A |
 | Itziar Lertxundi | Cañada Grande | 1,590 | 4A |
-| Nikolai Orlov | Cañada Grande | 2,571 | 6A |
+| Mater Dei | Cañada Grande | 2,571 | 6A |
 | St. Gabriel Academy | Cañada Grande | 1,064 | 3A |
 | Emerson | Emerson | 1,432 | 4A |
 | Lorraine Hart | Starlight | 1,747 | 4A |
 | Nicolás Villalba | Starlight | 1,945 | 5A |
 | Starlight | Starlight | 1,818 | 5A |
-| Starlight School of Science and Industry | Starlight | 1,689 | 4A |
+| Starlight Science | Starlight | 1,689 | 4A |
 
 ### Emerson Metropolitan League
 
@@ -384,7 +384,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Adela Villaseñor | Caswell | 3,342 | 7A |
-| Andrés Valera | Caswell | 2,627 | 7A |
+| Cardinal Echevarria | Caswell | 2,627 | 7A |
 | Caswell | Caswell | 3,802 | 7A |
 | Cherry Hill | Caswell | 3,127 | 7A |
 | Cherry Hill North | Caswell | 3,336 | 7A |
@@ -404,7 +404,7 @@ Existing schools keep their current conference and classification in this planni
 | Echevarria South | Echevarria | 1,963 | 5A |
 | William McKinley | Echevarria | 1,617 | 4A |
 | Harold Tillman | Echevarria | 2,631 | 7A |
-| Leire Aramburu | Echevarria | 2,354 | 6A |
+| Echevarria Central | Echevarria | 2,354 | 6A |
 | Mae Jemison | Echevarria | 2,008 | 5A |
 | St. Elias College Prep | Echevarria | 1,240 | 3A |
 | St. Raphael Preparatory | Echevarria | 953 | 2A |
@@ -419,7 +419,7 @@ Existing schools keep their current conference and classification in this planni
 | Belmonte West | Belmonte | 2,697 | 7A |
 | Belmonte River Plain | Belmonte | 2,217 | 6A |
 | I-50 Technical | Belmonte | 2,849 | 7A |
-| Iker Aramburu | Belmonte | 3,395 | 7A |
+| Sandra Day O'Connor | Belmonte | 3,395 | 7A |
 | Miren Elorriaga | Belmonte | 2,466 | 6A |
 | Nicolás Ordoñez | Belmonte | 2,514 | 6A |
 
@@ -442,7 +442,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Belmonte | Belmonte | 2,650 | 7A |
-| Belmonte International School | Belmonte | 2,655 | 7A |
+| Belmonte International | Belmonte | 2,655 | 7A |
 | Benjamin Banneker | Belmonte | 3,088 | 7A |
 | Elena Mendoza | Belmonte | 3,060 | 7A |
 | Javier Alvarado | Belmonte | 3,108 | 7A |
@@ -481,11 +481,11 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Ander Aramburu | Northrup | 1,518 | 4A |
+| Western Sky | Northrup | 1,518 | 4A |
 | Northrup I-50 Technical | Northrup | 1,506 | 4A |
 | St. Martin High School | Northrup | 695 | 2A |
-| Ainhoa Mendizabal | Stone Springs | 1,448 | 4A |
-| Oksana Petrov | Stone Springs | 1,072 | 3A |
+| Ainhoa Mendizabal | Simmons | 1,448 | 4A |
+| Oksana Petrov | Simmons | 1,072 | 3A |
 | Ander Arrieta | Weissburg | 1,503 | 4A |
 | Ralph Bellamy | Weissburg | 1,500 | 4A |
 | Sergei Petrenko | Weissburg | 993 | 2A |
@@ -500,7 +500,7 @@ Existing schools keep their current conference and classification in this planni
 | Carden City | Carden City | 1,708 | 4A |
 | Carden City West Bench | Carden City | 1,194 | 3A |
 | Opal Tillman | Carden City | 1,446 | 4A |
-| St. Casimir School | Carden City | 1,033 | 3A |
+| St. Casimir Carden City | Carden City | 1,033 | 3A |
 
 ### Orellana Pioneer League
 
@@ -508,7 +508,7 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Alina Antonov | Orellana | 2,051 | 5A |
 | Canal View | Orellana | 2,646 | 7A |
-| Katherine Booker | Orellana | 2,358 | 6A |
+| James K. Polk | Orellana | 2,358 | 6A |
 | Lev Kareva | Orellana | 2,293 | 6A |
 | Mikel Elorriaga | Orellana | 1,810 | 5A |
 | Orellana | Orellana | 2,023 | 5A |
@@ -540,7 +540,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Beatriz Zamora | Serrano | 2,344 | 6A |
-| Edith Hart | Serrano | 2,131 | 5A |
+| Bellarmine Prep | Serrano | 2,131 | 5A |
 | Edith Mercer | Serrano | 2,446 | 6A |
 | Inés Valera | Serrano | 2,223 | 6A |
 | Nicolás Salcedo | Serrano | 2,348 | 6A |
@@ -554,7 +554,7 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Amaia Aramburu | Belmonte | 2,932 | 7A |
+| Ketanji Brown Jackson | Belmonte | 2,932 | 7A |
 | Belmonte North | Belmonte | 2,645 | 7A |
 | Belmonte South | Belmonte | 2,827 | 7A |
 | James Madison | Belmonte | 2,987 | 7A |
@@ -575,7 +575,7 @@ Existing schools keep their current conference and classification in this planni
 | Drayfield Foundry High | Drayfield | 1,254 | 3A |
 | Homecroft | Homecroft | 1,635 | 4A |
 | Homecroft Manufacturing and Technology Academy | Homecroft | 967 | 2A |
-| Miren Garmendia | Homecroft | 997 | 2A |
+| Cardinal Newman | Homecroft | 997 | 2A |
 | Pomar | Pomar | 890 | 2A |
 | Garazi Mendizabal | Tolland | 1,358 | 3A |
 | St. Jerome High School | Tolland | 987 | 2A |
@@ -593,7 +593,7 @@ Existing schools keep their current conference and classification in this planni
 | Ulysses Grant | Aldecoa | 1,892 | 5A |
 | Esteban Téllez | Aldecoa | 1,457 | 4A |
 | Fannie Lou Hamer | Aldecoa | 1,545 | 4A |
-| Jon Garmendia | Aldecoa | 1,521 | 4A |
+| Pope Leo XIV | Aldecoa | 1,521 | 4A |
 | Pavel Kovalenko | Aldecoa | 1,813 | 5A |
 | St. Catherine College Prep | Aldecoa | 1,241 | 3A |
 
@@ -642,12 +642,12 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Anneliese Halvorsen | Port Veles | 3,416 | 7A |
+| George Washington | Port Veles | 3,416 | 7A |
 | Beacon Hill | Port Veles | 2,980 | 7A |
-| Galina Markov | Port Veles | 2,555 | 6A |
+| James Monroe | Port Veles | 2,555 | 6A |
 | Janice Davenport | Port Veles | 3,233 | 7A |
-| Marcus Langston | Port Veles | 2,618 | 7A |
-| Marina Moroz | Port Veles | 2,749 | 7A |
+| Rutherford B. Hayes | Port Veles | 2,618 | 7A |
+| Grover Cleveland | Port Veles | 2,749 | 7A |
 | Port Veles South | Port Veles | 2,682 | 7A |
 | Port Veles Foundry High | Port Veles | 1,948 | 5A |
 | Port Veles Health Sciences Academy | Port Veles | 2,001 | 5A |
@@ -657,12 +657,12 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Aleksandr Lebedev | Port Veles | 3,189 | 7A |
-| Geraldine Cross | Port Veles | 2,063 | 5A |
+| Port Veles Episcopal | Port Veles | 2,063 | 5A |
 | Harbor Gate | Port Veles | 3,257 | 7A |
 | Port Veles North | Port Veles | 2,625 | 7A |
 | Port Veles International Academy | Port Veles | 973 | 2A |
-| Ralph Booker | Port Veles | 2,939 | 7A |
-| Sofia Romanov | Port Veles | 2,784 | 7A |
+| Barack Obama | Port Veles | 2,939 | 7A |
+| Veles Basin | Port Veles | 2,784 | 7A |
 
 ### Maritime Athletic Conference
 
@@ -671,39 +671,39 @@ Existing schools keep their current conference and classification in this planni
 | Admiralty High | Santa Michaela | 1,955 | 5A |
 | Anneliese Ricci | Santa Michaela | 2,519 | 6A |
 | Hazel Bennett | Santa Michaela | 2,488 | 6A |
-| Irina Kovalenko | Santa Michaela | 2,891 | 7A |
+| Heritage Christian Academy | Santa Michaela | 2,891 | 7A |
 | Jeannette Freeman | Santa Michaela | 2,525 | 6A |
 | Nathaniel Moss | Santa Michaela | 2,007 | 5A |
 | Santa Michaela | Santa Michaela | 1,885 | 5A |
 | Santa Michaela Admiralty High | Santa Michaela | 2,602 | 7A |
 | Santa Michaela Harbor Gate | Santa Michaela | 1,995 | 5A |
-| Zoya Orlov | Santa Michaela | 2,171 | 5A |
+| Sacred Heart Cathedral | Santa Michaela | 2,171 | 5A |
 
 ### Pacific Gateway Conference
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Amelia Freeman | Port Veles | 3,228 | 7A |
-| Henrik Keller | Port Veles | 1,938 | 5A |
-| Opal Avery | Port Veles | 2,688 | 7A |
+| William Henry Harrison | Port Veles | 1,938 | 5A |
+| Gerald Ford | Port Veles | 2,688 | 7A |
 | Port Veles | Port Veles | 2,843 | 7A |
 | Seafarer High | Port Veles | 2,555 | 6A |
-| St. Elias School | Port Veles | 1,511 | 4A |
-| St. Vincent School | Port Veles | 1,762 | 4A |
-| Thelma Avery | Port Veles | 2,005 | 5A |
-| Walter Hart | Port Veles | 2,743 | 7A |
+| St. Elias | Port Veles | 1,511 | 4A |
+| St. Vincent | Port Veles | 1,762 | 4A |
+| Veles Cove | Port Veles | 2,005 | 5A |
+| Veles Narrows | Port Veles | 2,743 | 7A |
 
 ### Portside Conference
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Alder Landing Beacon Hill | Alder Landing | 486 | 1A |
+| Bay Oregon | Alder Landing | 486 | 1A |
 | Bahía Azúl | Bahía Azúl | 504 | 1A |
 | Cabo Esperanza | Cabo Esperanza | 1,120 | 3A |
 | Cabo Esperanza Technical Arts Academy | Cabo Esperanza | 680 | 2A |
-| Fort Salish | Fort Salish | 1,104 | 3A |
-| Fort Salish Independent School | Fort Salish | 846 | 2A |
-| Isaiah Booker | Fort Salish | 1,074 | 3A |
+| Fort Weller | Fort Weller | 1,104 | 3A |
+| Fort Weller Independent | Fort Weller | 846 | 2A |
+| Earl Warren | Fort Weller | 1,074 | 3A |
 | Hazel Hart | Los Maderos | 793 | 2A |
 | Los Maderos | Los Maderos | 824 | 2A |
 | Maksim Karev | Los Maderos | 1,119 | 3A |
@@ -716,11 +716,11 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Igor Chernov | Port Veles | 3,000 | 7A |
-| Katherine Williams | Port Veles | 2,353 | 6A |
-| Nadia Chernov | Port Veles | 3,100 | 7A |
+| Zachary Taylor | Port Veles | 3,000 | 7A |
+| Franklin Pierce | Port Veles | 2,353 | 6A |
+| Calvin Coolidge | Port Veles | 3,100 | 7A |
 | Anton Sidorov | Port Veles | 2,769 | 7A |
-| Nathaniel Cross | Port Veles | 2,999 | 7A |
+| Veles Harbor | Port Veles | 2,999 | 7A |
 | Port Veles Civic Academy | Port Veles | 1,557 | 4A |
 | Port Veles Maritime Academy | Port Veles | 2,333 | 6A |
 | Roscoe Bennett | Port Veles | 3,371 | 7A |
@@ -734,10 +734,10 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Gordon Parks | Navrang | 1,266 | 3A |
 | Juniper Ridge | Navrang | 1,259 | 3A |
-| Xabier Arregui | Navrang | 1,037 | 3A |
+| Sinkford | Navrang | 1,037 | 3A |
 | Edith Ward | Telfair | 1,312 | 3A |
 | Telfair | Telfair | 1,180 | 3A |
-| Telfair Country Day School | Telfair | 885 | 2A |
+| Telfair Country Day | Telfair | 885 | 2A |
 | Tomás Mendoza | Telfair | 1,304 | 3A |
 | Ruby Cross | Vesper | 1,062 | 3A |
 | Vesper | Vesper | 1,077 | 3A |
@@ -751,7 +751,7 @@ Existing schools keep their current conference and classification in this planni
 | Calder School of Science and Industry | Calder | 1,816 | 5A |
 | Nicolás Quiñones | Calder | 1,827 | 5A |
 | Carroway | Carroway | 969 | 2A |
-| Carroway School of Public Service | Carroway | 1,355 | 3A |
+| Carroway Public Service | Carroway | 1,355 | 3A |
 | Frances Gaines | Carroway | 1,547 | 4A |
 | Katherine Whitaker | Carroway | 1,529 | 4A |
 | Navrang | Navrang | 1,478 | 4A |
@@ -771,7 +771,7 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Mikel Zubieta | Clear Springs | 534 | 1A |
+| Cornerstone Christian | Clear Springs | 534 | 1A |
 | Dry Lake | Three Saints | 1,307 | 3A |
 | Isabel Montalvo | Three Saints | 1,124 | 3A |
 | Three Saints | Three Saints | 1,168 | 3A |
@@ -786,8 +786,8 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | St. Raphael College Prep | Elk Bluff | 531 | 1A |
 | Nerea Urrutia | Galena | 601 | 1A |
-| Leire Zubieta | Marshdale | 610 | 1A |
-| St. Dominic Academy | Millport | 686 | 2A |
+| Leire Zubieta | Fort Lassiter | 610 | 1A |
+| St. Dominic Academy | Vonjo City | 686 | 2A |
 
 ## Sage Plains
 
@@ -809,12 +809,12 @@ Existing schools keep their current conference and classification in this planni
 | Aurelia | Aurelia | 1,424 | 4A |
 | Aurelia Classical Academy | Aurelia | 1,352 | 3A |
 | Elena Petrenko | Aurelia | 1,560 | 4A |
-| Nicolás Cordero | Aurelia | 1,424 | 4A |
+| Ruth Bader Ginsburg | Aurelia | 1,424 | 4A |
 | Cordero Wells | Cordero Wells | 939 | 2A |
 | St. Isidore College Prep | Cordero Wells | 357 | 1A |
 | Harrow | Harrow | 1,080 | 3A |
-| Harrow School of Design and Engineering | Harrow | 1,287 | 3A |
-| St. Brigid School | Harrow | 873 | 2A |
+| Harrow Design | Harrow | 1,287 | 3A |
+| St. Brigid | Harrow | 873 | 2A |
 
 ### Frontier Metro Conference
 
@@ -827,8 +827,8 @@ Existing schools keep their current conference and classification in this planni
 | Alina Belov | Rilland | 655 | 2A |
 | Rilland | Rilland | 425 | 1A |
 | San Vito | San Vito | 720 | 2A |
-| Garazi Aramburu | Standale | 473 | 1A |
-| Wheatley | Wheatley | 432 | 1A |
+| Garazi Aramburu | Lieksa | 473 | 1A |
+| Minnesota City | Minnesota City | 432 | 1A |
 
 ### High Plains League
 
@@ -841,9 +841,9 @@ Existing schools keep their current conference and classification in this planni
 | Homestead | Harriman | 2,970 | 7A |
 | Katya Moroz | Harriman | 3,850 | 7A |
 | Naomi Price | Harriman | 2,832 | 7A |
-| St. Casimir High School | Harriman | 2,763 | 7A |
+| St. Casimir | Harriman | 2,763 | 7A |
 | St. Michael Academy | Harriman | 2,970 | 7A |
-| St. Teresa High School | Harriman | 2,077 | 5A |
+| St. Teresa | Harriman | 2,077 | 5A |
 
 ### I-50 Plains Conference
 
@@ -851,10 +851,10 @@ Existing schools keep their current conference and classification in this planni
 |---|---|---:|---|
 | Fort Valois | Fort Valois | 2,265 | 6A |
 | Fort Valois North | Fort Valois | 2,459 | 6A |
-| Fort Valois School of Public Service | Fort Valois | 2,436 | 6A |
+| Fort Valois Public Service | Fort Valois | 2,436 | 6A |
 | Galina Romanov | Fort Valois | 2,560 | 6A |
 | Lev Voronin | Fort Valois | 2,332 | 6A |
-| Marian Cross | Fort Valois | 2,349 | 6A |
+| Fort Valois Heights | Fort Valois | 2,349 | 6A |
 
 ## South Coast
 
@@ -863,7 +863,7 @@ Existing schools keep their current conference and classification in this planni
 | School | City | Enrollment | Class |
 |---|---|---:|---|
 | Bahía Leal | Bahía Leal | 1,664 | 4A |
-| Housatonic HS | Bahía Leal | 2,403 | 6A |
+| Housatonic | Bahía Leal | 2,403 | 6A |
 | Costa Verde | Bahía Leal | 2,635 | 7A |
 | Isabel Lucero | Bahía Leal | 1,796 | 4A |
 | James Gaines | Bahía Leal | 2,559 | 6A |
@@ -876,7 +876,7 @@ Existing schools keep their current conference and classification in this planni
 | Alejandro Zamora | Puerto de los Reyes | 2,365 | 6A |
 | César Peralta | Puerto de los Reyes | 1,967 | 5A |
 | Janice Cole | Puerto de los Reyes | 1,488 | 4A |
-| Oksana Romanov | Puerto de los Reyes | 2,123 | 5A |
+| Archbishop Gregory | Puerto de los Reyes | 2,123 | 5A |
 | Puerto de los Reyes | Puerto de los Reyes | 2,193 | 5A |
 | Puerto de los Reyes Civic Leadership Academy | Puerto de los Reyes | 2,281 | 6A |
 | Puerto de los Reyes North | Puerto de los Reyes | 1,748 | 4A |
@@ -893,7 +893,7 @@ Existing schools keep their current conference and classification in this planni
 | Los Remolinos Mission Bay | Los Remolinos | 360 | 1A |
 | Amelia Whitaker | Puerto Gallego | 1,554 | 4A |
 | Puerto Gallego | Puerto Gallego | 1,455 | 4A |
-| Puerto Gallego School of Science and Industry | Puerto Gallego | 951 | 2A |
+| Puerto Gallego Science | Puerto Gallego | 951 | 2A |
 | Alejandro Salcedo | Punta del Águila | 763 | 2A |
 | Punta del Águila | Punta del Águila | 533 | 1A |
 | San Benicio | San Benicio | 360 | 1A |
@@ -901,7 +901,7 @@ Existing schools keep their current conference and classification in this planni
 | Santa Cruz del Norte | Santa Cruz del Norte | 1,876 | 5A |
 | Winifred Ellison | Santa Cruz del Norte | 1,331 | 3A |
 | Winifred Stokes | Santa Cruz del Norte | 1,676 | 4A |
-| Galina Moroz | Tallow | 522 | 1A |
+| Our Lady of the Coast | Tallow | 522 | 1A |
 
 ### Mission Coast League
 
@@ -915,16 +915,16 @@ Existing schools keep their current conference and classification in this planni
 | Mission Bay | San Borondón | 2,522 | 6A |
 | St. Sophia Preparatory | San Borondón | 2,139 | 5A |
 | Tatiana Chernov | San Borondón | 2,667 | 7A |
-| Vernon Moss | San Borondón | 3,077 | 7A |
+| Cardinal Mercier | San Borondón | 3,077 | 7A |
 
 ### Pacifica Conference
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| Imani Cross | San Borondón | 2,210 | 6A |
+| San Borondón Heights | San Borondón | 2,210 | 6A |
 | Las Palmas | San Borondón | 3,735 | 7A |
 | Naomi Langston | San Borondón | 2,869 | 7A |
-| Nikolai Markov | San Borondón | 3,443 | 7A |
+| Christian Brothers | San Borondón | 3,443 | 7A |
 | St. Jerome Academy | San Borondón | 1,704 | 4A |
 | St. Nicholas College Prep | San Borondón | 1,572 | 4A |
 
@@ -937,7 +937,7 @@ Existing schools keep their current conference and classification in this planni
 | San Borondón | San Borondón | 3,089 | 7A |
 | San Borondón North | San Borondón | 3,064 | 7A |
 | San Borondón Civic Academy | San Borondón | 1,685 | 4A |
-| San Borondón Country Day School | San Borondón | 1,809 | 5A |
+| San Borondón Country Day | San Borondón | 1,809 | 5A |
 | San Borondón South | San Borondón | 2,109 | 5A |
 | Sergei Belov | San Borondón | 2,136 | 5A |
 | St. Casimir Preparatory | San Borondón | 1,437 | 4A |
@@ -948,11 +948,11 @@ Existing schools keep their current conference and classification in this planni
 
 | School | City | Enrollment | Class |
 |---|---|---:|---|
-| St. Helena School | Aspen Meadows | 669 | 2A |
+| St. Helena | Aspen Meadows | 669 | 2A |
 | Black Springs Classical Academy | Black Springs | 797 | 2A |
 | Gabriel Villaseñor | Blackpine | 1,656 | 4A |
 | Svenja Adler | Blackpine | 1,304 | 3A |
-| Janice Bennett | Netherwood | 793 | 2A |
+| Calvary Christian | Netherwood | 793 | 2A |
 | Mill Creek | Tamarack Flat | 725 | 2A |
-| Wolf Gap International School | Wolf Gap | 528 | 1A |
+| Corey Canyon International | Corey Canyon | 528 | 1A |
 | Astrid Bianchi | Yarburg | 450 | 1A |

@@ -60,7 +60,7 @@
    "county": "Antler",
    "lat": 42.9846,
    "lon": -123.3117,
-   "name": "Wolf Gap",
+   "name": "Corey Canyon",
    "population": 14653,
    "real_county": "Douglas County, OR"
   },
@@ -96,7 +96,7 @@
    "county": "Antler",
    "lat": 42.9509,
    "lon": -123.3642,
-   "name": "Ashwood",
+   "name": "Gruesome Ridge",
    "population": 5700,
    "real_county": "Douglas County, OR"
   },
@@ -123,7 +123,7 @@
    "county": "Antler",
    "lat": 43.4221,
    "lon": -123.2984,
-   "name": "Harmon",
+   "name": "Annes Summit",
    "population": 4800,
    "real_county": "Douglas County, OR"
   },
@@ -258,7 +258,7 @@
    "county": "Antler",
    "lat": 43.2215,
    "lon": -123.4087,
-   "name": "Harmons Landing",
+   "name": "Annes Summits Landing",
    "population": 2400,
    "real_county": "Douglas County, OR"
   },
@@ -591,7 +591,7 @@
    "county": "Cinder",
    "lat": 41.7282,
    "lon": -122.5278,
-   "name": "Huckle Lake",
+   "name": "Mount Dylan Lake",
    "population": 1700,
    "real_county": "Siskiyou County, CA"
   },
@@ -654,7 +654,7 @@
    "county": "Emigrant",
    "lat": 43.0121,
    "lon": -118.666,
-   "name": "Standale",
+   "name": "Lieksa",
    "population": 13134,
    "real_county": "Harney County, OR"
   },
@@ -690,7 +690,7 @@
    "county": "Emigrant",
    "lat": 42.8268,
    "lon": -118.9155,
-   "name": "Wheatley",
+   "name": "Minnesota City",
    "population": 6000,
    "real_county": "Harney County, OR"
   },
@@ -726,7 +726,7 @@
    "county": "Emigrant",
    "lat": 43.4429,
    "lon": -118.801,
-   "name": "Elmfield",
+   "name": "Nurmes",
    "population": 4300,
    "real_county": "Harney County, OR"
   },
@@ -753,7 +753,7 @@
    "county": "Emigrant",
    "lat": 43.2829,
    "lon": -118.5827,
-   "name": "Sage Meadows",
+   "name": "Galactica Plains",
    "population": 2800,
    "real_county": "Harney County, OR"
   },
@@ -762,7 +762,7 @@
    "county": "Emigrant",
    "lat": 43.5415,
    "lon": -119.5038,
-   "name": "Millview",
+   "name": "Kuusamo",
    "population": 2400,
    "real_county": "Harney County, OR"
   },
@@ -776,16 +776,16 @@
    "real_county": "Harney County, OR"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Featherstone",
    "lat": 39.9341,
    "lon": -120.898,
-   "name": "Ewart City",
+   "name": "Cook City",
    "population": 51300,
    "real_county": "Plumas County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Featherstone",
    "lat": 40.3063,
    "lon": -121.2319,
@@ -794,7 +794,7 @@
    "real_county": "Plumas County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Featherstone",
    "lat": 39.8105,
    "lon": -120.4691,
@@ -803,7 +803,7 @@
    "real_county": "Plumas County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Featherstone",
    "lat": 39.9368,
    "lon": -120.9465,
@@ -812,7 +812,7 @@
    "real_county": "Plumas County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Featherstone",
    "lat": 40.1396,
    "lon": -120.9511,
@@ -821,7 +821,7 @@
    "real_county": "Plumas County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Featherstone",
    "lat": 39.7663,
    "lon": -120.6185,
@@ -830,7 +830,7 @@
    "real_county": "Plumas County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Featherstone",
    "lat": 39.8088,
    "lon": -120.498,
@@ -897,7 +897,7 @@
    "county": "Ferris",
    "lat": 40.4924,
    "lon": -121.8892,
-   "name": "Cedarport",
+   "name": "North San Francisco",
    "population": 96000,
    "real_county": "Shasta County, CA"
   },
@@ -1136,7 +1136,7 @@
    "real_county": "Washoe County, NV"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.328,
    "lon": -120.1833,
@@ -1145,7 +1145,7 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.2191,
    "lon": -121.0611,
@@ -1154,7 +1154,7 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.1416,
    "lon": -121.0538,
@@ -1163,7 +1163,7 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.233,
    "lon": -121.2005,
@@ -1172,7 +1172,7 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.0396,
    "lon": -121.0566,
@@ -1181,16 +1181,16 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.2617,
    "lon": -121.0178,
-   "name": "Ewartville",
+   "name": "Fort Tabor",
    "population": 12100,
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.196,
    "lon": -121.1911,
@@ -1199,7 +1199,7 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.2302,
    "lon": -121.1361,
@@ -1208,7 +1208,7 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.3693,
    "lon": -121.1038,
@@ -1217,7 +1217,7 @@
    "real_county": "Nevada County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Goldbank",
    "lat": 39.3593,
    "lon": -120.7991,
@@ -1352,7 +1352,7 @@
    "real_county": "Canyon County, ID"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Highgrade",
    "lat": 39.6763,
    "lon": -120.241,
@@ -1361,7 +1361,7 @@
    "real_county": "Sierra County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Highgrade",
    "lat": 39.6424,
    "lon": -120.2166,
@@ -1370,7 +1370,7 @@
    "real_county": "Sierra County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Highgrade",
    "lat": 39.5593,
    "lon": -120.8269,
@@ -1379,7 +1379,7 @@
    "real_county": "Sierra County, CA"
   },
   {
-   "area": "Mother Lode",
+   "area": "Siskiyou Valley",
    "county": "Highgrade",
    "lat": 39.5657,
    "lon": -120.6338,
@@ -1410,7 +1410,7 @@
    "county": "Juniper",
    "lat": 41.5291,
    "lon": -120.1733,
-   "name": "Sage Point",
+   "name": "California Canyons",
    "population": 7200,
    "real_county": "Modoc County, CA"
   },
@@ -1419,7 +1419,7 @@
    "county": "Juniper",
    "lat": 41.8882,
    "lon": -121.3722,
-   "name": "Elmburg",
+   "name": "Mt Jacqueline",
    "population": 6400,
    "real_county": "Modoc County, CA"
   },
@@ -1437,7 +1437,7 @@
    "county": "Juniper",
    "lat": 41.1938,
    "lon": -120.9452,
-   "name": "Gold Junction",
+   "name": "Seamus Town",
    "population": 4400,
    "real_county": "Modoc County, CA"
   },
@@ -1455,7 +1455,7 @@
    "county": "Juniper",
    "lat": 41.8605,
    "lon": -120.1513,
-   "name": "Thornford",
+   "name": "Thorn Summit",
    "population": 2800,
    "real_county": "Modoc County, CA"
   },
@@ -1473,7 +1473,7 @@
    "county": "Juniper",
    "lat": 41.2079,
    "lon": -121.1552,
-   "name": "Silvale",
+   "name": "Fort Wren",
    "population": 2000,
    "real_county": "Modoc County, CA"
   },
@@ -1491,7 +1491,7 @@
    "county": "Juniper",
    "lat": 41.6427,
    "lon": -120.2169,
-   "name": "Copper Crossing",
+   "name": "Copper Gap",
    "population": 600,
    "real_county": "Modoc County, CA"
   },
@@ -1572,7 +1572,7 @@
    "county": "Kernwood",
    "lat": 39.6463,
    "lon": -121.8,
-   "name": "Marsh Depot",
+   "name": "Jersey City",
    "population": 9500,
    "real_county": "Butte County, CA"
   },
@@ -1608,7 +1608,7 @@
    "county": "Lodestone",
    "lat": 40.973,
    "lon": -117.7357,
-   "name": "Marshdale",
+   "name": "Fort Lassiter",
    "population": 16932,
    "real_county": "Humboldt County, NV"
   },
@@ -1653,7 +1653,7 @@
    "county": "Lodestone",
    "lat": 41.9899,
    "lon": -118.6343,
-   "name": "Graymont",
+   "name": "Georgia Mills",
    "population": 600,
    "real_county": "Humboldt County, NV"
   },
@@ -1833,7 +1833,7 @@
    "county": "Olivet",
    "lat": 40.0271,
    "lon": -122.1233,
-   "name": "Walnut Yard",
+   "name": "South Simmons",
    "population": 6000,
    "real_county": "Tehama County, CA"
   },
@@ -1896,7 +1896,7 @@
    "county": "Ostrander",
    "lat": 41.5265,
    "lon": -124.0384,
-   "name": "Ashfield",
+   "name": "California Beach",
    "population": 3800,
    "real_county": "Del Norte County, CA"
   },
@@ -1905,7 +1905,7 @@
    "county": "Ostrander",
    "lat": 41.8454,
    "lon": -123.9695,
-   "name": "Elk Prairie",
+   "name": "Carolina Island",
    "population": 2300,
    "real_county": "Del Norte County, CA"
   },
@@ -1932,7 +1932,7 @@
    "county": "Paddock",
    "lat": 39.7427,
    "lon": -122.0136,
-   "name": "Goodman",
+   "name": "Fort Bardsley",
    "population": 14200,
    "real_county": "Glenn County, CA"
   },
@@ -2004,7 +2004,7 @@
    "county": "Paddock",
    "lat": 39.7966,
    "lon": -122.0844,
-   "name": "Rentie Grove",
+   "name": "Jamaica",
    "population": 2500,
    "real_county": "Glenn County, CA"
   },
@@ -2067,7 +2067,7 @@
    "county": "Rimrock",
    "lat": 42.3782,
    "lon": -120.8439,
-   "name": "Doyle Junction",
+   "name": "Doyle Pass",
    "population": 46000,
    "real_county": "Lake County, OR"
   },
@@ -2490,7 +2490,7 @@
    "county": "Stagewater",
    "lat": 44.2463,
    "lon": -117.5171,
-   "name": "Trout Point",
+   "name": "North Simmons",
    "population": 4700,
    "real_county": "Malheur County, OR"
   },
@@ -2553,7 +2553,7 @@
    "county": "Stagewater",
    "lat": 43.996,
    "lon": -117.0091,
-   "name": "Stone Meadows",
+   "name": "Raahe",
    "population": 2400,
    "real_county": "Malheur County, OR"
   },
@@ -2607,7 +2607,7 @@
    "county": "Tamarack",
    "lat": 42.5776,
    "lon": -121.8661,
-   "name": "Dahlberg",
+   "name": "Dahlberg Summit",
    "population": 40000,
    "real_county": "Klamath County, OR"
   },
@@ -2670,7 +2670,7 @@
    "county": "Tamarack",
    "lat": 43.4976,
    "lon": -121.9527,
-   "name": "Alderfield",
+   "name": "Linden",
    "population": 4400,
    "real_county": "Klamath County, OR"
   },
@@ -2823,7 +2823,7 @@
    "county": "Vance",
    "lat": 42.5791,
    "lon": -116.2404,
-   "name": "Stone Springs",
+   "name": "Simmons",
    "population": 70000,
    "real_county": "Owyhee County, ID"
   },
@@ -2922,7 +2922,7 @@
    "county": "Weller",
    "lat": 42.7457,
    "lon": -124.4973,
-   "name": "Fort Salish",
+   "name": "Fort Weller",
    "population": 42000,
    "real_county": "Curry County, OR"
   },
@@ -2967,7 +2967,7 @@
    "county": "Weller",
    "lat": 42.4665,
    "lon": -124.3679,
-   "name": "Aldermont",
+   "name": "Cape Angeles",
    "population": 5700,
    "real_county": "Curry County, OR"
   },
@@ -2976,7 +2976,7 @@
    "county": "Weller",
    "lat": 42.2201,
    "lon": -124.3396,
-   "name": "Garrity",
+   "name": "Texas Beach",
    "population": 4600,
    "real_county": "Curry County, OR"
   },
@@ -2985,7 +2985,7 @@
    "county": "Weller",
    "lat": 42.8907,
    "lon": -124.4626,
-   "name": "Granite Bar",
+   "name": "New Penzance Island",
    "population": 3600,
    "real_county": "Curry County, OR"
   },
@@ -3003,7 +3003,7 @@
    "county": "Weller",
    "lat": 42.6287,
    "lon": -124.0576,
-   "name": "Wickbrook",
+   "name": "Salmon Bay",
    "population": 2000,
    "real_county": "Curry County, OR"
   },
@@ -3012,7 +3012,7 @@
    "county": "Windrow",
    "lat": 40.4163,
    "lon": -120.653,
-   "name": "Millport",
+   "name": "Vonjo City",
    "population": 19058,
    "real_county": "Lassen County, CA"
   },
@@ -3021,7 +3021,7 @@
    "county": "Windrow",
    "lat": 40.306,
    "lon": -121.0058,
-   "name": "Hetfield",
+   "name": "Brynildson Hill",
    "population": 17340,
    "real_county": "Lassen County, CA"
   },
@@ -3039,7 +3039,7 @@
    "county": "Windrow",
    "lat": 40.3843,
    "lon": -120.5875,
-   "name": "Aspen Harbor",
+   "name": "East Simmons",
    "population": 5000,
    "real_county": "Lassen County, CA"
   },
@@ -3066,7 +3066,7 @@
    "county": "Windrow",
    "lat": 41.1213,
    "lon": -121.1441,
-   "name": "Sage Lake",
+   "name": "Sage Village",
    "population": 3200,
    "real_county": "Lassen County, CA"
   },

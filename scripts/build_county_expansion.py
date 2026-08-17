@@ -25,7 +25,7 @@ The nine counties, and what they are:
   Vermilion Valley  the rice, orchard and olive country in the far south, on
                     the northern Sacramento Valley floor -- Kernwood (Butte),
                     Olivet (Tehama), Paddock (Glenn), Bardsley (Colusa)
-  Mother Lode       the northern Sierra gold country -- Goldbank (Nevada),
+  Siskiyou Valley       the northern Sierra gold country -- Goldbank (Nevada),
                     Featherstone (Plumas), Highgrade (Sierra)
   Scheelite         the Humboldt Sink's tungsten and hay country, filling out
                     North Range (Pershing)
@@ -58,9 +58,9 @@ COUNTIES = [
     ("Olivet",       "Vermilion Valley",  9, 180_000, "Olive Belt League"),
     ("Paddock",      "Vermilion Valley", 11, 140_000, "Paddock County League"),
     ("Bardsley",     "Vermilion Valley",  6,  70_000, "Bardsley Union League"),
-    ("Goldbank",     "Mother Lode",      10, 300_000, "Mother Lode Conference"),
-    ("Featherstone", "Mother Lode",       7, 105_000, "Feather River League"),
-    ("Highgrade",    "Mother Lode",       4,  38_000, "High Sierra League"),
+    ("Goldbank",     "Siskiyou Valley",      10, 300_000, "Siskiyou Valley Conference"),
+    ("Featherstone", "Siskiyou Valley",       7, 105_000, "Feather River League"),
+    ("Highgrade",    "Siskiyou Valley",       4,  38_000, "High Sierra League"),
     ("Scheelite",    "North Range",       5,  52_000, "Sink Valley League"),
     ("Barlowe",      "Halbrook Basin",    7, 190_000, "Barlowe Bench League"),
 ]
@@ -71,7 +71,7 @@ STEMS = {
     "Vermilion Valley": ["Levee", "Almond", "Olive", "Vermilion", "Harvest", "Rice",
                          "Walnut", "Grange", "Tule", "Sutter", "Marsh", "Clover",
                          "Bidwell", "Prune", "Chaff", "Canal", "Barley", "Fig"],
-    "Mother Lode":      ["Quartz", "Nugget", "Sluice", "Cradle", "Ravine", "Gulch",
+    "Siskiyou Valley":      ["Quartz", "Nugget", "Sluice", "Cradle", "Ravine", "Gulch",
                          "Bullion", "Tailing", "Assay", "Cinnabar", "Hydraulic",
                          "Ditch", "Lode", "Feather", "Summit", "Tunnel"],
     "North Range":      ["Alkali", "Tungsten", "Sink", "Borax", "Playa", "Hay",
@@ -130,7 +130,7 @@ VICE_PRESIDENTS = [
 ]
 
 # Geographic features a school gets named for — built from the region's own
-# stems, so a Mother Lode school is named for Mother Lode ground.
+# stems, so a Siskiyou Valley school is named for Siskiyou Valley ground.
 FEATURE_TAILS = ["Lake", "Ridge", "Butte", "Mesa", "Creek", "Falls", "Bend",
                  "Peak", "Slough", "Bar", "Hollow", "Rim", "Meadows", "Point",
                  "Narrows", "Divide", "Canyon", "Marsh", "Bluffs", "Draw"]
@@ -149,17 +149,17 @@ FEATURE_STEMS = ["Bellows", "Kettle", "Antelope", "Willow", "Sandhill", "Heron",
 #
 # Three strands, all of them real practice: scripture read as liberation
 # (Shiloh, Zion, Canaan, Beulah, Goshen, Promise Land, Free Hill — the impulse
-# behind Mound Bayou and Boley); the founders' and leaders' own names (Goodman,
-# Rentie, Tatum, Lyles, Roberts, Douglass, Dunbar, Wheatley, Langston); and the
+# behind Mound Bayou and Boley); the founders' and leaders' own names (Fort Bardsley,
+# Rentie, Tatum, Lyles, Roberts, Douglass, Dunbar, Minnesota City, Langston); and the
 # eastern town people had left, carried west (New Piscataway, Camden, Trenton —
 # the pattern of New Philadelphia, Illinois).
 #
 # The first five are the owner's own, by name.
 FREEDMEN_TOWNS = [
-    "Welsh Plains", "New Piscataway", "Goodman", "Shiloh", "Zion Hill",
+    "Welsh Plains", "New Piscataway", "Fort Bardsley", "Shiloh", "Zion Hill",
     "Canaan Bend", "Beulah Landing", "Free Hill", "Promise Land", "Camden Flat",
-    "Rentie Grove", "Tatum Station", "Lyles Crossing", "Roberts Settlement",
-    "Douglass Grove", "Dunbar Wells", "Wheatley Bend", "Langston Bar",
+    "Jamaica", "Tatum Station", "Lyles Crossing", "Roberts Settlement",
+    "Douglass Grove", "Dunbar Wells", "Minnesota City Bend", "Langston Bar",
     "Mount Olive Flat", "New Trenton",
 ]
 FREEDMEN_COUNTY = "Paddock"
@@ -206,7 +206,7 @@ MASCOTS = {
                          "Threshers", "Sandhill Cranes", "Canal Diggers", "Grangers",
                          "Snow Geese", "Harvesters", "Tule Elk", "Prune Packers",
                          "Combines", "Egrets", "Ditchriders", "Balers"],
-    "Mother Lode":      ["Argonauts", "Hydraulickers", "Stampmillers", "Nuggets",
+    "Siskiyou Valley":      ["Argonauts", "Hydraulickers", "Stampmillers", "Nuggets",
                          "Quartz Hounds", "Highgraders", "Cradlers", "Powder Monkeys",
                          "Tunnel Rats", "Assayers", "River Otters", "Sluicers",
                          "Snowshoers", "Ravens", "Bullion", "Pack Mules"],

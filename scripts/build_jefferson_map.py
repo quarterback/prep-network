@@ -59,7 +59,7 @@ AREA_COLOR = {
     "Juniper Highlands": "#8C6B4A",
     "North Range":       "#4A5A72",
     "Vermilion Valley":  "#B0492F",
-    "Mother Lode":       "#8A7B2E",
+    "Siskiyou Valley":       "#8A7B2E",
 }
 UNASSIGNED = "#D8D5CE"
 
