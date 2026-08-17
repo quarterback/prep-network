@@ -500,7 +500,7 @@ Existing schools keep their current conference and classification in this planni
 | Carden City | Carden City | 1,708 | 4A |
 | Carden City West Bench | Carden City | 1,194 | 3A |
 | Opal Tillman | Carden City | 1,446 | 4A |
-| St. Casimir School | Carden City | 1,033 | 3A |
+| St. Casimir Carden City | Carden City | 1,033 | 3A |
 
 ### Orellana Pioneer League
 
