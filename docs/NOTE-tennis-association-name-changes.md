@@ -17,6 +17,20 @@ flagships.
 Those renames are applied at EMIT in the tennis repo. This repo keeps the
 published record under the ORIGINAL names, so the two disagree ON PURPOSE.
 
+## The mapping, in this repo, as text
+
+**`docs/JHSAA-name-map.txt`** — every school, town and area rename the tennis
+association applies, generated from its tables (`prep_network_name_map.py` over
+there; re-run after any rename batch). It is a REFERENCE, not an instruction.
+
+It splits the schools three ways, and the middle group is the point: **115 of
+them this repo has ALREADY adopted** — an earlier partial sync landed them, so
+the record here is already called by the tennis name and there is nothing to do.
+330 still carry their original name here, and 80 pair up with neither name,
+meaning this repo renamed the school to some third thing. Those 80 are the rows
+to look at first if the two repos are ever reconciled properly, because they are
+the ones no automated pass can match.
+
 ## Where the authoritative list is
 
 - `tennis-team-manager/scripts/import_jhsaa.py` — `RENAMES` and `SUBSTITUTIONS`
