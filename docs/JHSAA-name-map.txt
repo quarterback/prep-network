@@ -19,9 +19,10 @@ tennis repo, never by hand off this file.
   * BECOMES — the name the tennis association uses
 
 ==============================================================================
-SCHOOLS — 330 renames whose source record is still in this repo
+SCHOOLS — 332 renames whose source record is still in this repo
 ==============================================================================
 SOURCE                                        BECOMES                           CLASS CITY
+Abraham Lincoln                               Lincoln                           9A    Belyakov
 Academy of Arts and Communication             Junction                          7A    Ashbury
 Adela Robles                                  Biloxi Heights                    4A    San Borondón
 Adela Robles North                            Cliffside                         4A    San Borondón
@@ -61,7 +62,7 @@ Basalt Fork                                   Río Salado                       
 Beatrice Davenport                            Fort Halloran                     4A    Fort Halloran
 Beatriz Salcedo                               Spring Branch                     7A    Zubieta
 Beatriz Zamora                                Tower Grove                       9A    Serrano
-Belden Springs Academy of Music and Media     Springdale                        3A    Belden Springs
+Belden Springs Academy of Music and Media     Springdale                        2A    Belden Springs
 Belmonte Collegiate Academy                   Rock on the Hill Christian Academy5A    Belmonte
 Belmonte Northwest                            Kokomo                            6A    Belmonte
 Belmonte River Plain                          Chillicothe                       8A    Belmonte
@@ -88,7 +89,7 @@ Canal View North                              Lateral Seven                     
 Carden City West Bench                        Buckhorn                          4A    Carden City
 Carmen Cordero                                Bannock                           9A    Belyakov
 Carmen Valera                                 Ferris                            9A    Valderra
-Cherry Hill East                              Oakhurst                          7A    Caswell
+Cherry Hill East                              Cherry Hill East                  7A    Caswell
 Claudette Cole North                          Pointe Coupee                     5A    San Borondón
 Claudette Freeman                             Alder Cooperative                 3A    Monte Blanco
 Copper Lake East                              Bridgewater                       6A    Copper Lake
@@ -146,7 +147,7 @@ Harry S. Truman North                         Fair Park                         
 Hawk Lake Eastgate                            Oakhaven                          6A    Hawk Lake
 Hawk Lake Southeast                           Pine Barrens                      5A    Hawk Lake
 Hazel Bennett                                 Benton Park                       9A    Santa Michaela
-Hazel Hart                                    Oak Meyer                         3A    Los Maderos
+Hazel Hart                                    Oak Meyer                         2A    Los Maderos
 Homecroft Manufacturing and Technology AcademyWest Burlington                   3A    Homecroft
 Homestead North                               Garden Plain                      7A    Harriman
 I-50 Technical                                I-50 Tech                         8A    Belmonte
@@ -203,7 +204,7 @@ Madrigal West Bench                           Benchlands                        
 Maksim Karev                                  Excelsior                         4A    Los Maderos
 Manuel Robles                                 Pacific Fruit Exchange            8A    Bahía Leal
 Marcus Price North                            Driftwood                         4A    Lake Esperanza
-Marian Browne                                 River Market                      3A    Dovetail
+Marian Browne                                 River Market                      2A    Dovetail
 Matteo Dahl                                   Bywater                           7A    Montelago
 Mercy Academy                                 Natchez Mercy                     9A    Ashbury
 Mikel Echevarria                              Fir Valley Grange                 6A    Rostova Junction
@@ -213,7 +214,7 @@ Mila Chernov North                            Siberia                           
 Mila Melnick                                  Sea Cliff                         5A    Orlova
 Miren Elorriaga                               Pennsauken                        9A    Belmonte
 Mission Terrace North                         Ortega Terrace                    7A    Norview
-Naomi Langston North                          Pointe des Brumes                 3A    San Borondón
+Naomi Langston North                          Pointe des Brumes                 2A    San Borondón
 Naomi Moss                                    Meyerland                         5A    San Tomás
 Naomi Price                                   Crown Paper                       5A    Harriman
 Naomi Ward                                    Golden State Packing              6A    San Joaquín
@@ -246,6 +247,7 @@ Perryville Civic Leadership Academy           Perry Green                       
 Petra Bianchi                                 Perryville                        6A    Perryville
 Petra Jansen                                  Southern Pacific Tech             9A    Mercer City
 Petra Weiss North                             Las Colinas                       4A    Valderra
+Plainfield Science                            Plainfield                        6A    Plainfield
 Port Veles                                    Veles Central                     5A    Port Veles
 Port Veles Civic Academy                      Henson Prep                       7A    Port Veles
 Port Veles Foundry High                       Seawall                           8A    Port Veles
@@ -254,11 +256,11 @@ Port Veles Maritime Academy                   Veles Vo-Tech                     
 Providence Academy North                      Wyalusing Providence              5A    Ashbury
 Providence Academy Valley                     Valley Providence                 9A    Port Meridian
 Rafael Escobedo                               Pioneer Electric                  8A    Montelago
-Ransom Spur                                   Río Seco                          3A    Río Seco
+Ransom Spur                                   Río Seco                          2A    Río Seco
 Redwood Coast                                 Bienville                         9A    San Borondón
 Renata Adler                                  Bracken Works                     4A    Wales City
 Renata Dahl                                   Camas                             4A    Tindall
-Rimrock Valley                                New Ballard                       3A    New Ballard
+Rimrock Valley                                New Ballard                       2A    New Ballard
 Rita Moreno North                             Gentilly                          6A    Valderra
 River Plain                                   Kinnickinny                       9A    Belmonte
 Rosa Castañeda                                Tippecanoe                        9A    Belmonte
@@ -281,7 +283,7 @@ Santa Michaela Harbor Gate                    Tidegate                          
 Seafarer High                                 Seafarer                          9A    Port Veles
 Selbyville Manufacturing and Technology AcademySelby Tech                        3A    Selbyville
 Sergei Belov                                  Malcolm X Shabazz                 8A    San Borondón
-Sergei Petrenko                               Willowbrook                       3A    Weissburg
+Sergei Petrenko                               Willowbrook                       2A    Weissburg
 Sofía Aranda                                  Montclair                         8A    Puerto de los Reyes
 Soren Ekström                                 St. Sergius                       3A    Novak
 St. Basil Academy                             Cahokia Mounds Catholic           4A    Belmonte
@@ -296,7 +298,7 @@ St. Nicholas College Prep                     Natchez Prep                      
 St. Perpetua Preparatory                      St. Josephine Bakhita             1A    Vessey Switch
 St. Sebastian Prep North                      Sherwood Bench                    8A    Ashbury
 St. Sophia Preparatory                        Marshfield Prep                   8A    San Borondón
-Starlake Canal View                           Canal Lock                        3A    Starlake
+Starlake Canal View                           Canal Lock                        2A    Starlake
 Steelbridge                                   Forge                             4A    Ashbury
 Summervale Heights                            Aspen Hollow                      6A    Summervale
 Summervale Northwest                          Star Hollow                       3A    Summervale
@@ -354,7 +356,7 @@ Zubieta Manufacturing and Technology Academy  Sluice Gate                       
 Zubieta River Plain                           River Plain                       6A    Zubieta
 
 ==============================================================================
-SCHOOLS — 115 ALREADY ADOPTED HERE
+SCHOOLS — 117 ALREADY ADOPTED HERE
 ==============================================================================
 This repo is already calling these by the BECOMES name — an earlier partial
 sync landed them. Nothing to do. They are listed because the tennis side still
@@ -364,7 +366,7 @@ generated from that string), so the pairing still has to be readable.
 Aldecoa Depot High                            Ulysses Grant                     8A    Aldecoa
 Alder Landing Beacon Hill                     Bay Oregon                        2A    Bay Oregon
 Alderfield                                    Linden                            1A    Linden
-Aldermont                                     Cape Angeles                      3A    Cape Angeles
+Aldermont                                     Cape Angeles                      2A    Cape Angeles
 Amaia Aramburu                                Ketanji Brown Jackson             5A    Belmonte
 Amaia Aramburu North                          Belmonte Catholic                 6A    Belmonte
 Amos Cross                                    Lyndon B. Johnson                 9A    Mercer City
@@ -379,6 +381,8 @@ Belmonte Classical Academy                    James Madison                     
 Belmonte Technical Arts Academy               Woodrow Wilson                    4A    Belmonte
 Brackwood Union                               Brackwood Pass                    1A    Brackwood Pass
 Calderwood School                             Calderwood                        3A    North San Francisco
+Caswell Depot High                            Cherry Hill North                 8A    Caswell
+Caswell I-50 Technical                        Cherry Hill South                 5A    Caswell
 Cedarport                                     North San Francisco               7A    North San Francisco
 Copper Crossing                               Copper Gap                        1A    Copper Gap
 César Mendoza                                 De La Salle                       4A    Bellacosta
@@ -386,7 +390,7 @@ Dahlberg                                      Dahlberg Summit                   
 Doyle Junction                                Doyle Pass                        4A    Doyle Pass
 Edith Hart                                    Bellarmine Prep                   8A    Serrano
 Elk Prairie                                   Carolina Island                   1A    Carolina Island
-Elmburg                                       Mt Jacqueline                     3A    Mt Jacqueline
+Elmburg                                       Mt Jacqueline                     2A    Mt Jacqueline
 Elmfield                                      Nurmes                            2A    Nurmes
 Evelyn Booker                                 William Howard Taft               4A    Mount Horeb
 Ewart City                                    Cook City                         7A    Cook City
@@ -417,12 +421,12 @@ Jefferson School of Science and Technology NorthEvans Larsen Day                
 Jon Garmendia                                 Pope Leo XIV                      6A    Aldecoa
 Katherine Booker                              James K. Polk                     9A    Orellana
 Katherine Williams                            Franklin Pierce                   9A    Port Veles
-Kelview Union                                 Iisalmi Union                     3A    Iisalmi
+Kelview Union                                 Iisalmi Union                     2A    Iisalmi
 Manuel Cordero                                Sonia Sotomayor                   4A    Mount Horeb
 Marcus Mercer                                 Cascade Christian                 6A    Vespertine
 Marina Moroz North                            Benjamin Harrison                 7A    Port Veles
 Marsh Depot                                   Jersey City                       3A    Jersey City
-Marshdale                                     Fort Lassiter                     3A    Fort Lassiter
+Marshdale                                     Fort Lassiter                     2A    Fort Lassiter
 Metropolitan Country Day School               Metropolitan Country Day          8A    Ashbury
 Mikel Zubieta                                 Cornerstone Christian             2A    Clear Springs
 Milldale Union                                Sotkamo Union                     2A    Sotkamo
@@ -461,7 +465,7 @@ St. Helena School                             St. Helena                        
 St. Sophia School                             St. Sophia                        3A    Klamoya
 St. Teresa High School                        St. Teresa                        9A    Harriman
 St. Vincent School                            St. Vincent                       7A    Port Veles
-Standale                                      Lieksa                            3A    Lieksa
+Standale                                      Lieksa                            2A    Lieksa
 Stone Meadows                                 Raahe                             1A    Raahe
 Stone Springs                                 Simmons                           7A    Simmons
 Tailing Crossing-Ewart Bar Union              Fountain Park                     2A    Fountain Park
@@ -471,14 +475,14 @@ Thornford                                     Thorn Summit                      
 Trout Point                                   North Simmons                     1A    North Simmons
 Valderra Technical Arts Academy               Dwight Eisenhower                 8A    Valderra
 Viktor Antonov                                Archbishop Valois                 6A    Belyakov
-Walnut Yard                                   South Simmons                     3A    South Simmons
+Walnut Yard                                   South Simmons                     2A    South Simmons
 Wickbrook                                     Salmon Bay                        1A    Salmon Bay
 Wolf Gap                                      Corey Canyon                      3A    Corey Canyon
 Xabier Arregui                                Sinkford                          3A    Navrang
 Zoya Orlov                                    Sacred Heart Cathedral            8A    Santa Michaela
 
 ==============================================================================
-SCHOOLS — 80 where neither name is in this repo
+SCHOOLS — 78 where neither name is in this repo
 ==============================================================================
 Neither the source string nor the tennis name is a record here — this repo has
 renamed the school to some THIRD name, or the record has gone. Nothing to do,
@@ -493,7 +497,7 @@ Andrés Valera                                 Basalt Electric                  
 Anneliese Halvorsen                           Washington                        4A    Port Veles
 Ansotegui Siding Commonwealth                 Pinebluffs                        7A    Ansotegui Siding
 Belmonte Agricultural Sciences Academy        Pelican Town                      6A    Belmonte
-Belmonte Applied Sciences Institute           Yazoo                             3A    Belmonte
+Belmonte Applied Sciences Institute           Yazoo                             2A    Belmonte
 Belmonte Civic Leadership Academy             Keeler                            9A    Belmonte
 Belmonte Health Sciences Academy              Dusty Spur                        6A    Belmonte
 Belmonte International School                 Belmonte Collegiate               6A    Belmonte
@@ -503,8 +507,6 @@ Belyakov Polytechnic Institute                Morne Caribou Polytechnic         
 Belyakov School of Design and Engineering     Grande-Savane Arts                9A    Belyakov
 Belyakov School of Science and Industry       Kongisburg                        8A    Belyakov
 Carroway School of Public Service             Liberty Hill                      6A    Carroway
-Caswell Depot High                            Maple Run                         8A    Caswell
-Caswell I-50 Technical                        Haddon Green                      5A    Caswell
 Caswell School of Science and Industry        Chester A. Arthur                 5A    Caswell
 Caswell University Prep                       Palisade Prep                     9A    Caswell
 Clara Cross                                   Red Mesa                          8A    Valderra
@@ -567,7 +569,7 @@ Walter Hart North                             Wicomico                          
 Wolf Gap International School                 Wolf Gap International            2A    Corey Canyon
 
 ==============================================================================
-TOWNS — 61 renames
+TOWNS — 60 renames
 ==============================================================================
 Alder Landing                                 Bay Oregon
 Alderfield                                    Linden
@@ -610,7 +612,6 @@ Milldale                                      Sotkamo
 Millport                                      Vonjo City
 Millview                                      Kuusamo
 Norford                                       Meridian Passage
-Plainfield                                    Mount Henson
 Ransom City                                   Ransom Pass
 Ransom Spur                                   Río Seco
 Rentie Grove                                  Jamaica
@@ -635,9 +636,9 @@ Wolf Gap                                      Corey Canyon
 AREAS — 7 renames
 ==============================================================================
 Harborline                                    Selquah
-Mother Lode                                   Southern Jefferson
 North Range                                   Millersylvania
 Sage Plains                                   Kangas
+Siskiyou Valley                               Southern Jefferson
 South Coast                                   Sebastian Cape
 Timber Valley                                 Alderwold
 Vermilion Valley                              Yarrowmere
