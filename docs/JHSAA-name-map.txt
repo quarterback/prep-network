@@ -247,7 +247,7 @@ Perryville Civic Leadership Academy           Perry Green                       
 Petra Bianchi                                 Perryville                        6A    Perryville
 Petra Jansen                                  Southern Pacific Tech             9A    Mercer City
 Petra Weiss North                             Las Colinas                       4A    Valderra
-Plainfield Science                            Plainfield                        6A    Mount Henson
+Plainfield Science                            Plainfield                        6A    Plainfield
 Port Veles                                    Veles Central                     5A    Port Veles
 Port Veles Civic Academy                      Henson Prep                       7A    Port Veles
 Port Veles Foundry High                       Seawall                           8A    Port Veles
@@ -569,7 +569,7 @@ Walter Hart North                             Wicomico                          
 Wolf Gap International School                 Wolf Gap International            2A    Corey Canyon
 
 ==============================================================================
-TOWNS — 61 renames
+TOWNS — 60 renames
 ==============================================================================
 Alder Landing                                 Bay Oregon
 Alderfield                                    Linden
@@ -612,7 +612,6 @@ Milldale                                      Sotkamo
 Millport                                      Vonjo City
 Millview                                      Kuusamo
 Norford                                       Meridian Passage
-Plainfield                                    Mount Henson
 Ransom City                                   Ransom Pass
 Ransom Spur                                   Río Seco
 Rentie Grove                                  Jamaica
